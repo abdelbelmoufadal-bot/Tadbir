@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Flousi — لوحة الميزانية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --mint:     #7EC8B0;
+    --mint-l:   #C8EAE0;
+    --mint-ll:  #EAF7F3;
+    --sage:     #A8C5A0;
+    --peach:    #E8A598;
+    --peach-l:  #F5D5CF;
+    --peach-ll: #FDF0EE;
+    --lav:      #B5A8D4;
+    --lav-l:    #E8E2F5;
+    --lav-ll:   #F4F1FB;
+    --blue:     #8DB4CF;
+    --blue-l:   #D0E6F5;
+    --blue-ll:  #EBF4FB;
+    --gold:     #D4A853;
+    --gold-l:   #F5E8C8;
+    --gold-ll:  #FDF6E8;
+    --dark:     #2D3142;
+    --mid:      #5A6070;
+    --light:    #9AA0B0;
+    --bg:       #F8F9FB;
+    --card:     #FFFFFF;
+    --border:   #E8EAEF;
+    --shadow:   0 2px 16px rgba(45,49,66,.07);
+    --shadow-h: 0 8px 32px rgba(45,49,66,.14);
+    --r:        16px;
+    --r-sm:     10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--dark);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,.18);
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--mint), var(--sage));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .brand-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -.3px;
+  }
+  .brand-sub {
+    font-size: 11px;
+    color: var(--mint);
+    font-weight: 400;
+    margin-top: -2px;
+  }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .month-badge {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 8px;
+    padding: 6px 16px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background .2s;
+  }
+  .month-badge:hover { background: rgba(255,255,255,.18); }
+  .currency-select {
+    background: var(--mint);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    cursor: pointer;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    gap: 4px;
+  }
+  .nav-tab {
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--light);
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .nav-tab:hover { color: var(--dark); }
+  .nav-tab.active { color: var(--dark); border-bottom-color: var(--mint); }
+
+  /* ── MAIN ── */
+  .main { padding: 28px 32px; max-width: 1440px; margin: 0 auto; }
+
+  /* ── KPI STRIP ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: var(--card);
+    border-radius: var(--r);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-h); }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 0 var(--r) var(--r) 0;
+  }
+  .kpi-card.income::before  { background: var(--sage); }
+  .kpi-card.bills::before   { background: var(--peach); }
+  .kpi-card.expenses::before{ background: var(--lav); }
+  .kpi-card.savings::before { background: var(--blue); }
+  .kpi-card.debts::before   { background: var(--gold); }
+  .kpi-card.remaining::before { background: var(--mint); }
+
+  .kpi-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .kpi-label {
+    font-size: 12px;
+    color: var(--light);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .kpi-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: -.5px;
+    line-height: 1;
+  }
+  .kpi-value .currency {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--light);
+    margin-right: 2px;
+  }
+  .kpi-progress {
+    margin-top: 10px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .kpi-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width .8s ease;
+  }
+  .kpi-card.income .kpi-bar   { background: var(--sage); }
+  .kpi-card.bills .kpi-bar    { background: var(--peach); }
+  .kpi-card.expenses .kpi-bar { background: var(--lav); }
+  .kpi-card.savings .kpi-bar  { background: var(--blue); }
+  .kpi-card.debts .kpi-bar    { background: var(--gold); }
+  .kpi-card.remaining .kpi-bar{ background: var(--mint); }
+  .kpi-pct {
+    font-size: 11px;
+    color: var(--light);
+    margin-top: 5px;
+  }
+
+  /* ── BODY GRID ── */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .body-grid-2 {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .card:hover { box-shadow: var(--shadow-h); }
+
+  .card-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .card-total {
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+  }
+  .card-body { padding: 0; }
+
+  /* ── TABLE ── */
+  .mini-table { width: 100%; border-collapse: collapse; }
+  .mini-table th {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--light);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 8px 16px;
+    text-align: right;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .mini-table th:first-child { text-align: right; }
+  .mini-table td {
+    padding: 10px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .mini-table tr:last-child td { border-bottom: none; }
+  .mini-table tr:hover td { background: var(--bg); }
+  .mini-table .label-cell { font-weight: 500; text-align: right; }
+  .mini-table .amount-cell {
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mid);
+  }
+  .mini-table .planned-cell {
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--light);
+  }
+  .mini-table .status-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-left: 6px;
+  }
+  .done { background: var(--mint); }
+  .pending { background: var(--gold); }
+
+  /* ── INPUT FIELDS ── */
+  .editable-row td input {
+    background: transparent;
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    width: 80px;
+    text-align: left;
+    color: var(--dark);
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background .15s;
+    outline: none;
+  }
+  .editable-row td input:focus {
+    background: var(--mint-ll);
+    color: var(--dark);
+  }
+  .editable-row td .label-input {
+    width: 120px;
+    text-align: right;
+  }
+
+  /* ── CHART CARD ── */
+  .chart-wrap {
+    padding: 20px;
+    position: relative;
+  }
+  .chart-wrap canvas { max-height: 220px; }
+
+  /* ── REMAINING BIG CARD ── */
+  .remaining-hero {
+    background: linear-gradient(135deg, #2D3142 0%, #3D4260 100%);
+    border-radius: var(--r);
+    padding: 28px;
+    color: #fff;
+    box-shadow: var(--shadow-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .remaining-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(126,200,176,.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .remaining-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; right: -30px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(141,180,207,.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .rh-label {
+    font-size: 13px;
+    color: rgba(255,255,255,.6);
+    margin-bottom: 4px;
+  }
+  .rh-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--mint);
+    margin-bottom: 20px;
+  }
+  .rh-amount {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .rh-currency {
+    font-size: 16px;
+    color: rgba(255,255,255,.5);
+    margin-right: 6px;
+  }
+  .rh-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,.4);
+    margin-top: 8px;
+  }
+  .rh-donut-wrap {
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+    height: 120px;
+  }
+  .rh-donut-wrap canvas { width: 120px !important; height: 120px !important; }
+
+  /* ── NOTES TABLE ── */
+  .notes-table { width: 100%; border-collapse: collapse; }
+  .notes-table th {
+    font-size: 11px; color: var(--light);
+    padding: 8px 16px;
+    text-align: right;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    letter-spacing: .4px;
+  }
+  .notes-table td {
+    padding: 10px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .notes-table tr:last-child td { border-bottom: none; }
+  .notes-table tr:hover td { background: var(--bg); }
+  .cat-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .cat-مواد-غذائية { background: var(--mint-l); color: #3a7a68; }
+  .cat-السوق       { background: var(--lav-l);  color: #6b5fa0; }
+  .cat-القهوة      { background: var(--peach-l); color: #a04040; }
+  .cat-النقل       { background: var(--gold-l);  color: #8a6a20; }
+  .cat-other       { background: var(--border);   color: var(--mid); }
+
+  /* ── ADD ROW BUTTON ── */
+  .add-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mint);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    transition: background .15s;
+  }
+  .add-btn:hover { background: var(--mint-ll); }
+
+  /* ── MONTHLY TABLE ── */
+  .monthly-table { width: 100%; border-collapse: collapse; overflow: hidden; }
+  .monthly-table th {
+    font-size: 11px; color: var(--light);
+    padding: 8px 12px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .monthly-table td {
+    padding: 10px 12px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+  .monthly-table .row-label {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .monthly-table input {
+    background: transparent;
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    width: 70px;
+    text-align: center;
+    outline: none;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background .15s;
+  }
+  .monthly-table input:focus { background: rgba(0,0,0,.04); }
+  .monthly-table .row-income  td:first-child { color: var(--sage); }
+  .monthly-table .row-bills   td:first-child { color: var(--peach); }
+  .monthly-table .row-exp     td:first-child { color: #8e78c0; }
+  .monthly-table .row-sav     td:first-child { color: var(--blue); }
+  .monthly-table .row-debts   td:first-child { color: var(--gold); }
+  .monthly-table .row-rem     td:first-child { color: var(--mint); font-weight: 700; }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    display: block;
+    width: 4px; height: 18px;
+    background: var(--mint);
+    border-radius: 4px;
+  }
+
+  /* ── TABS PANELS ── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--light);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--dark);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    transition: transform .3s ease;
+    z-index: 999;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 1100px) {
+    .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+    .body-grid { grid-template-columns: 1fr 1fr; }
+    .body-grid-2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    .main { padding: 16px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .body-grid { grid-template-columns: 1fr; }
+    .header { padding: 0 16px; }
+    .rh-donut-wrap { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">
+    <div class="brand-icon">💰</div>
+    <div>
+      <div class="brand-name">Smart Flousi</div>
+      <div class="brand-sub">لوحة تتبع الميزانية</div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <div class="month-badge" onclick="document.getElementById('monthInput').click()">
+      📅 <span id="monthLabel">مايو 2025</span>
+      <input type="month" id="monthInput" value="2025-05" style="position:absolute;opacity:0;width:0;height:0;" onchange="changeMonth(this.value)">
+    </div>
+    <select class="currency-select" id="currencySelect" onchange="changeCurrency(this.value)">
+      <option value="درهم">درهم</option>
+      <option value="ريال">ريال</option>
+      <option value="$">$</option>
+      <option value="€">€</option>
+      <option value="£">£</option>
+    </select>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs">
+  <div class="nav-tab active" onclick="showTab('dashboard', this)">📊 لوحة الميزانية</div>
+  <div class="nav-tab" onclick="showTab('notes', this)">📝 دفتر الملاحظات</div>
+  <div class="nav-tab" onclick="showTab('monthly', this)">📅 مقارنة شهرية</div>
+</nav>
+
+<!-- ════════════════ TAB: DASHBOARD ════════════════ -->
+<div id="tab-dashboard" class="tab-panel active">
+<div class="main">
+
+  <!-- KPI STRIP -->
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card income">
+      <div class="kpi-icon">💵</div>
+      <div class="kpi-label">الدخل ديالي</div>
+      <div class="kpi-value"><span class="currency" id="kpi-cur-1">درهم</span><span id="kpi-income">7,680</span></div>
+      <div class="kpi-progress"><div class="kpi-bar" style="width:100%"></div></div>
+      <div class="kpi-pct" id="kpi-income-pct">100% من الدخل</div>
+    </div>
+    <div class="kpi-card bills">
+      <div class="kpi-icon">🧾</div>
+      <div class="kpi-label">الفواتير</div>
+      <div class="kpi-value"><span class="currency" id="kpi-cur-2">درهم</span><span id="kpi-bills">1,259</span></div>
+      <div class="kpi-progress"><div class="kpi-bar" id="bar-bills" style="width:16%"></div></div>
+      <div class="kpi-pct" id="kpi-bills-pct">16% من الدخل</div>
+    </div>
+    <div class="kpi-card expenses">
+      <div class="kpi-icon">🛒</div>
+      <div class="kpi-label">المصاريف</div>
+      <div class="kpi-value"><span class="currency" id="kpi-cur-3">درهم</span><span id="kpi-expenses">2,800</span></div>
+      <div class="kpi-progress"><div class="kpi-bar" id="bar-expenses" style="width:36%"></div></div>
+      <div class="kpi-pct" id="kpi-expenses-pct">36% من الدخل</div>
+    </div>
+    <div class="kpi-card savings">
+      <div class="kpi-icon">🏦</div>
+      <div class="kpi-label">التوفير</div>
+      <div class="kpi-value"><span class="currency" id="kpi-cur-4">درهم</span><span id="kpi-savings">0</span></div>
+      <div class="kpi-progress"><div class="kpi-bar" id="bar-savings" style="width:0%"></div></div>
+      <div class="kpi-pct" id="kpi-savings-pct">0% من الدخل</div>
+    </div>
+    <div class="kpi-card debts">
+      <div class="kpi-icon">💳</div>
+      <div class="kpi-label">الديون</div>
+      <div class="kpi-value"><span class="currency" id="kpi-cur-5">درهم</span><span id="kpi-debts">2,180</span></div>
+      <div class="kpi-progress"><div class="kpi-bar" id="bar-debts" style="width:28%"></div></div>
+      <div class="kpi-pct" id="kpi-debts-pct">28% من الدخل</div>
+    </div>
+    <div class="kpi-card remaining">
+      <div class="kpi-icon">✅</div>
+      <div class="kpi-label">الفلوس لي بقاو</div>
+      <div class="kpi-value"><span class="currency" id="kpi-cur-6">درهم</span><span id="kpi-remaining">1,441</span></div>
+      <div class="kpi-progress"><div class="kpi-bar" id="bar-remaining" style="width:19%"></div></div>
+      <div class="kpi-pct" id="kpi-remaining-pct">19% من الدخل</div>
+    </div>
+  </div>
+
+  <!-- ROW 1: Remaining hero + 2 Charts -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px;">
+
+    <!-- Remaining Hero -->
+    <div class="remaining-hero">
+      <div style="position:relative;z-index:1;">
+        <div class="rh-label">الفلوس لي بقاو دابا</div>
+        <div class="rh-title">💚 الوضع كاين</div>
+        <div class="rh-amount"><span class="rh-currency" id="hero-cur">درهم</span><span id="hero-remaining">1,441</span></div>
+        <div class="rh-sub" id="hero-sub">من أصل 7,680 درهم من الدخل</div>
+      </div>
+      <div class="rh-donut-wrap">
+        <canvas id="heroDonut"></canvas>
+      </div>
+    </div>
+
+    <!-- Donut: فين كتمشي الفلوس -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="dot" style="background:var(--lav)"></span>
+          فين كتمشي الفلوس
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="donutChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Bar: Planned vs Actual -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="dot" style="background:var(--peach)"></span>
+          لي مخطط له / لي تصرف
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2: 4 mini tables -->
+  <div class="body-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+
+    <!-- BILLS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="dot" style="background:var(--peach)"></span>الفواتير</div>
+        <div class="card-total" style="color:var(--peach)" id="bills-total-h">1,259</div>
+      </div>
+      <div class="card-body">
+        <table class="mini-table">
+          <thead><tr>
+            <th>البيان</th><th>تصرفت</th><th>مخطط</th>
+          </tr></thead>
+          <tbody id="bills-body">
+            <tr class="editable-row"><td class="label-cell"><span class="status-dot done"></span>الضو</td><td class="amount-cell"><input type="number" value="500" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="500" onchange="recalc()"></td></tr>
+            <tr class="editable-row"><td class="label-cell"><span class="status-dot done"></span>الماء</td><td class="amount-cell"><input type="number" value="300" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="300" onchange="recalc()"></td></tr>
+            <tr class="editable-row"><td class="label-cell"><span class="status-dot done"></span>Wi-fi</td><td class="amount-cell"><input type="number" value="400" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="400" onchange="recalc()"></td></tr>
+            <tr class="editable-row"><td class="label-cell"><span class="status-dot done"></span>التليفون</td><td class="amount-cell"><input type="number" value="59" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="59" onchange="recalc()"></td></tr>
+          </tbody>
+        </table>
+        <button class="add-btn" onclick="addRow('bills-body','peach')">+ إضافة</button>
+      </div>
+    </div>
+
+    <!-- EXPENSES -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="dot" style="background:var(--lav)"></span>المصاريف</div>
+        <div class="card-total" style="color:var(--lav)" id="expenses-total-h">2,800</div>
+      </div>
+      <div class="card-body">
+        <table class="mini-table">
+          <thead><tr><th>البيان</th><th>تصرفت</th><th>مخطط</th></tr></thead>
+          <tbody id="expenses-body">
+            <tr class="editable-row"><td class="label-cell">مواد غذائية</td><td class="amount-cell"><input type="number" value="1500" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="1500" onchange="recalc()"></td></tr>
+            <tr class="editable-row"><td class="label-cell">Gasoil</td><td class="amount-cell"><input type="number" value="600" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="600" onchange="recalc()"></td></tr>
+            <tr class="editable-row"><td class="label-cell">السوق</td><td class="amount-cell"><input type="number" value="500" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="500" onchange="recalc()"></td></tr>
+            <tr class="editable-row"><td class="label-cell">الترفيه</td><td class="amount-cell"><input type="number" value="200" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="200" onchange="recalc()"></td></tr>
+          </tbody>
+        </table>
+        <button class="add-btn" onclick="addRow('expenses-body','lav')">+ إضافة</button>
+      </div>
+    </div>
+
+    <!-- SAVINGS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="dot" style="background:var(--blue)"></span>التوفير</div>
+        <div class="card-total" style="color:var(--blue)" id="savings-total-h">0</div>
+      </div>
+      <div class="card-body">
+        <table class="mini-table">
+          <thead><tr><th>الهدف</th><th>تصرفت</th><th>مخطط</th></tr></thead>
+          <tbody id="savings-body">
+            <tr class="editable-row"><td class="label-cell">المشروع</td><td class="amount-cell"><input type="number" value="0" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="0" onchange="recalc()"></td></tr>
+            <tr class="editable-row"><td class="label-cell">السفر</td><td class="amount-cell"><input type="number" value="0" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="0" onchange="recalc()"></td></tr>
+          </tbody>
+        </table>
+        <button class="add-btn" onclick="addRow('savings-body','blue')">+ إضافة</button>
+      </div>
+    </div>
+
+    <!-- DEBTS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="dot" style="background:var(--gold)"></span>الديون</div>
+        <div class="card-total" style="color:var(--gold)" id="debts-total-h">2,180</div>
+      </div>
+      <div class="card-body">
+        <table class="mini-table">
+          <thead><tr><th>الجهة</th><th>تصرفت</th><th>مخطط</th></tr></thead>
+          <tbody id="debts-body">
+            <tr class="editable-row"><td class="label-cell">Credit Dacia</td><td class="amount-cell"><input type="number" value="2180" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="2180" onchange="recalc()"></td></tr>
+          </tbody>
+        </table>
+        <button class="add-btn" onclick="addRow('debts-body','gold')">+ إضافة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 3: Income table -->
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-header">
+      <div class="card-title"><span class="dot" style="background:var(--sage)"></span>الدخل ديالي</div>
+      <div class="card-total" style="color:var(--sage)" id="income-total-h">7,680</div>
+    </div>
+    <div class="card-body">
+      <table class="mini-table">
+        <thead><tr><th>المصدر</th><th>لي تصرف</th><th>لي مخطط له</th></tr></thead>
+        <tbody id="income-body">
+          <tr class="editable-row"><td class="label-cell">الراتب</td><td class="amount-cell"><input type="number" value="7680" onchange="recalc()"></td><td class="planned-cell"><input type="number" value="7680" onchange="recalc()"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-btn" onclick="addRow('income-body','sage')">+ إضافة مصدر دخل</button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /tab-dashboard -->
+
+<!-- ════════════════ TAB: NOTES ════════════════ -->
+<div id="tab-notes" class="tab-panel">
+<div class="main">
+  <div class="section-title">دفتر الملاحظات العامة</div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><span class="dot" style="background:var(--lav)"></span>سجل المصاريف</div>
+      <div style="font-size:12px;color:var(--light)">الخانات قابلة للتعديل</div>
+    </div>
+    <div class="card-body">
+      <table class="notes-table">
+        <thead><tr>
+          <th>التاريخ</th>
+          <th>الملاحظات</th>
+          <th>الفئة</th>
+          <th>المبلغ</th>
+          <th>العملة</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="notes-body">
+        </tbody>
+      </table>
+      <button class="add-btn" onclick="addNote()">+ إضافة ملاحظة جديدة</button>
+    </div>
+  </div>
+
+  <!-- Notes stats -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;">
+    <div class="card">
+      <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span>توزيع المصاريف</div></div>
+      <div class="chart-wrap"><canvas id="notesDonut"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span>ملخص الملاحظات</div></div>
+      <div style="padding:20px;" id="notes-summary"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════ TAB: MONTHLY ════════════════ -->
+<div id="tab-monthly" class="tab-panel">
+<div class="main">
+  <div class="section-title">مقارنة شهرية — 2025</div>
+  <div class="card" style="overflow-x:auto;">
+    <table class="monthly-table">
+      <thead><tr>
+        <th>الفئة</th>
+        <th>يناير</th><th>فبراير</th><th>مارس</th><th>أبريل</th>
+        <th>مايو</th><th>يونيو</th><th>يوليو</th><th>أغسطس</th>
+        <th>شتنبر</th><th>أكتوبر</th><th>نونبر</th><th>دجنبر</th>
+        <th>المجموع</th>
+      </tr></thead>
+      <tbody id="monthly-body">
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="card">
+      <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span>تطور الدخل والمصاريف</div></div>
+      <div class="chart-wrap"><canvas id="monthlyLine"></canvas></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="footer">Smart Flousi Dashboard — كل فلوسك قدامك 💚</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────
+const monthlyData = {
+  income:   [0,0,0,0,7680,0,0,0,0,0,0,0],
+  bills:    [0,0,0,0,1259,0,0,0,0,0,0,0],
+  expenses: [0,0,0,0,2800,0,0,0,0,0,0,0],
+  savings:  [0,0,0,0,0,0,0,0,0,0,0,0],
+  debts:    [0,0,0,0,2180,0,0,0,0,0,0,0],
+};
+
+const notesData = [
+  {date:'2025-05-02', note:'اللحم', cat:'مواد غذائية', amount:100, currency:'درهم'},
+  {date:'2025-05-03', note:'السوق الأسبوعي', cat:'السوق', amount:200, currency:'درهم'},
+  {date:'2025-05-03', note:'القهوة مع الصحاب', cat:'القهوة', amount:50, currency:'درهم'},
+  {date:'2025-05-04', note:'النقدية ديال مارتي', cat:'مواد غذائية', amount:500, currency:'درهم'},
+  {date:'2025-05-04', note:'الطاكسي والتونيس', cat:'النقل', amount:50, currency:'درهم'},
+];
+
+const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','شتنبر','أكتوبر','نونبر','دجنبر'];
+const monthNames = {
+  '2025-01':'يناير 2025','2025-02':'فبراير 2025','2025-03':'مارس 2025',
+  '2025-04':'أبريل 2025','2025-05':'مايو 2025','2025-06':'يونيو 2025',
+  '2025-07':'يوليو 2025','2025-08':'أغسطس 2025','2025-09':'شتنبر 2025',
+  '2025-10':'أكتوبر 2025','2025-11':'نونبر 2025','2025-12':'دجنبر 2025',
+};
+
+let chartDonut, chartBar, chartHero, chartNotes, chartLine;
+let currency = 'درهم';
+
+// ── HELPERS ───────────────────────────────────────────────────────
+const fmt = n => Number(n||0).toLocaleString('ar-MA');
+const getInputs = id => [...document.querySelectorAll(`#${id} input[type=number]`)];
+const sumInputs = (id, col) => getInputs(id).filter((_,i)=>i%2===(col===0?0:1)).reduce((s,i)=>s+Number(i.value||0),0);
+
+function sumTable(tbodyId) {
+  const rows = document.querySelectorAll(`#${tbodyId} tr`);
+  let act=0, pln=0;
+  rows.forEach(tr => {
+    const ins = tr.querySelectorAll('input[type=number]');
+    if(ins.length>=2){ act+=Number(ins[0].value||0); pln+=Number(ins[1].value||0); }
+  });
+  return {act,pln};
+}
+
+// ── RECALC ────────────────────────────────────────────────────────
+function recalc() {
+  const inc  = sumTable('income-body');
+  const bill = sumTable('bills-body');
+  const exp  = sumTable('expenses-body');
+  const sav  = sumTable('savings-body');
+  const dbt  = sumTable('debts-body');
+  const rem  = inc.act - bill.act - exp.act - sav.act - dbt.act;
+  const remPln = inc.pln - bill.pln - exp.pln - sav.pln - dbt.pln;
+
+  // Update KPIs
+  document.getElementById('kpi-income').textContent   = fmt(inc.act);
+  document.getElementById('kpi-bills').textContent    = fmt(bill.act);
+  document.getElementById('kpi-expenses').textContent = fmt(exp.act);
+  document.getElementById('kpi-savings').textContent  = fmt(sav.act);
+  document.getElementById('kpi-debts').textContent    = fmt(dbt.act);
+  document.getElementById('kpi-remaining').textContent= fmt(rem);
+
+  const base = inc.act||1;
+  const pct = v => Math.max(0,Math.min(100,Math.round(v/base*100)));
+  document.getElementById('bar-bills').style.width    = pct(bill.act)+'%';
+  document.getElementById('bar-expenses').style.width = pct(exp.act)+'%';
+  document.getElementById('bar-savings').style.width  = pct(sav.act)+'%';
+  document.getElementById('bar-debts').style.width    = pct(dbt.act)+'%';
+  document.getElementById('bar-remaining').style.width= pct(rem)+'%';
+  document.getElementById('kpi-income-pct').textContent   = '100% من الدخل';
+  document.getElementById('kpi-bills-pct').textContent    = pct(bill.act)+'% من الدخل';
+  document.getElementById('kpi-expenses-pct').textContent = pct(exp.act)+'% من الدخل';
+  document.getElementById('kpi-savings-pct').textContent  = pct(sav.act)+'% من الدخل';
+  document.getElementById('kpi-debts-pct').textContent    = pct(dbt.act)+'% من الدخل';
+  document.getElementById('kpi-remaining-pct').textContent= pct(rem)+'% من الدخل';
+
+  // Totals in headers
+  document.getElementById('income-total-h').textContent   = fmt(inc.act);
+  document.getElementById('bills-total-h').textContent    = fmt(bill.act);
+  document.getElementById('expenses-total-h').textContent = fmt(exp.act);
+  document.getElementById('savings-total-h').textContent  = fmt(sav.act);
+  document.getElementById('debts-total-h').textContent    = fmt(dbt.act);
+
+  // Hero
+  document.getElementById('hero-remaining').textContent = fmt(rem);
+  document.getElementById('hero-sub').textContent = `من أصل ${fmt(inc.act)} ${currency} من الدخل`;
+  const heroStatus = document.querySelector('.rh-title');
+  if(rem>0){ heroStatus.textContent='💚 الوضع كاين'; }
+  else if(rem===0){ heroStatus.textContent='🟡 بالضبط'; }
+  else { heroStatus.textContent='🔴 تجاوزت الميزانية'; }
+
+  // Update charts
+  if(chartDonut){
+    chartDonut.data.datasets[0].data = [bill.act, exp.act, sav.act, dbt.act];
+    chartDonut.update('none');
+  }
+  if(chartBar){
+    chartBar.data.datasets[0].data = [bill.act, exp.act, sav.act, dbt.act];
+    chartBar.data.datasets[1].data = [bill.pln, exp.pln, sav.pln, dbt.pln];
+    chartBar.update('none');
+  }
+  if(chartHero){
+    chartHero.data.datasets[0].data = [rem>0?rem:0, bill.act+exp.act+sav.act+dbt.act];
+    chartHero.update('none');
+  }
+
+  // Monthly sync (May = index 4)
+  monthlyData.income[4]   = inc.act;
+  monthlyData.bills[4]    = bill.act;
+  monthlyData.expenses[4] = exp.act;
+  monthlyData.savings[4]  = sav.act;
+  monthlyData.debts[4]    = dbt.act;
+  syncMonthlyTable();
+}
+
+// ── ADD ROW ───────────────────────────────────────────────────────
+function addRow(tbodyId) {
+  const tr = document.createElement('tr');
+  tr.className = 'editable-row';
+  tr.innerHTML = `
+    <td class="label-cell"><input type="text" class="label-input" placeholder="البيان" style="background:transparent;border:none;font-family:Tajawal,sans-serif;font-size:13px;text-align:right;outline:none;width:100%;"></td>
+    <td class="amount-cell"><input type="number" value="0" onchange="recalc()"></td>
+    <td class="planned-cell">
+      <input type="number" value="0" onchange="recalc()">
+      <button onclick="this.closest('tr').remove();recalc()" style="background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;margin-right:4px;">✕</button>
+    </td>`;
+  document.getElementById(tbodyId).appendChild(tr);
+  recalc();
+  showToast('تمت الإضافة ✓');
+}
+
+// ── NOTES ─────────────────────────────────────────────────────────
+const catColors = {
+  'مواد غذائية':'cat-مواد-غذائية',
+  'السوق':'cat-السوق',
+  'القهوة':'cat-القهوة',
+  'النقل':'cat-النقل',
+};
+
+function renderNotes() {
+  const tb = document.getElementById('notes-body');
+  tb.innerHTML = notesData.map((n,i)=>`
+    <tr>
+      <td><input type="date" value="${n.date}" style="border:none;font-family:DM Mono,monospace;font-size:12px;outline:none;background:transparent;" onchange="notesData[${i}].date=this.value;updateNotesChart()"></td>
+      <td><input type="text" value="${n.note}" style="border:none;font-size:13px;font-family:Tajawal,sans-serif;outline:none;background:transparent;width:140px;" onchange="notesData[${i}].note=this.value"></td>
+      <td><span class="cat-pill ${catColors[n.cat]||'cat-other'}">${n.cat}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:500;">${fmt(n.amount)}</td>
+      <td style="color:var(--light);font-size:12px;">${n.currency}</td>
+      <td><button onclick="notesData.splice(${i},1);renderNotes();updateNotesChart()" style="background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;">✕</button></td>
+    </tr>`).join('');
+  updateNotesSummary();
+}
+
+function addNote() {
+  notesData.push({date:new Date().toISOString().slice(0,10),note:'',cat:'أخرى',amount:0,currency:'درهم'});
+  renderNotes();
+  showToast('تمت الإضافة ✓');
+}
+
+function updateNotesSummary() {
+  const total = notesData.reduce((s,n)=>s+Number(n.amount),0);
+  const cats = {};
+  notesData.forEach(n=>{ cats[n.cat]=(cats[n.cat]||0)+n.amount; });
+  const el = document.getElementById('notes-summary');
+  el.innerHTML = `
+    <div style="margin-bottom:16px;">
+      <div style="font-size:13px;color:var(--light);margin-bottom:4px;">مجموع المصاريف</div>
+      <div style="font-size:28px;font-weight:800;color:var(--dark);font-family:'DM Mono',monospace;">${fmt(total)} <span style="font-size:13px;color:var(--light);">${currency}</span></div>
+    </div>
+    ${Object.entries(cats).map(([k,v])=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span class="cat-pill ${catColors[k]||'cat-other'}">${k}</span>
+      <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">${fmt(v)}</span>
+    </div>`).join('')}`;
+}
+
+function updateNotesChart() {
+  const cats = {};
+  notesData.forEach(n=>{ cats[n.cat]=(cats[n.cat]||0)+n.amount; });
+  if(chartNotes){
+    chartNotes.data.labels = Object.keys(cats);
+    chartNotes.data.datasets[0].data = Object.values(cats);
+    chartNotes.update();
+  }
+  updateNotesSummary();
+}
+
+// ── MONTHLY TABLE ─────────────────────────────────────────────────
+const rowDefs = [
+  {key:'income',   label:'الدخل',    cls:'row-income'},
+  {key:'bills',    label:'الفواتير', cls:'row-bills'},
+  {key:'expenses', label:'المصاريف', cls:'row-exp'},
+  {key:'savings',  label:'التوفير',  cls:'row-sav'},
+  {key:'debts',    label:'الديون',   cls:'row-debts'},
+];
+
+function buildMonthlyTable() {
+  const tb = document.getElementById('monthly-body');
+  tb.innerHTML = rowDefs.map(rd=>`
+    <tr class="${rd.cls}">
+      <td class="row-label">${rd.label}</td>
+      ${monthlyData[rd.key].map((v,mi)=>`
+        <td><input type="number" value="${v||''}" placeholder="0"
+          onchange="monthlyData['${rd.key}'][${mi}]=Number(this.value)||0;syncMonthlyLine()"
+          style="color:inherit;"></td>`).join('')}
+      <td style="font-weight:700;font-size:13px;" id="msum-${rd.key}"></td>
+    </tr>`).join('') +
+    `<tr class="row-rem">
+      <td class="row-label">الباقي</td>
+      ${Array.from({length:12},(_,mi)=>`<td id="mrem-${mi}" style="font-weight:700;color:var(--mint);"></td>`).join('')}
+      <td id="msum-rem" style="font-weight:700;color:var(--mint);"></td>
+    </tr>`;
+  syncMonthlyTable();
+}
+
+function syncMonthlyTable() {
+  rowDefs.forEach(rd=>{
+    const s = monthlyData[rd.key].reduce((a,b)=>a+b,0);
+    const el = document.getElementById(`msum-${rd.key}`);
+    if(el) el.textContent = s?fmt(s):'—';
+  });
+  let remSum=0;
+  for(let mi=0;mi<12;mi++){
+    const rem = monthlyData.income[mi]-monthlyData.bills[mi]-monthlyData.expenses[mi]-monthlyData.savings[mi]-monthlyData.debts[mi];
+    const el=document.getElementById(`mrem-${mi}`);
+    if(el) el.textContent = monthlyData.income[mi]?fmt(rem):'—';
+    remSum+=rem;
+  }
+  const se=document.getElementById('msum-rem');
+  if(se) se.textContent=remSum?fmt(remSum):'—';
+  syncMonthlyLine();
+}
+
+function syncMonthlyLine() {
+  if(!chartLine) return;
+  chartLine.data.datasets[0].data = monthlyData.income;
+  chartLine.data.datasets[1].data = monthlyData.bills.map((b,i)=>b+monthlyData.expenses[i]+monthlyData.savings[i]+monthlyData.debts[i]);
+  chartLine.update('none');
+}
+
+// ── CHARTS INIT ───────────────────────────────────────────────────
+const COLORS = {
+  bills:    '#E8A598',
+  expenses: '#B5A8D4',
+  savings:  '#8DB4CF',
+  debts:    '#D4A853',
+  income:   '#A8C5A0',
+  remaining:'#7EC8B0',
+};
+
+function initCharts() {
+  Chart.defaults.font.family = 'Tajawal';
+
+  // Hero donut
+  chartHero = new Chart(document.getElementById('heroDonut'), {
+    type:'doughnut',
+    data:{
+      labels:['الباقي','المصروف'],
+      datasets:[{data:[1441,6239],backgroundColor:['#7EC8B0','rgba(255,255,255,.15)'],borderWidth:0,hoverOffset:4}]
+    },
+    options:{cutout:'70%',plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:true,maintainAspectRatio:true}
+  });
+
+  // Donut distribution
+  chartDonut = new Chart(document.getElementById('donutChart'), {
+    type:'doughnut',
+    data:{
+      labels:['الفواتير','المصاريف','التوفير','الديون'],
+      datasets:[{data:[1259,2800,0,2180],
+        backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],
+        borderWidth:2,borderColor:'#fff',hoverOffset:8}]
+    },
+    options:{cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12,boxWidth:12,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}
+  });
+
+  // Bar planned vs actual
+  chartBar = new Chart(document.getElementById('barChart'), {
+    type:'bar',
+    data:{
+      labels:['الفواتير','المصاريف','التوفير','الديون'],
+      datasets:[
+        {label:'لي تصرف',  data:[1259,2800,0,2180],  backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderRadius:6,borderSkipped:false},
+        {label:'لي مخطط له',data:[1259,2800,0,2180],backgroundColor:'rgba(0,0,0,.06)',borderRadius:6,borderSkipped:false}
+      ]
+    },
+    options:{
+      indexAxis:'y',
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},usePointStyle:true}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{display:false},ticks:{font:{size:11}}}},
+      responsive:true,maintainAspectRatio:true
+    }
+  });
+
+  // Notes donut
+  chartNotes = new Chart(document.getElementById('notesDonut'), {
+    type:'doughnut',
+    data:{
+      labels:['مواد غذائية','النقل','السوق','القهوة'],
+      datasets:[{data:[600,50,200,50],
+        backgroundColor:['#7EC8B0','#D4A853','#B5A8D4','#E8A598'],
+        borderWidth:2,borderColor:'#fff',hoverOffset:8}]
+    },
+    options:{cutout:'50%',plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}
+  });
+
+  // Monthly line
+  chartLine = new Chart(document.getElementById('monthlyLine'), {
+    type:'line',
+    data:{
+      labels:months,
+      datasets:[
+        {label:'الدخل',data:monthlyData.income,borderColor:COLORS.income,backgroundColor:'rgba(168,197,160,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.income},
+        {label:'المصاريف الإجمالية',data:monthlyData.bills.map((b,i)=>b+monthlyData.expenses[i]+monthlyData.savings[i]+monthlyData.debts[i]),borderColor:COLORS.expenses,backgroundColor:'rgba(181,168,212,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.expenses}
+      ]
+    },
+    options:{
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},usePointStyle:true}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11}}},
+        y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:11}}}
+      },
+      responsive:true,maintainAspectRatio:false
+    }
+  });
+  document.querySelector('#tab-monthly .chart-wrap').style.height='260px';
+}
+
+// ── UI ACTIONS ────────────────────────────────────────────────────
+function showTab(name, el) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+}
+
+function changeCurrency(val) {
+  currency = val;
+  document.querySelectorAll('[id^="kpi-cur-"]').forEach(e=>e.textContent=val);
+  document.getElementById('hero-cur').textContent=val;
+  recalc();
+}
+
+function changeMonth(val) {
+  document.getElementById('monthLabel').textContent = monthNames[val] || val;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', ()=>{
+  initCharts();
+  renderNotes();
+  buildMonthlyTable();
+  recalc();
+});
+</script>
+</body>
+</html>
