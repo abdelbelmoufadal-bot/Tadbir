@@ -245,10 +245,11 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 [dir=ltr] .rh-donut{left:auto;right:14px;}
 [dir=ltr] .backup-btn{text-align:left;}
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}}
+@media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}}
 /* AUTH */
 .auth-bar{display:flex;align-items:center;gap:8px;}
-.auth-avatar{width:28px;height:28px;border-radius:50%;border:2px solid var(--mint);object-fit:cover;}
+.auth-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--mint);object-fit:cover;cursor:pointer;transition:all .2s;}
+.auth-avatar:hover{border-color:#fff;}
 .auth-name{font-size:10px;color:rgba(255,255,255,.7);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .auth-btn{background:var(--mint);border:none;border-radius:7px;padding:4px 10px;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;color:var(--dark);cursor:pointer;white-space:nowrap;transition:all .2s;}
 .auth-btn:hover{background:#6bbda3;}
@@ -258,6 +259,18 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .sync-dot.sync{background:var(--gold);animation:pulse 1s infinite;}
 .sync-dot.off{background:var(--light);}
 #sync-status{font-size:9px;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:3px;}
+/* USER DROPDOWN */
+.user-dropdown{position:absolute;top:62px;left:12px;background:#1e2333;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:8px;min-width:200px;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:500;display:none;}
+.user-dropdown.open{display:block;}
+.ud-user{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px;}
+.ud-avatar{width:36px;height:36px;border-radius:50%;border:2px solid var(--mint);}
+.ud-name{font-size:12px;font-weight:700;color:#fff;}
+.ud-email{font-size:10px;color:rgba(255,255,255,.4);}
+.ud-sync{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:11px;color:rgba(255,255,255,.5);}
+.ud-btn{display:flex;align-items:center;gap:9px;width:100%;padding:10px 12px;border-radius:9px;border:none;background:transparent;color:rgba(255,255,255,.7);font-family:'Tajawal',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;text-align:right;}
+.ud-btn:hover{background:rgba(255,255,255,.08);color:#fff;}
+.ud-btn.danger{color:#E8A598;}
+.ud-btn.danger:hover{background:rgba(232,165,152,.1);}
 </style>
 </head>
 <body>
@@ -620,18 +633,33 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
       <button onclick="navigateMonth(1)">›</button>
     </div>
     <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦</button>
-    <button class="icon-btn" onclick="openModal('langModal')">🌍</button>
-    <button class="icon-btn" onclick="openModal('backupModal');updateBackupUI()">💾</button>
+    <button class="icon-btn hdr-icon-desktop" onclick="openModal('langModal')">🌍</button>
+    <button class="icon-btn hdr-icon-desktop" onclick="openModal('backupModal');updateBackupUI()">💾</button>
     <!-- AUTH UI -->
-    <div class="auth-bar" id="auth-bar">
+    <div class="auth-bar" id="auth-bar" style="position:relative;">
       <div id="auth-signed-out">
         <button class="auth-btn" onclick="fbSignIn()">🔑 <span id="t-signin">تسجيل الدخول</span></button>
       </div>
-      <div id="auth-signed-in" style="display:none;align-items:center;gap:6px;">
-        <div id="sync-status"><span class="sync-dot off" id="sync-dot"></span><span id="sync-txt">غير متصل</span></div>
-        <img class="auth-avatar" id="auth-avatar" src="" alt="">
-        <span class="auth-name" id="auth-name"></span>
-        <button class="auth-btn out" onclick="fbSignOut()"><span id="t-signout">خروج</span></button>
+      <div id="auth-signed-in" style="display:none;">
+        <!-- Avatar button triggers dropdown -->
+        <img class="auth-avatar" id="auth-avatar" src="" alt="" onclick="toggleUserDropdown()" title="الحساب">
+        <!-- User Dropdown -->
+        <div class="user-dropdown" id="user-dropdown">
+          <div class="ud-user">
+            <img class="ud-avatar" id="ud-avatar" src="" alt="">
+            <div>
+              <div class="ud-name" id="ud-name"></div>
+              <div class="ud-email" id="ud-email"></div>
+            </div>
+          </div>
+          <div class="ud-sync">
+            <span class="sync-dot off" id="sync-dot"></span>
+            <span id="sync-txt">غير متصل</span>
+          </div>
+          <button class="ud-btn" onclick="closeUserDropdown();openModal('backupModal');updateBackupUI()">💾 <span id="t-ud-backup">الحفظ والحماية</span></button>
+          <button class="ud-btn" onclick="closeUserDropdown();openModal('langModal')">🌍 <span id="t-ud-lang">اللغة</span></button>
+          <button class="ud-btn danger" onclick="closeUserDropdown();fbSignOut()">🚪 <span id="t-signout">تسجيل الخروج</span></button>
+        </div>
       </div>
     </div>
     <select class="hdr-select" id="currencySelect" onchange="changeCurrency(this.value)">
@@ -991,7 +1019,11 @@ function setLang(l){
   set('add-note-mobile-lbl', t.add_note||'＋ إضافة');
   set('t-monthly-title',t.monthly_title); set('t-monthly-chart',t.monthly_chart);
   set('t-footer',t.footer);
-  if(t.signin){set('t-signin',t.signin);set('t-signout',t.signout);}
+  if(t.signin){
+    set('t-signin',t.signin);set('t-signout',t.signout);
+    set('t-ud-backup',t.bk||'الحفظ والحماية');
+    set('t-ud-lang',t.lang_title||'اللغة');
+  }
   setSyncStatus(_fbUid?'ok':'off');
   if(t.reset_h){set('t-reset-h',t.reset_h);set('t-reset-btn',t.reset_btn);set('t-reset-sub',t.reset_sub);}
   document.querySelectorAll('.mini-table input[type=text]').forEach(i=>i.style.textAlign=isRTL?'right':'left');
@@ -1797,8 +1829,12 @@ window.onFbAuthChange = function(user){
     document.querySelector('#tab-dashboard').style.display='';
     const av=$('auth-avatar');
     if(av&&user.photoURL)av.src=user.photoURL;
-    const nm=$('auth-name');
-    if(nm)nm.textContent=user.displayName||user.email||'';
+    const udAv=$('ud-avatar');
+    if(udAv&&user.photoURL)udAv.src=user.photoURL;
+    const udNm=$('ud-name');
+    if(udNm)udNm.textContent=user.displayName||'';
+    const udEm=$('ud-email');
+    if(udEm)udEm.textContent=user.email||'';
     setSyncStatus('sync');
     fbLoadFromCloud(user.uid);
     showToast('👋 '+(user.displayName||user.email));
@@ -1816,6 +1852,27 @@ window.onFbAuthChange = function(user){
     }
   }
 };
+
+// ══════════════════════════════════════════════
+// USER DROPDOWN
+// ══════════════════════════════════════════════
+function toggleUserDropdown(){
+  const dd=$('user-dropdown');
+  dd.classList.toggle('open');
+  // Close on outside click
+  if(dd.classList.contains('open')){
+    setTimeout(()=>{
+      document.addEventListener('click', closeDropdownOutside, {once:true});
+    },10);
+  }
+}
+function closeDropdownOutside(e){
+  const dd=$('user-dropdown');
+  if(dd&&!dd.contains(e.target)&&e.target.id!=='auth-avatar'){
+    dd.classList.remove('open');
+  }
+}
+function closeUserDropdown(){$('user-dropdown').classList.remove('open');}
 
 function initLandingCharts(){
   // Donut chart
