@@ -10,10 +10,9 @@
 :root{--mint:#7EC8B0;--mint-l:#C8EAE0;--mint-ll:#EAF7F3;--sage:#A8C5A0;--peach:#E8A598;--peach-l:#F5D5CF;--lav:#B5A8D4;--lav-l:#E8E2F5;--blue:#8DB4CF;--blue-l:#D0E6F5;--gold:#D4A853;--gold-l:#F5E8C8;--dark:#2D3142;--mid:#5A6070;--light:#9AA0B0;--bg:#F8F9FB;--card:#FFFFFF;--border:#E8EAEF;--shadow:0 2px 16px rgba(45,49,66,.07);--shadow-h:0 8px 32px rgba(45,49,66,.14);--r:16px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;}
-/* PIN */
 #pin-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2D3142,#1a1f30);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 #pin-screen.hidden{display:none;}
-.pin-logo{width:70px;height:70px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:12px;box-shadow:0 8px 32px rgba(126,200,176,.3);}
+.pin-logo{width:70px;height:70px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:12px;}
 .pin-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:3px;}
 .pin-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:4px;text-align:center;}
 .pin-lang-row{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;justify-content:center;}
@@ -21,7 +20,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .plb:hover,.plb.active{background:var(--mint);border-color:var(--mint);color:var(--dark);}
 .pin-dots{display:flex;gap:14px;margin:16px 0;}
 .pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.25);transition:all .2s;}
-.pin-dot.filled{background:var(--mint);border-color:var(--mint);box-shadow:0 0 10px rgba(126,200,176,.5);}
+.pin-dot.filled{background:var(--mint);border-color:var(--mint);}
 .pin-dot.error{background:#E8A598;border-color:#E8A598;}
 .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:256px;}
 .pin-btn{height:64px;border-radius:14px;border:none;background:rgba(255,255,255,.08);color:#fff;font-size:22px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Tajawal',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;}
@@ -32,7 +31,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .pin-error-msg{color:#E8A598;font-size:12px;margin-top:10px;min-height:18px;font-weight:600;text-align:center;}
 .pin-setup-note{color:rgba(255,255,255,.3);font-size:11px;margin-top:8px;text-align:center;max-width:240px;line-height:1.6;}
 .pin-forgot{color:var(--mint);font-size:12px;margin-top:8px;cursor:pointer;text-decoration:underline;}
-/* HEADER */
 .header{background:var(--dark);padding:0 18px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.18);}
 .brand{display:flex;align-items:center;gap:8px;}
 .brand-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
@@ -47,7 +45,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .icon-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:4px 7px;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;line-height:1;}
 .hdr-select{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:3px 6px;font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
 .hdr-select option{color:var(--dark);background:#fff;}
-/* MODALS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;align-items:center;justify-content:center;padding:16px;}
 .modal-overlay.open{display:flex;}
 .modal-box{background:var(--card);border-radius:18px;padding:18px;width:100%;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow-y:auto;}
@@ -67,7 +64,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .nm-text strong{display:block;font-size:12px;font-weight:700;}
 .nm-text span{font-size:10px;color:var(--light);}
 .modal-btn{width:100%;padding:11px;background:var(--mint);border:none;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:var(--dark);cursor:pointer;margin-top:5px;}
-/* BACKUP */
 .backup-section{margin-bottom:13px;}
 .backup-section h3{font-size:11px;font-weight:700;color:var(--dark);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);}
 .backup-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 11px;border-radius:10px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-family:'Tajawal',sans-serif;font-size:11px;font-weight:600;color:var(--dark);margin-bottom:6px;transition:all .18s;}
@@ -81,10 +77,9 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .pin-setting-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
 .toggle{width:38px;height:20px;background:var(--border);border-radius:10px;cursor:pointer;position:relative;transition:background .2s;border:none;flex-shrink:0;}
 .toggle.on{background:var(--mint);}
-.toggle::after{content:'';position:absolute;top:3px;right:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle::after{content:'';position:absolute;top:3px;right:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform .2s;}
 .toggle.on::after{transform:translateX(-18px);}
 .last-backup{font-size:9px;color:var(--light);text-align:center;margin-top:6px;}
-/* LANG MODAL */
 .lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
 .lang-opt{display:flex;align-items:center;gap:9px;padding:11px 12px;border:2px solid var(--border);border-radius:11px;cursor:pointer;transition:all .18s;}
 .lang-opt:hover{border-color:var(--mint);}
@@ -92,7 +87,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .lang-flag{font-size:22px;}
 .lang-name{font-size:12px;font-weight:700;}
 .lang-native{font-size:10px;color:var(--light);}
-/* TABS */
 .nav-tabs{background:var(--card);border-bottom:1px solid var(--border);padding:0 18px;display:flex;gap:2px;overflow-x:auto;}
 .nav-tab{padding:10px 14px;font-size:12px;font-weight:600;color:var(--light);border-bottom:3px solid transparent;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .nav-tab:hover{color:var(--dark);}
@@ -100,7 +94,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .main{padding:14px 16px;max-width:1440px;margin:0 auto;}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
-/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:14px;}
 .kpi-card{background:var(--card);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;}
 .kpi-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-h);}
@@ -118,7 +111,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .kpi-card.expenses .kpi-bar{background:var(--lav);}.kpi-card.savings .kpi-bar{background:var(--blue);}
 .kpi-card.debts .kpi-bar{background:var(--gold);}.kpi-card.remaining .kpi-bar{background:var(--mint);}
 .kpi-pct{font-size:9px;color:var(--light);margin-top:2px;}
-/* CHARTS */
 .charts-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
 .remaining-hero{background:linear-gradient(135deg,#2D3142,#3D4260);border-radius:var(--r);padding:18px;color:#fff;box-shadow:var(--shadow-h);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
 .remaining-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(126,200,176,.2) 0%,transparent 70%);pointer-events:none;}
@@ -137,7 +129,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .chart-wrap{padding:12px;}
 .chart-wrap canvas{max-height:180px;}
 .tables-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
-/* MINI TABLE */
 .mini-table{width:100%;border-collapse:collapse;}
 .mini-table th{font-size:9px;font-weight:600;color:var(--light);padding:5px 10px;text-align:right;background:var(--bg);border-bottom:1px solid var(--border);}
 .mini-table td{padding:6px 10px;font-size:11px;border-bottom:1px solid var(--border);vertical-align:middle;}
@@ -146,15 +137,15 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .mini-table .lc{font-weight:500;text-align:right;}
 .mini-table .ac,.mini-table .pc{text-align:left;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);}
 .mini-table .pc{color:var(--light);}
+/* note-row: rows coming from notes — shown in expenses table */
+.mini-table .note-row td{background:#f0faf6;color:var(--mid);font-style:italic;}
+.mini-table .note-row td:first-child::before{content:'📝 ';font-style:normal;}
 .mini-table input[type=number]{background:transparent;border:none;font-family:'DM Mono',monospace;font-size:10px;width:62px;text-align:left;color:var(--dark);padding:2px;border-radius:3px;outline:none;}
 .mini-table input[type=number]:focus{background:var(--mint-ll);}
 .mini-table input[type=text]{background:transparent;border:none;font-family:'Tajawal',sans-serif;font-size:11px;width:100%;text-align:right;color:var(--dark);padding:2px;border-radius:3px;outline:none;}
 .mini-table input[type=text]:focus{background:var(--bg);}
-/* NOTES FROM EXPENSES BADGE */
-.notes-badge{font-size:8px;background:var(--mint-l);color:#3a7a68;border-radius:4px;padding:1px 4px;margin-right:3px;font-weight:700;}
 .add-btn{display:flex;align-items:center;gap:4px;padding:7px 10px;font-size:10px;font-weight:600;color:var(--mint);background:none;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;border-top:1px solid var(--border);width:100%;transition:background .15s;}
 .add-btn:hover{background:var(--mint-ll);}
-/* NOTES */
 .notes-table{width:100%;border-collapse:collapse;}
 .notes-table th{font-size:9px;color:var(--light);padding:5px 10px;text-align:right;background:var(--bg);border-bottom:1px solid var(--border);font-weight:600;}
 .notes-table td{padding:6px 10px;font-size:11px;border-bottom:1px solid var(--border);vertical-align:middle;}
@@ -164,13 +155,12 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .notes-table input[type=text]{font-family:'Tajawal',sans-serif;font-size:12px;}
 .notes-table input:focus{background:var(--bg);border-radius:3px;}
 .cat-pill{display:inline-block;padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;}
-.cp0{background:var(--mint-l);color:#3a7a68;} /* food */
-.cp1{background:var(--lav-l);color:#6b5fa0;}  /* shop */
-.cp2{background:var(--peach-l);color:#a04040;} /* cafe */
-.cp3{background:var(--gold-l);color:#8a6a20;}  /* transport */
-.cp4{background:var(--border);color:var(--mid);}/* other */
+.cp0{background:var(--mint-l);color:#3a7a68;}
+.cp1{background:var(--lav-l);color:#6b5fa0;}
+.cp2{background:var(--peach-l);color:#a04040;}
+.cp3{background:var(--gold-l);color:#8a6a20;}
+.cp4{background:var(--border);color:var(--mid);}
 .cat-select{border:none;background:transparent;font-family:'Tajawal',sans-serif;font-size:11px;color:var(--mid);cursor:pointer;outline:none;}
-/* MONTHLY */
 .monthly-table{width:100%;border-collapse:collapse;}
 .monthly-table th{font-size:9px;color:var(--light);padding:6px 7px;background:var(--bg);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap;text-align:center;}
 .monthly-table th:first-child{text-align:right;}
@@ -178,17 +168,14 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .monthly-table .rl{font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;text-align:right;}
 .ri td:first-child{color:var(--sage);}.rb td:first-child{color:var(--peach);}.re td:first-child{color:#8e78c0;}
 .rs td:first-child{color:var(--blue);}.rd td:first-child{color:var(--gold);}.rr td:first-child{color:var(--mint);font-weight:700;}
-/* FOOTER */
 .footer{background:var(--dark);color:rgba(255,255,255,.3);text-align:center;padding:16px 18px;font-size:10px;line-height:2;}
 .footer strong{color:var(--mint);}
-/* TOAST */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:#fff;padding:9px 18px;border-radius:26px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transition:transform .3s;z-index:9998;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .save-dot{width:6px;height:6px;border-radius:50%;background:var(--mint);display:inline-block;margin-right:3px;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 .section-title{font-size:13px;font-weight:800;color:var(--dark);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .section-title::before{content:'';display:block;width:3px;height:14px;background:var(--mint);border-radius:3px;}
-/* LTR overrides */
 [dir=ltr] .mini-table th,[dir=ltr] .notes-table th{text-align:left;}
 [dir=ltr] .mini-table .lc{text-align:left;}
 [dir=ltr] .mini-table .ac,[dir=ltr] .mini-table .pc{text-align:right;}
@@ -204,7 +191,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </head>
 <body>
 
-<!-- PIN -->
 <div id="pin-screen">
   <div class="pin-lang-row">
     <button class="plb" onclick="setLang('ar')">عربي</button>
@@ -236,7 +222,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="pin-forgot" id="pin-forgot" onclick="pinForgot()" style="display:none;"></div>
 </div>
 
-<!-- MONTH PICKER -->
 <div class="modal-overlay" id="monthModal" onclick="if(event.target===this)closeModal('monthModal')">
   <div class="modal-box">
     <div class="modal-title"><span id="t-pick">اختار الشهر</span> 📅<button class="modal-close" onclick="closeModal('monthModal')">✕</button></div>
@@ -245,56 +230,49 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
 </div>
 
-<!-- NEW MONTH -->
 <div class="modal-overlay" id="newMonthModal" onclick="if(event.target===this)closeModal('newMonthModal')">
   <div class="modal-box">
     <div class="modal-title"><span id="t-nm">شهر جديد</span> ✦<button class="modal-close" onclick="closeModal('newMonthModal')">✕</button></div>
-    <div style="font-size:11px;color:var(--light);margin-bottom:11px;" id="t-nm-sub">كيفاش تبغي تبدا؟</div>
-    <div class="nm-option selected" id="nm-copy" onclick="selNM('copy')"><div class="nm-icon">📋</div><div class="nm-text"><strong id="t-nm1">كوبياو المخطط فقط</strong><span id="t-nm1s">تبقى أرقام مخطط له وتبدا من صفر</span></div></div>
-    <div class="nm-option" id="nm-blank" onclick="selNM('blank')"><div class="nm-icon">✨</div><div class="nm-text"><strong id="t-nm2">شهر فارغ</strong><span id="t-nm2s">صفحة بيضاء</span></div></div>
-    <div class="nm-option" id="nm-same" onclick="selNM('same')"><div class="nm-icon">🔄</div><div class="nm-text"><strong id="t-nm3">كوبياو كل شي</strong><span id="t-nm3s">نفس الشهر الماضي</span></div></div>
-    <button class="modal-btn" id="t-nm-btn" onclick="confirmNewMonth()">إنشاء ✓</button>
+    <div style="font-size:11px;color:var(--light);margin-bottom:11px;" id="t-nm-sub"></div>
+    <div class="nm-option selected" id="nm-copy" onclick="selNM('copy')"><div class="nm-icon">📋</div><div class="nm-text"><strong id="t-nm1"></strong><span id="t-nm1s"></span></div></div>
+    <div class="nm-option" id="nm-blank" onclick="selNM('blank')"><div class="nm-icon">✨</div><div class="nm-text"><strong id="t-nm2"></strong><span id="t-nm2s"></span></div></div>
+    <div class="nm-option" id="nm-same" onclick="selNM('same')"><div class="nm-icon">🔄</div><div class="nm-text"><strong id="t-nm3"></strong><span id="t-nm3s"></span></div></div>
+    <button class="modal-btn" id="t-nm-btn" onclick="confirmNewMonth()"></button>
   </div>
 </div>
 
-<!-- BACKUP -->
 <div class="modal-overlay" id="backupModal" onclick="if(event.target===this)closeModal('backupModal')">
   <div class="modal-box">
-    <div class="modal-title"><span id="t-bk">الحفظ والحماية</span> 💾<button class="modal-close" onclick="closeModal('backupModal')">✕</button></div>
-    <div class="backup-section">
-      <h3 id="t-exp-h">📤 تصدير</h3>
-      <button class="backup-btn" onclick="exportJSON()"><span class="bicon">📥</span><div class="btxt"><span id="t-exp-btn">تحميل ملف الحفظ</span><span id="t-exp-s">كل بياناتك في ملف JSON</span></div></button>
+    <div class="modal-title"><span id="t-bk"></span> 💾<button class="modal-close" onclick="closeModal('backupModal')">✕</button></div>
+    <div class="backup-section"><h3 id="t-exp-h"></h3>
+      <button class="backup-btn" onclick="exportJSON()"><span class="bicon">📥</span><div class="btxt"><span id="t-exp-btn"></span><span id="t-exp-s"></span></div></button>
     </div>
-    <div class="backup-section">
-      <h3 id="t-imp-h">📥 استيراد</h3>
-      <button class="backup-btn" onclick="document.getElementById('importFile').click()"><span class="bicon">📂</span><div class="btxt"><span id="t-imp-btn">تحميل ملف حفظ سابق</span><span id="t-imp-s">ملف JSON لاسترجاع البيانات</span></div></button>
+    <div class="backup-section"><h3 id="t-imp-h"></h3>
+      <button class="backup-btn" onclick="document.getElementById('importFile').click()"><span class="bicon">📂</span><div class="btxt"><span id="t-imp-btn"></span><span id="t-imp-s"></span></div></button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(this)">
     </div>
-    <div class="backup-section">
-      <h3 id="t-drv-h">☁️ Google Drive</h3>
+    <div class="backup-section"><h3 id="t-drv-h"></h3>
       <div class="drive-steps">
-        <div class="drive-step"><div class="step-num">1</div><div id="t-s1">كليك على تحميل ملف الحفظ</div></div>
-        <div class="drive-step"><div class="step-num">2</div><div id="t-s2">فتح Google Drive في تليفونك</div></div>
-        <div class="drive-step"><div class="step-num">3</div><div id="t-s3">＋ ← رفع ← اختار الملف</div></div>
-        <div class="drive-step"><div class="step-num">4</div><div id="t-s4">خلاص! بياناتك في السحاب ☁️</div></div>
+        <div class="drive-step"><div class="step-num">1</div><div id="t-s1"></div></div>
+        <div class="drive-step"><div class="step-num">2</div><div id="t-s2"></div></div>
+        <div class="drive-step"><div class="step-num">3</div><div id="t-s3"></div></div>
+        <div class="drive-step"><div class="step-num">4</div><div id="t-s4"></div></div>
       </div>
     </div>
-    <div class="backup-section">
-      <h3 id="t-pin-h">🔐 إعدادات PIN</h3>
+    <div class="backup-section"><h3 id="t-pin-h"></h3>
       <div class="pin-setting-row">
-        <div><div style="font-size:11px;font-weight:600;" id="t-pin-lbl">قفل بـ PIN</div><div style="font-size:9px;color:var(--light);" id="t-pin-s">حماية التطبيق عند الفتح</div></div>
+        <div><div style="font-size:11px;font-weight:600;" id="t-pin-lbl"></div><div style="font-size:9px;color:var(--light);" id="t-pin-s"></div></div>
         <button class="toggle" id="pin-toggle" onclick="togglePIN()"></button>
       </div>
-      <button class="backup-btn" onclick="startChangePIN()" style="margin-top:9px;"><span class="bicon">🔑</span><div class="btxt"><span id="t-pin-ch">تغيير رمز PIN</span><span id="t-pin-chs">إنشاء رمز جديد</span></div></button>
+      <button class="backup-btn" onclick="startChangePIN()" style="margin-top:9px;"><span class="bicon">🔑</span><div class="btxt"><span id="t-pin-ch"></span><span id="t-pin-chs"></span></div></button>
     </div>
     <div class="last-backup" id="last-backup-info"></div>
   </div>
 </div>
 
-<!-- LANG MODAL -->
 <div class="modal-overlay" id="langModal" onclick="if(event.target===this)closeModal('langModal')">
   <div class="modal-box">
-    <div class="modal-title"><span id="t-lang-title">اختار اللغة</span> 🌍<button class="modal-close" onclick="closeModal('langModal')">✕</button></div>
+    <div class="modal-title"><span id="t-lang-title"></span> 🌍<button class="modal-close" onclick="closeModal('langModal')">✕</button></div>
     <div class="lang-grid">
       <div class="lang-opt" id="lo-ar" onclick="setLang('ar');closeModal('langModal')"><div class="lang-flag">🇲🇦</div><div><div class="lang-name">عربية</div><div class="lang-native">Arabic</div></div></div>
       <div class="lang-opt" id="lo-dar" onclick="setLang('dar');closeModal('langModal')"><div class="lang-flag">🇲🇦</div><div><div class="lang-name">دارجة</div><div class="lang-native">Darija</div></div></div>
@@ -305,16 +283,15 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
 </div>
 
-<!-- HEADER -->
 <header class="header">
-  <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">Smart Flousi</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved">محفوظ تلقائياً</span></div></div></div>
+  <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">Smart Flousi</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved"></span></div></div></div>
   <div class="header-right">
     <div class="month-nav">
       <button onclick="navigateMonth(-1)">‹</button>
       <div class="month-label" id="monthLabel" onclick="openModal('monthModal');renderPicker()">---</div>
       <button onclick="navigateMonth(1)">›</button>
     </div>
-    <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦ شهر جديد</button>
+    <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦</button>
     <button class="icon-btn" onclick="openModal('langModal')">🌍</button>
     <button class="icon-btn" onclick="openModal('backupModal');updateBackupUI()">💾</button>
     <select class="hdr-select" id="currencySelect" onchange="changeCurrency(this.value)">
@@ -324,122 +301,124 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
 </header>
 
-<!-- TABS -->
 <nav class="nav-tabs">
-  <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1">لوحة الميزانية</span></div>
-  <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2">دفتر الملاحظات</span></div>
-  <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3">مقارنة شهرية</span></div>
+  <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
+  <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
+  <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
 </nav>
 
-<!-- DASHBOARD -->
 <div id="tab-dashboard" class="tab-panel active"><div class="main">
   <div class="kpi-grid">
-    <div class="kpi-card income"><div class="kpi-icon">💵</div><div class="kpi-label" id="kl-income">الدخل</div><div class="kpi-value"><span class="kpi-cur" id="c1">درهم</span><span id="v-income">0</span></div><div class="kpi-progress"><div class="kpi-bar" style="width:100%"></div></div><div class="kpi-pct" id="p-income">100%</div></div>
-    <div class="kpi-card bills"><div class="kpi-icon">🧾</div><div class="kpi-label" id="kl-bills">الفواتير</div><div class="kpi-value"><span class="kpi-cur" id="c2">درهم</span><span id="v-bills">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-bills" style="width:0%"></div></div><div class="kpi-pct" id="p-bills">0%</div></div>
-    <div class="kpi-card expenses"><div class="kpi-icon">🛒</div><div class="kpi-label" id="kl-expenses">المصاريف</div><div class="kpi-value"><span class="kpi-cur" id="c3">درهم</span><span id="v-expenses">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-expenses" style="width:0%"></div></div><div class="kpi-pct" id="p-expenses">0%</div></div>
-    <div class="kpi-card savings"><div class="kpi-icon">🏦</div><div class="kpi-label" id="kl-savings">التوفير</div><div class="kpi-value"><span class="kpi-cur" id="c4">درهم</span><span id="v-savings">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-savings" style="width:0%"></div></div><div class="kpi-pct" id="p-savings">0%</div></div>
-    <div class="kpi-card debts"><div class="kpi-icon">💳</div><div class="kpi-label" id="kl-debts">الديون</div><div class="kpi-value"><span class="kpi-cur" id="c5">درهم</span><span id="v-debts">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-debts" style="width:0%"></div></div><div class="kpi-pct" id="p-debts">0%</div></div>
-    <div class="kpi-card remaining"><div class="kpi-icon">✅</div><div class="kpi-label" id="kl-remaining">الفلوس لي بقاو</div><div class="kpi-value"><span class="kpi-cur" id="c6">درهم</span><span id="v-remaining">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-remaining" style="width:0%"></div></div><div class="kpi-pct" id="p-remaining">0%</div></div>
+    <div class="kpi-card income"><div class="kpi-icon">💵</div><div class="kpi-label" id="kl-income"></div><div class="kpi-value"><span class="kpi-cur" id="c1">درهم</span><span id="v-income">0</span></div><div class="kpi-progress"><div class="kpi-bar" style="width:100%"></div></div><div class="kpi-pct" id="p-income">100%</div></div>
+    <div class="kpi-card bills"><div class="kpi-icon">🧾</div><div class="kpi-label" id="kl-bills"></div><div class="kpi-value"><span class="kpi-cur" id="c2">درهم</span><span id="v-bills">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-bills" style="width:0%"></div></div><div class="kpi-pct" id="p-bills">0%</div></div>
+    <div class="kpi-card expenses"><div class="kpi-icon">🛒</div><div class="kpi-label" id="kl-expenses"></div><div class="kpi-value"><span class="kpi-cur" id="c3">درهم</span><span id="v-expenses">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-expenses" style="width:0%"></div></div><div class="kpi-pct" id="p-expenses">0%</div></div>
+    <div class="kpi-card savings"><div class="kpi-icon">🏦</div><div class="kpi-label" id="kl-savings"></div><div class="kpi-value"><span class="kpi-cur" id="c4">درهم</span><span id="v-savings">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-savings" style="width:0%"></div></div><div class="kpi-pct" id="p-savings">0%</div></div>
+    <div class="kpi-card debts"><div class="kpi-icon">💳</div><div class="kpi-label" id="kl-debts"></div><div class="kpi-value"><span class="kpi-cur" id="c5">درهم</span><span id="v-debts">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-debts" style="width:0%"></div></div><div class="kpi-pct" id="p-debts">0%</div></div>
+    <div class="kpi-card remaining"><div class="kpi-icon">✅</div><div class="kpi-label" id="kl-remaining"></div><div class="kpi-value"><span class="kpi-cur" id="c6">درهم</span><span id="v-remaining">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-remaining" style="width:0%"></div></div><div class="kpi-pct" id="p-remaining">0%</div></div>
   </div>
   <div class="charts-row">
     <div class="remaining-hero">
       <div style="position:relative;z-index:1;">
-        <div class="rh-label" id="t-hero-lbl">الفلوس لي بقاو دابا</div>
-        <div class="rh-title" id="hero-status">💚 الوضع كاين</div>
+        <div class="rh-label" id="t-hero-lbl"></div>
+        <div class="rh-title" id="hero-status">💚</div>
         <div class="rh-amount"><span class="rh-cur" id="hero-cur">درهم</span><span id="hero-val">0</span></div>
-        <div class="rh-sub" id="hero-sub">من أصل 0 درهم دخل</div>
+        <div class="rh-sub" id="hero-sub"></div>
       </div>
       <div class="rh-donut"><canvas id="heroDonut"></canvas></div>
     </div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-ch1">فين كتمشي الفلوس</span></div></div><div class="chart-wrap"><canvas id="donutChart"></canvas></div></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="t-ch2">لي مخطط له / لي تصرف</span></div></div><div class="chart-wrap"><canvas id="barChart"></canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-ch1"></span></div></div><div class="chart-wrap"><canvas id="donutChart"></canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="t-ch2"></span></div></div><div class="chart-wrap"><canvas id="barChart"></canvas></div></div>
   </div>
   <div class="tables-grid">
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="tl-bills">الفواتير</span></div><div class="card-total" style="color:var(--peach)" id="th-bills">0</div></div><table class="mini-table"><thead><tr><th id="tc-b1">البيان</th><th id="tc-b2">تصرفت</th><th id="tc-b3">مخطط</th></tr></thead><tbody id="bills-body"></tbody></table><button class="add-btn" id="add-bills-btn" onclick="addRow('bills')">＋ إضافة فاتورة</button></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="tl-expenses">المصاريف</span></div><div class="card-total" style="color:var(--lav)" id="th-expenses">0</div></div><table class="mini-table"><thead><tr><th id="tc-e1">البيان</th><th id="tc-e2">تصرفت</th><th id="tc-e3">مخطط</th></tr></thead><tbody id="expenses-body"></tbody></table><button class="add-btn" id="add-exp-btn" onclick="addRow('expenses')">＋ إضافة مصروف</button></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--blue)"></span><span id="tl-savings">التوفير</span></div><div class="card-total" style="color:var(--blue)" id="th-savings">0</div></div><table class="mini-table"><thead><tr><th id="tc-s1">الهدف</th><th id="tc-s2">تصرفت</th><th id="tc-s3">مخطط</th></tr></thead><tbody id="savings-body"></tbody></table><button class="add-btn" id="add-sav-btn" onclick="addRow('savings')">＋ إضافة هدف</button></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--gold)"></span><span id="tl-debts">الديون</span></div><div class="card-total" style="color:var(--gold)" id="th-debts">0</div></div><table class="mini-table"><thead><tr><th id="tc-d1">الجهة</th><th id="tc-d2">تصرفت</th><th id="tc-d3">مخطط</th></tr></thead><tbody id="debts-body"></tbody></table><button class="add-btn" id="add-dbt-btn" onclick="addRow('debts')">＋ إضافة دين</button></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="tl-bills"></span></div><div class="card-total" style="color:var(--peach)" id="th-bills">0</div></div><table class="mini-table"><thead><tr><th id="tc-b1"></th><th id="tc-b2"></th><th id="tc-b3"></th></tr></thead><tbody id="bills-body"></tbody></table><button class="add-btn" id="add-bills-btn" onclick="addRow('bills')">＋</button></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="tl-expenses"></span></div><div class="card-total" style="color:var(--lav)" id="th-expenses">0</div></div><table class="mini-table"><thead><tr><th id="tc-e1"></th><th id="tc-e2"></th><th id="tc-e3"></th></tr></thead><tbody id="expenses-body"></tbody></table><button class="add-btn" id="add-exp-btn" onclick="addRow('expenses')">＋</button></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--blue)"></span><span id="tl-savings"></span></div><div class="card-total" style="color:var(--blue)" id="th-savings">0</div></div><table class="mini-table"><thead><tr><th id="tc-s1"></th><th id="tc-s2"></th><th id="tc-s3"></th></tr></thead><tbody id="savings-body"></tbody></table><button class="add-btn" id="add-sav-btn" onclick="addRow('savings')">＋</button></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--gold)"></span><span id="tl-debts"></span></div><div class="card-total" style="color:var(--gold)" id="th-debts">0</div></div><table class="mini-table"><thead><tr><th id="tc-d1"></th><th id="tc-d2"></th><th id="tc-d3"></th></tr></thead><tbody id="debts-body"></tbody></table><button class="add-btn" id="add-dbt-btn" onclick="addRow('debts')">＋</button></div>
   </div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--sage)"></span><span id="tl-income">الدخل ديالي</span></div><div class="card-total" style="color:var(--sage)" id="th-income">0</div></div><table class="mini-table"><thead><tr><th id="tc-i1">المصدر</th><th id="tc-i2">لي تصرف</th><th id="tc-i3">لي مخطط له</th></tr></thead><tbody id="income-body"></tbody></table><button class="add-btn" id="add-inc-btn" onclick="addRow('income')">＋ إضافة مصدر دخل</button></div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--sage)"></span><span id="tl-income"></span></div><div class="card-total" style="color:var(--sage)" id="th-income">0</div></div><table class="mini-table"><thead><tr><th id="tc-i1"></th><th id="tc-i2"></th><th id="tc-i3"></th></tr></thead><tbody id="income-body"></tbody></table><button class="add-btn" id="add-inc-btn" onclick="addRow('income')">＋</button></div>
 </div></div>
 
-<!-- NOTES -->
 <div id="tab-notes" class="tab-panel"><div class="main">
-  <div class="section-title"><span id="t-notes-title">دفتر الملاحظات</span> — <span id="notes-month-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
+  <div class="section-title"><span id="t-notes-title"></span> — <span id="notes-month-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
   <div style="background:var(--mint-ll);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:11px;color:var(--mid);display:flex;align-items:center;gap:8px;">
-    <span style="font-size:16px;">💡</span><span id="t-notes-info">كل ما تضيفه هنا كيتجمع تلقائياً مع المصاريف ديالك في لوحة الميزانية</span>
+    <span style="font-size:16px;">💡</span><span id="t-notes-info"></span>
   </div>
-  <div class="card" style="margin-bottom:14px;"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-notes-sub">سجل المصاريف</span></div><div style="font-size:10px;color:var(--light);" id="t-notes-edit">قابل للتعديل</div></div>
-  <table class="notes-table"><thead><tr><th id="nt-date">التاريخ</th><th id="nt-note">الملاحظات</th><th id="nt-cat">الفئة</th><th id="nt-amount">المبلغ</th><th id="nt-cur">العملة</th><th></th></tr></thead><tbody id="notes-body"></tbody></table>
-  <button class="add-btn" id="add-note-btn" onclick="addNote()">＋ إضافة ملاحظة</button></div>
+  <div class="card" style="margin-bottom:14px;">
+    <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-notes-sub"></span></div><div style="font-size:10px;color:var(--light);" id="t-notes-edit"></div></div>
+    <table class="notes-table"><thead><tr><th id="nt-date"></th><th id="nt-note"></th><th id="nt-cat"></th><th id="nt-amount"></th><th id="nt-cur"></th><th></th></tr></thead><tbody id="notes-body"></tbody></table>
+    <button class="add-btn" id="add-note-btn" onclick="addNote()">＋</button>
+  </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-notes-chart">توزيع المصاريف</span></div></div><div class="chart-wrap"><canvas id="notesDonut"></canvas></div></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-notes-sum">ملخص</span></div></div><div style="padding:14px;" id="notes-summary"></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-notes-chart"></span></div></div><div class="chart-wrap"><canvas id="notesDonut"></canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-notes-sum"></span></div></div><div style="padding:14px;" id="notes-summary"></div></div>
   </div>
 </div></div>
 
-<!-- MONTHLY -->
 <div id="tab-monthly" class="tab-panel"><div class="main">
-  <div class="section-title"><span id="t-monthly-title">مقارنة شهرية</span> — <span id="monthly-yr-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
+  <div class="section-title"><span id="t-monthly-title"></span> — <span id="monthly-yr-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
   <div class="card" style="overflow-x:auto;margin-bottom:14px;"><table class="monthly-table"><thead id="monthly-head"></thead><tbody id="monthly-body"></tbody></table></div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-monthly-chart">تطور الدخل والمصاريف</span></div></div><div class="chart-wrap" style="height:230px;"><canvas id="monthlyLine"></canvas></div></div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-monthly-chart"></span></div></div><div class="chart-wrap" style="height:230px;"><canvas id="monthlyLine"></canvas></div></div>
 </div></div>
 
 <footer class="footer">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Smart Flousi v3.0</div>
-  <div id="t-footer">كل فلوسك قدامك 💚 — البيانات محفوظة في متصفحك</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Smart Flousi v3.1</div>
+  <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // TRANSLATIONS
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 const LANGS={
   ar:{dir:'rtl',
     months:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
-    cats:['غذاء','تسوق','قهوة','نقل','أخرى'],
-    // cat -> expenses label mapping
-    catMap:{'غذاء':'مواد غذائية','تسوق':'مشتريات','قهوة':'قهوة/كافيه','نقل':'نقل','أخرى':'متنوع'},
-    pin_enter:'أدخل رمز PIN',pin_create:'إنشاء رمز PIN (4 أرقام)',pin_confirm:'أكد رمز PIN',pin_wrong:'❌ رمز PIN غلط',pin_mismatch:'❌ الأرقام ما تطابقوش',pin_note:'هاد الرمز يحمي تطبيقك',pin_forgot:'نسيت PIN؟',
-    saved:'محفوظ تلقائياً',new_btn:'✦ شهر جديد',
-    tab1:'لوحة الميزانية',tab2:'دفتر الملاحظات',tab3:'مقارنة شهرية',
+    // cat[0..4]: مواد غذائية, السوق, قهوة, النقل→Gasoil, أخرى
+    cats:['مواد غذائية','السوق','قهوة','النقل','أخرى'],
+    // label used in expenses table for each cat index
+    expLabel:['مواد غذائية','السوق','قهوة','Gasoil','أخرى'],
+    pin_enter:'أدخل رمز PIN',pin_create:'إنشاء رمز PIN (4 أرقام)',pin_confirm:'أكد رمز PIN',
+    pin_wrong:'❌ رمز PIN غلط',pin_mismatch:'❌ الأرقام ما تطابقوش',pin_note:'هاد الرمز يحمي تطبيقك',pin_forgot:'نسيت PIN؟',
+    saved:'محفوظ تلقائياً',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'دفتر الملاحظات',tab3:'مقارنة شهرية',
     pick:'اختار الشهر',nm:'شهر جديد',nm_sub:'كيفاش تبغي تبدا؟',
-    nm1:'كوبياو المخطط فقط',nm1s:'تبقى أرقام مخطط له وتبدا من صفر',nm2:'شهر فارغ',nm2s:'صفحة بيضاء',nm3:'كوبياو كل شي',nm3s:'نفس الشهر الماضي',nm_btn:'إنشاء ✓',
+    nm1:'كوبياو المخطط فقط',nm1s:'تبقى أرقام مخطط له وتبدا من صفر',
+    nm2:'شهر فارغ',nm2s:'صفحة بيضاء',nm3:'كوبياو كل شي',nm3s:'نفس الشهر الماضي',nm_btn:'إنشاء ✓',
     bk:'الحفظ والحماية',exp_h:'📤 تصدير',exp_btn:'تحميل ملف الحفظ',exp_s:'كل بياناتك في ملف JSON',
     imp_h:'📥 استيراد',imp_btn:'تحميل ملف حفظ سابق',imp_s:'ملف JSON لاسترجاع البيانات',
-    drv_h:'☁️ Google Drive',s1:'كليك على تحميل ملف الحفظ',s2:'فتح Google Drive في تليفونك',s3:'＋ ← رفع ← اختار الملف',s4:'خلاص! بياناتك في السحاب ☁️',
-    pin_h:'🔐 إعدادات PIN',pin_lbl:'قفل بـ PIN',pin_s:'حماية التطبيق عند الفتح',pin_ch:'تغيير رمز PIN',pin_chs:'إنشاء رمز جديد',
-    last_save:'آخر حفظ',lang_title:'اختار اللغة',
+    drv_h:'☁️ Google Drive',s1:'كليك على تحميل ملف الحفظ',s2:'فتح Google Drive في تليفونك',
+    s3:'＋ ← رفع ← اختار الملف',s4:'خلاص! بياناتك في السحاب ☁️',
+    pin_h:'🔐 إعدادات PIN',pin_lbl:'قفل بـ PIN',pin_s:'حماية التطبيق عند الفتح',
+    pin_ch:'تغيير رمز PIN',pin_chs:'إنشاء رمز جديد',last_save:'آخر حفظ',lang_title:'اختار اللغة',
     k_income:'الدخل ديالي',k_bills:'الفواتير',k_expenses:'المصاريف',k_savings:'التوفير',k_debts:'الديون',k_remaining:'الفلوس لي بقاو',
     hero_lbl:'الفلوس لي بقاو دابا',hero_ok:'💚 الوضع كاين',hero_zero:'🟡 بالضبط',hero_neg:'🔴 تجاوزت الميزانية',
     ch1:'فين كتمشي الفلوس',ch2:'لي مخطط له / لي تصرف',
     col_item:'البيان',col_act:'تصرفت',col_pln:'مخطط',col_goal:'الهدف',col_src:'المصدر',col_ent:'الجهة',
     add_bills:'＋ إضافة فاتورة',add_exp:'＋ إضافة مصروف',add_sav:'＋ إضافة هدف',add_dbt:'＋ إضافة دين',add_inc:'＋ إضافة مصدر دخل',
-    notes_title:'دفتر الملاحظات',notes_info:'كل ما تضيفه هنا كيتجمع تلقائياً مع المصاريف ديالك في لوحة الميزانية',
+    notes_title:'دفتر الملاحظات',notes_info:'كل ما تضيفه هنا يتجمع تلقائياً مع المصاريف في لوحة الميزانية',
     notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'ملخص',
     nt_date:'التاريخ',nt_note:'الملاحظات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ إضافة ملاحظة',
     monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
     footer:'كل فلوسك قدامك 💚 — البيانات محفوظة في متصفحك',
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
-    toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',
-    from_of:'من أصل'
+    toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل'
   },
   dar:{dir:'rtl',
     months:['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
-    cats:['ماكلة','السوق','قهوة','النقل','أخرى'],
-    catMap:{'ماكلة':'مواد غذائية','السوق':'مشتريات','قهوة':'قهوة/كافيه','النقل':'نقل','أخرى':'متنوع'},
-    pin_enter:'دخل رمز PIN ديالك',pin_create:'درلي PIN جديد (4 أرقام)',pin_confirm:'عاود دخل PIN',pin_wrong:'❌ PIN غلط',pin_mismatch:'❌ الأرقام ما خرجوش بحال',pin_note:'هاد الرمز كيحمي التطبيق ديالك',pin_forgot:'نسيتي PIN؟',
-    saved:'محفوظ',new_btn:'✦ شهر جديد',
-    tab1:'لوحة الميزانية',tab2:'دفتر الملاحظات',tab3:'مقارنة شهرية',
+    cats:['مواد غذائية','السوق','قهوة','النقل','أخرى'],
+    expLabel:['مواد غذائية','السوق','قهوة','Gasoil','أخرى'],
+    pin_enter:'دخل رمز PIN ديالك',pin_create:'درلي PIN جديد (4 أرقام)',pin_confirm:'عاود دخل PIN',
+    pin_wrong:'❌ PIN غلط',pin_mismatch:'❌ الأرقام ما خرجوش بحال',pin_note:'هاد الرمز كيحمي التطبيق ديالك',pin_forgot:'نسيتي PIN؟',
+    saved:'محفوظ',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'دفتر الملاحظات',tab3:'مقارنة شهرية',
     pick:'اختار الشهر',nm:'شهر جديد',nm_sub:'كيفاش تبغي تبدا؟',
-    nm1:'كوبيا المخطط غير',nm1s:'تبقى الأرقام المخططة وتبدا من صفر',nm2:'شهر فاضي',nm2s:'صفحة بيضاء',nm3:'كوبيا كل شي',nm3s:'نفس الشهر لي فات',nm_btn:'إنشاء ✓',
+    nm1:'كوبيا المخطط غير',nm1s:'تبقى الأرقام المخططة وتبدا من صفر',
+    nm2:'شهر فاضي',nm2s:'صفحة بيضاء',nm3:'كوبيا كل شي',nm3s:'نفس الشهر لي فات',nm_btn:'إنشاء ✓',
     bk:'الحفظ والحماية',exp_h:'📤 تصدير',exp_btn:'حمل ملف الحفظ',exp_s:'كل البيانات ديالك في ملف JSON',
     imp_h:'📥 استيراد',imp_btn:'جيب ملف حفظ قديم',imp_s:'ملف JSON باش ترجع البيانات',
-    drv_h:'☁️ Google Drive',s1:'كليك على حمل ملف الحفظ',s2:'حل Google Drive فتليفونك',s3:'＋ ← رفع ← اختار الملف',s4:'خلاص! البيانات ديالك فالسحاب ☁️',
-    pin_h:'🔐 إعدادات PIN',pin_lbl:'قفل بـ PIN',pin_s:'حماية التطبيق منين تفتحو',pin_ch:'بدل رمز PIN',pin_chs:'درلي رمز جديد',
-    last_save:'آخر حفظ',lang_title:'اختار اللغة',
+    drv_h:'☁️ Google Drive',s1:'كليك على حمل ملف الحفظ',s2:'حل Google Drive فتليفونك',
+    s3:'＋ ← رفع ← اختار الملف',s4:'خلاص! البيانات ديالك فالسحاب ☁️',
+    pin_h:'🔐 إعدادات PIN',pin_lbl:'قفل بـ PIN',pin_s:'حماية التطبيق منين تفتحو',
+    pin_ch:'بدل رمز PIN',pin_chs:'درلي رمز جديد',last_save:'آخر حفظ',lang_title:'اختار اللغة',
     k_income:'الدخل ديالي',k_bills:'الفاكتورات',k_expenses:'المصاريف',k_savings:'التوفير',k_debts:'الديون',k_remaining:'الفلوس لي بقاو',
     hero_lbl:'الفلوس لي بقاو دابا',hero_ok:'💚 الوضع مزيان',hero_zero:'🟡 بالضبط',hero_neg:'🔴 تجاوزتي الميزانية',
     ch1:'فين كتمشي الفلوس',ch2:'المخطط / الفعلي',
@@ -452,28 +431,29 @@ const LANGS={
     footer:'كل فلوسك قدامك 💚 — البيانات محفوظة فمتصفحك',
     import_confirm:'هاد العملية غادي تبدل البيانات. واش متأكد؟',
     toast_add:'تزاد ✓',toast_save:'✅ تحمل ملف الحفظ',toast_import:'✅ استوردات البيانات',
-    toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',
-    from_of:'من'
+    toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',from_of:'من'
   },
   fr:{dir:'ltr',
     months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-    cats:['Alimentation','Courses','Café','Transport','Autre'],
-    catMap:{'Alimentation':'Alimentation','Courses':'Courses','Café':'Café','Transport':'Transport','Autre':'Divers'},
-    pin_enter:'Entrez votre code PIN',pin_create:'Créer un code PIN (4 chiffres)',pin_confirm:'Confirmez le PIN',pin_wrong:'❌ Code PIN incorrect',pin_mismatch:'❌ Les codes ne correspondent pas',pin_note:'Ce code protège votre application',pin_forgot:'PIN oublié ?',
-    saved:'Sauvegardé automatiquement',new_btn:'✦ Nouveau mois',
-    tab1:'Tableau de bord',tab2:'Carnet de notes',tab3:'Comparaison mensuelle',
+    cats:['Alimentation','Marché','Café','Transport','Autre'],
+    expLabel:['Alimentation','Marché','Café','Gasoil','Autre'],
+    pin_enter:'Entrez votre code PIN',pin_create:'Créer un code PIN (4 chiffres)',pin_confirm:'Confirmez le PIN',
+    pin_wrong:'❌ Code PIN incorrect',pin_mismatch:'❌ Les codes ne correspondent pas',pin_note:'Ce code protège votre application',pin_forgot:'PIN oublié ?',
+    saved:'Sauvegardé automatiquement',new_btn:'✦ Nouveau mois',tab1:'Tableau de bord',tab2:'Carnet de notes',tab3:'Comparaison mensuelle',
     pick:'Choisir le mois',nm:'Nouveau mois',nm_sub:'Comment démarrer ?',
-    nm1:'Copier le budget prévu',nm1s:'Garder les montants prévus, repartir de zéro',nm2:'Mois vide',nm2s:'Page blanche',nm3:'Tout copier',nm3s:'Identique au mois précédent',nm_btn:'Créer ✓',
-    bk:'Sauvegarde et sécurité',exp_h:'📤 Exporter',exp_btn:'Télécharger la sauvegarde',exp_s:'Toutes vos données en fichier JSON',
+    nm1:'Copier le budget prévu',nm1s:'Garder les montants prévus, repartir de zéro',
+    nm2:'Mois vide',nm2s:'Page blanche',nm3:'Tout copier',nm3s:'Identique au mois précédent',nm_btn:'Créer ✓',
+    bk:'Sauvegarde et sécurité',exp_h:'📤 Exporter',exp_btn:'Télécharger la sauvegarde',exp_s:'Toutes vos données en JSON',
     imp_h:'📥 Importer',imp_btn:'Charger une sauvegarde',imp_s:'Fichier JSON pour restaurer vos données',
-    drv_h:'☁️ Google Drive',s1:'Cliquez sur Télécharger la sauvegarde',s2:'Ouvrez Google Drive sur votre téléphone',s3:'＋ → Importer → Sélectionner le fichier',s4:'Terminé ! Vos données sont dans le cloud ☁️',
-    pin_h:'🔐 Paramètres PIN',pin_lbl:'Verrouillage PIN',pin_s:"Protection à l'ouverture",pin_ch:'Changer le code PIN',pin_chs:'Créer un nouveau code',
-    last_save:'Dernière sauvegarde',lang_title:'Choisir la langue',
+    drv_h:'☁️ Google Drive',s1:'Cliquez sur Télécharger la sauvegarde',s2:'Ouvrez Google Drive sur votre téléphone',
+    s3:'＋ → Importer → Sélectionner le fichier',s4:'Terminé ! Vos données sont dans le cloud ☁️',
+    pin_h:'🔐 Paramètres PIN',pin_lbl:'Verrouillage PIN',pin_s:"Protection à l'ouverture",
+    pin_ch:'Changer le code PIN',pin_chs:'Créer un nouveau code',last_save:'Dernière sauvegarde',lang_title:'Choisir la langue',
     k_income:'Revenus',k_bills:'Factures',k_expenses:'Dépenses',k_savings:'Épargne',k_debts:'Dettes',k_remaining:'Solde restant',
     hero_lbl:'Solde disponible',hero_ok:'💚 Bonne situation',hero_zero:'🟡 Équilibré',hero_neg:'🔴 Budget dépassé',
     ch1:'Répartition des dépenses',ch2:'Prévu vs Réalisé',
     col_item:'Désignation',col_act:'Réalisé',col_pln:'Prévu',col_goal:'Objectif',col_src:'Source',col_ent:'Créancier',
-    add_bills:'＋ Ajouter une facture',add_exp:'＋ Ajouter une dépense',add_sav:'＋ Ajouter un objectif',add_dbt:'＋ Ajouter une dette',add_inc:'＋ Ajouter une source de revenu',
+    add_bills:'＋ Ajouter une facture',add_exp:'＋ Ajouter une dépense',add_sav:'＋ Ajouter un objectif',add_dbt:'＋ Ajouter une dette',add_inc:'＋ Ajouter un revenu',
     notes_title:'Carnet de notes',notes_info:'Tout ce que vous ajoutez ici est automatiquement comptabilisé dans vos dépenses',
     notes_sub:'Journal des dépenses',notes_edit:'Modifiable',notes_chart:'Répartition',notes_sum:'Résumé',
     nt_date:'Date',nt_note:'Note',nt_cat:'Catégorie',nt_amount:'Montant',nt_cur:'Devise',add_note:'＋ Ajouter une note',
@@ -481,52 +461,54 @@ const LANGS={
     footer:"Toutes vos finances en un coup d'œil 💚",
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
-    toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',
-    from_of:'sur'
+    toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur'
   },
   en:{dir:'ltr',
     months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-    cats:['Food','Shopping','Café','Transport','Other'],
-    catMap:{'Food':'Food','Shopping':'Shopping','Café':'Café','Transport':'Transport','Other':'Misc'},
-    pin_enter:'Enter your PIN',pin_create:'Create a PIN (4 digits)',pin_confirm:'Confirm your PIN',pin_wrong:'❌ Incorrect PIN',pin_mismatch:'❌ PINs do not match',pin_note:'This PIN protects your app',pin_forgot:'Forgot PIN?',
-    saved:'Auto-saved',new_btn:'✦ New Month',
-    tab1:'Dashboard',tab2:'Notes',tab3:'Monthly Overview',
+    cats:['Food','Market','Café','Transport','Other'],
+    expLabel:['Food','Market','Café','Gasoil','Other'],
+    pin_enter:'Enter your PIN',pin_create:'Create a PIN (4 digits)',pin_confirm:'Confirm your PIN',
+    pin_wrong:'❌ Incorrect PIN',pin_mismatch:'❌ PINs do not match',pin_note:'This PIN protects your app',pin_forgot:'Forgot PIN?',
+    saved:'Auto-saved',new_btn:'✦ New Month',tab1:'Dashboard',tab2:'Notes',tab3:'Monthly Overview',
     pick:'Choose month',nm:'New Month',nm_sub:'How do you want to start?',
-    nm1:'Copy planned budget',nm1s:'Keep planned amounts, reset actual',nm2:'Empty month',nm2s:'Blank page',nm3:'Copy everything',nm3s:'Same as last month',nm_btn:'Create ✓',
+    nm1:'Copy planned budget',nm1s:'Keep planned amounts, reset actual',
+    nm2:'Empty month',nm2s:'Blank page',nm3:'Copy everything',nm3s:'Same as last month',nm_btn:'Create ✓',
     bk:'Backup & Security',exp_h:'📤 Export',exp_btn:'Download backup file',exp_s:'All your data in JSON',
     imp_h:'📥 Import',imp_btn:'Load a backup file',imp_s:'JSON file to restore your data',
-    drv_h:'☁️ Google Drive',s1:'Click Download backup file',s2:'Open Google Drive on your phone',s3:'＋ → Upload → Select file',s4:'Done! Your data is in the cloud ☁️',
-    pin_h:'🔐 PIN Settings',pin_lbl:'PIN Lock',pin_s:'Protect app on open',pin_ch:'Change PIN',pin_chs:'Create a new code',
-    last_save:'Last saved',lang_title:'Choose language',
+    drv_h:'☁️ Google Drive',s1:'Click Download backup file',s2:'Open Google Drive on your phone',
+    s3:'＋ → Upload → Select file',s4:'Done! Your data is in the cloud ☁️',
+    pin_h:'🔐 PIN Settings',pin_lbl:'PIN Lock',pin_s:'Protect app on open',
+    pin_ch:'Change PIN',pin_chs:'Create a new code',last_save:'Last saved',lang_title:'Choose language',
     k_income:'Income',k_bills:'Bills',k_expenses:'Expenses',k_savings:'Savings',k_debts:'Debts',k_remaining:'Remaining',
     hero_lbl:'Available balance',hero_ok:'💚 Good situation',hero_zero:'🟡 Balanced',hero_neg:'🔴 Budget exceeded',
     ch1:'Where money goes',ch2:'Planned vs Actual',
     col_item:'Item',col_act:'Actual',col_pln:'Planned',col_goal:'Goal',col_src:'Source',col_ent:'Creditor',
     add_bills:'＋ Add bill',add_exp:'＋ Add expense',add_sav:'＋ Add goal',add_dbt:'＋ Add debt',add_inc:'＋ Add income source',
-    notes_title:'Notes',notes_info:'Everything you add here is automatically counted in your expenses dashboard',
+    notes_title:'Notes',notes_info:'Everything you add here is automatically counted in your expenses',
     notes_sub:'Expense log',notes_edit:'Editable',notes_chart:'Breakdown',notes_sum:'Summary',
     nt_date:'Date',nt_note:'Note',nt_cat:'Category',nt_amount:'Amount',nt_cur:'Currency',add_note:'＋ Add note',
     monthly_title:'Monthly comparison',monthly_chart:'Income vs Expenses trend',monthly_total:'Total',monthly_remain:'Balance',
     footer:'All your finances at a glance 💚',
     import_confirm:'This will replace your data. Are you sure?',
     toast_add:'Added ✓',toast_save:'✅ File downloaded',toast_import:'✅ Data imported',
-    toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',
-    from_of:'of'
+    toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',from_of:'of'
   },
   es:{dir:'ltr',
     months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    cats:['Alimentación','Compras','Café','Transporte','Otro'],
-    catMap:{'Alimentación':'Alimentación','Compras':'Compras','Café':'Café','Transporte':'Transporte','Otro':'Varios'},
-    pin_enter:'Introduce tu PIN',pin_create:'Crear PIN (4 dígitos)',pin_confirm:'Confirma el PIN',pin_wrong:'❌ PIN incorrecto',pin_mismatch:'❌ Los PINs no coinciden',pin_note:'Este PIN protege tu aplicación',pin_forgot:'¿Olvidaste el PIN?',
-    saved:'Guardado automáticamente',new_btn:'✦ Nuevo mes',
-    tab1:'Panel de control',tab2:'Cuaderno de notas',tab3:'Comparativa mensual',
+    cats:['Alimentación','Mercado','Café','Transporte','Otro'],
+    expLabel:['Alimentación','Mercado','Café','Gasoil','Otro'],
+    pin_enter:'Introduce tu PIN',pin_create:'Crear PIN (4 dígitos)',pin_confirm:'Confirma el PIN',
+    pin_wrong:'❌ PIN incorrecto',pin_mismatch:'❌ Los PINs no coinciden',pin_note:'Este PIN protege tu aplicación',pin_forgot:'¿Olvidaste el PIN?',
+    saved:'Guardado automáticamente',new_btn:'✦ Nuevo mes',tab1:'Panel de control',tab2:'Cuaderno de notas',tab3:'Comparativa mensual',
     pick:'Elegir mes',nm:'Nuevo mes',nm_sub:'¿Cómo quieres empezar?',
-    nm1:'Copiar presupuesto previsto',nm1s:'Mantener montos previstos, reiniciar real',nm2:'Mes en blanco',nm2s:'Página en blanco',nm3:'Copiar todo',nm3s:'Igual que el mes anterior',nm_btn:'Crear ✓',
+    nm1:'Copiar presupuesto previsto',nm1s:'Mantener montos previstos, reiniciar real',
+    nm2:'Mes en blanco',nm2s:'Página en blanco',nm3:'Copiar todo',nm3s:'Igual que el mes anterior',nm_btn:'Crear ✓',
     bk:'Copia de seguridad',exp_h:'📤 Exportar',exp_btn:'Descargar archivo de respaldo',exp_s:'Todos tus datos en JSON',
     imp_h:'📥 Importar',imp_btn:'Cargar archivo de respaldo',imp_s:'Archivo JSON para restaurar datos',
-    drv_h:'☁️ Google Drive',s1:'Clic en Descargar archivo',s2:'Abre Google Drive en tu móvil',s3:'＋ → Subir → Seleccionar archivo',s4:'¡Listo! Tus datos están en la nube ☁️',
-    pin_h:'🔐 Configuración PIN',pin_lbl:'Bloqueo PIN',pin_s:'Protección al abrir la app',pin_ch:'Cambiar PIN',pin_chs:'Crear nuevo código',
-    last_save:'Último guardado',lang_title:'Elegir idioma',
+    drv_h:'☁️ Google Drive',s1:'Clic en Descargar archivo',s2:'Abre Google Drive en tu móvil',
+    s3:'＋ → Subir → Seleccionar archivo',s4:'¡Listo! Tus datos están en la nube ☁️',
+    pin_h:'🔐 Configuración PIN',pin_lbl:'Bloqueo PIN',pin_s:'Protección al abrir la app',
+    pin_ch:'Cambiar PIN',pin_chs:'Crear nuevo código',last_save:'Último guardado',lang_title:'Elegir idioma',
     k_income:'Ingresos',k_bills:'Facturas',k_expenses:'Gastos',k_savings:'Ahorros',k_debts:'Deudas',k_remaining:'Saldo restante',
     hero_lbl:'Saldo disponible',hero_ok:'💚 Buena situación',hero_zero:'🟡 Equilibrado',hero_neg:'🔴 Presupuesto superado',
     ch1:'Distribución de gastos',ch2:'Previsto vs Real',
@@ -539,31 +521,33 @@ const LANGS={
     footer:'Todas tus finanzas de un vistazo 💚',
     import_confirm:'Esto reemplazará tus datos. ¿Estás seguro?',
     toast_add:'Añadido ✓',toast_save:'✅ Archivo descargado',toast_import:'✅ Datos importados',
-    toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',
-    from_of:'de'
+    toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',from_of:'de'
   }
 };
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // STATE
-// ════════════════════════════════════════════
-const SK='smartflousi_v3',PIN_KEY='sf_pin',PINON_KEY='sf_pin_on';
-const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0',remaining:'#7EC8B0'};
-let curYear=2025,curMonth=4,currency='درهم',pickerYear=2025,nmOpt='copy';
-let allData={},lang='dar',pinBuffer='',pinMode='verify',pinTemp='',pinEnabled=false;
+// ══════════════════════════════════════════════
+const SK='sf_v31', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
+const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0'};
+const CAT_COLORS=['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#9AA0B0'];
+let curYear=2025, curMonth=4, currency='درهم', pickerYear=2025, nmOpt='copy';
+let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
+
 const mkey=(y,m)=>`${y}-${String(m).padStart(2,'0')}`;
 const ck=()=>mkey(curYear,curMonth);
 const fmt=n=>Number(n||0).toLocaleString('ar-MA');
 const T=()=>LANGS[lang];
-const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+const $ =id=>document.getElementById(id);
+const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 
-// ════════════════════════════════════════════
-// DEFAULT DATA — labels preset, amounts 0
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// DEFAULT DATA
+// ══════════════════════════════════════════════
 function defMonth(){
   return{
     bills:   [{label:'الضو',act:0,pln:500},{label:'الماء',act:0,pln:300},{label:'Wi-fi',act:0,pln:400},{label:'التليفون',act:0,pln:59}],
-    expenses:[{label:'مواد غذائية',act:0,pln:1500},{label:'Gasoil',act:0,pln:600},{label:'السوق',act:0,pln:500},{label:'الترفيه',act:0,pln:200}],
+    expenses:[{label:'مواد غذائية',act:0,pln:1500},{label:'السوق',act:0,pln:500},{label:'قهوة',act:0,pln:0},{label:'Gasoil',act:0,pln:600},{label:'الترفيه',act:0,pln:200}],
     savings: [{label:'المشروع',act:0,pln:0},{label:'السفر',act:0,pln:0}],
     debts:   [{label:'Credit Dacia',act:0,pln:2180}],
     income:  [{label:'الراتب',act:0,pln:7680}],
@@ -571,21 +555,18 @@ function defMonth(){
   };
 }
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // LANGUAGE
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 function setLang(l){
   lang=l; localStorage.setItem('sf_lang',l);
-  const t=T(),isRTL=t.dir==='rtl';
-  document.getElementById('html-root').setAttribute('dir',t.dir);
-  document.getElementById('html-root').setAttribute('lang',isRTL?'ar':l);
-  // Pin lang buttons
+  const t=T(), isRTL=t.dir==='rtl';
+  $('html-root').setAttribute('dir',t.dir);
+  $('html-root').setAttribute('lang',isRTL?'ar':l);
   const lblMap={ar:'عربي',dar:'دارجة',fr:'FR',en:'EN',es:'ES'};
   document.querySelectorAll('.plb').forEach(b=>b.classList.toggle('active',b.textContent.trim()===lblMap[l]));
-  // Lang modal
-  ['ar','dar','fr','en','es'].forEach(k=>document.getElementById('lo-'+k)?.classList.toggle('active',k===l));
-  // All UI texts
-  set('pin-sub',pinMode==='setup1'?t.pin_create:pinMode==='setup2'?t.pin_confirm:t.pin_enter);
+  ['ar','dar','fr','en','es'].forEach(k=>$('lo-'+k)?.classList.toggle('active',k===l));
+  set('pin-sub', pinMode==='setup1'?t.pin_create:pinMode==='setup2'?t.pin_confirm:t.pin_enter);
   set('pin-note',''); set('pin-forgot',t.pin_forgot);
   set('t-saved',t.saved); set('t-new-btn',t.new_btn);
   set('t-tab1',t.tab1); set('t-tab2',t.tab2); set('t-tab3',t.tab3);
@@ -596,8 +577,7 @@ function setLang(l){
   set('t-imp-h',t.imp_h); set('t-imp-btn',t.imp_btn); set('t-imp-s',t.imp_s);
   set('t-drv-h',t.drv_h); set('t-s1',t.s1); set('t-s2',t.s2); set('t-s3',t.s3); set('t-s4',t.s4);
   set('t-pin-h',t.pin_h); set('t-pin-lbl',t.pin_lbl); set('t-pin-s',t.pin_s);
-  set('t-pin-ch',t.pin_ch); set('t-pin-chs',t.pin_chs);
-  set('t-lang-title',t.lang_title);
+  set('t-pin-ch',t.pin_ch); set('t-pin-chs',t.pin_chs); set('t-lang-title',t.lang_title);
   set('kl-income',t.k_income); set('kl-bills',t.k_bills); set('kl-expenses',t.k_expenses);
   set('kl-savings',t.k_savings); set('kl-debts',t.k_debts); set('kl-remaining',t.k_remaining);
   set('t-hero-lbl',t.hero_lbl); set('t-ch1',t.ch1); set('t-ch2',t.ch2);
@@ -606,10 +586,10 @@ function setLang(l){
   set('tc-b1',t.col_item); set('tc-b2',t.col_act); set('tc-b3',t.col_pln);
   set('tc-e1',t.col_item); set('tc-e2',t.col_act); set('tc-e3',t.col_pln);
   set('tc-s1',t.col_goal); set('tc-s2',t.col_act); set('tc-s3',t.col_pln);
-  set('tc-d1',t.col_ent); set('tc-d2',t.col_act); set('tc-d3',t.col_pln);
-  set('tc-i1',t.col_src); set('tc-i2',t.col_act); set('tc-i3',t.col_pln);
-  set('add-bills-btn',t.add_bills); set('add-exp-btn',t.add_exp); set('add-sav-btn',t.add_sav);
-  set('add-dbt-btn',t.add_dbt); set('add-inc-btn',t.add_inc);
+  set('tc-d1',t.col_ent);  set('tc-d2',t.col_act); set('tc-d3',t.col_pln);
+  set('tc-i1',t.col_src);  set('tc-i2',t.col_act); set('tc-i3',t.col_pln);
+  set('add-bills-btn',t.add_bills); set('add-exp-btn',t.add_exp);
+  set('add-sav-btn',t.add_sav); set('add-dbt-btn',t.add_dbt); set('add-inc-btn',t.add_inc);
   set('t-notes-title',t.notes_title); set('t-notes-info',t.notes_info);
   set('t-notes-sub',t.notes_sub); set('t-notes-edit',t.notes_edit);
   set('t-notes-chart',t.notes_chart); set('t-notes-sum',t.notes_sum);
@@ -617,30 +597,28 @@ function setLang(l){
   set('nt-amount',t.nt_amount); set('nt-cur',t.nt_cur); set('add-note-btn',t.add_note);
   set('t-monthly-title',t.monthly_title); set('t-monthly-chart',t.monthly_chart);
   set('t-footer',t.footer);
-  // input alignment
   document.querySelectorAll('.mini-table input[type=text]').forEach(i=>i.style.textAlign=isRTL?'right':'left');
   updateMonthLabel();
   buildMonthlyHead();
   renderNotes();
-  updateNotesSummary();
   recalc();
 }
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // PIN
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 function initPIN(){
   const saved=localStorage.getItem(PIN_KEY);
   pinEnabled=localStorage.getItem(PINON_KEY)==='1';
   lang=localStorage.getItem('sf_lang')||'dar';
   setLang(lang);
   if(!saved){pinMode='setup1';set('pin-sub',T().pin_create);set('pin-note',T().pin_note);}
-  else if(pinEnabled){pinMode='verify';document.getElementById('pin-forgot').style.display='block';set('pin-sub',T().pin_enter);}
+  else if(pinEnabled){pinMode='verify';$('pin-forgot').style.display='block';set('pin-sub',T().pin_enter);}
   else{unlockApp();}
 }
 function pinPress(d){if(pinBuffer.length>=4)return;pinBuffer+=d;updateDots();if(pinBuffer.length===4)setTimeout(handlePin,200);}
 function pinDel(){pinBuffer=pinBuffer.slice(0,-1);updateDots();set('pin-error','');}
-function updateDots(err=false){for(let i=0;i<4;i++){const d=document.getElementById('d'+i);d.classList.toggle('filled',i<pinBuffer.length&&!err);d.classList.toggle('error',i<pinBuffer.length&&err);}}
+function updateDots(err=false){for(let i=0;i<4;i++){const d=$('d'+i);d.classList.toggle('filled',i<pinBuffer.length&&!err);d.classList.toggle('error',i<pinBuffer.length&&err);}}
 function handlePin(){
   const t=T();
   if(pinMode==='setup1'){pinTemp=pinBuffer;pinBuffer='';updateDots();set('pin-sub',t.pin_confirm);set('pin-note','');pinMode='setup2';}
@@ -653,9 +631,9 @@ function handlePin(){
   }
 }
 function unlockApp(){
-  document.getElementById('pin-screen').classList.add('hidden');
+  $('pin-screen').classList.add('hidden');
   loadData();
-  document.getElementById('currencySelect').value=currency;
+  $('currencySelect').value=currency;
   initCharts();
   setLang(lang);
   renderAll();
@@ -663,61 +641,124 @@ function unlockApp(){
   syncCur();
 }
 function pinForgot(){if(confirm('Reset all data and PIN?')){localStorage.clear();location.reload();}}
-function togglePIN(){pinEnabled=!pinEnabled;localStorage.setItem(PINON_KEY,pinEnabled?'1':'0');document.getElementById('pin-toggle').classList.toggle('on',pinEnabled);showToast(pinEnabled?T().toast_pin_on:T().toast_pin_off);}
-function startChangePIN(){closeModal('backupModal');pinBuffer='';pinTemp='';pinMode='setup1';updateDots();set('pin-sub',T().pin_create);set('pin-note',T().pin_note);document.getElementById('pin-forgot').style.display='none';set('pin-error','');document.getElementById('pin-screen').classList.remove('hidden');}
-function updateBackupUI(){document.getElementById('pin-toggle').classList.toggle('on',pinEnabled);const t=localStorage.getItem('sf_last_save');set('last-backup-info',t?T().last_save+': '+t:'');}
+function togglePIN(){pinEnabled=!pinEnabled;localStorage.setItem(PINON_KEY,pinEnabled?'1':'0');$('pin-toggle').classList.toggle('on',pinEnabled);showToast(pinEnabled?T().toast_pin_on:T().toast_pin_off);}
+function startChangePIN(){closeModal('backupModal');pinBuffer='';pinTemp='';pinMode='setup1';updateDots();set('pin-sub',T().pin_create);set('pin-note',T().pin_note);$('pin-forgot').style.display='none';set('pin-error','');$('pin-screen').classList.remove('hidden');}
+function updateBackupUI(){$('pin-toggle').classList.toggle('on',pinEnabled);const t=localStorage.getItem('sf_last_save');set('last-backup-info',t?T().last_save+': '+t:'');}
 
-// ════════════════════════════════════════════
-// DATA
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// DATA — KEY FIX: saveData reads DOM first
+// ══════════════════════════════════════════════
 function loadData(){
-  try{const s=localStorage.getItem(SK);if(s){const p=JSON.parse(s);allData=p.allData||{};currency=p.currency||'درهم';curYear=p.curYear||2025;curMonth=p.curMonth!==undefined?p.curMonth:4;if(p.lang)lang=p.lang;}}catch(e){}
-  // ALWAYS ensure current month has default data
-  if(!allData[ck()]||Object.keys(allData[ck()]).length===0)allData[ck()]=defMonth();
-  // ensure notes array exists
-  if(!allData[ck()].notes)allData[ck()].notes=[];
+  try{
+    const s=localStorage.getItem(SK);
+    if(s){const p=JSON.parse(s);allData=p.allData||{};currency=p.currency||'درهم';curYear=p.curYear||2025;curMonth=p.curMonth!==undefined?p.curMonth:4;if(p.lang)lang=p.lang;}
+  }catch(e){}
+  const mk=ck();
+  if(!allData[mk]||!allData[mk].bills||allData[mk].bills.length===0){allData[mk]=defMonth();}
+  if(!allData[mk].notes)allData[mk].notes=[];
 }
-function saveData(){
-  readTables();
+
+function persistData(){
+  // Save current state WITHOUT reading DOM (DOM already synced)
   try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));localStorage.setItem('sf_last_save',new Date().toLocaleString());}catch(e){}
 }
-function readTables(){
-  const mk=ck();if(!allData[mk])allData[mk]=defMonth();
+
+// Read DOM → allData for current month
+function syncDOMtoData(){
+  const mk=ck();
+  if(!allData[mk])allData[mk]=defMonth();
   ['bills','expenses','savings','debts','income'].forEach(sec=>{
-    allData[mk][sec]=[];
-    document.querySelectorAll(`#${sec}-body tr`).forEach(tr=>{
+    const rows=[];
+    document.querySelectorAll(`#${sec}-body tr.data-row`).forEach(tr=>{
       const ins=tr.querySelectorAll('input');
-      if(ins.length>=3)allData[mk][sec].push({label:ins[0].value,act:Number(ins[1].value)||0,pln:Number(ins[2].value)||0});
+      if(ins.length>=3){rows.push({label:ins[0].value,act:Number(ins[1].value)||0,pln:Number(ins[2].value)||0});}
     });
+    allData[mk][sec]=rows;
   });
 }
 
-// ════════════════════════════════════════════
-// NOTES → EXPENSES SYNC
-// ════════════════════════════════════════════
-// Computes total from notes per category, adds to expenses display
-function getNotesExpenseTotal(){
-  const notes=(allData[ck()]||{}).notes||[];
-  return notes.reduce((s,n)=>s+Number(n.amount||0),0);
-}
+function saveData(){syncDOMtoData();persistData();}
 
-// ════════════════════════════════════════════
-// BACKUP
-// ════════════════════════════════════════════
-function exportJSON(){saveData();const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.0',owner:'BELMOUFADAL Abderrahim'};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`smart-flousi-${T().months[curMonth]}-${curYear}.json`;a.click();showToast(T().toast_save);}
-function importJSON(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);if(!d.allData)throw 0;if(confirm(T().import_confirm)){allData=d.allData;currency=d.currency||currency;curYear=d.curYear||curYear;curMonth=d.curMonth!==undefined?d.curMonth:curMonth;if(d.lang){lang=d.lang;setLang(lang);}saveData();document.getElementById('currencySelect').value=currency;renderAll();buildMonthlyTable();syncCur();closeModal('backupModal');showToast(T().toast_import);}}catch(e){alert('❌ Invalid file');}};r.readAsText(f);input.value='';}
-
-// ════════════════════════════════════════════
-// RENDER SECTIONS
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// RENDER — THE CORE FIX
+// Each section rebuilds from allData with class="data-row"
+// addRow saves DOM→data FIRST, then pushes new item, then re-renders
+// ══════════════════════════════════════════════
 function renderSection(sec){
   const data=(allData[ck()]||{})[sec]||[];
-  const tb=document.getElementById(`${sec}-body`);if(!tb)return;
+  const tb=$(sec+'-body');
+  if(!tb)return;
   tb.innerHTML='';
   const isRTL=T().dir==='rtl';
-  data.forEach(item=>{
+  data.forEach((item,idx)=>{
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="lc"><input type="text" value="${(item.label||'').replace(/"/g,'&quot;')}" placeholder="..." style="text-align:${isRTL?'right':'left'}" onchange="saveData();recalc()"></td><td class="ac"><input type="number" value="${item.act||0}" onchange="saveData();recalc()"></td><td class="pc"><input type="number" value="${item.pln||0}" onchange="saveData();recalc()"><button onclick="this.closest('tr').remove();saveData();recalc()" style="background:none;border:none;color:#ddd;cursor:pointer;font-size:11px;vertical-align:middle;">✕</button></td>`;
+    tr.className='data-row';
+    const lv=(item.label||'').replace(/"/g,'&quot;');
+    tr.innerHTML=`
+      <td class="lc"><input type="text" value="${lv}" placeholder="..." style="text-align:${isRTL?'right':'left'}" oninput="onInput('${sec}',${idx},'label',this.value)"></td>
+      <td class="ac"><input type="number" value="${item.act||0}" oninput="onInput('${sec}',${idx},'act',this.value)"></td>
+      <td class="pc"><input type="number" value="${item.pln||0}" oninput="onInput('${sec}',${idx},'pln',this.value)">
+        <button onclick="deleteRow('${sec}',${idx})" style="background:none;border:none;color:#ddd;cursor:pointer;font-size:11px;vertical-align:middle;margin-right:2px;">✕</button>
+      </td>`;
+    tb.appendChild(tr);
+  });
+  // Also render notes contribution rows in expenses
+  if(sec==='expenses'){renderNotesInExpenses();}
+}
+
+function onInput(sec,idx,field,val){
+  const mk=ck();
+  if(!allData[mk]||!allData[mk][sec]||!allData[mk][sec][idx])return;
+  allData[mk][sec][idx][field]=(field==='label')?val:(Number(val)||0);
+  persistData();
+  recalc();
+}
+
+function deleteRow(sec,idx){
+  const mk=ck();
+  if(!allData[mk]||!allData[mk][sec])return;
+  allData[mk][sec].splice(idx,1);
+  renderSection(sec);
+  recalc();
+  persistData();
+}
+
+// ══════════════════════════════════════════════
+// NOTES → EXPENSES SYNC (per category)
+// catIdx: 0=مواد غذائية, 1=السوق, 2=قهوة, 3=النقل→Gasoil, 4=أخرى
+// expLabel matches expenses table labels
+// ══════════════════════════════════════════════
+function getNotesTotalsByExpLabel(){
+  const notes=(allData[ck()]||{}).notes||[];
+  const totals={}; // expLabel → total
+  const t=T();
+  notes.forEach(n=>{
+    const ci=n.catIdx!==undefined?n.catIdx:4;
+    const expLbl=t.expLabel[ci]||t.expLabel[4];
+    totals[expLbl]=(totals[expLbl]||0)+Number(n.amount||0);
+  });
+  return totals;
+}
+
+function renderNotesInExpenses(){
+  // Remove old note rows
+  document.querySelectorAll('#expenses-body tr.note-row').forEach(r=>r.remove());
+  const totals=getNotesTotalsByExpLabel();
+  const tb=$('expenses-body');
+  if(!tb)return;
+  const t=T();
+  // For each expLabel that has notes, find if already in expenses data rows
+  // If label exists → add to its .ac input value display (not modify data, just show)
+  // Actually: we ADD the notes amount on top of what's in the row by label match
+  // We display note rows as read-only rows under the matching expense row
+  Object.entries(totals).forEach(([lbl,total])=>{
+    if(total===0)return;
+    const tr=document.createElement('tr');
+    tr.className='note-row';
+    tr.innerHTML=`
+      <td class="lc" style="color:var(--mid);font-size:10px;padding-right:18px;">📝 ${lbl} (${t.notes_sub})</td>
+      <td class="ac" style="color:var(--mint);font-weight:700;">${fmt(total)}</td>
+      <td class="pc" style="color:var(--light);">—</td>`;
     tb.appendChild(tr);
   });
 }
@@ -729,48 +770,62 @@ function renderAll(){
   recalc();
 }
 
+// ══════════════════════════════════════════════
+// ADD ROW — saves DOM first, then appends
+// ══════════════════════════════════════════════
 function addRow(sec){
-  const mk=ck();if(!allData[mk])allData[mk]=defMonth();
+  const mk=ck();
+  if(!allData[mk])allData[mk]=defMonth();
+  // Save current DOM state first (preserve existing rows)
+  syncDOMtoData();
+  // Push new empty row
   allData[mk][sec].push({label:'',act:0,pln:0});
-  renderSection(sec);recalc();showToast(T().toast_add);
+  // Re-render
+  renderSection(sec);
+  recalc();
+  persistData();
+  // Focus new row label input
+  const rows=document.querySelectorAll(`#${sec}-body tr.data-row`);
+  if(rows.length>0){
+    const last=rows[rows.length-1];
+    const inp=last.querySelector('input[type=text]');
+    if(inp)setTimeout(()=>inp.focus(),50);
+  }
+  showToast(T().toast_add);
 }
 
-// ════════════════════════════════════════════
-// RECALC — notes total added to expenses
-// ════════════════════════════════════════════
-function sumSec(sec){
-  let act=0,pln=0;
-  document.querySelectorAll(`#${sec}-body tr`).forEach(tr=>{
-    const ins=tr.querySelectorAll('input[type=number]');
-    if(ins[0])act+=Number(ins[0].value)||0;
-    if(ins[1])pln+=Number(ins[1].value)||0;
-  });
-  return{act,pln};
+// ══════════════════════════════════════════════
+// RECALC
+// ══════════════════════════════════════════════
+function sumFromData(sec){
+  const data=(allData[ck()]||{})[sec]||[];
+  return data.reduce((s,r)=>({act:s.act+Number(r.act||0),pln:s.pln+Number(r.pln||0)}),{act:0,pln:0});
 }
 
 function recalc(){
   const t=T();
-  const inc=sumSec('income');
-  const bill=sumSec('bills');
-  const expTable=sumSec('expenses');
-  const sav=sumSec('savings');
-  const dbt=sumSec('debts');
-  // Notes total added to expenses
-  const notesTotal=getNotesExpenseTotal();
-  const exp={act:expTable.act+notesTotal, pln:expTable.pln};
+  const inc=sumFromData('income');
+  const bill=sumFromData('bills');
+  const expData=sumFromData('expenses');
+  const sav=sumFromData('savings');
+  const dbt=sumFromData('debts');
+  // Notes totals added per matching expense label
+  const notesTotals=getNotesTotalsByExpLabel();
+  const notesTotal=Object.values(notesTotals).reduce((s,v)=>s+v,0);
+  const exp={act:expData.act+notesTotal, pln:expData.pln};
   const rem=inc.act-bill.act-exp.act-sav.act-dbt.act;
   const base=inc.act||1;
   const pct=v=>Math.max(0,Math.min(100,Math.round(Math.abs(v)/base*100)));
 
-  set('v-income',fmt(inc.act)); set('v-bills',fmt(bill.act)); set('v-expenses',fmt(exp.act));
-  set('v-savings',fmt(sav.act)); set('v-debts',fmt(dbt.act)); set('v-remaining',fmt(rem));
+  set('v-income',fmt(inc.act));set('v-bills',fmt(bill.act));set('v-expenses',fmt(exp.act));
+  set('v-savings',fmt(sav.act));set('v-debts',fmt(dbt.act));set('v-remaining',fmt(rem));
   [{k:'bills',v:bill.act},{k:'expenses',v:exp.act},{k:'savings',v:sav.act},{k:'debts',v:dbt.act},{k:'remaining',v:rem}].forEach(x=>{
-    const b=document.getElementById('bar-'+x.k);if(b)b.style.width=pct(x.v)+'%';
+    const b=$('bar-'+x.k);if(b)b.style.width=pct(x.v)+'%';
     set('p-'+x.k,pct(x.v)+'%');
   });
   set('p-income','100%');
-  set('th-income',fmt(inc.act)); set('th-bills',fmt(bill.act)); set('th-expenses',fmt(exp.act));
-  set('th-savings',fmt(sav.act)); set('th-debts',fmt(dbt.act));
+  set('th-income',fmt(inc.act));set('th-bills',fmt(bill.act));set('th-expenses',fmt(exp.act));
+  set('th-savings',fmt(sav.act));set('th-debts',fmt(dbt.act));
   set('hero-val',fmt(rem));
   set('hero-sub',`${t.from_of} ${fmt(inc.act)} ${currency}`);
   set('hero-status',rem>0?t.hero_ok:rem===0?t.hero_zero:t.hero_neg);
@@ -779,143 +834,171 @@ function recalc(){
   if(chartHero){chartHero.data.datasets[0].data=[rem>0?rem:0,bill.act+exp.act+sav.act+dbt.act];chartHero.update('none');}
 }
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // MONTH NAV
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 function updateMonthLabel(){
   const t=T(),lbl=`${t.months[curMonth]} ${curYear}`;
-  set('monthLabel',lbl); set('notes-month-lbl',lbl); set('monthly-yr-lbl',`${curYear}`);
+  set('monthLabel',lbl);set('notes-month-lbl',lbl);set('monthly-yr-lbl',`${curYear}`);
 }
 function navigateMonth(dir){
-  saveData();curMonth+=dir;
+  saveData();
+  curMonth+=dir;
   if(curMonth>11){curMonth=0;curYear++;}
   if(curMonth<0){curMonth=11;curYear--;}
-  if(!allData[ck()]||!allData[ck()].bills)allData[ck()]=defMonth();
-  if(!allData[ck()].notes)allData[ck()].notes=[];
-  updateMonthLabel();renderAll();buildMonthlyTable();showToast(T().months[curMonth]+' '+curYear);
+  const mk=ck();
+  if(!allData[mk]||!allData[mk].bills||allData[mk].bills.length===0){allData[mk]=defMonth();}
+  if(!allData[mk].notes)allData[mk].notes=[];
+  updateMonthLabel();renderAll();buildMonthlyTable();
+  showToast(T().months[curMonth]+' '+curYear);
 }
 function renderPicker(){
   pickerYear=curYear;set('pickerYear',pickerYear);
-  const g=document.getElementById('monthsGrid');g.innerHTML='';
+  const g=$('monthsGrid');g.innerHTML='';
   T().months.forEach((m,i)=>{
-    const mk=mkey(pickerYear,i),hd=allData[mk]&&allData[mk].income&&allData[mk].income.length>0;
+    const mk=mkey(pickerYear,i);
+    const hd=allData[mk]&&allData[mk].income&&allData[mk].income.some(r=>r.act>0||r.pln>0);
     const b=document.createElement('button');
     b.className=`month-btn${pickerYear===curYear&&i===curMonth?' active':''}${hd?' has-data':''}`;
     b.textContent=m;
-    b.onclick=()=>{saveData();curYear=pickerYear;curMonth=i;if(!allData[ck()]||!allData[ck()].bills)allData[ck()]=defMonth();if(!allData[ck()].notes)allData[ck()].notes=[];closeModal('monthModal');updateMonthLabel();renderAll();buildMonthlyTable();showToast(m+' '+pickerYear);};
+    b.onclick=()=>{
+      saveData();curYear=pickerYear;curMonth=i;
+      const mk2=ck();
+      if(!allData[mk2]||!allData[mk2].bills||allData[mk2].bills.length===0){allData[mk2]=defMonth();}
+      if(!allData[mk2].notes)allData[mk2].notes=[];
+      closeModal('monthModal');updateMonthLabel();renderAll();buildMonthlyTable();
+      showToast(m+' '+pickerYear);
+    };
     g.appendChild(b);
   });
 }
 function chgPY(d){pickerYear+=d;set('pickerYear',pickerYear);renderPicker();}
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // NEW MONTH
-// ════════════════════════════════════════════
-function selNM(o){nmOpt=o;['copy','blank','same'].forEach(x=>document.getElementById('nm-'+x).classList.toggle('selected',x===o));}
+// ══════════════════════════════════════════════
+function selNM(o){nmOpt=o;['copy','blank','same'].forEach(x=>$('nm-'+x).classList.toggle('selected',x===o));}
 function confirmNewMonth(){
-  const pk=ck();saveData();let nm=curMonth+1,ny=curYear;
+  saveData();
+  let nm=curMonth+1,ny=curYear;
   if(nm>11){nm=0;ny++;}
-  const nk=mkey(ny,nm),prev=allData[pk];
-  if(nmOpt==='blank'){allData[nk]=defMonth();allData[nk].notes=[];}
-  else if(nmOpt==='copy'&&prev){
+  const nk=mkey(ny,nm),prev=allData[ck()];
+  if(nmOpt==='blank'||!prev){allData[nk]=defMonth();}
+  else if(nmOpt==='copy'){
     const c=JSON.parse(JSON.stringify(prev));
     ['bills','expenses','savings','debts','income'].forEach(s=>{c[s]=(c[s]||[]).map(x=>({label:x.label,act:0,pln:x.pln}));});
     c.notes=[];allData[nk]=c;
-  }else if(nmOpt==='same'&&prev){allData[nk]=JSON.parse(JSON.stringify(prev));allData[nk].notes=[];}
-  else{allData[nk]=defMonth();}
-  curMonth=nm;curYear=ny;closeModal('newMonthModal');updateMonthLabel();renderAll();buildMonthlyTable();
+  }else{allData[nk]=JSON.parse(JSON.stringify(prev));allData[nk].notes=[];}
+  curMonth=nm;curYear=ny;
+  closeModal('newMonthModal');updateMonthLabel();renderAll();buildMonthlyTable();
   showToast('✦ '+T().months[nm]+' '+ny+' 🎉');
 }
 
-// ════════════════════════════════════════════
-// NOTES — with expense sync
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// NOTES
+// ══════════════════════════════════════════════
 function renderNotes(){
   const t=T(),notes=(allData[ck()]||{}).notes||[];
-  const tb=document.getElementById('notes-body');if(!tb)return;tb.innerHTML='';
+  const tb=$('notes-body');if(!tb)return;tb.innerHTML='';
   notes.forEach((n,i)=>{
     const ci=n.catIdx!==undefined?n.catIdx:4;
     const tr=document.createElement('tr');
     tr.innerHTML=`
-      <td><input type="date" value="${n.date||''}" style="width:108px;" onchange="nChg(${i},'date',this.value)"></td>
-      <td><input type="text" value="${(n.note||'').replace(/"/g,'&quot;')}" placeholder="..." style="width:115px;" onchange="nChg(${i},'note',this.value)"></td>
-      <td><select class="cat-select" onchange="nChg(${i},'catIdx',Number(this.value))">${t.cats.map((c,k)=>`<option value="${k}"${ci===k?' selected':''}>${c}</option>`).join('')}</select></td>
-      <td><input type="number" value="${n.amount||0}" style="width:65px;" onchange="nChg(${i},'amount',Number(this.value))"></td>
+      <td><input type="date" value="${n.date||''}" style="width:108px;" onchange="noteSet(${i},'date',this.value)"></td>
+      <td><input type="text" value="${(n.note||'').replace(/"/g,'&quot;')}" placeholder="..." style="width:115px;" onchange="noteSet(${i},'note',this.value)"></td>
+      <td><select class="cat-select" onchange="noteSet(${i},'catIdx',Number(this.value))">${t.cats.map((c,k)=>`<option value="${k}"${ci===k?' selected':''}>${c}</option>`).join('')}</select></td>
+      <td><input type="number" value="${n.amount||0}" style="width:65px;" onchange="noteSet(${i},'amount',Number(this.value))"></td>
       <td style="color:var(--light);font-size:10px;">${currency}</td>
-      <td><button onclick="rmNote(${i})" style="background:none;border:none;color:#ccc;cursor:pointer;font-size:12px;">✕</button></td>`;
+      <td><button onclick="delNote(${i})" style="background:none;border:none;color:#ccc;cursor:pointer;font-size:12px;">✕</button></td>`;
     tb.appendChild(tr);
   });
   updateNotesSummary();
   updateNotesChart();
-  recalc(); // sync expenses KPI
+  renderNotesInExpenses();
+  recalc();
 }
-function nChg(i,f,v){
-  const mk=ck();if(!allData[mk]||!allData[mk].notes)return;
+function noteSet(i,f,v){
+  const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
   allData[mk].notes[i][f]=v;
-  saveData();updateNotesSummary();updateNotesChart();recalc();
+  persistData();
+  if(f==='amount'||f==='catIdx'){updateNotesSummary();updateNotesChart();renderNotesInExpenses();recalc();}
 }
-function rmNote(i){const mk=ck();if(!allData[mk]||!allData[mk].notes)return;allData[mk].notes.splice(i,1);renderNotes();}
+function delNote(i){
+  const mk=ck();if(!allData[mk]||!allData[mk].notes)return;
+  allData[mk].notes.splice(i,1);renderNotes();persistData();
+}
 function addNote(){
-  const mk=ck();if(!allData[mk])allData[mk]=defMonth();if(!allData[mk].notes)allData[mk].notes=[];
-  allData[mk].notes.push({date:new Date().toISOString().slice(0,10),note:'',catIdx:4,amount:0});
-  renderNotes();showToast(T().toast_add);
+  const mk=ck();
+  if(!allData[mk])allData[mk]=defMonth();
+  if(!allData[mk].notes)allData[mk].notes=[];
+  allData[mk].notes.push({date:new Date().toISOString().slice(0,10),note:'',catIdx:0,amount:0});
+  renderNotes();persistData();showToast(T().toast_add);
+  // Focus last row
+  const rows=$('notes-body').querySelectorAll('tr');
+  if(rows.length>0){const inp=rows[rows.length-1].querySelector('input[type=text]');if(inp)setTimeout(()=>inp.focus(),50);}
 }
 
 function updateNotesSummary(){
   const t=T(),notes=(allData[ck()]||{}).notes||[];
   const total=notes.reduce((s,n)=>s+Number(n.amount||0),0);
-  const cats={};
-  notes.forEach(n=>{const ci=n.catIdx!==undefined?n.catIdx:4;const cl=t.cats[ci]||t.cats[4];cats[cl]=(cats[cl]||0)+Number(n.amount||0);});
-  const el=document.getElementById('notes-summary');if(!el)return;
+  const byExpLbl={};
+  notes.forEach(n=>{
+    const ci=n.catIdx!==undefined?n.catIdx:4;
+    const lbl=t.expLabel[ci]||t.expLabel[4];
+    byExpLbl[lbl]=(byExpLbl[lbl]||0)+Number(n.amount||0);
+  });
+  const el=$('notes-summary');if(!el)return;
   el.innerHTML=`
     <div style="margin-bottom:11px;">
       <div style="font-size:10px;color:var(--light);margin-bottom:2px;">${t.notes_sum}</div>
       <div style="font-size:22px;font-weight:800;font-family:'DM Mono',monospace;">${fmt(total)} <span style="font-size:10px;color:var(--light);">${currency}</span></div>
     </div>
-    ${Object.entries(cats).map(([k,v],i)=>`
+    ${Object.entries(byExpLbl).map(([k,v],i)=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);">
-      <span class="cat-pill cp${i<=4?i:4}">${k}</span>
+      <span class="cat-pill cp${Math.min(i,4)}">${k}</span>
       <span style="font-family:'DM Mono',monospace;font-size:11px;font-weight:600;">${fmt(v)} ${currency}</span>
     </div>`).join('')}
-    <div style="margin-top:10px;padding-top:8px;border-top:2px solid var(--mint);display:flex;justify-content:space-between;">
+    <div style="margin-top:9px;padding-top:7px;border-top:2px solid var(--mint);display:flex;justify-content:space-between;">
       <span style="font-size:11px;font-weight:700;color:var(--mid);">Total</span>
       <span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:800;color:var(--dark);">${fmt(total)} ${currency}</span>
     </div>`;
 }
 function updateNotesChart(){
-  const t=T(),notes=(allData[ck()]||{}).notes||[],cats={};
-  notes.forEach(n=>{const ci=n.catIdx!==undefined?n.catIdx:4;const cl=t.cats[ci]||t.cats[4];cats[cl]=(cats[cl]||0)+Number(n.amount||0);});
-  if(chartNotes&&Object.keys(cats).length>0){
-    chartNotes.data.labels=Object.keys(cats);
-    chartNotes.data.datasets[0].data=Object.values(cats);
-    chartNotes.update();
+  const t=T(),notes=(allData[ck()]||{}).notes||[];
+  const byLbl={};
+  notes.forEach(n=>{const ci=n.catIdx!==undefined?n.catIdx:4;const lbl=t.cats[ci]||t.cats[4];byLbl[lbl]=(byLbl[lbl]||0)+Number(n.amount||0);});
+  if(chartNotes){
+    const keys=Object.keys(byLbl),vals=Object.values(byLbl);
+    if(keys.length>0){chartNotes.data.labels=keys;chartNotes.data.datasets[0].data=vals;chartNotes.data.datasets[0].backgroundColor=keys.map((_,i)=>CAT_COLORS[i%5]);chartNotes.update();}
   }
 }
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // MONTHLY TABLE
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 function getMV(key,mi){
   const d=allData[mkey(curYear,mi)];if(!d||!d[key])return 0;
   let v=d[key].reduce((s,x)=>s+Number(x.act||0),0);
-  // Add notes total to expenses
   if(key==='expenses'&&d.notes){v+=d.notes.reduce((s,n)=>s+Number(n.amount||0),0);}
   return v;
 }
 function buildMonthlyHead(){
   const t=T();
-  document.getElementById('monthly-head').innerHTML=`<tr><th>${t.monthly_title.slice(0,8)}</th>${t.months.map(m=>`<th>${m.slice(0,3)}</th>`).join('')}<th>${t.monthly_total}</th></tr>`;
+  $('monthly-head').innerHTML=`<tr><th></th>${t.months.map(m=>`<th>${m.slice(0,3)}</th>`).join('')}<th>${t.monthly_total}</th></tr>`;
 }
 function buildMonthlyTable(){
   buildMonthlyHead();
-  const t=T(),tb=document.getElementById('monthly-body');if(!tb)return;tb.innerHTML='';
-  const rows=[{key:'income',lbl:t.k_income,cls:'ri'},{key:'bills',lbl:t.k_bills,cls:'rb'},{key:'expenses',lbl:t.k_expenses,cls:'re'},{key:'savings',lbl:t.k_savings,cls:'rs'},{key:'debts',lbl:t.k_debts,cls:'rd'}];
+  const t=T(),tb=$('monthly-body');if(!tb)return;tb.innerHTML='';
+  const rows=[{key:'income',lbl:t.k_income,cls:'ri'},{key:'bills',lbl:t.k_bills,cls:'rb'},
+              {key:'expenses',lbl:t.k_expenses,cls:'re'},{key:'savings',lbl:t.k_savings,cls:'rs'},{key:'debts',lbl:t.k_debts,cls:'rd'}];
   rows.forEach(rd=>{
-    const tr=document.createElement('tr');tr.className=rd.cls;let h=`<td class="rl">${rd.lbl}</td>`;let tot=0;
+    const tr=document.createElement('tr');tr.className=rd.cls;
+    let h=`<td class="rl">${rd.lbl}</td>`;let tot=0;
     for(let mi=0;mi<12;mi++){const v=getMV(rd.key,mi);tot+=v;h+=`<td style="${mi===curMonth?'background:var(--mint-ll);font-weight:700;':''}">${v?fmt(v):'—'}</td>`;}
     h+=`<td style="font-weight:700;">${tot?fmt(tot):'—'}</td>`;tr.innerHTML=h;tb.appendChild(tr);
   });
-  const rt=document.createElement('tr');rt.className='rr';let rh=`<td class="rl">${t.monthly_remain}</td>`;let rs=0;
+  const rt=document.createElement('tr');rt.className='rr';
+  let rh=`<td class="rl">${t.monthly_remain}</td>`;let rs=0;
   for(let mi=0;mi<12;mi++){
     const inc=getMV('income',mi),rem=inc-getMV('bills',mi)-getMV('expenses',mi)-getMV('savings',mi)-getMV('debts',mi);
     rs+=rem;rh+=`<td style="${mi===curMonth?'background:var(--mint-ll);':''}font-weight:700;color:${rem<0?'#E8A598':'var(--mint)'};">${inc?fmt(rem):'—'}</td>`;
@@ -931,37 +1014,62 @@ function syncMonthlyLine(){
   chartLine.update('none');
 }
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// BACKUP
+// ══════════════════════════════════════════════
+function exportJSON(){
+  saveData();
+  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.1',owner:'BELMOUFADAL Abderrahim'};
+  const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download=`smart-flousi-${T().months[curMonth]}-${curYear}.json`;a.click();
+  showToast(T().toast_save);
+}
+function importJSON(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);if(!d.allData)throw 0;
+      if(confirm(T().import_confirm)){
+        allData=d.allData;currency=d.currency||currency;curYear=d.curYear||curYear;
+        curMonth=d.curMonth!==undefined?d.curMonth:curMonth;if(d.lang){lang=d.lang;}
+        persistData();$('currencySelect').value=currency;setLang(lang);renderAll();buildMonthlyTable();syncCur();
+        closeModal('backupModal');showToast(T().toast_import);
+      }
+    }catch(e){alert('❌ Invalid file');}
+  };
+  r.readAsText(f);input.value='';
+}
+
+// ══════════════════════════════════════════════
 // CHARTS
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
 let chartDonut,chartBar,chartHero,chartNotes,chartLine;
 function initCharts(){
   Chart.defaults.font.family='Tajawal';
-  chartHero=new Chart(document.getElementById('heroDonut'),{type:'doughnut',data:{labels:['',''],datasets:[{data:[1,0],backgroundColor:['#7EC8B0','rgba(255,255,255,.15)'],borderWidth:0}]},options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:true,maintainAspectRatio:true}});
-  chartDonut=new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{labels:['','','',''],datasets:[{data:[0,0,0,0],backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}});
-  chartBar=new Chart(document.getElementById('barChart'),{type:'bar',data:{labels:['','','',''],datasets:[{label:'Actual',data:[0,0,0,0],backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderRadius:4,borderSkipped:false},{label:'Planned',data:[0,0,0,0],backgroundColor:'rgba(0,0,0,.06)',borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}},responsive:true,maintainAspectRatio:true}});
-  chartNotes=new Chart(document.getElementById('notesDonut'),{type:'doughnut',data:{labels:[''],datasets:[{data:[1],backgroundColor:['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#8DB4CF'],borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'50%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}});
-  chartLine=new Chart(document.getElementById('monthlyLine'),{type:'line',data:{labels:T().months,datasets:[{label:'Income',data:Array(12).fill(0),borderColor:COLORS.income,backgroundColor:'rgba(168,197,160,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.income},{label:'Expenses',data:Array(12).fill(0),borderColor:COLORS.expenses,backgroundColor:'rgba(181,168,212,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.expenses}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:10}}}},responsive:true,maintainAspectRatio:false}});
+  chartHero=new Chart($('heroDonut'),{type:'doughnut',data:{labels:['',''],datasets:[{data:[1,0],backgroundColor:['#7EC8B0','rgba(255,255,255,.15)'],borderWidth:0}]},options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:true,maintainAspectRatio:true}});
+  chartDonut=new Chart($('donutChart'),{type:'doughnut',data:{labels:['','','',''],datasets:[{data:[0,0,0,0],backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}});
+  chartBar=new Chart($('barChart'),{type:'bar',data:{labels:['','','',''],datasets:[{label:'Actual',data:[0,0,0,0],backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderRadius:4,borderSkipped:false},{label:'Planned',data:[0,0,0,0],backgroundColor:'rgba(0,0,0,.06)',borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}},responsive:true,maintainAspectRatio:true}});
+  chartNotes=new Chart($('notesDonut'),{type:'doughnut',data:{labels:[''],datasets:[{data:[1],backgroundColor:CAT_COLORS,borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'50%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}});
+  chartLine=new Chart($('monthlyLine'),{type:'line',data:{labels:T().months,datasets:[{label:'Income',data:Array(12).fill(0),borderColor:COLORS.income,backgroundColor:'rgba(168,197,160,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.income},{label:'Expenses',data:Array(12).fill(0),borderColor:COLORS.expenses,backgroundColor:'rgba(181,168,212,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.expenses}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:10}}}},responsive:true,maintainAspectRatio:false}});
 }
 
-// ════════════════════════════════════════════
-// UI HELPERS
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// UI
+// ══════════════════════════════════════════════
 function showTab(name,el){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');el.classList.add('active');
+  $('tab-'+name).classList.add('active');el.classList.add('active');
   if(name==='monthly')buildMonthlyTable();
 }
-function changeCurrency(val){currency=val;syncCur();saveData();}
-function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=currency;});const h=document.getElementById('hero-cur');if(h)h.textContent=currency;}
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function changeCurrency(val){currency=val;syncCur();persistData();}
+function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=$(id);if(e)e.textContent=currency;});const h=$('hero-cur');if(h)h.textContent=currency;}
+function openModal(id){$(id).classList.add('open');}
+function closeModal(id){$(id).classList.remove('open');}
+function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
-// ════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',()=>{initCharts();initPIN();});
 </script>
 </body>
