@@ -1916,21 +1916,21 @@ async function fbSignIn(){
 
 async function fbSignOut(){
   if(_unsubscribe){_unsubscribe();_unsubscribe=null;}
-  _fbUid=null;
-  _appReady=false;
-  allData={};
+  _fbUid=null; _appReady=false; allData={};
   try{await window._fbSignOut();}catch(e){}
-  // Directly show landing — no reload needed
+  // Hide app
   ['.header','.nav-tabs','.footer'].forEach(s=>{
     const el=document.querySelector(s);if(el)el.style.display='none';
   });
   document.querySelectorAll('.tab-panel').forEach(p=>{
-    p.style.display='none';p.classList.remove('active');
+    p.style.display='none'; p.classList.remove('active');
   });
-  $('landing-page').style.display='block';
-  $('pin-screen').classList.add('hidden');
+  // Reset auth UI
   const si=$('auth-signed-in'); if(si)si.style.display='none';
   const so=$('auth-signed-out'); if(so)so.style.display='';
+  // Show landing
+  $('landing-page').style.display='block';
+  $('pin-screen').classList.add('hidden');
   setSyncStatus('off');
   showToast(T().toast_signout||'👋');
 }
@@ -2000,26 +2000,37 @@ function showAppAfterAuth(user){
   if(_appReady) return; // prevent multiple calls
   _appReady=true;
   window._pendingUser=null;
-  // Show all app elements — clear ALL inline display:none
+
+  // ── Toggle auth UI ──
+  const so=$('auth-signed-out'); if(so)so.style.display='none';
+  const si=$('auth-signed-in'); if(si)si.style.display='flex';
+  // Set avatar and user info
+  const av=$('auth-avatar');
+  if(av&&user.photoURL)av.src=user.photoURL;
+  else if(av)av.src='https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=7EC8B0&color=fff';
+  const udAv=$('ud-avatar');
+  if(udAv&&user.photoURL)udAv.src=user.photoURL;
+  const udNm=$('ud-name'); if(udNm)udNm.textContent=user.displayName||'';
+  const udEm=$('ud-email'); if(udEm)udEm.textContent=user.email||'';
+
+  // ── Show app ──
+  $('landing-page').style.display='none';
+  $('pin-screen').classList.add('hidden');
   const hdr=document.querySelector('.header');
   const nav=document.querySelector('.nav-tabs');
   const ftr=document.querySelector('.footer');
   if(hdr)hdr.style.display='';
   if(nav)nav.style.display='';
   if(ftr)ftr.style.display='';
-  // Clear display:none from ALL tab panels
   document.querySelectorAll('.tab-panel').forEach(p=>{
-    p.style.display='';
-    p.classList.remove('active');
+    p.style.display=''; p.classList.remove('active');
   });
-  // Activate dashboard tab
   const dash=$('tab-dashboard');
-  if(dash){dash.classList.add('active');}
+  if(dash)dash.classList.add('active');
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   const firstTab=document.querySelector('.nav-tab');
   if(firstTab)firstTab.classList.add('active');
-  $('pin-screen').classList.add('hidden');
-  $('landing-page').style.display='none';
+
   setSyncStatus('sync');
   fbLoadFromCloud(user.uid);
   showToast('👋 '+(user.displayName||user.email));
