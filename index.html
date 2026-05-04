@@ -1364,55 +1364,58 @@ function getNotesTotalsByExpLabel(){
 }
 
 function renderNotesInExpenses(){
-  // Notes amounts are shown DIRECTLY in the act column of matching expense rows
-  // No separate rows — just update the displayed value with a tooltip badge
   const totals=getNotesTotalsByExpLabel();
   const tb=$('expenses-body');
   if(!tb)return;
 
-  // For each data-row in expenses, check if its label matches a notes category
+  // Remove old badges and note-rows
+  tb.querySelectorAll('.notes-contrib').forEach(b=>b.remove());
+  tb.querySelectorAll('tr.note-row').forEach(r=>r.remove());
+
+  const existingLabels=new Set();
+
+  // For each expense row — if notes match, show combined total in RED in act column
   tb.querySelectorAll('tr.data-row').forEach(tr=>{
     const inputs=tr.querySelectorAll('input');
     if(inputs.length<2)return;
     const rowLabel=inputs[0].value.trim();
+    existingLabels.add(rowLabel);
     const rowAct=Number(inputs[1].value)||0;
 
-    // Find matching notes total (case-insensitive)
     let notesAmt=0;
     Object.entries(totals).forEach(([lbl,amt])=>{
       if(lbl.trim()===rowLabel)notesAmt+=amt;
     });
 
-    // Show combined value: data act + notes
-    const combined=rowAct+notesAmt;
-    const actTd=inputs[1].closest('td');
-    // Remove old badge if any
-    actTd.querySelectorAll('.notes-contrib').forEach(b=>b.remove());
+    const actInput=inputs[1];
+    // Remove old display span
+    const oldSpan=actInput.parentNode.querySelector('.notes-total-display');
+    if(oldSpan)oldSpan.remove();
+
     if(notesAmt>0){
-      // Display combined total visually next to the input
-      const badge=document.createElement('span');
-      badge.className='notes-contrib';
-      badge.title='من دفتر الملاحظات: '+fmt(notesAmt);
-      badge.style.cssText='margin-right:4px;font-size:9px;color:var(--mint);font-weight:700;white-space:nowrap;font-family:"DM Mono",monospace;';
-      badge.textContent='(+'+fmt(notesAmt)+')';
-      actTd.appendChild(badge);
+      const combined=rowAct+notesAmt;
+      // Hide the input, show a red combined total
+      actInput.style.display='none';
+      const span=document.createElement('span');
+      span.className='notes-total-display';
+      span.style.cssText='font-family:"DM Mono",monospace;font-size:12px;font-weight:800;color:#E8A598;cursor:default;';
+      span.title='يشمل '+fmt(notesAmt)+' من دفتر الملاحظات';
+      span.textContent=fmt(combined);
+      actInput.parentNode.insertBefore(span, actInput);
+    } else {
+      // No notes — show input normally
+      actInput.style.display='';
     }
   });
 
-  // Also add rows for notes categories NOT in expenses table
-  // Remove old orphan rows first
-  tb.querySelectorAll('tr.note-row').forEach(r=>r.remove());
-  const existingLabels=new Set();
-  tb.querySelectorAll('tr.data-row input[type=text]').forEach(i=>existingLabels.add(i.value.trim()));
-  const t=T();
+  // Orphan notes (category not in expenses table) → add as red read-only row
   Object.entries(totals).forEach(([lbl,total])=>{
     if(total===0||existingLabels.has(lbl))return;
-    // Category not in expenses table → show as read-only row
     const tr=document.createElement('tr');
     tr.className='note-row';
     tr.innerHTML=`
-      <td class="lc" style="color:var(--mid);font-size:10px;">📝 ${lbl}</td>
-      <td class="ac" style="color:var(--mint);font-weight:700;">${fmt(total)}</td>
+      <td class="lc" style="font-size:11px;">📝 ${lbl}</td>
+      <td class="ac" style="color:#E8A598;font-weight:800;font-family:'DM Mono',monospace;font-size:12px;">${fmt(total)}</td>
       <td class="pc" style="color:var(--light);">—</td>`;
     tb.appendChild(tr);
   });
