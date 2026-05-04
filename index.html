@@ -244,6 +244,111 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </head>
 <body>
 
+<!-- ══════════ LANDING PAGE (shown when not logged in) ══════════ -->
+<div id="landing-page" style="display:none;">
+  <div style="min-height:100vh;background:linear-gradient(160deg,#1a1f30 0%,#2D3142 50%,#1a2a20 100%);display:flex;flex-direction:column;">
+
+    <!-- Landing Header -->
+    <div style="padding:20px 32px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:38px;height:38px;background:linear-gradient(135deg,#7EC8B0,#A8C5A0);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;">💰</div>
+        <div>
+          <div style="font-size:20px;font-weight:800;color:#fff;">Smart Flousi</div>
+          <div style="font-size:10px;color:#7EC8B0;">لوحة تتبع الميزانية</div>
+        </div>
+      </div>
+      <button onclick="fbSignIn()" style="background:#7EC8B0;border:none;border-radius:10px;padding:10px 22px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;color:#2D3142;cursor:pointer;">
+        🔑 <span id="lnd-signin">تسجيل الدخول</span>
+      </button>
+    </div>
+
+    <!-- Hero Section -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;">
+      <div style="font-size:64px;margin-bottom:16px;animation:float 3s ease-in-out infinite;">💰</div>
+      <h1 style="font-size:clamp(28px,5vw,52px);font-weight:800;color:#fff;margin-bottom:12px;line-height:1.2;">
+        كل فلوسك قدامك<br><span style="color:#7EC8B0;">وفبلاصة وحدة</span>
+      </h1>
+      <p style="font-size:clamp(13px,2vw,16px);color:rgba(255,255,255,.5);max-width:500px;line-height:1.7;margin-bottom:36px;">
+        تطبيق مجاني لتتبع ميزانيتك الشهرية — بدون خادم، بياناتك محفوظة في حسابك
+      </p>
+      <button onclick="fbSignIn()" style="background:linear-gradient(135deg,#7EC8B0,#A8C5A0);border:none;border-radius:14px;padding:16px 40px;font-family:'Tajawal',sans-serif;font-size:18px;font-weight:800;color:#2D3142;cursor:pointer;box-shadow:0 8px 32px rgba(126,200,176,.4);transition:transform .2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        🚀 ابدأ مجاناً مع Google
+      </button>
+      <p style="font-size:11px;color:rgba(255,255,255,.25);margin-top:12px;">لا حاجة لبطاقة بنكية • مجاني 100%</p>
+    </div>
+
+    <!-- Features Grid -->
+    <div style="padding:0 24px 60px;max-width:900px;margin:0 auto;width:100%;">
+      <h2 style="text-align:center;color:rgba(255,255,255,.7);font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;">المميزات</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;text-align:center;">
+          <div style="font-size:32px;margin-bottom:12px;">📊</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">لوحة الميزانية</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;">تتبع الدخل والفواتير والمصاريف والتوفير في مكان واحد</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;text-align:center;">
+          <div style="font-size:32px;margin-bottom:12px;">☁️</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">مزامنة تلقائية</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;">بياناتك متزامنة بين الهاتف والكمبيوتر في الوقت الفعلي</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;text-align:center;">
+          <div style="font-size:32px;margin-bottom:12px;">📝</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">دفتر الملاحظات</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;">سجل أي مصروف ويتجمع تلقائياً مع المصاريف الشهرية</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;text-align:center;">
+          <div style="font-size:32px;margin-bottom:12px;">🌍</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">5 لغات</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;">عربي • دارجة • Français • English • Español</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;text-align:center;">
+          <div style="font-size:32px;margin-bottom:12px;">📅</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">مقارنة شهرية</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;">تتبع تطور ميزانيتك عبر 12 شهر مع رسوم بيانية</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;text-align:center;">
+          <div style="font-size:32px;margin-bottom:12px;">🔐</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">حماية بـ PIN</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;">رمز PIN يحمي تطبيقك عند الفتح على جهازك</div>
+        </div>
+
+      </div>
+
+      <!-- Stats Row -->
+      <div style="display:flex;justify-content:center;gap:40px;margin-top:48px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:32px;font-weight:800;color:#7EC8B0;">100%</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.35);">مجاني</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px;font-weight:800;color:#7EC8B0;">5</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.35);">لغات</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px;font-weight:800;color:#7EC8B0;">☁️</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.35);">سحاب آمن</div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="text-align:center;margin-top:48px;color:rgba(255,255,255,.2);font-size:11px;line-height:2;">
+        <div>Créé par <span style="color:#7EC8B0;font-weight:700;">BELMOUFADAL Abderrahim</span> — Smart Flousi v3.1</div>
+        <div>كل فلوسك قدامك 💚</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+</style>
+
 <div id="pin-screen">
   <div class="pin-lang-row">
     <button class="plb" onclick="setLang('ar')">عربي</button>
@@ -346,7 +451,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
 </div>
 
-<header class="header">
+<header class="header" style="display:none;">
   <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">Smart Flousi</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved"></span></div></div></div>
   <div class="header-right">
     <div class="month-nav">
@@ -376,13 +481,13 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
 </header>
 
-<nav class="nav-tabs">
+<nav class="nav-tabs" style="display:none;">
   <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
   <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
   <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
 </nav>
 
-<div id="tab-dashboard" class="tab-panel active"><div class="main">
+<div id="tab-dashboard" class="tab-panel active" style="display:none;"><div class="main">
   <div class="kpi-grid">
     <div class="kpi-card income"><div class="kpi-icon">💵</div><div class="kpi-label" id="kl-income"></div><div class="kpi-value"><span class="kpi-cur" id="c1">درهم</span><span id="v-income">0</span></div><div class="kpi-progress"><div class="kpi-bar" style="width:100%"></div></div><div class="kpi-pct" id="p-income">100%</div></div>
     <div class="kpi-card bills"><div class="kpi-icon">🧾</div><div class="kpi-label" id="kl-bills"></div><div class="kpi-value"><span class="kpi-cur" id="c2">درهم</span><span id="v-bills">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-bills" style="width:0%"></div></div><div class="kpi-pct" id="p-bills">0%</div></div>
@@ -435,7 +540,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-monthly-chart"></span></div></div><div class="chart-wrap" style="height:230px;"><canvas id="monthlyLine"></canvas></div></div>
 </div></div>
 
-<footer class="footer">
+<footer class="footer" style="display:none;">
   <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Smart Flousi v3.1</div>
   <div id="t-footer"></div>
 </footer>
@@ -758,9 +863,18 @@ function handlePin(){
 }
 function unlockApp(){
   $('pin-screen').classList.add('hidden');
+  $('landing-page').style.display='none';
+  // Show app
+  const h=document.querySelector('.header');
+  const n=document.querySelector('.nav-tabs');
+  const f=document.querySelector('.footer');
+  const d=$('tab-dashboard');
+  if(h)h.style.display='';
+  if(n)n.style.display='';
+  if(f)f.style.display='';
+  if(d)d.style.display='';
   loadData();
   $('currencySelect').value=currency;
-  initCharts();
   setLang(lang);
   renderAll();
   buildMonthlyTable();
@@ -1400,10 +1514,7 @@ async function fbSignOut(){
   if(_unsubscribe){_unsubscribe();_unsubscribe=null;}
   _fbUid=null;
   await window._fbSignOut();
-  $('auth-signed-in').style.display='none';
-  $('auth-signed-out').style.display='';
-  setSyncStatus('off');
-  showToast(T().toast_signout||'👋 تم تسجيل الخروج');
+  // onFbAuthChange(null) will handle showing landing + hiding app
 }
 
 async function fbSaveToCloud(){
@@ -1463,9 +1574,16 @@ async function fbLoadFromCloud(uid){
 // Auth state change handler
 window.onFbAuthChange = function(user){
   if(user){
+    // USER SIGNED IN — hide landing, show app
     _fbUid = user.uid;
+    $('landing-page').style.display='none';
     $('auth-signed-out').style.display='none';
     $('auth-signed-in').style.display='flex';
+    // Show app elements
+    document.querySelector('.header').style.display='';
+    document.querySelector('.nav-tabs').style.display='';
+    document.querySelector('.footer').style.display='';
+    document.querySelector('#tab-dashboard').style.display='';
     const av=$('auth-avatar');
     if(av&&user.photoURL)av.src=user.photoURL;
     const nm=$('auth-name');
@@ -1473,10 +1591,34 @@ window.onFbAuthChange = function(user){
     setSyncStatus('sync');
     fbLoadFromCloud(user.uid);
     showToast('👋 '+(user.displayName||user.email));
+  } else {
+    // USER SIGNED OUT — show landing, hide app
+    _fbUid = null;
+    $('landing-page').style.display='block';
+    const h=document.querySelector('.header');
+    const n=document.querySelector('.nav-tabs');
+    const f=document.querySelector('.footer');
+    if(h)h.style.display='none';
+    if(n)n.style.display='none';
+    if(f)f.style.display='none';
+    document.querySelectorAll('.tab-panel').forEach(p=>p.style.display='none');
+    setSyncStatus('off');
   }
 };
 
-document.addEventListener('DOMContentLoaded',()=>{initCharts();initPIN();});
+document.addEventListener('DOMContentLoaded',()=>{
+  // Show landing until Firebase auth resolves
+  $('landing-page').style.display='block';
+  initCharts();
+  // Don't show PIN screen until auth known
+  // Firebase onAuthStateChanged will handle routing
+  // Fallback: if Firebase not loaded in 3s, allow PIN login
+  setTimeout(()=>{
+    if(!window._fbAuth && $('pin-screen').classList.contains('hidden')===false){
+      initPIN();
+    }
+  },3000);
+});
 </script>
 </body>
 </html>
