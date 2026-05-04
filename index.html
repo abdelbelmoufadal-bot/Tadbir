@@ -1149,15 +1149,20 @@ function unlockApp(){
     showAppAfterAuth(window._pendingUser);
     return;
   }
-  // Show app elements
+  // Show app elements + clear ALL inline display:none
   const h=document.querySelector('.header');
   const n=document.querySelector('.nav-tabs');
   const f=document.querySelector('.footer');
-  const d=$('tab-dashboard');
   if(h)h.style.display='';
   if(n)n.style.display='';
   if(f)f.style.display='';
-  if(d){d.style.display='';d.classList.add('active');}
+  // Clear display:none from all tab panels
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.style.display='';
+    p.classList.remove('active');
+  });
+  const d=$('tab-dashboard');
+  if(d)d.classList.add('active');
   loadData();
   $('currencySelect').value=currency;
   setLang(lang);
@@ -1862,10 +1867,16 @@ function initCharts(){
 // UI
 // ══════════════════════════════════════════════
 function showTab(name,el){
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.classList.remove('active');
+    p.style.display=''; // clear inline style so CSS class controls visibility
+  });
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  $('tab-'+name).classList.add('active');el.classList.add('active');
+  const panel=$('tab-'+name);
+  if(panel){panel.classList.add('active');panel.style.display='';}
+  el.classList.add('active');
   if(name==='monthly')buildMonthlyTable();
+  if(name==='notes')renderNotes();
 }
 function changeCurrency(val){currency=val;syncCur();persistData();}
 function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=$(id);if(e)e.textContent=currency;});const h=$('hero-cur');if(h)h.textContent=currency;}
@@ -1965,15 +1976,24 @@ function showAppAfterAuth(user){
   if(!user && window._pendingUser) user=window._pendingUser;
   if(!user) return;
   window._pendingUser=null;
-  // Show all app elements
+  // Show all app elements — clear ALL inline display:none
   const hdr=document.querySelector('.header');
   const nav=document.querySelector('.nav-tabs');
   const ftr=document.querySelector('.footer');
-  const dash=$('tab-dashboard');
   if(hdr)hdr.style.display='';
   if(nav)nav.style.display='';
   if(ftr)ftr.style.display='';
-  if(dash){dash.style.display='';dash.classList.add('active');}
+  // Clear display:none from ALL tab panels
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.style.display='';
+    p.classList.remove('active');
+  });
+  // Activate dashboard tab
+  const dash=$('tab-dashboard');
+  if(dash){dash.classList.add('active');}
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const firstTab=document.querySelector('.nav-tab');
+  if(firstTab)firstTab.classList.add('active');
   $('pin-screen').classList.add('hidden');
   $('landing-page').style.display='none';
   setSyncStatus('sync');
