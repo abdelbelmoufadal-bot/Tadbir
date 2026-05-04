@@ -267,6 +267,16 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
       <button class="backup-btn" onclick="startChangePIN()" style="margin-top:9px;"><span class="bicon">🔑</span><div class="btxt"><span id="t-pin-ch"></span><span id="t-pin-chs"></span></div></button>
     </div>
     <div class="last-backup" id="last-backup-info"></div>
+    <div class="backup-section" style="margin-top:4px;">
+      <h3 id="t-reset-h">🔄 إعادة تعيين</h3>
+      <button class="backup-btn" onclick="resetDefaults()" style="border-color:var(--mint);">
+        <span class="bicon">🔧</span>
+        <div class="btxt">
+          <span id="t-reset-btn">إضافة البيانات الافتراضية الناقصة</span>
+          <span id="t-reset-sub">يضيف فقط ما ينقص — لا يمسح بياناتك</span>
+        </div>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -401,7 +411,8 @@ const LANGS={
     footer:'كل فلوسك قدامك 💚 — البيانات محفوظة في متصفحك',
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
-    toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل'
+    toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
+    reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية'
   },
   dar:{dir:'rtl',
     months:['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
@@ -431,7 +442,8 @@ const LANGS={
     footer:'كل فلوسك قدامك 💚 — البيانات محفوظة فمتصفحك',
     import_confirm:'هاد العملية غادي تبدل البيانات. واش متأكد؟',
     toast_add:'تزاد ✓',toast_save:'✅ تحمل ملف الحفظ',toast_import:'✅ استوردات البيانات',
-    toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',from_of:'من'
+    toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',from_of:'من',
+    reset_h:'🔄 إعادة تعيين',reset_btn:'زيد البيانات الافتراضية اللي ناقصة',reset_sub:'كيزيد غير اللي ناقص — ما يمسحش شي',toast_reset:'✅ تزادو البيانات الافتراضية'
   },
   fr:{dir:'ltr',
     months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -461,7 +473,8 @@ const LANGS={
     footer:"Toutes vos finances en un coup d'œil 💚",
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
-    toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur'
+    toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
+    reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées'
   },
   en:{dir:'ltr',
     months:['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -491,7 +504,8 @@ const LANGS={
     footer:'All your finances at a glance 💚',
     import_confirm:'This will replace your data. Are you sure?',
     toast_add:'Added ✓',toast_save:'✅ File downloaded',toast_import:'✅ Data imported',
-    toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',from_of:'of'
+    toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',from_of:'of',
+    reset_h:'🔄 Reset',reset_btn:'Add missing default data',reset_sub:'Only adds what is missing — keeps your data',toast_reset:'✅ Default data added'
   },
   es:{dir:'ltr',
     months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
@@ -521,7 +535,8 @@ const LANGS={
     footer:'Todas tus finanzas de un vistazo 💚',
     import_confirm:'Esto reemplazará tus datos. ¿Estás seguro?',
     toast_add:'Añadido ✓',toast_save:'✅ Archivo descargado',toast_import:'✅ Datos importados',
-    toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',from_of:'de'
+    toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',from_of:'de',
+    reset_h:'🔄 Restablecer',reset_btn:'Añadir datos por defecto faltantes',reset_sub:'Solo añade lo que falta — no borra nada',toast_reset:'✅ Datos por defecto añadidos'
   }
 };
 
@@ -630,6 +645,7 @@ function setLang(l){
   set('nt-amount',t.nt_amount); set('nt-cur',t.nt_cur); set('add-note-btn',t.add_note);
   set('t-monthly-title',t.monthly_title); set('t-monthly-chart',t.monthly_chart);
   set('t-footer',t.footer);
+  if(t.reset_h){set('t-reset-h',t.reset_h);set('t-reset-btn',t.reset_btn);set('t-reset-sub',t.reset_sub);}
   document.querySelectorAll('.mini-table input[type=text]').forEach(i=>i.style.textAlign=isRTL?'right':'left');
   updateMonthLabel();
   buildMonthlyHead();
@@ -728,6 +744,34 @@ function loadData(){
     allData[mk]=defMonth();
   }
   if(!allData[mk].notes)allData[mk].notes=[];
+}
+
+function resetDefaults(){
+  // Merge default data into current month WITHOUT overwriting existing data
+  const mk=ck();
+  if(!allData[mk])allData[mk]={bills:[],expenses:[],savings:[],debts:[],income:[],notes:[]};
+  const d=allData[mk];
+  const def=defMonth();
+
+  // For each section: add items from defaults that don't already exist (by label)
+  ['bills','expenses','savings','debts','income'].forEach(sec=>{
+    if(!d[sec])d[sec]=[];
+    const existingLabels=new Set(d[sec].map(r=>(r.label||'').trim().toLowerCase()));
+    def[sec].forEach(defRow=>{
+      const lbl=(defRow.label||'').trim().toLowerCase();
+      if(!existingLabels.has(lbl)){
+        // Add missing default row (act=0, keep default pln)
+        d[sec].push({label:defRow.label, act:0, pln:defRow.pln});
+        existingLabels.add(lbl);
+      }
+    });
+  });
+
+  allData[mk]=d;
+  renderAll();
+  persistData();
+  closeModal('backupModal');
+  showToast(T().toast_reset||'✅ Done');
 }
 
 function persistData(){
