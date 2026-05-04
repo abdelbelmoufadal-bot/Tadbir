@@ -412,6 +412,7 @@ const LANGS={
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
     toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
+    custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية'
   },
   dar:{dir:'rtl',
@@ -443,6 +444,7 @@ const LANGS={
     import_confirm:'هاد العملية غادي تبدل البيانات. واش متأكد؟',
     toast_add:'تزاد ✓',toast_save:'✅ تحمل ملف الحفظ',toast_import:'✅ استوردات البيانات',
     toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',from_of:'من',
+    custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'زيد البيانات الافتراضية اللي ناقصة',reset_sub:'كيزيد غير اللي ناقص — ما يمسحش شي',toast_reset:'✅ تزادو البيانات الافتراضية'
   },
   fr:{dir:'ltr',
@@ -474,6 +476,7 @@ const LANGS={
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
     toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
+    custom_cat:'✏️ Nouvelle catégorie...',
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées'
   },
   en:{dir:'ltr',
@@ -505,6 +508,7 @@ const LANGS={
     import_confirm:'This will replace your data. Are you sure?',
     toast_add:'Added ✓',toast_save:'✅ File downloaded',toast_import:'✅ Data imported',
     toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',from_of:'of',
+    custom_cat:'✏️ New category...',
     reset_h:'🔄 Reset',reset_btn:'Add missing default data',reset_sub:'Only adds what is missing — keeps your data',toast_reset:'✅ Default data added'
   },
   es:{dir:'ltr',
@@ -536,6 +540,7 @@ const LANGS={
     import_confirm:'Esto reemplazará tus datos. ¿Estás seguro?',
     toast_add:'Añadido ✓',toast_save:'✅ Archivo descargado',toast_import:'✅ Datos importados',
     toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',from_of:'de',
+    custom_cat:'✏️ Nueva categoría...',
     reset_h:'🔄 Restablecer',reset_btn:'Añadir datos por defecto faltantes',reset_sub:'Solo añade lo que falta — no borra nada',toast_reset:'✅ Datos por defecto añadidos'
   }
 };
@@ -846,11 +851,10 @@ function deleteRow(sec,idx){
 // ══════════════════════════════════════════════
 function getNotesTotalsByExpLabel(){
   const notes=(allData[ck()]||{}).notes||[];
-  const totals={}; // expLabel → total
-  const t=T();
+  const totals={};
   notes.forEach(n=>{
-    const ci=n.catIdx!==undefined?n.catIdx:4;
-    const expLbl=t.expLabel[ci]||t.expLabel[4];
+    const catStr=getNoteCat(n);
+    const expLbl=catToExpLabel(catStr);
     totals[expLbl]=(totals[expLbl]||0)+Number(n.amount||0);
   });
   return totals;
@@ -1059,16 +1063,49 @@ function confirmNewMonth(){
 // ══════════════════════════════════════════════
 // NOTES
 // ══════════════════════════════════════════════
+// Get cat label string from a note (supports both old catIdx and new cat string)
+function getNoteCat(n){
+  const t=T();
+  if(n.cat&&typeof n.cat==='string'&&n.cat.trim())return n.cat.trim();
+  const ci=n.catIdx!==undefined?n.catIdx:4;
+  return t.cats[ci]||t.cats[4];
+}
+
+// Get expLabel from a cat string
+function catToExpLabel(catStr){
+  const t=T();
+  const idx=t.cats.findIndex(c=>c===catStr);
+  if(idx>=0)return t.expLabel[idx];
+  return catStr; // custom category → use as-is
+}
+
 function renderNotes(){
   const t=T(),notes=(allData[ck()]||{}).notes||[];
   const tb=$('notes-body');if(!tb)return;tb.innerHTML='';
+  const CUSTOM_OPT='__custom__';
   notes.forEach((n,i)=>{
-    const ci=n.catIdx!==undefined?n.catIdx:4;
+    const currentCat=getNoteCat(n);
+    const isCustom=!t.cats.includes(currentCat);
     const tr=document.createElement('tr');
+    // Build select options: standard cats + separator + custom
+    const opts=t.cats.map(c=>`<option value="${c}"${currentCat===c&&!isCustom?' selected':''}>${c}</option>`).join('');
+    const customOpt=`<option value="${CUSTOM_OPT}"${isCustom?' selected':''}>✏️ ${t.custom_cat||'فئة جديدة...'}</option>`;
+    // If custom, show text input; else show select only
+    const catCell = isCustom
+      ? `<td style="min-width:130px;">
+           <select class="cat-select" style="width:70px;" onchange="noteCatChange(${i},this.value)">
+             ${opts}${customOpt}
+           </select>
+           <input type="text" value="${currentCat.replace(/"/g,'&quot;')}" placeholder="${t.custom_cat||'اكتب الفئة'}"
+             style="width:80px;border:none;border-bottom:1px solid var(--mint);font-family:Tajawal,sans-serif;font-size:11px;outline:none;background:transparent;margin-right:4px;"
+             oninput="noteSet(${i},'cat',this.value)">
+         </td>`
+      : `<td><select class="cat-select" onchange="noteCatChange(${i},this.value)">${opts}${customOpt}</select></td>`;
+
     tr.innerHTML=`
       <td><input type="date" value="${n.date||''}" style="width:108px;" onchange="noteSet(${i},'date',this.value)"></td>
       <td><input type="text" value="${(n.note||'').replace(/"/g,'&quot;')}" placeholder="..." style="width:115px;" onchange="noteSet(${i},'note',this.value)"></td>
-      <td><select class="cat-select" onchange="noteSet(${i},'catIdx',Number(this.value))">${t.cats.map((c,k)=>`<option value="${k}"${ci===k?' selected':''}>${c}</option>`).join('')}</select></td>
+      ${catCell}
       <td><input type="number" value="${n.amount||0}" style="width:65px;" onchange="noteSet(${i},'amount',Number(this.value))"></td>
       <td style="color:var(--light);font-size:10px;">${currency}</td>
       <td><button onclick="delNote(${i})" style="background:none;border:none;color:#ccc;cursor:pointer;font-size:12px;">✕</button></td>`;
@@ -1079,11 +1116,32 @@ function renderNotes(){
   renderNotesInExpenses();
   recalc();
 }
+
+function noteCatChange(i,val){
+  const mk=ck();
+  if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
+  const CUSTOM_OPT='__custom__';
+  if(val===CUSTOM_OPT){
+    // Switch to custom mode — set empty string and re-render
+    allData[mk].notes[i].cat='';
+    delete allData[mk].notes[i].catIdx;
+    renderNotes();
+    // Focus the new text input
+    const rows=$('notes-body').querySelectorAll('tr');
+    if(rows[i]){const inp=rows[i].querySelector('input[type=text][style*=mint]');if(inp)setTimeout(()=>inp.focus(),50);}
+  } else {
+    allData[mk].notes[i].cat=val;
+    delete allData[mk].notes[i].catIdx;
+    persistData();
+    updateNotesSummary();updateNotesChart();renderNotesInExpenses();recalc();
+  }
+}
 function noteSet(i,f,v){
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
   allData[mk].notes[i][f]=v;
+  if(f==='cat'){delete allData[mk].notes[i].catIdx;}
   persistData();
-  if(f==='amount'||f==='catIdx'){updateNotesSummary();updateNotesChart();renderNotesInExpenses();recalc();}
+  if(f==='amount'||f==='cat'||f==='catIdx'){updateNotesSummary();updateNotesChart();renderNotesInExpenses();recalc();}
 }
 function delNote(i){
   const mk=ck();if(!allData[mk]||!allData[mk].notes)return;
@@ -1093,7 +1151,8 @@ function addNote(){
   const mk=ck();
   if(!allData[mk])allData[mk]=defMonth();
   if(!allData[mk].notes)allData[mk].notes=[];
-  allData[mk].notes.push({date:new Date().toISOString().slice(0,10),note:'',catIdx:0,amount:0});
+  const t=T();
+  allData[mk].notes.push({date:new Date().toISOString().slice(0,10),note:'',cat:t.cats[0],amount:0});
   renderNotes();persistData();showToast(T().toast_add);
   // Focus last row
   const rows=$('notes-body').querySelectorAll('tr');
@@ -1105,8 +1164,8 @@ function updateNotesSummary(){
   const total=notes.reduce((s,n)=>s+Number(n.amount||0),0);
   const byExpLbl={};
   notes.forEach(n=>{
-    const ci=n.catIdx!==undefined?n.catIdx:4;
-    const lbl=t.expLabel[ci]||t.expLabel[4];
+    const catStr=getNoteCat(n);
+    const lbl=catToExpLabel(catStr);
     byExpLbl[lbl]=(byExpLbl[lbl]||0)+Number(n.amount||0);
   });
   const el=$('notes-summary');if(!el)return;
@@ -1128,7 +1187,7 @@ function updateNotesSummary(){
 function updateNotesChart(){
   const t=T(),notes=(allData[ck()]||{}).notes||[];
   const byLbl={};
-  notes.forEach(n=>{const ci=n.catIdx!==undefined?n.catIdx:4;const lbl=t.cats[ci]||t.cats[4];byLbl[lbl]=(byLbl[lbl]||0)+Number(n.amount||0);});
+  notes.forEach(n=>{const lbl=getNoteCat(n);byLbl[lbl]=(byLbl[lbl]||0)+Number(n.amount||0);});
   if(chartNotes){
     const keys=Object.keys(byLbl),vals=Object.values(byLbl);
     if(keys.length>0){chartNotes.data.labels=keys;chartNotes.data.datasets[0].data=vals;chartNotes.data.datasets[0].backgroundColor=keys.map((_,i)=>CAT_COLORS[i%5]);chartNotes.update();}
