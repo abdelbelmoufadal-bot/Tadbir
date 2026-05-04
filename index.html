@@ -6,6 +6,47 @@
 <title>Smart Flousi</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBk31eKaE7oiK5q6Fv4c3EugT3hGh24fYk",
+  authDomain: "smart-flousi.firebaseapp.com",
+  projectId: "smart-flousi",
+  storageBucket: "smart-flousi.firebasestorage.app",
+  messagingSenderId: "405513983927",
+  appId: "1:405513983927:web:69f529541948055c14fa32",
+  measurementId: "G-PJVK18C44Y"
+};
+
+const app   = initializeApp(firebaseConfig);
+const auth  = getAuth(app);
+const db    = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+// ── Expose to global scope ──
+window._fbAuth     = auth;
+window._fbDb       = db;
+window._fbProvider = provider;
+window._fbDoc      = doc;
+window._fbSetDoc   = setDoc;
+window._fbGetDoc   = getDoc;
+window._fbOnSnapshot = onSnapshot;
+window._fbSignIn   = ()=>signInWithPopup(auth,provider);
+window._fbSignOut  = ()=>signOut(auth);
+
+// ── Auth state listener ──
+onAuthStateChanged(auth, user=>{
+  window._fbUser = user;
+  if(typeof window.onFbAuthChange === 'function') window.onFbAuthChange(user);
+});
+</script>
 <style>
 :root{--mint:#7EC8B0;--mint-l:#C8EAE0;--mint-ll:#EAF7F3;--sage:#A8C5A0;--peach:#E8A598;--peach-l:#F5D5CF;--lav:#B5A8D4;--lav-l:#E8E2F5;--blue:#8DB4CF;--blue-l:#D0E6F5;--gold:#D4A853;--gold-l:#F5E8C8;--dark:#2D3142;--mid:#5A6070;--light:#9AA0B0;--bg:#F8F9FB;--card:#FFFFFF;--border:#E8EAEF;--shadow:0 2px 16px rgba(45,49,66,.07);--shadow-h:0 8px 32px rgba(45,49,66,.14);--r:16px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -187,6 +228,18 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 [dir=ltr] .backup-btn{text-align:left;}
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}}
+/* AUTH */
+.auth-bar{display:flex;align-items:center;gap:8px;}
+.auth-avatar{width:28px;height:28px;border-radius:50%;border:2px solid var(--mint);object-fit:cover;}
+.auth-name{font-size:10px;color:rgba(255,255,255,.7);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.auth-btn{background:var(--mint);border:none;border-radius:7px;padding:4px 10px;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;color:var(--dark);cursor:pointer;white-space:nowrap;transition:all .2s;}
+.auth-btn:hover{background:#6bbda3;}
+.auth-btn.out{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);}
+.sync-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;}
+.sync-dot.ok{background:var(--mint);}
+.sync-dot.sync{background:var(--gold);animation:pulse 1s infinite;}
+.sync-dot.off{background:var(--light);}
+#sync-status{font-size:9px;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:3px;}
 </style>
 </head>
 <body>
@@ -304,6 +357,18 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦</button>
     <button class="icon-btn" onclick="openModal('langModal')">🌍</button>
     <button class="icon-btn" onclick="openModal('backupModal');updateBackupUI()">💾</button>
+    <!-- AUTH UI -->
+    <div class="auth-bar" id="auth-bar">
+      <div id="auth-signed-out">
+        <button class="auth-btn" onclick="fbSignIn()">🔑 <span id="t-signin">تسجيل الدخول</span></button>
+      </div>
+      <div id="auth-signed-in" style="display:none;align-items:center;gap:6px;">
+        <div id="sync-status"><span class="sync-dot off" id="sync-dot"></span><span id="sync-txt">غير متصل</span></div>
+        <img class="auth-avatar" id="auth-avatar" src="" alt="">
+        <span class="auth-name" id="auth-name"></span>
+        <button class="auth-btn out" onclick="fbSignOut()"><span id="t-signout">خروج</span></button>
+      </div>
+    </div>
     <select class="hdr-select" id="currencySelect" onchange="changeCurrency(this.value)">
       <option value="درهم">درهم</option><option value="ريال">ريال</option>
       <option value="$">$</option><option value="€">€</option><option value="£">£</option>
@@ -412,6 +477,7 @@ const LANGS={
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
     toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
+    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
     custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية'
   },
@@ -444,6 +510,7 @@ const LANGS={
     import_confirm:'هاد العملية غادي تبدل البيانات. واش متأكد؟',
     toast_add:'تزاد ✓',toast_save:'✅ تحمل ملف الحفظ',toast_import:'✅ استوردات البيانات',
     toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',from_of:'من',
+    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',toast_signout:'👋 خرجتي',toast_loaded:'تحملات البيانات من السحاب',signin:'دخول',signout:'خروج',
     custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'زيد البيانات الافتراضية اللي ناقصة',reset_sub:'كيزيد غير اللي ناقص — ما يمسحش شي',toast_reset:'✅ تزادو البيانات الافتراضية'
   },
@@ -476,6 +543,7 @@ const LANGS={
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
     toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
+    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
     custom_cat:'✏️ Nouvelle catégorie...',
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées'
   },
@@ -508,6 +576,7 @@ const LANGS={
     import_confirm:'This will replace your data. Are you sure?',
     toast_add:'Added ✓',toast_save:'✅ File downloaded',toast_import:'✅ Data imported',
     toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',from_of:'of',
+    sync_off:'Offline',sync_ok:'Synced ☁️',sync_ing:'Syncing...',toast_signout:'👋 Signed out',toast_loaded:'Data loaded from cloud',signin:'Sign in',signout:'Sign out',
     custom_cat:'✏️ New category...',
     reset_h:'🔄 Reset',reset_btn:'Add missing default data',reset_sub:'Only adds what is missing — keeps your data',toast_reset:'✅ Default data added'
   },
@@ -540,6 +609,7 @@ const LANGS={
     import_confirm:'Esto reemplazará tus datos. ¿Estás seguro?',
     toast_add:'Añadido ✓',toast_save:'✅ Archivo descargado',toast_import:'✅ Datos importados',
     toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',from_of:'de',
+    sync_off:'Sin conexión',sync_ok:'Sincronizado ☁️',sync_ing:'Sincronizando...',toast_signout:'👋 Sesión cerrada',toast_loaded:'Datos cargados desde la nube',signin:'Iniciar sesión',signout:'Cerrar sesión',
     custom_cat:'✏️ Nueva categoría...',
     reset_h:'🔄 Restablecer',reset_btn:'Añadir datos por defecto faltantes',reset_sub:'Solo añade lo que falta — no borra nada',toast_reset:'✅ Datos por defecto añadidos'
   }
@@ -650,6 +720,8 @@ function setLang(l){
   set('nt-amount',t.nt_amount); set('nt-cur',t.nt_cur); set('add-note-btn',t.add_note);
   set('t-monthly-title',t.monthly_title); set('t-monthly-chart',t.monthly_chart);
   set('t-footer',t.footer);
+  if(t.signin){set('t-signin',t.signin);set('t-signout',t.signout);}
+  setSyncStatus(_fbUid?'ok':'off');
   if(t.reset_h){set('t-reset-h',t.reset_h);set('t-reset-btn',t.reset_btn);set('t-reset-sub',t.reset_sub);}
   document.querySelectorAll('.mini-table input[type=text]').forEach(i=>i.style.textAlign=isRTL?'right':'left');
   updateMonthLabel();
@@ -782,6 +854,10 @@ function resetDefaults(){
 function persistData(){
   // Save current state WITHOUT reading DOM (DOM already synced)
   try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));localStorage.setItem('sf_last_save',new Date().toLocaleString());}catch(e){}
+  // Also save to Firestore if logged in
+  if(typeof _fbUid !== 'undefined' && _fbUid && typeof fbSaveToCloud === 'function'){
+    fbSaveToCloud();
+  }
 }
 
 // Read DOM → allData for current month
@@ -1293,6 +1369,112 @@ function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=$(id);if
 function openModal(id){$(id).classList.add('open');}
 function closeModal(id){$(id).classList.remove('open');}
 function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ══════════════════════════════════════════════
+// FIREBASE SYNC
+// ══════════════════════════════════════════════
+let _fbUid = null;
+let _unsubscribe = null;
+let _isSyncing = false;
+
+function setSyncStatus(status){
+  // status: 'off' | 'ok' | 'sync'
+  const dot=$('sync-dot'), txt=$('sync-txt');
+  if(!dot)return;
+  dot.className='sync-dot '+status;
+  const labels={off:T().sync_off||'غير متصل', ok:T().sync_ok||'متزامن ☁️', sync:T().sync_ing||'جاري المزامنة...'};
+  if(txt)txt.textContent=labels[status]||'';
+}
+
+async function fbSignIn(){
+  try{
+    if(!window._fbSignIn){showToast('⏳ جاري التحميل...');return;}
+    showToast('⏳ ...');
+    await window._fbSignIn();
+  }catch(e){
+    if(e.code!=='auth/popup-closed-by-user')showToast('❌ '+e.message);
+  }
+}
+
+async function fbSignOut(){
+  if(_unsubscribe){_unsubscribe();_unsubscribe=null;}
+  _fbUid=null;
+  await window._fbSignOut();
+  $('auth-signed-in').style.display='none';
+  $('auth-signed-out').style.display='';
+  setSyncStatus('off');
+  showToast(T().toast_signout||'👋 تم تسجيل الخروج');
+}
+
+async function fbSaveToCloud(){
+  if(!_fbUid||!window._fbDb)return;
+  _isSyncing=true; setSyncStatus('sync');
+  try{
+    const ref=window._fbDoc(window._fbDb,'users',_fbUid);
+    await window._fbSetDoc(ref,{
+      allData: JSON.parse(JSON.stringify(allData)),
+      currency, curYear, curMonth, lang,
+      updatedAt: new Date().toISOString()
+    });
+    setSyncStatus('ok');
+  }catch(e){
+    console.error('Firestore save error:',e);
+    setSyncStatus('ok');
+  }
+  _isSyncing=false;
+}
+
+async function fbLoadFromCloud(uid){
+  if(!window._fbDb)return;
+  try{
+    const ref=window._fbDoc(window._fbDb,'users',uid);
+    const snap=await window._fbGetDoc(ref);
+    if(snap.exists()){
+      const d=snap.data();
+      if(d.allData)allData=d.allData;
+      if(d.currency)currency=d.currency;
+      if(d.curYear)curYear=d.curYear;
+      if(d.curMonth!==undefined)curMonth=d.curMonth;
+      if(d.lang){lang=d.lang;}
+      const mk=ck();
+      if(!monthHasRealData(mk))allData[mk]=defMonth();
+      if(!allData[mk].notes)allData[mk].notes=[];
+      persistData();
+      $('currencySelect').value=currency;
+      setLang(lang);
+      renderAll();
+      buildMonthlyTable();
+      syncCur();
+      setSyncStatus('ok');
+      showToast('☁️ '+(T().toast_loaded||'تم تحميل بياناتك من السحاب'));
+    }else{
+      // No cloud data yet — upload local data
+      await fbSaveToCloud();
+    }
+  }catch(e){
+    console.error('Firestore load error:',e);
+    setSyncStatus('ok');
+  }
+}
+
+// persistData is already defined above — patch it to also cloud-save
+// We do this by wrapping at call sites via a flag check inside the original
+
+// Auth state change handler
+window.onFbAuthChange = function(user){
+  if(user){
+    _fbUid = user.uid;
+    $('auth-signed-out').style.display='none';
+    $('auth-signed-in').style.display='flex';
+    const av=$('auth-avatar');
+    if(av&&user.photoURL)av.src=user.photoURL;
+    const nm=$('auth-name');
+    if(nm)nm.textContent=user.displayName||user.email||'';
+    setSyncStatus('sync');
+    fbLoadFromCloud(user.uid);
+    showToast('👋 '+(user.displayName||user.email));
+  }
+};
 
 document.addEventListener('DOMContentLoaded',()=>{initCharts();initPIN();});
 </script>
