@@ -56,7 +56,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .pin-logo{width:70px;height:70px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:12px;}
 .pin-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:3px;}
 .pin-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:4px;text-align:center;}
-.pin-lang-row{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;justify-content:center;}
+.pin-lang-row{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;justify-content:center;direction:ltr;}
 .plb{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:5px 12px;color:rgba(255,255,255,.55);cursor:pointer;font-size:12px;font-weight:600;transition:all .2s;font-family:'Tajawal',sans-serif;}
 .plb:hover,.plb.active{background:var(--mint);border-color:var(--mint);color:var(--dark);}
 .pin-dots{display:flex;gap:14px;margin:16px 0;}
@@ -168,7 +168,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .card-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .card-total{font-size:11px;font-weight:700;font-family:'DM Mono',monospace;}
 .chart-wrap{padding:12px;}
-.chart-wrap canvas{max-height:180px;}
+.chart-wrap canvas{max-height:220px;}
 .tables-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
 .mini-table{width:100%;border-collapse:collapse;}
 .mini-table th{font-size:9px;font-weight:600;color:var(--light);padding:5px 10px;text-align:right;background:var(--bg);border-bottom:1px solid var(--border);}
@@ -245,7 +245,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 [dir=ltr] .rh-donut{left:auto;right:14px;}
 [dir=ltr] .backup-btn{text-align:left;}
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}}
+@media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}.chart-wrap canvas{max-height:280px;height:auto;}.notes-charts-grid{grid-template-columns:1fr!important;}}
 /* AUTH */
 .auth-bar{display:flex;align-items:center;gap:8px;}
 .auth-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--mint);object-fit:cover;cursor:pointer;transition:all .2s;}
@@ -721,7 +721,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
       <button class="add-btn add-note-mobile" style="display:none;" onclick="addNote()">＋ <span id="add-note-mobile-lbl">إضافة ملاحظة</span></button>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+  <div class="notes-charts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-notes-chart"></span></div></div><div class="chart-wrap"><canvas id="notesDonut"></canvas></div></div>
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-notes-sum"></span></div></div><div style="padding:14px;" id="notes-summary"></div></div>
   </div>
@@ -1062,7 +1062,7 @@ function handlePin(){
 function unlockApp(){
   $('pin-screen').classList.add('hidden');
   $('landing-page').style.display='none';
-  // Show app
+  // Show app chrome
   const h=document.querySelector('.header');
   const n=document.querySelector('.nav-tabs');
   const f=document.querySelector('.footer');
@@ -1071,12 +1071,26 @@ function unlockApp(){
   if(n)n.style.display='';
   if(f)f.style.display='';
   if(d)d.style.display='';
-  loadData();
-  $('currencySelect').value=currency;
-  setLang(lang);
-  renderAll();
-  buildMonthlyTable();
-  syncCur();
+  // Sync auth UI
+  $('auth-signed-out').style.display='none';
+  $('auth-signed-in').style.display=_fbUid?'flex':'none';
+  if(_fbUid&&_fbUserInfo){
+    const av=$('auth-avatar');if(av&&_fbUserInfo.photoURL)av.src=_fbUserInfo.photoURL;
+    const udAv=$('ud-avatar');if(udAv&&_fbUserInfo.photoURL)udAv.src=_fbUserInfo.photoURL;
+    const udNm=$('ud-name');if(udNm)udNm.textContent=_fbUserInfo.displayName||'';
+    const udEm=$('ud-email');if(udEm)udEm.textContent=_fbUserInfo.email||'';
+    setSyncStatus('sync');
+    fbLoadFromCloud(_fbUid);
+    showToast('👋 '+(_fbUserInfo.displayName||_fbUserInfo.email));
+  } else {
+    loadData();
+    $('currencySelect').value=currency;
+    setLang(lang);
+    renderAll();
+    buildMonthlyTable();
+    syncCur();
+    setSyncStatus('off');
+  }
 }
 function pinForgot(){if(confirm('Reset all data and PIN?')){localStorage.clear();location.reload();}}
 function togglePIN(){pinEnabled=!pinEnabled;localStorage.setItem(PINON_KEY,pinEnabled?'1':'0');$('pin-toggle').classList.toggle('on',pinEnabled);showToast(pinEnabled?T().toast_pin_on:T().toast_pin_off);}
@@ -1454,7 +1468,7 @@ function confirmNewMonth(){
 // Get cat label string from a note (supports both old catIdx and new cat string)
 function getNoteCat(n){
   const t=T();
-  if(n.cat&&typeof n.cat==='string'&&n.cat.trim())return n.cat.trim();
+  if(typeof n.cat==='string') return n.cat; // preserve even empty string = custom-mode typing
   const ci=n.catIdx!==undefined?n.catIdx:4;
   return t.cats[ci]||t.cats[4];
 }
@@ -1477,7 +1491,7 @@ function renderNotes(){
 
   notes.forEach((n,i)=>{
     const currentCat=getNoteCat(n);
-    const isCustom=!t.cats.includes(currentCat);
+    const isCustom=(typeof n.cat==='string')&&!t.cats.includes(currentCat);
     const opts=t.cats.map(c=>`<option value="${c}"${currentCat===c&&!isCustom?' selected':''}>${c}</option>`).join('');
     const customOpt=`<option value="${CUSTOM_OPT}"${isCustom?' selected':''}>✏️ ${t.custom_cat||'فئة جديدة...'}</option>`;
 
@@ -1613,7 +1627,7 @@ function updateNotesSummary(){
       <span style="font-family:'DM Mono',monospace;font-size:11px;font-weight:600;">${fmt(v)} ${currency}</span>
     </div>`).join('')}
     <div style="margin-top:9px;padding-top:7px;border-top:2px solid var(--mint);display:flex;justify-content:space-between;">
-      <span style="font-size:11px;font-weight:700;color:var(--mid);">Total</span>
+      <span style="font-size:11px;font-weight:700;color:var(--mid);">${t.monthly_total||'Total'}</span>
       <span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:800;color:var(--dark);">${fmt(total)} ${currency}</span>
     </div>`;
 }
@@ -1733,6 +1747,8 @@ function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('sh
 let _fbUid = null;
 let _unsubscribe = null;
 let _isSyncing = false;
+let _wasSignedIn = false;   // tracks if user was ever signed in this session
+let _fbUserInfo = null;     // stores current user object for unlockApp use
 
 function setSyncStatus(status){
   // status: 'off' | 'ok' | 'sync'
@@ -1817,37 +1833,23 @@ async function fbLoadFromCloud(uid){
 // Auth state change handler
 window.onFbAuthChange = function(user){
   if(user){
-    // USER SIGNED IN — hide landing, show app
+    // USER SIGNED IN — save info, then let initPIN decide to show PIN or unlock
+    _wasSignedIn = true;
     _fbUid = user.uid;
-    $('landing-page').style.display='none';
-    $('auth-signed-out').style.display='none';
-    $('auth-signed-in').style.display='flex';
-    // Show app elements
-    document.querySelector('.header').style.display='';
-    document.querySelector('.nav-tabs').style.display='';
-    document.querySelector('.footer').style.display='';
-    document.querySelector('#tab-dashboard').style.display='';
-    const av=$('auth-avatar');
-    if(av&&user.photoURL)av.src=user.photoURL;
-    const udAv=$('ud-avatar');
-    if(udAv&&user.photoURL)udAv.src=user.photoURL;
-    const udNm=$('ud-name');
-    if(udNm)udNm.textContent=user.displayName||'';
-    const udEm=$('ud-email');
-    if(udEm)udEm.textContent=user.email||'';
-    setSyncStatus('sync');
-    fbLoadFromCloud(user.uid);
-    showToast('👋 '+(user.displayName||user.email));
+    _fbUserInfo = user;
+    initPIN();
   } else {
-    // USER SIGNED OUT — reload page to clear all data from memory
+    // USER SIGNED OUT
     _fbUid = null;
+    _fbUserInfo = null;
     allData = {};
-    // If we were previously signed in, reload the page cleanly
-    if(document.querySelector('.header') && document.querySelector('.header').style.display !== 'none'){
+    if(_wasSignedIn){
+      // Was logged in → clean reload so all in-memory data is cleared (Bug 6 + 8)
       location.reload();
     } else {
-      // First load — just show landing
+      // First load, no session → show landing, hide PIN screen (Bug 7)
       $('landing-page').style.display='block';
+      $('pin-screen').classList.add('hidden');
       setSyncStatus('off');
     }
   }
