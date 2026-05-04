@@ -546,12 +546,45 @@ const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 // ══════════════════════════════════════════════
 function defMonth(){
   return{
-    bills:   [{label:'الضو',act:0,pln:500},{label:'الماء',act:0,pln:300},{label:'Wi-fi',act:0,pln:400},{label:'التليفون',act:0,pln:59}],
-    expenses:[{label:'مواد غذائية',act:0,pln:1500},{label:'السوق',act:0,pln:500},{label:'قهوة',act:0,pln:0},{label:'Gasoil',act:0,pln:600},{label:'الترفيه',act:0,pln:200}],
-    savings: [{label:'المشروع',act:0,pln:0},{label:'السفر',act:0,pln:0}],
-    debts:   [{label:'Credit Dacia',act:0,pln:2180}],
-    income:  [{label:'الراتب',act:0,pln:7680}],
-    notes:   []
+    bills:[
+      {label:'الضو',         act:0, pln:500},
+      {label:'الماء',        act:0, pln:300},
+      {label:'Wi-fi',        act:0, pln:400},
+      {label:'التليفون',     act:0, pln:200},
+      {label:'الإيجار',      act:0, pln:3000},
+      {label:'التأمين',      act:0, pln:300},
+      {label:'نتفليكس',      act:0, pln:50},
+      {label:'الغاز',        act:0, pln:150}
+    ],
+    expenses:[
+      {label:'مواد غذائية',  act:0, pln:1500},
+      {label:'السوق',        act:0, pln:500},
+      {label:'قهوة',         act:0, pln:100},
+      {label:'Gasoil',       act:0, pln:600},
+      {label:'الترفيه',      act:0, pln:200},
+      {label:'ملابس',        act:0, pln:300},
+      {label:'صيدلية',       act:0, pln:150},
+      {label:'مطعم',         act:0, pln:200},
+      {label:'الحلاقة',      act:0, pln:50},
+      {label:'متنوع',        act:0, pln:200}
+    ],
+    savings:[
+      {label:'المشروع',      act:0, pln:500},
+      {label:'السفر',        act:0, pln:300},
+      {label:'طوارئ',        act:0, pln:500},
+      {label:'تعليم',        act:0, pln:200}
+    ],
+    debts:[
+      {label:'Credit Dacia', act:0, pln:2180},
+      {label:'البنك',        act:0, pln:0},
+      {label:'كريدي شخصي',  act:0, pln:0}
+    ],
+    income:[
+      {label:'الراتب',       act:0, pln:7680},
+      {label:'عمل ثاني',     act:0, pln:0},
+      {label:'إيجار مستلم',  act:0, pln:0}
+    ],
+    notes:[]
   };
 }
 
@@ -741,22 +774,54 @@ function getNotesTotalsByExpLabel(){
 }
 
 function renderNotesInExpenses(){
-  // Remove old note rows
-  document.querySelectorAll('#expenses-body tr.note-row').forEach(r=>r.remove());
+  // Notes amounts are shown DIRECTLY in the act column of matching expense rows
+  // No separate rows — just update the displayed value with a tooltip badge
   const totals=getNotesTotalsByExpLabel();
   const tb=$('expenses-body');
   if(!tb)return;
+
+  // For each data-row in expenses, check if its label matches a notes category
+  tb.querySelectorAll('tr.data-row').forEach(tr=>{
+    const inputs=tr.querySelectorAll('input');
+    if(inputs.length<2)return;
+    const rowLabel=inputs[0].value.trim();
+    const rowAct=Number(inputs[1].value)||0;
+
+    // Find matching notes total (case-insensitive)
+    let notesAmt=0;
+    Object.entries(totals).forEach(([lbl,amt])=>{
+      if(lbl.trim()===rowLabel)notesAmt+=amt;
+    });
+
+    // Show combined value: data act + notes
+    const combined=rowAct+notesAmt;
+    const actTd=inputs[1].closest('td');
+    // Remove old badge if any
+    actTd.querySelectorAll('.notes-contrib').forEach(b=>b.remove());
+    if(notesAmt>0){
+      // Display combined total visually next to the input
+      const badge=document.createElement('span');
+      badge.className='notes-contrib';
+      badge.title='من دفتر الملاحظات: '+fmt(notesAmt);
+      badge.style.cssText='margin-right:4px;font-size:9px;color:var(--mint);font-weight:700;white-space:nowrap;font-family:"DM Mono",monospace;';
+      badge.textContent='(+'+fmt(notesAmt)+')';
+      actTd.appendChild(badge);
+    }
+  });
+
+  // Also add rows for notes categories NOT in expenses table
+  // Remove old orphan rows first
+  tb.querySelectorAll('tr.note-row').forEach(r=>r.remove());
+  const existingLabels=new Set();
+  tb.querySelectorAll('tr.data-row input[type=text]').forEach(i=>existingLabels.add(i.value.trim()));
   const t=T();
-  // For each expLabel that has notes, find if already in expenses data rows
-  // If label exists → add to its .ac input value display (not modify data, just show)
-  // Actually: we ADD the notes amount on top of what's in the row by label match
-  // We display note rows as read-only rows under the matching expense row
   Object.entries(totals).forEach(([lbl,total])=>{
-    if(total===0)return;
+    if(total===0||existingLabels.has(lbl))return;
+    // Category not in expenses table → show as read-only row
     const tr=document.createElement('tr');
     tr.className='note-row';
     tr.innerHTML=`
-      <td class="lc" style="color:var(--mid);font-size:10px;padding-right:18px;">📝 ${lbl} (${t.notes_sub})</td>
+      <td class="lc" style="color:var(--mid);font-size:10px;">📝 ${lbl}</td>
       <td class="ac" style="color:var(--mint);font-weight:700;">${fmt(total)}</td>
       <td class="pc" style="color:var(--light);">—</td>`;
     tb.appendChild(tr);
@@ -802,17 +867,31 @@ function sumFromData(sec){
   return data.reduce((s,r)=>({act:s.act+Number(r.act||0),pln:s.pln+Number(r.pln||0)}),{act:0,pln:0});
 }
 
+// Sum expenses including notes contributions per label
+function sumExpensesWithNotes(){
+  const data=(allData[ck()]||{}).expenses||[];
+  const notesTotals=getNotesTotalsByExpLabel();
+  let act=0,pln=0;
+  data.forEach(r=>{
+    const notesAmt=notesTotals[r.label.trim()]||0;
+    act+=Number(r.act||0)+notesAmt;
+    pln+=Number(r.pln||0);
+  });
+  // Add orphan notes (categories not in expenses table)
+  const existingLabels=new Set(data.map(r=>r.label.trim()));
+  Object.entries(notesTotals).forEach(([lbl,amt])=>{
+    if(!existingLabels.has(lbl))act+=amt;
+  });
+  return{act,pln};
+}
+
 function recalc(){
   const t=T();
   const inc=sumFromData('income');
   const bill=sumFromData('bills');
-  const expData=sumFromData('expenses');
+  const exp=sumExpensesWithNotes();
   const sav=sumFromData('savings');
   const dbt=sumFromData('debts');
-  // Notes totals added per matching expense label
-  const notesTotals=getNotesTotalsByExpLabel();
-  const notesTotal=Object.values(notesTotals).reduce((s,v)=>s+v,0);
-  const exp={act:expData.act+notesTotal, pln:expData.pln};
   const rem=inc.act-bill.act-exp.act-sav.act-dbt.act;
   const base=inc.act||1;
   const pct=v=>Math.max(0,Math.min(100,Math.round(Math.abs(v)/base*100)));
@@ -979,7 +1058,10 @@ function updateNotesChart(){
 function getMV(key,mi){
   const d=allData[mkey(curYear,mi)];if(!d||!d[key])return 0;
   let v=d[key].reduce((s,x)=>s+Number(x.act||0),0);
-  if(key==='expenses'&&d.notes){v+=d.notes.reduce((s,n)=>s+Number(n.amount||0),0);}
+  if(key==='expenses'&&d.notes){
+    // Add all notes amounts to expenses total for monthly view
+    v+=d.notes.reduce((s,n)=>s+Number(n.amount||0),0);
+  }
   return v;
 }
 function buildMonthlyHead(){
