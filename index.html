@@ -695,6 +695,22 @@ function monthHasRealData(mk){
 }
 
 function loadData(){
+  // ── MIGRATION: wipe ALL old versions so new defaults load cleanly ──
+  const CURRENT_VER='v32';
+  const storedVer=localStorage.getItem('sf_version');
+  if(storedVer!==CURRENT_VER){
+    // Keep only PIN settings, clear everything else
+    const pin=localStorage.getItem(PIN_KEY);
+    const pinOn=localStorage.getItem(PINON_KEY);
+    const savedLang=localStorage.getItem('sf_lang');
+    localStorage.clear();
+    if(pin)localStorage.setItem(PIN_KEY,pin);
+    if(pinOn)localStorage.setItem(PINON_KEY,pinOn);
+    if(savedLang)localStorage.setItem('sf_lang',savedLang);
+    localStorage.setItem('sf_version',CURRENT_VER);
+    allData={};
+  }
+
   try{
     const s=localStorage.getItem(SK);
     if(s){
@@ -705,9 +721,10 @@ function loadData(){
       curMonth=p.curMonth!==undefined?p.curMonth:4;
       if(p.lang)lang=p.lang;
     }
-  }catch(e){}
+  }catch(e){allData={};}
+
+  // Apply defaults to current month if empty
   const mk=ck();
-  // Always apply defMonth if current month is empty or has old empty structure
   if(!monthHasRealData(mk)){
     allData[mk]=defMonth();
   }
