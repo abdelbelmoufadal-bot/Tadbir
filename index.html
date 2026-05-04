@@ -920,6 +920,7 @@ const SK='sf_v33', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
 const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0'};
 const CAT_COLORS=['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#9AA0B0'];
 let curYear=2025, curMonth=4, currency='درهم', pickerYear=2025, nmOpt='copy';
+let _appReady=false; // prevent multiple initializations
 let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
 
 const mkey=(y,m)=>`${y}-${String(m).padStart(2,'0')}`;
@@ -1279,8 +1280,8 @@ function resetDefaults(){
 function persistData(){
   // Save current state WITHOUT reading DOM (DOM already synced)
   try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));localStorage.setItem('sf_last_save',new Date().toLocaleString());}catch(e){}
-  // Also save to Firestore if logged in
-  if(typeof _fbUid !== 'undefined' && _fbUid && typeof fbSaveToCloud === 'function'){
+  // Also save to Firestore if logged in (but not during initial cloud load)
+  if(!_isLoadingFromCloud && typeof _fbUid !== 'undefined' && _fbUid && typeof fbSaveToCloud === 'function'){
     fbSaveToCloud();
   }
 }
@@ -1913,8 +1914,22 @@ async function fbSignIn(){
 async function fbSignOut(){
   if(_unsubscribe){_unsubscribe();_unsubscribe=null;}
   _fbUid=null;
-  await window._fbSignOut();
-  // onFbAuthChange(null) will handle showing landing + hiding app
+  _appReady=false;
+  allData={};
+  try{await window._fbSignOut();}catch(e){}
+  // Directly show landing — no reload needed
+  ['.header','.nav-tabs','.footer'].forEach(s=>{
+    const el=document.querySelector(s);if(el)el.style.display='none';
+  });
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.style.display='none';p.classList.remove('active');
+  });
+  $('landing-page').style.display='block';
+  $('pin-screen').classList.add('hidden');
+  const si=$('auth-signed-in'); if(si)si.style.display='none';
+  const so=$('auth-signed-out'); if(so)so.style.display='';
+  setSyncStatus('off');
+  showToast(T().toast_signout||'👋');
 }
 
 async function fbSaveToCloud(){
@@ -1935,8 +1950,10 @@ async function fbSaveToCloud(){
   _isSyncing=false;
 }
 
+let _isLoadingFromCloud=false;
 async function fbLoadFromCloud(uid){
   if(!window._fbDb)return;
+  _isLoadingFromCloud=true;
   try{
     const ref=window._fbDoc(window._fbDb,'users',uid);
     const snap=await window._fbGetDoc(ref);
@@ -1950,15 +1967,17 @@ async function fbLoadFromCloud(uid){
       const mk=ck();
       if(!monthHasRealData(mk))allData[mk]=defMonth();
       if(!allData[mk].notes)allData[mk].notes=[];
-      persistData();
+      localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));
       $('currencySelect').value=currency;
       setLang(lang);
       renderAll();
       buildMonthlyTable();
       syncCur();
       setSyncStatus('ok');
+      _isLoadingFromCloud=false;
       showToast('☁️ '+(T().toast_loaded||'تم تحميل بياناتك من السحاب'));
     }else{
+      _isLoadingFromCloud=false;
       // No cloud data yet — upload local data
       await fbSaveToCloud();
     }
@@ -1975,6 +1994,8 @@ async function fbLoadFromCloud(uid){
 function showAppAfterAuth(user){
   if(!user && window._pendingUser) user=window._pendingUser;
   if(!user) return;
+  if(_appReady) return; // prevent multiple calls
+  _appReady=true;
   window._pendingUser=null;
   // Show all app elements — clear ALL inline display:none
   const hdr=document.querySelector('.header');
@@ -2006,10 +2027,7 @@ window.onFbAuthChange = function(user){
   if(user){
     // USER SIGNED IN
     _fbUid = user.uid;
-    $('landing-page').style.display='none';
-    // Update auth UI
-    $('auth-signed-out').style.display='none';
-    $('auth-signed-in').style.display='flex';
+    // Update auth avatar/name
     const av=$('auth-avatar');
     if(av&&user.photoURL)av.src=user.photoURL;
     const udAv=$('ud-avatar');
@@ -2018,33 +2036,35 @@ window.onFbAuthChange = function(user){
     if(udNm)udNm.textContent=user.displayName||'';
     const udEm=$('ud-email');
     if(udEm)udEm.textContent=user.email||'';
-    setSyncStatus('sync');
-    // Check PIN — if enabled, show PIN screen first
+    // Check PIN
     pinEnabled=localStorage.getItem(PINON_KEY)==='1';
     const savedPin=localStorage.getItem(PIN_KEY);
-    if(pinEnabled && savedPin){
-      // Show PIN verify screen
+    if(pinEnabled && savedPin && !_appReady){
       lang=localStorage.getItem('sf_lang')||lang;
       setLang(lang);
-      pinMode='verify';
-      pinBuffer='';
-      updateDots();
+      pinMode='verify'; pinBuffer=''; updateDots();
       set('pin-sub',T().pin_enter);
       $('pin-forgot').style.display='block';
       $('pin-screen').classList.remove('hidden');
-      // Store user for after PIN unlock
       window._pendingUser=user;
-    } else {
-      // No PIN — show app directly
+    } else if(!_appReady){
       showAppAfterAuth(user);
     }
   } else {
-    // USER SIGNED OUT — always reload to clear ALL data and show landing
-    _fbUid = null;
-    allData = {};
-    // Mark that we should show landing after reload (not PIN)
-    sessionStorage.setItem('show_landing','1');
-    location.reload();
+    // USER SIGNED OUT — show landing WITHOUT reload
+    _fbUid=null; allData={}; _appReady=false;
+    // Hide app, show landing
+    ['.header','.nav-tabs','.footer'].forEach(s=>{
+      const el=document.querySelector(s);if(el)el.style.display='none';
+    });
+    document.querySelectorAll('.tab-panel').forEach(p=>{
+      p.style.display='none'; p.classList.remove('active');
+    });
+    $('landing-page').style.display='block';
+    $('pin-screen').classList.add('hidden');
+    $('auth-signed-in').style.display='none';
+    $('auth-signed-out').style.display='';
+    setSyncStatus('off');
   }
 };
 
