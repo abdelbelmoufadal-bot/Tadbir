@@ -528,7 +528,7 @@ const LANGS={
 // ══════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════
-const SK='sf_v32', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
+const SK='sf_v33', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
 const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0'};
 const CAT_COLORS=['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#9AA0B0'];
 let curYear=2025, curMonth=4, currency='درهم', pickerYear=2025, nmOpt='copy';
@@ -682,21 +682,20 @@ function updateBackupUI(){$('pin-toggle').classList.toggle('on',pinEnabled);cons
 // DATA — KEY FIX: saveData reads DOM first
 // ══════════════════════════════════════════════
 function monthHasRealData(mk){
-  // A month has real data if it has labels entered (not just empty defaults)
-  // We consider it real if ANY section has more than 0 items with actual content
   const d=allData[mk];
   if(!d)return false;
-  // Check if bills has items (the new defaults have 8 items)
-  // If bills.length >= 8, assume it was loaded with new defaults or user data
-  if(d.bills&&d.bills.length>=8)return true;
-  // If any row has pln > 0, it's real data  
-  const secs=['bills','expenses','savings','debts','income'];
-  return secs.some(s=>d[s]&&d[s].some(r=>r.pln>0||r.act>0||(r.label&&r.label.trim().length>0)));
+  // Must have the full new default structure (8 bills, 10 expenses)
+  if(!d.bills||d.bills.length<8)return false;
+  if(!d.expenses||d.expenses.length<10)return false;
+  if(!d.savings||d.savings.length<4)return false;
+  if(!d.debts||d.debts.length<3)return false;
+  if(!d.income||d.income.length<3)return false;
+  return true;
 }
 
 function loadData(){
   // ── MIGRATION: wipe ALL old versions so new defaults load cleanly ──
-  const CURRENT_VER='v32';
+  const CURRENT_VER='v33';
   const storedVer=localStorage.getItem('sf_version');
   if(storedVer!==CURRENT_VER){
     // Keep only PIN settings, clear everything else
