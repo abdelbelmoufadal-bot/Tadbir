@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Smart Flousi</title>
+<title>تدبير</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
@@ -17,9 +17,9 @@ import { getFirestore, doc, setDoc, getDoc, onSnapshot }
 
 const firebaseConfig = {
   apiKey: "AIzaSyBk31eKaE7oiK5q6Fv4c3EugT3hGh24fYk",
-  authDomain: "smart-flousi.firebaseapp.com",
-  projectId: "smart-flousi",
-  storageBucket: "smart-flousi.firebasestorage.app",
+  authDomain: "tadbir.firebaseapp.com",
+  projectId: "tadbir",
+  storageBucket: "tadbir.firebasestorage.app",
   messagingSenderId: "405513983927",
   appId: "1:405513983927:web:69f529541948055c14fa32",
   measurementId: "G-PJVK18C44Y"
@@ -361,7 +361,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <nav class="lnd-nav">
     <div class="lnd-logo">
       <div class="lnd-logo-icon">💰</div>
-      <div><div class="lnd-logo-name">Smart Flousi</div><div class="lnd-logo-sub">لوحة تتبع الميزانية</div></div>
+      <div><div class="lnd-logo-name">تدبير</div><div class="lnd-logo-sub">دبّر ميزانيتك بذكاء</div></div>
     </div>
     <button class="lnd-cta-nav" onclick="fbSignIn()">🔑 تسجيل الدخول بـ Google</button>
   </nav>
@@ -369,7 +369,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <!-- HERO -->
   <div class="lnd-hero">
     <div class="lnd-badge">✦ مجاني 100% • مزامنة سحابية</div>
-    <h1 class="lnd-h1">كل فلوسك قدامك<br><span>وفبلاصة وحدة</span></h1>
+    <h1 class="lnd-h1">دبّر فلوسك بذكاء<br><span>وفبلاصة وحدة</span></h1>
     <p class="lnd-sub">تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم</p>
     <button class="lnd-cta-hero" onclick="fbSignIn()">🚀 ابدأ مجاناً مع Google</button>
     <p class="lnd-cta-note">لا حاجة لبطاقة بنكية • مجاني للأبد</p>
@@ -515,8 +515,8 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Smart Flousi v3.1</div>
-    <div>كل فلوسك قدامك 💚 — جميع الحقوق محفوظة</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.2</div>
+    <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
 </div>
@@ -531,7 +531,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     <button class="plb" onclick="setLang('es')">ES</button>
   </div>
   <div class="pin-logo">💰</div>
-  <div class="pin-title">Smart Flousi</div>
+  <div class="pin-title">تدبير</div>
   <div class="pin-sub" id="pin-sub">---</div>
   <div class="pin-dots"><div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div><div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div></div>
   <div class="pin-pad">
@@ -625,7 +625,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 
 <header class="header" style="display:none;">
-  <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">Smart Flousi</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved"></span></div></div></div>
+  <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">تدبير</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved"></span></div></div></div>
   <div class="header-right">
     <div class="month-nav">
       <button onclick="navigateMonth(-1)">‹</button>
@@ -734,7 +734,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div></div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Smart Flousi v3.1</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.2</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -771,7 +771,7 @@ const LANGS={
     notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'ملخص',
     nt_date:'التاريخ',nt_note:'الملاحظات',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ إضافة ملاحظة',
     monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
-    footer:'كل فلوسك قدامك 💚 — البيانات محفوظة في متصفحك',
+    footer:'دبّر فلوسك بذكاء — تدبير 💚',
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
     toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
@@ -804,7 +804,7 @@ const LANGS={
     notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'الملخص',
     nt_date:'التاريخ',nt_note:'الملاحظة',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ زيد ملاحظة',
     monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
-    footer:'كل فلوسك قدامك 💚 — البيانات محفوظة فمتصفحك',
+    footer:'دبّر فلوسك بذكاء — تدبير 💚',
     import_confirm:'هاد العملية غادي تبدل البيانات. واش متأكد؟',
     toast_add:'تزاد ✓',toast_save:'✅ تحمل ملف الحفظ',toast_import:'✅ استوردات البيانات',
     toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',from_of:'من',
@@ -837,7 +837,7 @@ const LANGS={
     notes_sub:'Journal des dépenses',notes_edit:'Modifiable',notes_chart:'Répartition',notes_sum:'Résumé',
     nt_date:'Date',nt_note:'Note',nt_subcat:'Options',nt_cat:'Catégorie',nt_amount:'Montant',nt_cur:'Devise',add_note:'＋ Ajouter une note',
     monthly_title:'Comparaison mensuelle',monthly_chart:'Évolution revenus/dépenses',monthly_total:'Total',monthly_remain:'Solde',
-    footer:"Toutes vos finances en un coup d'œil 💚",
+    footer:'Gérez votre budget intelligemment — Tadbir 💚',
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
     toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
@@ -870,7 +870,7 @@ const LANGS={
     notes_sub:'Expense log',notes_edit:'Editable',notes_chart:'Breakdown',notes_sum:'Summary',
     nt_date:'Date',nt_note:'Note',nt_cat:'Category',nt_amount:'Amount',nt_cur:'Currency',add_note:'＋ Add note',
     monthly_title:'Monthly comparison',monthly_chart:'Income vs Expenses trend',monthly_total:'Total',monthly_remain:'Balance',
-    footer:'All your finances at a glance 💚',
+    footer:'Manage your budget smartly — Tadbir 💚',
     import_confirm:'This will replace your data. Are you sure?',
     toast_add:'Added ✓',toast_save:'✅ File downloaded',toast_import:'✅ Data imported',
     toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',from_of:'of',
@@ -903,7 +903,7 @@ const LANGS={
     notes_sub:'Registro de gastos',notes_edit:'Editable',notes_chart:'Distribución',notes_sum:'Resumen',
     nt_date:'Fecha',nt_note:'Nota',nt_subcat:'Opciones',nt_cat:'Categoría',nt_amount:'Importe',nt_cur:'Moneda',add_note:'＋ Añadir nota',
     monthly_title:'Comparativa mensual',monthly_chart:'Evolución ingresos/gastos',monthly_total:'Total',monthly_remain:'Saldo',
-    footer:'Todas tus finanzas de un vistazo 💚',
+    footer:'Gestiona tu presupuesto — Tadbir 💚',
     import_confirm:'Esto reemplazará tus datos. ¿Estás seguro?',
     toast_add:'Añadido ✓',toast_save:'✅ Archivo descargado',toast_import:'✅ Datos importados',
     toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',from_of:'de',
@@ -1834,7 +1834,7 @@ function exportJSON(){
   const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.1',owner:'BELMOUFADAL Abderrahim'};
   const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
-  a.download=`smart-flousi-${T().months[curMonth]}-${curYear}.json`;a.click();
+  a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
   showToast(T().toast_save);
 }
 function importJSON(input){
