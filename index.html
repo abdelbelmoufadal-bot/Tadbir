@@ -244,6 +244,71 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 [dir=ltr] .remaining-hero::before{right:auto;left:-40px;}
 [dir=ltr] .rh-donut{left:auto;right:14px;}
 [dir=ltr] .backup-btn{text-align:left;}
+
+/* ══ DAILY TRACKER ══ */
+.daily-header{background:linear-gradient(135deg,#1a1f2e 0%,#252d3d 100%);border-radius:20px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;}
+.daily-header::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(126,200,176,.15),transparent 70%);}
+.daily-header::after{content:'';position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(181,168,212,.1),transparent 70%);}
+.daily-date-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:relative;z-index:1;}
+.daily-date-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 14px;color:rgba(255,255,255,.7);cursor:pointer;font-size:14px;transition:all .2s;}
+.daily-date-btn:hover{background:rgba(255,255,255,.15);color:#fff;}
+.daily-date-label{font-size:16px;font-weight:800;color:#fff;text-align:center;line-height:1.3;}
+.daily-date-sub{font-size:11px;color:rgba(255,255,255,.35);text-align:center;margin-top:2px;}
+.daily-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative;z-index:1;}
+.daily-stat{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(255,255,255,.08);}
+.daily-stat-val{font-size:20px;font-weight:800;font-family:'DM Mono',monospace;line-height:1;}
+.daily-stat-lbl{font-size:9px;color:rgba(255,255,255,.4);margin-top:4px;font-weight:500;}
+/* HEATMAP */
+.heatmap-wrap{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
+.heatmap-title{font-size:11px;font-weight:700;color:var(--mid);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.heatmap-title::before{content:'';display:block;width:3px;height:12px;background:linear-gradient(180deg,var(--mint),var(--lav));border-radius:3px;}
+.heatmap-days-header{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
+.heatmap-day-lbl{font-size:8px;color:var(--light);text-align:center;font-weight:600;}
+.heatmap-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.heatmap-cell{aspect-ratio:1;border-radius:5px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;}
+.heatmap-cell:hover{transform:scale(1.15);box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:2;}
+.heatmap-cell.empty{background:var(--bg);}
+.heatmap-cell.today{box-shadow:0 0 0 2px var(--mint);}
+.heatmap-cell .cell-tooltip{display:none;position:absolute;bottom:calc(100%+6px);left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;font-size:9px;padding:4px 8px;border-radius:6px;white-space:nowrap;z-index:10;font-family:'DM Mono',monospace;}
+.heatmap-cell:hover .cell-tooltip{display:block;}
+.heatmap-legend{display:flex;align-items:center;gap:6px;margin-top:10px;justify-content:flex-end;}
+.heatmap-legend span{font-size:9px;color:var(--light);}
+.heatmap-legend-cells{display:flex;gap:3px;}
+.heatmap-legend-cell{width:12px;height:12px;border-radius:3px;}
+/* DAILY BAR CHART */
+.daily-bars-wrap{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
+.week-bars{display:flex;align-items:flex-end;gap:8px;height:100px;margin:12px 0 6px;}
+.week-bar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.week-bar-track{width:100%;flex:1;display:flex;align-items:flex-end;border-radius:6px;overflow:hidden;position:relative;min-height:8px;}
+.week-bar-fill{width:100%;border-radius:6px;transition:height .6s cubic-bezier(.34,1.56,.64,1);position:relative;}
+.week-bar-fill::after{content:attr(data-val);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:8px;font-family:'DM Mono',monospace;color:var(--mid);white-space:nowrap;}
+.week-bar-day{font-size:9px;color:var(--light);font-weight:600;text-align:center;}
+.week-bar-item.today .week-bar-day{color:var(--mint);font-weight:800;}
+/* DAILY ENTRY LIST */
+.daily-entries{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
+.daily-entries-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.daily-entry-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);transition:background .15s;}
+.daily-entry-row:last-child{border-bottom:none;}
+.daily-entry-row:hover{background:var(--bg);}
+.entry-cat-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.entry-info{flex:1;min-width:0;}
+.entry-title{font-size:12px;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.entry-sub{font-size:10px;color:var(--light);margin-top:1px;}
+.entry-amount{font-family:'DM Mono',monospace;font-size:14px;font-weight:800;color:var(--dark);flex-shrink:0;}
+.entry-del{background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;padding:4px;flex-shrink:0;transition:color .15s;}
+.entry-del:hover{color:#E8A598;}
+/* ADD ENTRY FORM */
+.daily-add-form{background:linear-gradient(135deg,var(--mint-ll),var(--lav-ll));border-radius:16px;padding:16px;border:1px solid var(--mint-l);margin-bottom:14px;}
+.daily-add-title{font-size:11px;font-weight:700;color:var(--mid);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.daily-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.daily-input{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);outline:none;width:100%;transition:border-color .2s;}
+.daily-input:focus{border-color:var(--mint);}
+.daily-select{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);outline:none;width:100%;cursor:pointer;transition:border-color .2s;}
+.daily-select:focus{border-color:var(--mint);}
+.daily-add-btn{width:100%;padding:11px;background:linear-gradient(135deg,var(--mint),#6bbda3);border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:#fff;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(126,200,176,.3);}
+.daily-add-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(126,200,176,.4);}
+.daily-add-btn:active{transform:translateY(0);}
+@media(max-width:700px){.daily-stats-row{grid-template-columns:repeat(3,1fr);}.daily-form-grid{grid-template-columns:1fr;}}
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}}
 /* AUTH */
@@ -673,6 +738,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
   <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
   <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
+  <div class="nav-tab" onclick="showTab('daily',this)">🗓️ <span id="t-tab4">يومياتي</span></div>
 </nav>
 
 <div id="tab-dashboard" class="tab-panel active" style="display:none;"><div class="main">
@@ -731,6 +797,80 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="section-title"><span id="t-monthly-title"></span> — <span id="monthly-yr-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
   <div class="card" style="overflow-x:auto;margin-bottom:14px;"><table class="monthly-table"><thead id="monthly-head"></thead><tbody id="monthly-body"></tbody></table></div>
   <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-monthly-chart"></span></div></div><div class="chart-wrap" style="height:230px;"><canvas id="monthlyLine"></canvas></div></div>
+</div></div>
+
+<div id="tab-daily" class="tab-panel"><div class="main">
+
+  <!-- DAILY HEADER -->
+  <div class="daily-header">
+    <div class="daily-date-nav">
+      <button class="daily-date-btn" onclick="dailyNavDay(-1)">‹</button>
+      <div>
+        <div class="daily-date-label" id="daily-date-label">---</div>
+        <div class="daily-date-sub" id="daily-date-sub">---</div>
+      </div>
+      <button class="daily-date-btn" onclick="dailyNavDay(1)">›</button>
+    </div>
+    <div class="daily-stats-row">
+      <div class="daily-stat">
+        <div class="daily-stat-val" style="color:#7EC8B0;" id="ds-total">0</div>
+        <div class="daily-stat-lbl" id="ds-total-lbl">اليوم</div>
+      </div>
+      <div class="daily-stat">
+        <div class="daily-stat-val" style="color:#B5A8D4;" id="ds-week">0</div>
+        <div class="daily-stat-lbl" id="ds-week-lbl">الأسبوع</div>
+      </div>
+      <div class="daily-stat">
+        <div class="daily-stat-val" style="color:#E8A598;" id="ds-avg">0</div>
+        <div class="daily-stat-lbl" id="ds-avg-lbl">المعدل/يوم</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD FORM -->
+  <div class="daily-add-form">
+    <div class="daily-add-title">➕ <span id="daily-add-title">إضافة مصروف اليوم</span></div>
+    <div class="daily-form-grid">
+      <input type="text" class="daily-input" id="daily-desc" placeholder="الوصف..." style="grid-column:1/-1;">
+      <select class="daily-select" id="daily-cat"></select>
+      <input type="number" class="daily-input" id="daily-amount" placeholder="المبلغ" min="0">
+    </div>
+    <button class="daily-add-btn" onclick="addDailyEntry()">＋ <span id="daily-add-btn-lbl">إضافة</span></button>
+  </div>
+
+  <!-- WEEK BARS -->
+  <div class="daily-bars-wrap">
+    <div class="heatmap-title" id="daily-week-title">مصاريف الأسبوع الحالي</div>
+    <div class="week-bars" id="week-bars"></div>
+  </div>
+
+  <!-- HEATMAP -->
+  <div class="heatmap-wrap">
+    <div class="heatmap-title" id="daily-heatmap-title">خريطة الشهر</div>
+    <div class="heatmap-days-header" id="heatmap-days-header"></div>
+    <div class="heatmap-grid" id="heatmap-grid"></div>
+    <div class="heatmap-legend">
+      <span>أقل</span>
+      <div class="heatmap-legend-cells">
+        <div class="heatmap-legend-cell" style="background:#EAF7F3;"></div>
+        <div class="heatmap-legend-cell" style="background:#A8D8C8;"></div>
+        <div class="heatmap-legend-cell" style="background:#7EC8B0;"></div>
+        <div class="heatmap-legend-cell" style="background:#E8C49A;"></div>
+        <div class="heatmap-legend-cell" style="background:#E8A598;"></div>
+      </div>
+      <span>أكثر</span>
+    </div>
+  </div>
+
+  <!-- ENTRIES LIST -->
+  <div class="daily-entries">
+    <div class="daily-entries-header">
+      <div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="daily-list-title">سجل اليوم</span></div>
+      <div class="card-total" style="color:var(--lav)" id="daily-list-total">0</div>
+    </div>
+    <div id="daily-entries-list"></div>
+  </div>
+
 </div></div>
 
 <footer class="footer" style="display:none;">
@@ -1292,15 +1432,27 @@ function syncDOMtoData(){
   if(!allData[mk])allData[mk]=defMonth();
   ['bills','expenses','savings','debts','income'].forEach(sec=>{
     const rows=[];
-    document.querySelectorAll(`#${sec}-body tr.data-row`).forEach(tr=>{
+    const existing=allData[mk][sec]||[];
+    document.querySelectorAll(`#${sec}-body tr.data-row`).forEach((tr,idx)=>{
       const ins=tr.querySelectorAll('input');
-      if(ins.length>=3){rows.push({label:ins[0].value,act:Number(ins[1].value)||0,pln:Number(ins[2].value)||0});}
+      if(ins.length>=3){
+        // If act input is hidden by notes badge, keep existing act value
+        const actInput=ins[1];
+        const actVal=actInput.style.display==='none'
+          ?(existing[idx]?Number(existing[idx].act)||0:0)
+          :Number(actInput.value)||0;
+        rows.push({label:ins[0].value,act:actVal,pln:Number(ins[2].value)||0});
+      }
     });
     allData[mk][sec]=rows;
   });
 }
 
-function saveData(){syncDOMtoData();persistData();}
+function saveData(){
+  if(_isLoadingFromCloud)return; // don't overwrite during cloud load
+  syncDOMtoData();
+  persistData();
+}
 
 // ══════════════════════════════════════════════
 // RENDER — THE CORE FIX
@@ -1514,7 +1666,7 @@ function updateMonthLabel(){
   set('monthLabel',lbl);set('notes-month-lbl',lbl);set('monthly-yr-lbl',`${curYear}`);
 }
 function navigateMonth(dir){
-  saveData();
+  if(!_isLoadingFromCloud)saveData();
   curMonth+=dir;
   if(curMonth>11){curMonth=0;curYear++;}
   if(curMonth<0){curMonth=11;curYear--;}
@@ -1873,7 +2025,7 @@ function initCharts(){
 function showTab(name,el){
   document.querySelectorAll('.tab-panel').forEach(p=>{
     p.classList.remove('active');
-    p.style.display=''; // clear inline style so CSS class controls visibility
+    p.style.display='';
   });
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   const panel=$('tab-'+name);
@@ -1881,6 +2033,7 @@ function showTab(name,el){
   el.classList.add('active');
   if(name==='monthly')buildMonthlyTable();
   if(name==='notes')renderNotes();
+  if(name==='daily'){dailyDate=new Date();renderDailyTab();}
 }
 function changeCurrency(val){currency=val;syncCur();persistData();}
 function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=$(id);if(e)e.textContent=currency;});const h=$('hero-cur');if(h)h.textContent=currency;}
@@ -1970,7 +2123,8 @@ async function fbLoadFromCloud(uid){
       const mk=ck();
       if(!monthHasRealData(mk))allData[mk]=defMonth();
       if(!allData[mk].notes)allData[mk].notes=[];
-      localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));
+      // Save to localStorage immediately after cloud load
+      try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));}catch(e){}
       $('currencySelect').value=currency;
       setLang(lang);
       renderAll();
@@ -2138,6 +2292,253 @@ function initLandingCharts(){
       },
       responsive:true,maintainAspectRatio:true
     }
+  });
+}
+
+// ══════════════════════════════════════════════
+// DAILY TRACKER
+// ══════════════════════════════════════════════
+const DAY_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const DAY_FR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+const DAY_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAY_ES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+
+let dailyDate=new Date();
+
+function getDayKey(d){return d.toISOString().slice(0,10);}
+function getDailyData(){return (allData[ck()]||{}).dailyEntries||{};}
+
+function addDailyEntry(){
+  const desc=document.getElementById('daily-desc').value.trim();
+  const amount=Number(document.getElementById('daily-amount').value)||0;
+  const catSel=document.getElementById('daily-cat');
+  const catIdx=Number(catSel.value)||0;
+  if(amount<=0){showToast('❌ أدخل مبلغاً');return;}
+  const mc=getMainCats()[catIdx]||getMainCats()[0];
+  const mk=ck();
+  if(!allData[mk])allData[mk]=defMonth();
+  if(!allData[mk].dailyEntries)allData[mk].dailyEntries={};
+  const dk=getDayKey(dailyDate);
+  if(!allData[mk].dailyEntries[dk])allData[mk].dailyEntries[dk]=[];
+  allData[mk].dailyEntries[dk].push({
+    id:Date.now(),desc:desc||mc.label,mainCat:mc.id,
+    catIcon:mc.icon,catLabel:mc.label,catIdx,amount,date:dk,cur:currency
+  });
+  persistData();
+  document.getElementById('daily-desc').value='';
+  document.getElementById('daily-amount').value='';
+  renderDailyTab();
+  showToast(T().toast_add||'✓');
+}
+
+function deleteDailyEntry(dk,idx){
+  const mk=ck();
+  if(!allData[mk]||!allData[mk].dailyEntries||!allData[mk].dailyEntries[dk])return;
+  allData[mk].dailyEntries[dk].splice(idx,1);
+  if(!allData[mk].dailyEntries[dk].length)delete allData[mk].dailyEntries[dk];
+  persistData();renderDailyTab();
+}
+
+function dailyNavDay(dir){
+  dailyDate=new Date(dailyDate);
+  dailyDate.setDate(dailyDate.getDate()+dir);
+  const now=new Date();
+  if(dailyDate>now)dailyDate=now;
+  renderDailyTab();
+}
+
+function getDayTotal(dk){
+  const d=getDailyData();
+  return (d[dk]||[]).reduce(function(s,e){return s+Number(e.amount||0);},0);
+}
+
+function getDayNamesArr(){
+  if(lang==='fr')return DAY_FR;
+  if(lang==='en')return DAY_EN;
+  if(lang==='es')return DAY_ES;
+  return DAY_AR;
+}
+
+function renderDailyTab(){
+  const el=document.getElementById('tab-daily');
+  if(!el||!el.classList.contains('active'))return;
+  const t=T();
+  const today=new Date();
+  const isToday=getDayKey(dailyDate)===getDayKey(today);
+  const dk=getDayKey(dailyDate);
+  const dayNames=getDayNamesArr();
+  const dn=dayNames[dailyDate.getDay()];
+  const mm=t.months[dailyDate.getMonth()];
+
+  const lbl=document.getElementById('daily-date-label');
+  if(lbl)lbl.textContent=dn+' '+dailyDate.getDate()+' '+mm;
+  const sub=document.getElementById('daily-date-sub');
+  if(sub)sub.textContent=isToday?'🟢 اليوم':'📅 '+dailyDate.getFullYear();
+
+  const dayTotal=getDayTotal(dk);
+  const el_dt=document.getElementById('ds-total');
+  if(el_dt)el_dt.textContent=fmt(dayTotal);
+
+  // Week total
+  const ws=new Date(dailyDate);ws.setDate(dailyDate.getDate()-dailyDate.getDay());
+  let weekTotal=0;
+  for(let i=0;i<7;i++){const wd=new Date(ws);wd.setDate(ws.getDate()+i);weekTotal+=getDayTotal(getDayKey(wd));}
+  const el_wt=document.getElementById('ds-week');if(el_wt)el_wt.textContent=fmt(weekTotal);
+
+  const de=getDailyData();
+  const days=Object.keys(de);
+  const monthTotal=Object.values(de).reduce(function(s,arr){return s+arr.reduce(function(ss,e){return ss+Number(e.amount||0);},0);},0);
+  const avg=days.length>0?Math.round(monthTotal/days.length):0;
+  const el_avg=document.getElementById('ds-avg');if(el_avg)el_avg.textContent=fmt(avg);
+
+  // Cat select
+  const catSel=document.getElementById('daily-cat');
+  if(catSel&&catSel.options.length===0){
+    getMainCats().forEach(function(mc,i){
+      const opt=document.createElement('option');
+      opt.value=i;opt.textContent=mc.icon+' '+mc.label;
+      catSel.appendChild(opt);
+    });
+  }
+
+  renderWeekBars(ws,dayNames);
+  renderHeatmap(dayNames);
+  renderDailyList(dk);
+}
+
+function renderWeekBars(ws,dayNames){
+  var bars=document.getElementById('week-bars');
+  if(!bars)return;
+  bars.innerHTML='';
+  var vals=[];
+  for(var i=0;i<7;i++){
+    var wd2=new Date(ws);wd2.setDate(ws.getDate()+i);
+    vals.push(getDayTotal(getDayKey(wd2)));
+  }
+  var maxVal=Math.max.apply(null,vals.concat([1]));
+  for(var i=0;i<7;i++){
+    var wd=new Date(ws);wd.setDate(ws.getDate()+i);
+    var wdk=getDayKey(wd);
+    var val=vals[i];
+    var pct=Math.max(4,Math.round((val/maxVal)*100));
+    var isToday=getDayKey(new Date())===wdk;
+    var isSel=getDayKey(dailyDate)===wdk;
+    var color=isSel?'#7EC8B0':isToday?'#B5A8D4':'#D0E6F5';
+
+    var item=document.createElement('div');
+    item.className='week-bar-item'+(isToday?' today':'');
+    item.style.cursor='pointer';
+
+    var track=document.createElement('div');
+    track.className='week-bar-track';
+    track.style.cssText='background:var(--border);border-radius:8px;height:90px;display:flex;align-items:flex-end;';
+
+    var fill=document.createElement('div');
+    fill.style.cssText='width:100%;height:'+pct+'%;background:'+color+';border-radius:8px;min-height:4px;position:relative;';
+    if(val>0){
+      var lbl=document.createElement('div');
+      lbl.style.cssText='position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:8px;font-family:"DM Mono",monospace;color:var(--mid);white-space:nowrap;';
+      lbl.textContent=fmt(val);
+      fill.appendChild(lbl);
+    }
+    track.appendChild(fill);
+
+    var dayLbl=document.createElement('div');
+    dayLbl.className='week-bar-day';
+    if(isSel){dayLbl.style.color='var(--mint)';dayLbl.style.fontWeight='800';}
+    dayLbl.textContent=dayNames[wd.getDay()].slice(0,2);
+
+    item.appendChild(track);
+    item.appendChild(dayLbl);
+    item.onclick=(function(d){return function(){dailyDate=d;renderDailyTab();};})(wd);
+    bars.appendChild(item);
+  }
+}
+
+function renderHeatmap(dayNames){
+  const grid=document.getElementById('heatmap-grid');
+  const header=document.getElementById('heatmap-days-header');
+  if(!grid||!header)return;
+  grid.innerHTML='';header.innerHTML='';
+  dayNames.forEach(function(d){
+    const el=document.createElement('div');
+    el.className='heatmap-day-lbl';el.textContent=d.slice(0,1);header.appendChild(el);
+  });
+  const firstDay=new Date(curYear,curMonth,1);
+  const lastDay=new Date(curYear,curMonth+1,0);
+  const firstDow=firstDay.getDay();
+  const de=getDailyData();
+  const allVals=Object.values(de).map(function(arr){return arr.reduce(function(s,e){return s+Number(e.amount||0);},0);});
+  const maxVal=Math.max.apply(null,allVals.concat([1]));
+  const todayKey=getDayKey(new Date());
+  const selKey=getDayKey(dailyDate);
+  for(let i=0;i<firstDow;i++){const c=document.createElement('div');c.className='heatmap-cell empty';grid.appendChild(c);}
+  for(let d=1;d<=lastDay.getDate();d++){
+    const dt=new Date(curYear,curMonth,d);
+    const dk=getDayKey(dt);
+    const val=getDayTotal(dk);
+    const pct=val/maxVal;
+    const cell=document.createElement('div');
+    cell.className='heatmap-cell'+(dk===todayKey?' today':'');
+    let bg='var(--bg)';
+    if(val>0){if(pct<0.25)bg='#C8EAE0';else if(pct<0.5)bg='#7EC8B0';else if(pct<0.75)bg='#E8C49A';else bg='#E8A598';}
+    cell.style.background=bg;
+    if(dk===selKey)cell.style.outline='2px solid var(--mint)';
+    cell.title=d+' — '+(val>0?fmt(val)+' '+currency:'فارغ');
+    cell.innerHTML='<div class="cell-tooltip">'+d+' • '+(val>0?fmt(val)+' '+currency:'فارغ')+'</div>';
+    cell.onclick=function(dk2,dt2){return function(){dailyDate=dt2;renderDailyTab();};}(dk,dt);
+    grid.appendChild(cell);
+  }
+}
+
+function renderDailyList(dk){
+  const list=document.getElementById('daily-entries-list');
+  const total=document.getElementById('daily-list-total');
+  if(!list)return;
+  const entries=(getDailyData()[dk]||[]);
+  const dayTotal=entries.reduce(function(s,e){return s+Number(e.amount||0);},0);
+  if(total)total.textContent=fmt(dayTotal);
+  list.innerHTML='';
+  if(!entries.length){
+    const empty=document.createElement('div');
+    empty.style.cssText='padding:24px;text-align:center;color:var(--light);font-size:13px;';
+    empty.innerHTML='<div style="font-size:32px;margin-bottom:8px;">📭</div><div>لا توجد مصاريف لهذا اليوم</div>';
+    list.appendChild(empty);
+    return;
+  }
+  var bgColors=['#EAF7F3','#F0EDF9','#FDF0EE','#FBF3E6','#EAF1F8','#EDF5EA','#FFF3E0','#F3EBF7'];
+  entries.forEach(function(e,i){
+    const mc=getMainCats().find(function(c){return c.id===e.mainCat;})||getMainCats()[e.catIdx||0]||getMainCats()[0];
+    const bgIdx=(e.catIdx||0)%bgColors.length;
+    const row=document.createElement('div');
+    row.className='daily-entry-row';
+
+    const catIcon=document.createElement('div');
+    catIcon.className='entry-cat-icon';
+    catIcon.style.background=bgColors[bgIdx];
+    catIcon.textContent=mc.icon||'💰';
+
+    const info=document.createElement('div');
+    info.className='entry-info';
+    const title=document.createElement('div');
+    title.className='entry-title';
+    title.textContent=e.desc||mc.label;
+    const sub=document.createElement('div');
+    sub.className='entry-sub';
+    sub.textContent=mc.label+' • '+(e.cur||currency);
+    info.appendChild(title);info.appendChild(sub);
+
+    const amount=document.createElement('div');
+    amount.className='entry-amount';
+    amount.textContent=fmt(e.amount);
+
+    const del=document.createElement('button');
+    del.className='entry-del';
+    del.textContent='✕';
+    del.onclick=(function(d,idx){return function(){deleteDailyEntry(d,idx);};})(dk,i);
+
+    row.appendChild(catIcon);row.appendChild(info);row.appendChild(amount);row.appendChild(del);
+    list.appendChild(row);
   });
 }
 
