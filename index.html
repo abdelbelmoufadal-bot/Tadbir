@@ -245,71 +245,54 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 [dir=ltr] .rh-donut{left:auto;right:14px;}
 [dir=ltr] .backup-btn{text-align:left;}
 
-/* ══ DAILY TRACKER ══ */
-.daily-header{background:linear-gradient(135deg,#1a1f2e 0%,#252d3d 100%);border-radius:20px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;}
-.daily-header::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(126,200,176,.15),transparent 70%);}
-.daily-header::after{content:'';position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(181,168,212,.1),transparent 70%);}
-.daily-date-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:relative;z-index:1;}
-.daily-date-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 14px;color:rgba(255,255,255,.7);cursor:pointer;font-size:14px;transition:all .2s;}
-.daily-date-btn:hover{background:rgba(255,255,255,.15);color:#fff;}
-.daily-date-label{font-size:16px;font-weight:800;color:#fff;text-align:center;line-height:1.3;}
-.daily-date-sub{font-size:11px;color:rgba(255,255,255,.35);text-align:center;margin-top:2px;}
-.daily-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative;z-index:1;}
-.daily-stat{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(255,255,255,.08);}
-.daily-stat-val{font-size:20px;font-weight:800;font-family:'DM Mono',monospace;line-height:1;}
-.daily-stat-lbl{font-size:9px;color:rgba(255,255,255,.4);margin-top:4px;font-weight:500;}
-/* HEATMAP */
-.heatmap-wrap{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
-.heatmap-title{font-size:11px;font-weight:700;color:var(--mid);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
-.heatmap-title::before{content:'';display:block;width:3px;height:12px;background:linear-gradient(180deg,var(--mint),var(--lav));border-radius:3px;}
-.heatmap-days-header{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
-.heatmap-day-lbl{font-size:8px;color:var(--light);text-align:center;font-weight:600;}
-.heatmap-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-.heatmap-cell{aspect-ratio:1;border-radius:5px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;}
-.heatmap-cell:hover{transform:scale(1.15);box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:2;}
-.heatmap-cell.empty{background:var(--bg);}
-.heatmap-cell.today{box-shadow:0 0 0 2px var(--mint);}
-.heatmap-cell .cell-tooltip{display:none;position:absolute;bottom:calc(100%+6px);left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;font-size:9px;padding:4px 8px;border-radius:6px;white-space:nowrap;z-index:10;font-family:'DM Mono',monospace;}
-.heatmap-cell:hover .cell-tooltip{display:block;}
-.heatmap-legend{display:flex;align-items:center;gap:6px;margin-top:10px;justify-content:flex-end;}
-.heatmap-legend span{font-size:9px;color:var(--light);}
-.heatmap-legend-cells{display:flex;gap:3px;}
-.heatmap-legend-cell{width:12px;height:12px;border-radius:3px;}
-/* DAILY BAR CHART */
-.daily-bars-wrap{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
-.week-bars{display:flex;align-items:flex-end;gap:8px;height:100px;margin:12px 0 6px;}
-.week-bar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.week-bar-track{width:100%;flex:1;display:flex;align-items:flex-end;border-radius:6px;overflow:hidden;position:relative;min-height:8px;}
-.week-bar-fill{width:100%;border-radius:6px;transition:height .6s cubic-bezier(.34,1.56,.64,1);position:relative;}
-.week-bar-fill::after{content:attr(data-val);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:8px;font-family:'DM Mono',monospace;color:var(--mid);white-space:nowrap;}
-.week-bar-day{font-size:9px;color:var(--light);font-weight:600;text-align:center;}
-.week-bar-item.today .week-bar-day{color:var(--mint);font-weight:800;}
-/* DAILY ENTRY LIST */
-.daily-entries{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
-.daily-entries-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.daily-entry-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);transition:background .15s;}
-.daily-entry-row:last-child{border-bottom:none;}
-.daily-entry-row:hover{background:var(--bg);}
-.entry-cat-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.entry-info{flex:1;min-width:0;}
-.entry-title{font-size:12px;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.entry-sub{font-size:10px;color:var(--light);margin-top:1px;}
-.entry-amount{font-family:'DM Mono',monospace;font-size:14px;font-weight:800;color:var(--dark);flex-shrink:0;}
-.entry-del{background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;padding:4px;flex-shrink:0;transition:color .15s;}
-.entry-del:hover{color:#E8A598;}
-/* ADD ENTRY FORM */
-.daily-add-form{background:linear-gradient(135deg,var(--mint-ll),var(--lav-ll));border-radius:16px;padding:16px;border:1px solid var(--mint-l);margin-bottom:14px;}
-.daily-add-title{font-size:11px;font-weight:700;color:var(--mid);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
-.daily-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-.daily-input{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);outline:none;width:100%;transition:border-color .2s;}
-.daily-input:focus{border-color:var(--mint);}
-.daily-select{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);outline:none;width:100%;cursor:pointer;transition:border-color .2s;}
-.daily-select:focus{border-color:var(--mint);}
-.daily-add-btn{width:100%;padding:11px;background:linear-gradient(135deg,var(--mint),#6bbda3);border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:#fff;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(126,200,176,.3);}
-.daily-add-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(126,200,176,.4);}
-.daily-add-btn:active{transform:translateY(0);}
 @media(max-width:700px){.daily-stats-row{grid-template-columns:repeat(3,1fr);}.daily-form-grid{grid-template-columns:1fr;}}
+/* ══ MONTHLY CALENDAR ══ */
+.cal-wrap{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
+.cal-header{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.cal-title{font-size:13px;font-weight:800;color:var(--dark);display:flex;align-items:center;gap:7px;}
+.cal-title .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--lav));}
+.cal-total{font-family:'DM Mono',monospace;font-size:13px;font-weight:800;color:var(--dark);}
+.cal-grid{padding:14px;}
+.cal-days-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;}
+.cal-day-name{font-size:9px;font-weight:700;color:var(--light);text-align:center;padding:4px 0;letter-spacing:.3px;}
+.cal-cells{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cal-cell{border-radius:10px;padding:6px 4px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;cursor:default;transition:transform .15s;position:relative;}
+.cal-cell.has-data{cursor:pointer;}
+.cal-cell.has-data:hover{transform:scale(1.05);z-index:2;}
+.cal-cell.empty{background:transparent;}
+.cal-cell.today .cal-num{background:var(--mint);color:var(--dark);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800;}
+.cal-num{font-size:11px;font-weight:600;color:var(--mid);line-height:1;margin-bottom:4px;}
+.cal-amount{font-size:9px;font-family:'DM Mono',monospace;font-weight:700;line-height:1;}
+.cal-bar{width:80%;height:3px;border-radius:3px;margin-top:3px;}
+.cal-legend{display:flex;align-items:center;gap:14px;padding:8px 18px 12px;flex-wrap:wrap;}
+.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mid);font-weight:600;}
+.cal-legend-dot{width:10px;height:10px;border-radius:3px;}
+@media(max-width:700px){.cal-cell{min-height:42px;padding:4px 2px;}.cal-amount{font-size:8px;}}
+
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
+/* ══ IN DRIVE ══ */
+.drive-hero{background:linear-gradient(135deg,#1a2535,#1e3040);border-radius:18px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
+.drive-hero::before{content:'🚗';position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.08;}
+.drive-stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;}
+.drive-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:11px 8px;text-align:center;}
+.drive-stat-val{font-size:17px;font-weight:800;font-family:'DM Mono',monospace;color:#7EC8B0;line-height:1;}
+.drive-stat-lbl{font-size:8px;color:rgba(255,255,255,.35);margin-top:3px;font-weight:500;}
+.drive-form{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:14px;}
+.drive-form-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:12px;}
+.drive-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
+.drive-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 11px;font-family:'Tajawal',sans-serif;font-size:12px;color:#fff;outline:none;width:100%;transition:border-color .2s;}
+.drive-input:focus{border-color:#7EC8B0;}
+.drive-input::placeholder{color:rgba(255,255,255,.25);}
+.drive-input-lbl{font-size:9px;color:rgba(255,255,255,.35);margin-bottom:4px;font-weight:600;}
+.drive-submit{width:100%;padding:11px;background:linear-gradient(135deg,#7EC8B0,#6bbda3);border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:#1a2535;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(126,200,176,.25);}
+.drive-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(126,200,176,.35);}
+.drive-week-wrap{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
+.drive-week-bars{display:flex;align-items:flex-end;gap:6px;height:90px;}
+.drive-entries{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;}
+.drive-entries-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.drive-sync-badge{background:var(--mint-ll);color:var(--mint);font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;border:1px solid var(--mint-l);}
+@media(max-width:700px){.drive-stats-grid{grid-template-columns:repeat(3,1fr);}.drive-form-row{grid-template-columns:1fr 1fr;}}
+
 @media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}}
 /* AUTH */
 .auth-bar{display:flex;align-items:center;gap:8px;}
@@ -737,8 +720,9 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 <nav class="nav-tabs" style="display:none;">
   <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
   <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
+  <div class="nav-tab" onclick="showTab('drive',this)">🚗 <span id="t-tab5">In Drive</span></div>
   <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
-  <div class="nav-tab" onclick="showTab('daily',this)">🗓️ <span id="t-tab4">يومياتي</span></div>
+
 </nav>
 
 <div id="tab-dashboard" class="tab-panel active" style="display:none;"><div class="main">
@@ -770,6 +754,25 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--gold)"></span><span id="tl-debts"></span></div><div class="card-total" style="color:var(--gold)" id="th-debts">0</div></div><table class="mini-table"><thead><tr><th id="tc-d1"></th><th id="tc-d2"></th><th id="tc-d3"></th></tr></thead><tbody id="debts-body"></tbody></table><button class="add-btn" id="add-dbt-btn" onclick="addRow('debts')">＋</button></div>
   </div>
   <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--sage)"></span><span id="tl-income"></span></div><div class="card-total" style="color:var(--sage)" id="th-income">0</div></div><table class="mini-table"><thead><tr><th id="tc-i1"></th><th id="tc-i2"></th><th id="tc-i3"></th></tr></thead><tbody id="income-body"></tbody></table><button class="add-btn" id="add-inc-btn" onclick="addRow('income')">＋</button></div>
+
+  <!-- MONTHLY CALENDAR -->
+  <div class="cal-wrap">
+    <div class="cal-header">
+      <div class="cal-title"><span class="dot"></span><span id="cal-title-lbl">ملخص مصاريف الشهر</span></div>
+      <div><span style="font-size:10px;color:var(--light);margin-left:6px;" id="cal-total-lbl">إجمالي:</span> <span class="cal-total" id="cal-total-val">0</span> <span style="font-size:10px;color:var(--light);" id="cal-cur">درهم</span></div>
+    </div>
+    <div class="cal-grid">
+      <div class="cal-days-row" id="cal-days-row"></div>
+      <div class="cal-cells" id="cal-cells"></div>
+    </div>
+    <div class="cal-legend">
+      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#C8EAE0;"></div><span id="cal-leg1">عادي</span></div>
+      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#E8C49A;"></div><span id="cal-leg2">متوسط</span></div>
+      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#E8A598;"></div><span id="cal-leg3">مرتفع</span></div>
+      <div style="margin-right:auto;font-size:9px;color:var(--light);" id="cal-source">المصدر: يومياتي تلقائياً</div>
+    </div>
+  </div>
+
 </div></div>
 
 <div id="tab-notes" class="tab-panel"><div class="main">
@@ -793,84 +796,56 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
 </div></div>
 
+<div id="tab-drive" class="tab-panel"><div class="main">
+
+  <!-- DRIVE HERO -->
+  <div class="drive-hero">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div>
+        <div style="font-size:18px;font-weight:800;color:#fff;">🚗 In Drive</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:2px;" id="drv-month-lbl">مايو 2025</div>
+      </div>
+      <div class="drive-sync-badge">⚡ يتزامن مع الدخل</div>
+    </div>
+    <div class="drive-stats-grid">
+      <div class="drive-stat"><div class="drive-stat-val" id="drv-today">0</div><div class="drive-stat-lbl" id="drv-today-lbl">اليوم</div></div>
+      <div class="drive-stat"><div class="drive-stat-val" id="drv-week">0</div><div class="drive-stat-lbl" id="drv-week-lbl">الأسبوع</div></div>
+      <div class="drive-stat"><div class="drive-stat-val" id="drv-month">0</div><div class="drive-stat-lbl" id="drv-month-lbl2">الشهر</div></div>
+      <div class="drive-stat"><div class="drive-stat-val" id="drv-avg">0</div><div class="drive-stat-lbl" id="drv-avg-lbl">معدل/رحلة</div></div>
+      <div class="drive-stat"><div class="drive-stat-val" style="color:#B5A8D4;" id="drv-trips">0</div><div class="drive-stat-lbl" id="drv-trips-lbl">رحلة</div></div>
+    </div>
+    <div class="drive-form">
+      <div class="drive-form-title">➕ <span id="drv-add-title">تسجيل يوم جديد</span></div>
+      <div class="drive-form-row">
+        <div><div class="drive-input-lbl" id="drv-lbl-date">التاريخ</div><input type="date" class="drive-input" id="drive-date"></div>
+        <div><div class="drive-input-lbl" id="drv-lbl-trips">عدد الرحلات</div><input type="number" class="drive-input" id="drive-trips" placeholder="0" min="0"></div>
+        <div><div class="drive-input-lbl" id="drv-lbl-total">المجموع</div><input type="number" class="drive-input" id="drive-total" placeholder="0" min="0"></div>
+      </div>
+      <button class="drive-submit" onclick="addDriveEntry()">🚗 <span id="drv-submit-lbl">تسجيل اليوم</span></button>
+    </div>
+  </div>
+
+  <!-- WEEK BARS -->
+  <div class="drive-week-wrap">
+    <div class="heatmap-title" id="drv-week-chart-title">أفضل أيام الأسبوع</div>
+    <div class="drive-week-bars" id="drive-week-bars" style="display:flex;align-items:flex-end;gap:6px;height:90px;"></div>
+  </div>
+
+  <!-- ENTRIES LIST -->
+  <div class="drive-entries">
+    <div class="drive-entries-header">
+      <div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="drv-list-title">سجل الرحلات</span></div>
+      <div class="card-total" style="color:var(--mint)" id="drv-list-total">0</div>
+    </div>
+    <div id="drive-entries-list"></div>
+  </div>
+
+</div></div>
+
 <div id="tab-monthly" class="tab-panel"><div class="main">
   <div class="section-title"><span id="t-monthly-title"></span> — <span id="monthly-yr-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
   <div class="card" style="overflow-x:auto;margin-bottom:14px;"><table class="monthly-table"><thead id="monthly-head"></thead><tbody id="monthly-body"></tbody></table></div>
   <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-monthly-chart"></span></div></div><div class="chart-wrap" style="height:230px;"><canvas id="monthlyLine"></canvas></div></div>
-</div></div>
-
-<div id="tab-daily" class="tab-panel"><div class="main">
-
-  <!-- DAILY HEADER -->
-  <div class="daily-header">
-    <div class="daily-date-nav">
-      <button class="daily-date-btn" onclick="dailyNavDay(-1)">‹</button>
-      <div>
-        <div class="daily-date-label" id="daily-date-label">---</div>
-        <div class="daily-date-sub" id="daily-date-sub">---</div>
-      </div>
-      <button class="daily-date-btn" onclick="dailyNavDay(1)">›</button>
-    </div>
-    <div class="daily-stats-row">
-      <div class="daily-stat">
-        <div class="daily-stat-val" style="color:#7EC8B0;" id="ds-total">0</div>
-        <div class="daily-stat-lbl" id="ds-total-lbl">اليوم</div>
-      </div>
-      <div class="daily-stat">
-        <div class="daily-stat-val" style="color:#B5A8D4;" id="ds-week">0</div>
-        <div class="daily-stat-lbl" id="ds-week-lbl">الأسبوع</div>
-      </div>
-      <div class="daily-stat">
-        <div class="daily-stat-val" style="color:#E8A598;" id="ds-avg">0</div>
-        <div class="daily-stat-lbl" id="ds-avg-lbl">المعدل/يوم</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ADD FORM -->
-  <div class="daily-add-form">
-    <div class="daily-add-title">➕ <span id="daily-add-title">إضافة مصروف اليوم</span></div>
-    <div class="daily-form-grid">
-      <input type="text" class="daily-input" id="daily-desc" placeholder="الوصف..." style="grid-column:1/-1;">
-      <select class="daily-select" id="daily-cat"></select>
-      <input type="number" class="daily-input" id="daily-amount" placeholder="المبلغ" min="0">
-    </div>
-    <button class="daily-add-btn" onclick="addDailyEntry()">＋ <span id="daily-add-btn-lbl">إضافة</span></button>
-  </div>
-
-  <!-- WEEK BARS -->
-  <div class="daily-bars-wrap">
-    <div class="heatmap-title" id="daily-week-title">مصاريف الأسبوع الحالي</div>
-    <div class="week-bars" id="week-bars"></div>
-  </div>
-
-  <!-- HEATMAP -->
-  <div class="heatmap-wrap">
-    <div class="heatmap-title" id="daily-heatmap-title">خريطة الشهر</div>
-    <div class="heatmap-days-header" id="heatmap-days-header"></div>
-    <div class="heatmap-grid" id="heatmap-grid"></div>
-    <div class="heatmap-legend">
-      <span>أقل</span>
-      <div class="heatmap-legend-cells">
-        <div class="heatmap-legend-cell" style="background:#EAF7F3;"></div>
-        <div class="heatmap-legend-cell" style="background:#A8D8C8;"></div>
-        <div class="heatmap-legend-cell" style="background:#7EC8B0;"></div>
-        <div class="heatmap-legend-cell" style="background:#E8C49A;"></div>
-        <div class="heatmap-legend-cell" style="background:#E8A598;"></div>
-      </div>
-      <span>أكثر</span>
-    </div>
-  </div>
-
-  <!-- ENTRIES LIST -->
-  <div class="daily-entries">
-    <div class="daily-entries-header">
-      <div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="daily-list-title">سجل اليوم</span></div>
-      <div class="card-total" style="color:var(--lav)" id="daily-list-total">0</div>
-    </div>
-    <div id="daily-entries-list"></div>
-  </div>
-
 </div></div>
 
 <footer class="footer" style="display:none;">
@@ -1060,7 +1035,9 @@ const SK='sf_v33', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
 const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0'};
 const CAT_COLORS=['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#9AA0B0'];
 let curYear=2025, curMonth=4, currency='درهم', pickerYear=2025, nmOpt='copy';
-let _appReady=false; // prevent multiple initializations
+let _appReady=false;      // prevent multiple initializations
+let _authReady=false;     // true only after cloud load completes
+let _saveQueue=false;     // pending save after cloud load
 let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
 
 const mkey=(y,m)=>`${y}-${String(m).padStart(2,'0')}`;
@@ -1343,12 +1320,13 @@ function updateBackupUI(){$('pin-toggle').classList.toggle('on',pinEnabled);cons
 function monthHasRealData(mk){
   const d=allData[mk];
   if(!d)return false;
-  // Must have the full new default structure (8 bills, 10 expenses)
-  if(!d.bills||d.bills.length<8)return false;
-  if(!d.expenses||d.expenses.length<10)return false;
-  if(!d.savings||d.savings.length<4)return false;
-  if(!d.debts||d.debts.length<3)return false;
-  if(!d.income||d.income.length<3)return false;
+  // Month has real data if ANY section has rows (even 1 row)
+  // This prevents overwriting user-deleted or user-customized data
+  const secs=['bills','expenses','savings','debts','income'];
+  const hasAny=secs.some(s=>d[s]&&d[s].length>0);
+  if(!hasAny)return false;
+  // Also check: if it has the minimum required sections
+  if(!d.bills||!d.expenses||!d.savings||!d.debts||!d.income)return false;
   return true;
 }
 
@@ -1418,34 +1396,18 @@ function resetDefaults(){
 }
 
 function persistData(){
-  // Save current state WITHOUT reading DOM (DOM already synced)
+  // Save to localStorage always
   try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));localStorage.setItem('sf_last_save',new Date().toLocaleString());}catch(e){}
-  // Also save to Firestore if logged in (but not during initial cloud load)
-  if(!_isLoadingFromCloud && typeof _fbUid !== 'undefined' && _fbUid && typeof fbSaveToCloud === 'function'){
+  // Save to Firestore only when auth is ready and not loading
+  if(!_isLoadingFromCloud && _authReady && typeof _fbUid !== 'undefined' && _fbUid && typeof fbSaveToCloud === 'function'){
     fbSaveToCloud();
   }
 }
 
 // Read DOM → allData for current month
 function syncDOMtoData(){
-  const mk=ck();
-  if(!allData[mk])allData[mk]=defMonth();
-  ['bills','expenses','savings','debts','income'].forEach(sec=>{
-    const rows=[];
-    const existing=allData[mk][sec]||[];
-    document.querySelectorAll(`#${sec}-body tr.data-row`).forEach((tr,idx)=>{
-      const ins=tr.querySelectorAll('input');
-      if(ins.length>=3){
-        // If act input is hidden by notes badge, keep existing act value
-        const actInput=ins[1];
-        const actVal=actInput.style.display==='none'
-          ?(existing[idx]?Number(existing[idx].act)||0:0)
-          :Number(actInput.value)||0;
-        rows.push({label:ins[0].value,act:actVal,pln:Number(ins[2].value)||0});
-      }
-    });
-    allData[mk][sec]=rows;
-  });
+  // NO-OP: allData is updated directly via onInput on each keystroke
+  // This prevents DOM reads from overwriting cloud-loaded data
 }
 
 function saveData(){
@@ -1578,6 +1540,7 @@ function renderAll(){
   renderNotes();
   updateMonthLabel();
   recalc();
+  renderCalendar();
 }
 
 // ══════════════════════════════════════════════
@@ -1666,7 +1629,8 @@ function updateMonthLabel(){
   set('monthLabel',lbl);set('notes-month-lbl',lbl);set('monthly-yr-lbl',`${curYear}`);
 }
 function navigateMonth(dir){
-  if(!_isLoadingFromCloud)saveData();
+  // Persist current state before switching (no DOM read needed)
+  if(!_isLoadingFromCloud && _authReady)persistData();
   curMonth+=dir;
   if(curMonth>11){curMonth=0;curYear++;}
   if(curMonth<0){curMonth=11;curYear--;}
@@ -2033,7 +1997,11 @@ function showTab(name,el){
   el.classList.add('active');
   if(name==='monthly')buildMonthlyTable();
   if(name==='notes')renderNotes();
-  if(name==='daily'){dailyDate=new Date();renderDailyTab();}
+  if(name==='drive'){
+    const dateInput=document.getElementById('drive-date');
+    if(dateInput&&!dateInput.value)dateInput.value=new Date().toISOString().slice(0,10);
+    renderDriveTab();
+  }
 }
 function changeCurrency(val){currency=val;syncCur();persistData();}
 function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=$(id);if(e)e.textContent=currency;});const h=$('hero-cur');if(h)h.textContent=currency;}
@@ -2132,9 +2100,13 @@ async function fbLoadFromCloud(uid){
       syncCur();
       setSyncStatus('ok');
       _isLoadingFromCloud=false;
+      _authReady=true;
+      // If any save was queued during load, execute now
+      if(_saveQueue){_saveQueue=false;fbSaveToCloud();}
       showToast('☁️ '+(T().toast_loaded||'تم تحميل بياناتك من السحاب'));
     }else{
       _isLoadingFromCloud=false;
+      _authReady=true;
       // No cloud data yet — upload local data
       await fbSaveToCloud();
     }
@@ -2295,249 +2267,286 @@ function initLandingCharts(){
   });
 }
 
+
 // ══════════════════════════════════════════════
-// DAILY TRACKER
+// MONTHLY CALENDAR (in dashboard)
 // ══════════════════════════════════════════════
-const DAY_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-const DAY_FR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-const DAY_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const DAY_ES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-
-let dailyDate=new Date();
-
-function getDayKey(d){return d.toISOString().slice(0,10);}
-function getDailyData(){return (allData[ck()]||{}).dailyEntries||{};}
-
-function addDailyEntry(){
-  const desc=document.getElementById('daily-desc').value.trim();
-  const amount=Number(document.getElementById('daily-amount').value)||0;
-  const catSel=document.getElementById('daily-cat');
-  const catIdx=Number(catSel.value)||0;
-  if(amount<=0){showToast('❌ أدخل مبلغاً');return;}
-  const mc=getMainCats()[catIdx]||getMainCats()[0];
-  const mk=ck();
-  if(!allData[mk])allData[mk]=defMonth();
-  if(!allData[mk].dailyEntries)allData[mk].dailyEntries={};
-  const dk=getDayKey(dailyDate);
-  if(!allData[mk].dailyEntries[dk])allData[mk].dailyEntries[dk]=[];
-  allData[mk].dailyEntries[dk].push({
-    id:Date.now(),desc:desc||mc.label,mainCat:mc.id,
-    catIcon:mc.icon,catLabel:mc.label,catIdx,amount,date:dk,cur:currency
-  });
-  persistData();
-  document.getElementById('daily-desc').value='';
-  document.getElementById('daily-amount').value='';
-  renderDailyTab();
-  showToast(T().toast_add||'✓');
-}
-
-function deleteDailyEntry(dk,idx){
-  const mk=ck();
-  if(!allData[mk]||!allData[mk].dailyEntries||!allData[mk].dailyEntries[dk])return;
-  allData[mk].dailyEntries[dk].splice(idx,1);
-  if(!allData[mk].dailyEntries[dk].length)delete allData[mk].dailyEntries[dk];
-  persistData();renderDailyTab();
-}
-
-function dailyNavDay(dir){
-  dailyDate=new Date(dailyDate);
-  dailyDate.setDate(dailyDate.getDate()+dir);
-  const now=new Date();
-  if(dailyDate>now)dailyDate=now;
-  renderDailyTab();
-}
-
-function getDayTotal(dk){
-  const d=getDailyData();
-  return (d[dk]||[]).reduce(function(s,e){return s+Number(e.amount||0);},0);
-}
-
-function getDayNamesArr(){
-  if(lang==='fr')return DAY_FR;
-  if(lang==='en')return DAY_EN;
-  if(lang==='es')return DAY_ES;
-  return DAY_AR;
-}
-
-function renderDailyTab(){
-  const el=document.getElementById('tab-daily');
-  if(!el||!el.classList.contains('active'))return;
+function renderCalendar(){
+  const calCells=document.getElementById('cal-cells');
+  const calDays=document.getElementById('cal-days-row');
+  if(!calCells||!calDays)return;
   const t=T();
-  const today=new Date();
-  const isToday=getDayKey(dailyDate)===getDayKey(today);
-  const dk=getDayKey(dailyDate);
-  const dayNames=getDayNamesArr();
-  const dn=dayNames[dailyDate.getDay()];
-  const mm=t.months[dailyDate.getMonth()];
+  const isRTL=t.dir==='rtl';
 
-  const lbl=document.getElementById('daily-date-label');
-  if(lbl)lbl.textContent=dn+' '+dailyDate.getDate()+' '+mm;
-  const sub=document.getElementById('daily-date-sub');
-  if(sub)sub.textContent=isToday?'🟢 اليوم':'📅 '+dailyDate.getFullYear();
+  // Day names
+  const dayNamesAR=['أحد','اثن','ثلا','أرب','خمس','جمع','سبت'];
+  const dayNamesFR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  const dayNamesEN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dayNamesES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const dayNames=lang==='fr'?dayNamesFR:lang==='en'?dayNamesEN:lang==='es'?dayNamesES:dayNamesAR;
 
-  const dayTotal=getDayTotal(dk);
-  const el_dt=document.getElementById('ds-total');
-  if(el_dt)el_dt.textContent=fmt(dayTotal);
-
-  // Week total
-  const ws=new Date(dailyDate);ws.setDate(dailyDate.getDate()-dailyDate.getDay());
-  let weekTotal=0;
-  for(let i=0;i<7;i++){const wd=new Date(ws);wd.setDate(ws.getDate()+i);weekTotal+=getDayTotal(getDayKey(wd));}
-  const el_wt=document.getElementById('ds-week');if(el_wt)el_wt.textContent=fmt(weekTotal);
-
-  const de=getDailyData();
-  const days=Object.keys(de);
-  const monthTotal=Object.values(de).reduce(function(s,arr){return s+arr.reduce(function(ss,e){return ss+Number(e.amount||0);},0);},0);
-  const avg=days.length>0?Math.round(monthTotal/days.length):0;
-  const el_avg=document.getElementById('ds-avg');if(el_avg)el_avg.textContent=fmt(avg);
-
-  // Cat select
-  const catSel=document.getElementById('daily-cat');
-  if(catSel&&catSel.options.length===0){
-    getMainCats().forEach(function(mc,i){
-      const opt=document.createElement('option');
-      opt.value=i;opt.textContent=mc.icon+' '+mc.label;
-      catSel.appendChild(opt);
-    });
-  }
-
-  renderWeekBars(ws,dayNames);
-  renderHeatmap(dayNames);
-  renderDailyList(dk);
-}
-
-function renderWeekBars(ws,dayNames){
-  var bars=document.getElementById('week-bars');
-  if(!bars)return;
-  bars.innerHTML='';
-  var vals=[];
-  for(var i=0;i<7;i++){
-    var wd2=new Date(ws);wd2.setDate(ws.getDate()+i);
-    vals.push(getDayTotal(getDayKey(wd2)));
-  }
-  var maxVal=Math.max.apply(null,vals.concat([1]));
-  for(var i=0;i<7;i++){
-    var wd=new Date(ws);wd.setDate(ws.getDate()+i);
-    var wdk=getDayKey(wd);
-    var val=vals[i];
-    var pct=Math.max(4,Math.round((val/maxVal)*100));
-    var isToday=getDayKey(new Date())===wdk;
-    var isSel=getDayKey(dailyDate)===wdk;
-    var color=isSel?'#7EC8B0':isToday?'#B5A8D4':'#D0E6F5';
-
-    var item=document.createElement('div');
-    item.className='week-bar-item'+(isToday?' today':'');
-    item.style.cursor='pointer';
-
-    var track=document.createElement('div');
-    track.className='week-bar-track';
-    track.style.cssText='background:var(--border);border-radius:8px;height:90px;display:flex;align-items:flex-end;';
-
-    var fill=document.createElement('div');
-    fill.style.cssText='width:100%;height:'+pct+'%;background:'+color+';border-radius:8px;min-height:4px;position:relative;';
-    if(val>0){
-      var lbl=document.createElement('div');
-      lbl.style.cssText='position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:8px;font-family:"DM Mono",monospace;color:var(--mid);white-space:nowrap;';
-      lbl.textContent=fmt(val);
-      fill.appendChild(lbl);
-    }
-    track.appendChild(fill);
-
-    var dayLbl=document.createElement('div');
-    dayLbl.className='week-bar-day';
-    if(isSel){dayLbl.style.color='var(--mint)';dayLbl.style.fontWeight='800';}
-    dayLbl.textContent=dayNames[wd.getDay()].slice(0,2);
-
-    item.appendChild(track);
-    item.appendChild(dayLbl);
-    item.onclick=(function(d){return function(){dailyDate=d;renderDailyTab();};})(wd);
-    bars.appendChild(item);
-  }
-}
-
-function renderHeatmap(dayNames){
-  const grid=document.getElementById('heatmap-grid');
-  const header=document.getElementById('heatmap-days-header');
-  if(!grid||!header)return;
-  grid.innerHTML='';header.innerHTML='';
+  calDays.innerHTML='';
   dayNames.forEach(function(d){
     const el=document.createElement('div');
-    el.className='heatmap-day-lbl';el.textContent=d.slice(0,1);header.appendChild(el);
+    el.className='cal-day-name';
+    el.textContent=d;
+    calDays.appendChild(el);
   });
+
+  // Get daily entries data
+  const mk=ck();
+  const dailyEntries=(allData[mk]||{}).dailyEntries||{};
+  const notes=(allData[mk]||{}).notes||[];
+
+  // Build daily totals from notes (grouped by date)
+  const dayTotals={};
+  notes.forEach(function(n){
+    const d=n.date;
+    if(d){dayTotals[d]=(dayTotals[d]||0)+Number(n.amount||0);}
+  });
+  // Also add dailyEntries if exist
+  Object.keys(dailyEntries).forEach(function(dk){
+    const v=(dailyEntries[dk]||[]).reduce(function(s,e){return s+Number(e.amount||0);},0);
+    dayTotals[dk]=(dayTotals[dk]||0)+v;
+  });
+
+  // Month total
+  const monthTotal=Object.values(dayTotals).reduce(function(s,v){return s+v;},0);
+  const el_total=document.getElementById('cal-total-val');
+  if(el_total)el_total.textContent=fmt(monthTotal);
+  const el_cur=document.getElementById('cal-cur');
+  if(el_cur)el_cur.textContent=currency;
+
+  // Max for color scale
+  const allVals=Object.values(dayTotals).filter(function(v){return v>0;});
+  const maxVal=Math.max.apply(null,allVals.concat([1]));
+  const avg=allVals.length>0?monthTotal/allVals.length:1;
+
+  // Build calendar grid
+  calCells.innerHTML='';
   const firstDay=new Date(curYear,curMonth,1);
   const lastDay=new Date(curYear,curMonth+1,0);
   const firstDow=firstDay.getDay();
-  const de=getDailyData();
-  const allVals=Object.values(de).map(function(arr){return arr.reduce(function(s,e){return s+Number(e.amount||0);},0);});
-  const maxVal=Math.max.apply(null,allVals.concat([1]));
-  const todayKey=getDayKey(new Date());
-  const selKey=getDayKey(dailyDate);
-  for(let i=0;i<firstDow;i++){const c=document.createElement('div');c.className='heatmap-cell empty';grid.appendChild(c);}
-  for(let d=1;d<=lastDay.getDate();d++){
-    const dt=new Date(curYear,curMonth,d);
-    const dk=getDayKey(dt);
-    const val=getDayTotal(dk);
-    const pct=val/maxVal;
-    const cell=document.createElement('div');
-    cell.className='heatmap-cell'+(dk===todayKey?' today':'');
-    let bg='var(--bg)';
-    if(val>0){if(pct<0.25)bg='#C8EAE0';else if(pct<0.5)bg='#7EC8B0';else if(pct<0.75)bg='#E8C49A';else bg='#E8A598';}
-    cell.style.background=bg;
-    if(dk===selKey)cell.style.outline='2px solid var(--mint)';
-    cell.title=d+' — '+(val>0?fmt(val)+' '+currency:'فارغ');
-    cell.innerHTML='<div class="cell-tooltip">'+d+' • '+(val>0?fmt(val)+' '+currency:'فارغ')+'</div>';
-    cell.onclick=function(dk2,dt2){return function(){dailyDate=dt2;renderDailyTab();};}(dk,dt);
-    grid.appendChild(cell);
+  const todayKey=new Date().toISOString().slice(0,10);
+
+  // Empty cells
+  for(var i=0;i<firstDow;i++){
+    const empty=document.createElement('div');
+    empty.className='cal-cell empty';
+    calCells.appendChild(empty);
   }
+
+  // Day cells
+  for(var d=1;d<=lastDay.getDate();d++){
+    const dt=new Date(curYear,curMonth,d);
+    const dk=dt.toISOString().slice(0,10);
+    const val=dayTotals[dk]||0;
+    const isToday=dk===todayKey;
+    const pct=val/maxVal;
+
+    const cell=document.createElement('div');
+    cell.className='cal-cell'+(val>0?' has-data':'')+(isToday?' today':'');
+
+    // Color based on amount
+    let bg='var(--bg)',barColor='transparent';
+    if(val>0){
+      if(pct<0.33){bg='#EAF7F3';barColor='#7EC8B0';}
+      else if(pct<0.66){bg='#FBF3E6';barColor='#E8C49A';}
+      else{bg='#FDF0EE';barColor='#E8A598';}
+    }
+    if(!isToday)cell.style.background=bg;
+    else cell.style.background='linear-gradient(135deg,var(--mint-ll),#EAF7F3)';
+
+    // Day number
+    const numEl=document.createElement('div');
+    numEl.className='cal-num';
+    numEl.textContent=d;
+    cell.appendChild(numEl);
+
+    // Amount
+    if(val>0){
+      const amtEl=document.createElement('div');
+      amtEl.className='cal-amount';
+      amtEl.style.color=barColor;
+      amtEl.textContent=fmt(val);
+      cell.appendChild(amtEl);
+
+      const bar=document.createElement('div');
+      bar.className='cal-bar';
+      bar.style.background=barColor;
+      bar.style.opacity='0.5';
+      cell.appendChild(bar);
+    }
+
+    // Tooltip
+    cell.title=t.months[curMonth]+' '+d+(val>0?' — '+fmt(val)+' '+currency:'');
+    calCells.appendChild(cell);
+  }
+
+  // Update title
+  const titleEl=document.getElementById('cal-title-lbl');
+  if(titleEl)titleEl.textContent=(lang==='fr'?'Résumé ':lang==='en'?'Summary ':lang==='es'?'Resumen ':'ملخص مصاريف ')+t.months[curMonth]+' '+curYear;
 }
 
-function renderDailyList(dk){
-  const list=document.getElementById('daily-entries-list');
-  const total=document.getElementById('daily-list-total');
+// ══════════════════════════════════════════════
+// IN DRIVE TAB
+// ══════════════════════════════════════════════
+function getDriveData(){
+  return (allData[ck()]||{}).driveEntries||[];
+}
+
+function addDriveEntry(){
+  const date=document.getElementById('drive-date').value;
+  const trips=Number(document.getElementById('drive-trips').value)||0;
+  const total=Number(document.getElementById('drive-total').value)||0;
+  if(!date||trips<=0||total<=0){showToast('❌ '+(T().drive_fill||'أكمل كل الحقول'));return;}
+  const mk=ck();
+  if(!allData[mk])allData[mk]=defMonth();
+  if(!allData[mk].driveEntries)allData[mk].driveEntries=[];
+  allData[mk].driveEntries.push({date,trips,total,avg:Math.round(total/trips)});
+  // Sync to income "عمل ثاني"
+  syncDriveToIncome();
+  persistData();
+  document.getElementById('drive-trips').value='';
+  document.getElementById('drive-total').value='';
+  renderDriveTab();
+  showToast(T().toast_add||'✓');
+}
+
+function syncDriveToIncome(){
+  const mk=ck();
+  const entries=getDriveData();
+  const monthTotal=entries.reduce(function(s,e){return s+Number(e.total||0);},0);
+  // Find "عمل ثاني" or second income row
+  const income=allData[mk].income||[];
+  let found=false;
+  income.forEach(function(row){
+    if(row.label==='عمل ثاني'||row.label==='2ème emploi'||row.label==='2nd job'||row.label==='2º trabajo'||row.label==='خدمة ثانية'){
+      row.act=monthTotal;found=true;
+    }
+  });
+  if(!found&&income.length>1){income[1].act=monthTotal;}
+  renderSection('income');
+  recalc();
+}
+
+function deleteDriveEntry(idx){
+  const mk=ck();
+  if(!allData[mk]||!allData[mk].driveEntries)return;
+  allData[mk].driveEntries.splice(idx,1);
+  syncDriveToIncome();
+  persistData();
+  renderDriveTab();
+}
+
+function renderDriveTab(){
+  const panel=document.getElementById('tab-drive');
+  if(!panel||!panel.classList.contains('active'))return;
+  const t=T();
+  const entries=getDriveData();
+
+  // Today
+  const todayKey=new Date().toISOString().slice(0,10);
+  const todayEntries=entries.filter(function(e){return e.date===todayKey;});
+  const todayTotal=todayEntries.reduce(function(s,e){return s+e.total;},0);
+  const todayTrips=todayEntries.reduce(function(s,e){return s+e.trips;},0);
+
+  // Week
+  const now=new Date();
+  const ws=new Date(now);ws.setDate(now.getDate()-now.getDay());
+  const weekTotal=entries.filter(function(e){
+    const d=new Date(e.date);return d>=ws&&d<=now;
+  }).reduce(function(s,e){return s+e.total;},0);
+
+  // Month total
+  const monthTotal=entries.reduce(function(s,e){return s+e.total;},0);
+  const monthTrips=entries.reduce(function(s,e){return s+e.trips;},0);
+  const avgPerTrip=monthTrips>0?Math.round(monthTotal/monthTrips):0;
+
+  // Update stats
+  var el;
+  el=document.getElementById('drv-today');if(el)el.textContent=fmt(todayTotal);
+  el=document.getElementById('drv-week');if(el)el.textContent=fmt(weekTotal);
+  el=document.getElementById('drv-month');if(el)el.textContent=fmt(monthTotal);
+  el=document.getElementById('drv-avg');if(el)el.textContent=fmt(avgPerTrip);
+  el=document.getElementById('drv-trips');if(el)el.textContent=monthTrips;
+
+  // Set today's date in input
+  const dateInput=document.getElementById('drive-date');
+  if(dateInput&&!dateInput.value)dateInput.value=todayKey;
+
+  // Week bar chart
+  renderDriveWeekBars(entries,ws,now);
+
+  // Entries list
+  renderDriveList(entries);
+}
+
+function renderDriveWeekBars(entries,ws,now){
+  const bars=document.getElementById('drive-week-bars');
+  if(!bars)return;
+  bars.innerHTML='';
+  const dayNames=lang==='fr'?['D','L','M','M','J','V','S']:
+                 lang==='en'?['S','M','T','W','T','F','S']:
+                 lang==='es'?['D','L','M','X','J','V','S']:
+                 ['أح','اث','ثل','أر','خم','جم','سب'];
+  const vals=Array.from({length:7},function(_,i){
+    const wd=new Date(ws);wd.setDate(ws.getDate()+i);
+    const dk=wd.toISOString().slice(0,10);
+    return entries.filter(function(e){return e.date===dk;}).reduce(function(s,e){return s+e.total;},0);
+  });
+  const maxVal=Math.max.apply(null,vals.concat([1]));
+  const todayDow=new Date().getDay();
+  vals.forEach(function(val,i){
+    const isToday=i===todayDow;
+    const pct=Math.max(4,Math.round((val/maxVal)*100));
+    const item=document.createElement('div');
+    item.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;';
+    const track=document.createElement('div');
+    track.style.cssText='width:100%;height:80px;display:flex;align-items:flex-end;background:var(--bg);border-radius:8px;overflow:hidden;';
+    const fill=document.createElement('div');
+    fill.style.cssText='width:100%;height:'+pct+'%;background:'+(isToday?'var(--mint)':'var(--lav)')+';border-radius:8px;min-height:4px;transition:height .5s;';
+    track.appendChild(fill);
+    const lbl=document.createElement('div');
+    lbl.style.cssText='font-size:9px;color:'+(isToday?'var(--mint)':'var(--light)')+';font-weight:'+(isToday?'800':'600')+';text-align:center;';
+    lbl.textContent=dayNames[i];
+    const valLbl=document.createElement('div');
+    valLbl.style.cssText='font-size:8px;color:var(--mid);font-family:"DM Mono",monospace;';
+    valLbl.textContent=val>0?fmt(val):'';
+    item.appendChild(track);item.appendChild(valLbl);item.appendChild(lbl);
+    bars.appendChild(item);
+  });
+}
+
+function renderDriveList(entries){
+  const list=document.getElementById('drive-entries-list');
   if(!list)return;
-  const entries=(getDailyData()[dk]||[]);
-  const dayTotal=entries.reduce(function(s,e){return s+Number(e.amount||0);},0);
-  if(total)total.textContent=fmt(dayTotal);
   list.innerHTML='';
   if(!entries.length){
-    const empty=document.createElement('div');
-    empty.style.cssText='padding:24px;text-align:center;color:var(--light);font-size:13px;';
-    empty.innerHTML='<div style="font-size:32px;margin-bottom:8px;">📭</div><div>لا توجد مصاريف لهذا اليوم</div>';
-    list.appendChild(empty);
+    list.innerHTML='<div style="padding:20px;text-align:center;color:var(--light);font-size:12px;">🚗 لا توجد رحلات مسجلة هذا الشهر</div>';
     return;
   }
-  var bgColors=['#EAF7F3','#F0EDF9','#FDF0EE','#FBF3E6','#EAF1F8','#EDF5EA','#FFF3E0','#F3EBF7'];
-  entries.forEach(function(e,i){
-    const mc=getMainCats().find(function(c){return c.id===e.mainCat;})||getMainCats()[e.catIdx||0]||getMainCats()[0];
-    const bgIdx=(e.catIdx||0)%bgColors.length;
+  // Sort by date descending
+  const sorted=entries.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+  sorted.forEach(function(e,i){
+    const realIdx=entries.indexOf(e);
     const row=document.createElement('div');
-    row.className='daily-entry-row';
-
-    const catIcon=document.createElement('div');
-    catIcon.className='entry-cat-icon';
-    catIcon.style.background=bgColors[bgIdx];
-    catIcon.textContent=mc.icon||'💰';
-
+    row.style.cssText='display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);';
+    const icon=document.createElement('div');
+    icon.style.cssText='width:36px;height:36px;border-radius:10px;background:var(--mint-ll);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;';
+    icon.textContent='🚗';
     const info=document.createElement('div');
-    info.className='entry-info';
-    const title=document.createElement('div');
-    title.className='entry-title';
-    title.textContent=e.desc||mc.label;
-    const sub=document.createElement('div');
-    sub.className='entry-sub';
-    sub.textContent=mc.label+' • '+(e.cur||currency);
-    info.appendChild(title);info.appendChild(sub);
-
-    const amount=document.createElement('div');
-    amount.className='entry-amount';
-    amount.textContent=fmt(e.amount);
-
+    info.style.cssText='flex:1;';
+    info.innerHTML='<div style="font-size:12px;font-weight:600;color:var(--dark);">'+e.date+'</div>'
+      +'<div style="font-size:10px;color:var(--light);">'+(T().drive_trips||'رحلات')+': '+e.trips+' • '+(T().drive_avg||'معدل')+': '+fmt(e.avg)+' '+currency+'</div>';
+    const amt=document.createElement('div');
+    amt.style.cssText='font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:var(--mint);flex-shrink:0;';
+    amt.textContent=fmt(e.total);
     const del=document.createElement('button');
-    del.className='entry-del';
+    del.style.cssText='background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
     del.textContent='✕';
-    del.onclick=(function(d,idx){return function(){deleteDailyEntry(d,idx);};})(dk,i);
-
-    row.appendChild(catIcon);row.appendChild(info);row.appendChild(amount);row.appendChild(del);
+    del.onclick=(function(idx){return function(){deleteDriveEntry(idx);};})(realIdx);
+    row.appendChild(icon);row.appendChild(info);row.appendChild(amt);row.appendChild(del);
     list.appendChild(row);
   });
 }
