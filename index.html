@@ -1619,10 +1619,12 @@ function renderNotesInExpenses(){
 
 function renderAll(){
   ['bills','expenses','savings','debts','income'].forEach(renderSection);
-  renderNotes();
   updateMonthLabel();
   recalc();
   renderCalendar();
+  // Refresh notes tab if active
+  var notesTab=document.getElementById('tab-notes');
+  if(notesTab&&notesTab.classList.contains('active'))renderNotesTab();
 }
 
 // ══════════════════════════════════════════════
@@ -2374,14 +2376,15 @@ function renderCalendar(){
   });
   thead.appendChild(htr);
 
-  // Collect notes by date
-  var mk=ck();
-  var notes=(allData[mk]||{}).notes||[];
+  // Collect notes from ALL months that match curYear/curMonth
+  var calYM=curYear+'-'+(String(curMonth+1).padStart(2,'0'));
   var dayTotals={};
-  notes.forEach(function(n){
-    if(n.date&&Number(n.amount||0)>0){
-      dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount);
-    }
+  Object.keys(allData).forEach(function(mk2){
+    ((allData[mk2]||{}).notes||[]).forEach(function(n){
+      if(n.date&&n.date.startsWith(calYM)&&Number(n.amount||0)>0){
+        dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount);
+      }
+    });
   });
 
   // Month total
