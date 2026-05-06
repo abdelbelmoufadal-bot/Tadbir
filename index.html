@@ -251,23 +251,27 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .cal-header{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .cal-title{font-size:13px;font-weight:800;color:var(--dark);display:flex;align-items:center;gap:7px;}
 .cal-title .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--lav));}
-.cal-total{font-family:'DM Mono',monospace;font-size:13px;font-weight:800;color:var(--dark);}
-.cal-grid{padding:14px;}
-.cal-days-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;}
-.cal-day-name{font-size:9px;font-weight:700;color:var(--light);text-align:center;padding:4px 0;letter-spacing:.3px;}
-.cal-cells{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.cal-cell{border-radius:10px;padding:6px 4px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;cursor:default;transition:transform .15s;position:relative;}
-.cal-cell.has-data{cursor:pointer;}
-.cal-cell.has-data:hover{transform:scale(1.05);z-index:2;}
-.cal-cell.empty{background:transparent;}
-.cal-cell.today .cal-num{background:var(--mint);color:var(--dark);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800;}
-.cal-num{font-size:11px;font-weight:600;color:var(--mid);line-height:1;margin-bottom:4px;}
-.cal-amount{font-size:9px;font-family:'DM Mono',monospace;font-weight:700;line-height:1;}
-.cal-bar{width:80%;height:3px;border-radius:3px;margin-top:3px;}
-.cal-legend{display:flex;align-items:center;gap:14px;padding:8px 18px 12px;flex-wrap:wrap;}
+.cal-total-badge{background:var(--mint-ll);border:1px solid var(--mint-l);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:5px;}
+/* TABLE STYLE CALENDAR */
+.cal-table{width:100%;border-collapse:collapse;}
+.cal-table th{font-size:11px;font-weight:700;color:var(--mid);text-align:center;padding:10px 4px;background:var(--bg);border-bottom:2px solid var(--border);}
+.cal-table td{border:1px solid var(--border);vertical-align:top;padding:8px 6px;min-height:70px;width:calc(100%/7);}
+.cal-table td.empty{background:var(--bg);}
+.cal-table td.has-data{cursor:pointer;}
+.cal-table td.has-data:hover{background:var(--bg);}
+.cal-table td.today{background:var(--mint-ll);}
+.cal-day-num{font-size:13px;font-weight:700;color:var(--mid);line-height:1;margin-bottom:6px;}
+.cal-table td.today .cal-day-num{width:26px;height:26px;background:var(--mint);color:var(--dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;}
+.cal-day-amount{font-size:12px;font-family:'DM Mono',monospace;font-weight:800;margin-bottom:4px;}
+.cal-day-bar{height:3px;border-radius:3px;width:60%;}
+.cal-legend{display:flex;align-items:center;gap:14px;padding:10px 18px 12px;border-top:1px solid var(--border);flex-wrap:wrap;}
 .cal-legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mid);font-weight:600;}
 .cal-legend-dot{width:10px;height:10px;border-radius:3px;}
-@media(max-width:700px){.cal-cell{min-height:42px;padding:4px 2px;}.cal-amount{font-size:8px;}}
+@media(max-width:700px){
+  .cal-table td{padding:4px 3px;min-height:50px;}
+  .cal-day-num{font-size:11px;}
+  .cal-day-amount{font-size:10px;}
+}
 
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
 /* ══ IN DRIVE ══ */
@@ -759,17 +763,16 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="cal-wrap">
     <div class="cal-header">
       <div class="cal-title"><span class="dot"></span><span id="cal-title-lbl">ملخص مصاريف الشهر</span></div>
-      <div><span style="font-size:10px;color:var(--light);margin-left:6px;" id="cal-total-lbl">إجمالي:</span> <span class="cal-total" id="cal-total-val">0</span> <span style="font-size:10px;color:var(--light);" id="cal-cur">درهم</span></div>
+      <div class="cal-total-badge"><span id="cal-total-lbl">إجمالي:</span> <span id="cal-total-val">0</span> <span id="cal-cur">درهم</span></div>
     </div>
-    <div class="cal-grid">
-      <div class="cal-days-row" id="cal-days-row"></div>
-      <div class="cal-cells" id="cal-cells"></div>
+    <div style="overflow-x:auto;padding:0 4px 4px;">
+      <table class="cal-table" id="cal-table"><thead id="cal-thead"></thead><tbody id="cal-tbody"></tbody></table>
     </div>
     <div class="cal-legend">
-      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#C8EAE0;"></div><span id="cal-leg1">عادي</span></div>
+      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#7EC8B0;"></div><span id="cal-leg1">عادي</span></div>
       <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#E8C49A;"></div><span id="cal-leg2">متوسط</span></div>
       <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#E8A598;"></div><span id="cal-leg3">مرتفع</span></div>
-      <div style="margin-right:auto;font-size:9px;color:var(--light);" id="cal-source">المصدر: يومياتي تلقائياً</div>
+      <div style="margin-right:auto;font-size:9px;color:var(--light);" id="cal-source">📋 المصدر: سجل المصاريف</div>
     </div>
   </div>
 
@@ -900,7 +903,7 @@ const LANGS={
     expLabel:['مواد غذائية','السوق','قهوة','Gasoil','أخرى'],
     pin_enter:'دخل رمز PIN ديالك',pin_create:'درلي PIN جديد (4 أرقام)',pin_confirm:'عاود دخل PIN',
     pin_wrong:'❌ PIN غلط',pin_mismatch:'❌ الأرقام ما خرجوش بحال',pin_note:'هاد الرمز كيحمي التطبيق ديالك',pin_forgot:'نسيتي PIN؟',
-    saved:'محفوظ',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'دفتر الملاحظات',tab3:'مقارنة شهرية',
+    saved:'محفوظ',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'سجل المصاريف',tab3:'مقارنة شهرية',
     pick:'اختار الشهر',nm:'شهر جديد',nm_sub:'كيفاش تبغي تبدا؟',
     nm1:'كوبيا المخطط غير',nm1s:'تبقى الأرقام المخططة وتبدا من صفر',
     nm2:'شهر فاضي',nm2s:'صفحة بيضاء',nm3:'كوبيا كل شي',nm3s:'نفس الشهر لي فات',nm_btn:'إنشاء ✓',
@@ -915,7 +918,7 @@ const LANGS={
     ch1:'فين كتمشي الفلوس',ch2:'المخطط / الفعلي',
     col_item:'البيان',col_act:'تصرفت',col_pln:'مخطط',col_goal:'الهدف',col_src:'المصدر',col_ent:'الجهة',
     add_bills:'＋ زيد فاكتورة',add_exp:'＋ زيد مصروف',add_sav:'＋ زيد هدف',add_dbt:'＋ زيد دين',add_inc:'＋ زيد مصدر دخل',
-    notes_title:'دفتر الملاحظات',notes_info:'كل لي تزيد هنا كيتجمع تلقائياً مع المصاريف فلوحة الميزانية',
+    notes_title:'سجل المصاريف',notes_info:'كل لي تزيد هنا كيتجمع تلقائياً مع المصاريف فلوحة الميزانية',
     notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'الملخص',
     nt_date:'التاريخ',nt_note:'الملاحظة',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ زيد ملاحظة',
     monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
@@ -2272,42 +2275,34 @@ function initLandingCharts(){
 // MONTHLY CALENDAR (in dashboard)
 // ══════════════════════════════════════════════
 function renderCalendar(){
-  const calCells=document.getElementById('cal-cells');
-  const calDays=document.getElementById('cal-days-row');
-  if(!calCells||!calDays)return;
+  const thead=document.getElementById('cal-thead');
+  const tbody=document.getElementById('cal-tbody');
+  if(!thead||!tbody)return;
   const t=T();
-  const isRTL=t.dir==='rtl';
 
-  // Day names
-  const dayNamesAR=['أحد','اثن','ثلا','أرب','خمس','جمع','سبت'];
+  // Day names — full names for header
+  const dayNamesAR=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
   const dayNamesFR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
   const dayNamesEN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const dayNamesES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
   const dayNames=lang==='fr'?dayNamesFR:lang==='en'?dayNamesEN:lang==='es'?dayNamesES:dayNamesAR;
 
-  calDays.innerHTML='';
+  // Build header
+  thead.innerHTML='';
+  var htr=document.createElement('tr');
   dayNames.forEach(function(d){
-    const el=document.createElement('div');
-    el.className='cal-day-name';
-    el.textContent=d;
-    calDays.appendChild(el);
+    var th=document.createElement('th');th.textContent=d;htr.appendChild(th);
   });
+  thead.appendChild(htr);
 
-  // Get daily entries data
+  // Get notes data grouped by date
   const mk=ck();
-  const dailyEntries=(allData[mk]||{}).dailyEntries||{};
   const notes=(allData[mk]||{}).notes||[];
-
-  // Build daily totals from notes (grouped by date)
   const dayTotals={};
   notes.forEach(function(n){
-    const d=n.date;
-    if(d){dayTotals[d]=(dayTotals[d]||0)+Number(n.amount||0);}
-  });
-  // Also add dailyEntries if exist
-  Object.keys(dailyEntries).forEach(function(dk){
-    const v=(dailyEntries[dk]||[]).reduce(function(s,e){return s+Number(e.amount||0);},0);
-    dayTotals[dk]=(dayTotals[dk]||0)+v;
+    if(n.date&&n.amount){
+      dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount||0);
+    }
   });
 
   // Month total
@@ -2317,75 +2312,77 @@ function renderCalendar(){
   const el_cur=document.getElementById('cal-cur');
   if(el_cur)el_cur.textContent=currency;
 
-  // Max for color scale
+  // Color scale
   const allVals=Object.values(dayTotals).filter(function(v){return v>0;});
   const maxVal=Math.max.apply(null,allVals.concat([1]));
-  const avg=allVals.length>0?monthTotal/allVals.length:1;
 
-  // Build calendar grid
-  calCells.innerHTML='';
+  // Build table body
+  tbody.innerHTML='';
   const firstDay=new Date(curYear,curMonth,1);
   const lastDay=new Date(curYear,curMonth+1,0);
-  const firstDow=firstDay.getDay();
+  const firstDow=firstDay.getDay(); // 0=Sun
   const todayKey=new Date().toISOString().slice(0,10);
 
-  // Empty cells
-  for(var i=0;i<firstDow;i++){
-    const empty=document.createElement('div');
-    empty.className='cal-cell empty';
-    calCells.appendChild(empty);
+  var row=document.createElement('tr');
+  // Empty cells at start
+  for(var e=0;e<firstDow;e++){
+    var td=document.createElement('td');td.className='empty';row.appendChild(td);
   }
 
-  // Day cells
+  var col=firstDow;
   for(var d=1;d<=lastDay.getDate();d++){
-    const dt=new Date(curYear,curMonth,d);
-    const dk=dt.toISOString().slice(0,10);
-    const val=dayTotals[dk]||0;
-    const isToday=dk===todayKey;
-    const pct=val/maxVal;
+    var dt=new Date(curYear,curMonth,d);
+    var dk=dt.toISOString().slice(0,10);
+    var val=dayTotals[dk]||0;
+    var isToday=dk===todayKey;
+    var pct=val/maxVal;
 
-    const cell=document.createElement('div');
-    cell.className='cal-cell'+(val>0?' has-data':'')+(isToday?' today':'');
-
-    // Color based on amount
-    let bg='var(--bg)',barColor='transparent';
-    if(val>0){
-      if(pct<0.33){bg='#EAF7F3';barColor='#7EC8B0';}
-      else if(pct<0.66){bg='#FBF3E6';barColor='#E8C49A';}
-      else{bg='#FDF0EE';barColor='#E8A598';}
-    }
-    if(!isToday)cell.style.background=bg;
-    else cell.style.background='linear-gradient(135deg,var(--mint-ll),#EAF7F3)';
+    var td2=document.createElement('td');
+    if(val>0)td2.className='has-data';
+    if(isToday)td2.className+=' today';
 
     // Day number
-    const numEl=document.createElement('div');
-    numEl.className='cal-num';
-    numEl.textContent=d;
-    cell.appendChild(numEl);
+    var numDiv=document.createElement('div');
+    numDiv.className='cal-day-num';
+    numDiv.textContent=d;
+    td2.appendChild(numDiv);
 
-    // Amount
+    // Amount + bar
     if(val>0){
-      const amtEl=document.createElement('div');
-      amtEl.className='cal-amount';
-      amtEl.style.color=barColor;
-      amtEl.textContent=fmt(val);
-      cell.appendChild(amtEl);
-
-      const bar=document.createElement('div');
-      bar.className='cal-bar';
-      bar.style.background=barColor;
-      bar.style.opacity='0.5';
-      cell.appendChild(bar);
+      var color=pct<0.33?'#7EC8B0':pct<0.66?'#E8C49A':'#E8A598';
+      var amtDiv=document.createElement('div');
+      amtDiv.className='cal-day-amount';
+      amtDiv.style.color=color;
+      amtDiv.textContent=fmt(val);
+      td2.appendChild(amtDiv);
+      var bar=document.createElement('div');
+      bar.className='cal-day-bar';
+      bar.style.background=color;
+      td2.appendChild(bar);
     }
+    td2.title=t.months[curMonth]+' '+d+(val>0?' — '+fmt(val)+' '+currency:'');
+    row.appendChild(td2);
+    col++;
 
-    // Tooltip
-    cell.title=t.months[curMonth]+' '+d+(val>0?' — '+fmt(val)+' '+currency:'');
-    calCells.appendChild(cell);
+    // New row every 7 cols
+    if(col%7===0){
+      tbody.appendChild(row);
+      row=document.createElement('tr');
+    }
   }
+  // Fill remaining cells
+  while(col%7!==0){
+    var tdx=document.createElement('td');tdx.className='empty';
+    row.appendChild(tdx);col++;
+  }
+  if(row.children.length>0)tbody.appendChild(row);
 
-  // Update title
+  // Title
   const titleEl=document.getElementById('cal-title-lbl');
-  if(titleEl)titleEl.textContent=(lang==='fr'?'Résumé ':lang==='en'?'Summary ':lang==='es'?'Resumen ':'ملخص مصاريف ')+t.months[curMonth]+' '+curYear;
+  if(titleEl){
+    const prefix=lang==='fr'?'Résumé ':lang==='en'?'Summary ':lang==='es'?'Resumen ':'ملخص مصاريف ';
+    titleEl.textContent=prefix+t.months[curMonth]+' '+curYear;
+  }
 }
 
 // ══════════════════════════════════════════════
