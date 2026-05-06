@@ -763,7 +763,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
 <nav class="nav-tabs" style="display:none;">
   <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
-  <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
+  <div class="nav-tab" onclick="showTab('notes',this)">📋 <span id="t-tab2">سجل المصاريف</span></div>
   <div class="nav-tab" onclick="showTab('drive',this)">🚗 <span id="t-tab5">In Drive</span></div>
   <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
 
@@ -1271,7 +1271,7 @@ function setLang(l){
   set('pin-sub', pinMode==='setup1'?t.pin_create:pinMode==='setup2'?t.pin_confirm:t.pin_enter);
   set('pin-note',''); set('pin-forgot',t.pin_forgot);
   set('t-saved',t.saved); set('t-new-btn',t.new_btn);
-  set('t-tab1',t.tab1); set('t-tab2',t.tab2); set('t-tab3',t.tab3);
+  set('t-tab1',t.tab1); set('t-tab2',t.tab2||'سجل المصاريف'); set('t-tab3',t.tab3);
   set('t-pick',t.pick); set('t-nm',t.nm); set('t-nm-sub',t.nm_sub);
   set('t-nm1',t.nm1); set('t-nm1s',t.nm1s); set('t-nm2',t.nm2); set('t-nm2s',t.nm2s);
   set('t-nm3',t.nm3); set('t-nm3s',t.nm3s); set('t-nm-btn',t.nm_btn);
@@ -1560,10 +1560,26 @@ function getAllNotes(){
 
 // Get notes for CURRENT display month only (by note.date field)
 function getCurrentMonthNotes(){
-  var ym=curYear+'-'+String(curMonth+1).padStart(2,'0');
-  return getAllNotes().filter(function(n){
+  var monthStr=String(curMonth+1).padStart(2,'0');
+  var ym=curYear+'-'+monthStr;
+  var notes=getAllNotes().filter(function(n){
     return n.date&&n.date.startsWith(ym);
   });
+  // If empty, try to find notes from ANY year with same month
+  if(!notes.length){
+    var allYearNotes=getAllNotes().filter(function(n){
+      return n.date&&n.date.length>=7&&n.date.slice(5,7)===monthStr;
+    });
+    if(allYearNotes.length){
+      // Update curYear to match the notes year
+      var ny=parseInt(allYearNotes[0].date.slice(0,4));
+      if(ny&&ny!==curYear){curYear=ny;}
+      notes=getAllNotes().filter(function(n){
+        return n.date&&n.date.startsWith(curYear+'-'+monthStr);
+      });
+    }
+  }
+  return notes;
 }
 
 function getNotesTotalsByExpLabel(){
