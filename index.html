@@ -1547,13 +1547,33 @@ function deleteRow(sec,idx){
 // catIdx: 0=مواد غذائية, 1=السوق, 2=قهوة, 3=النقل→Gasoil, 4=أخرى
 // expLabel matches expenses table labels
 // ══════════════════════════════════════════════
+// Get ALL notes from ALL allData months
+function getAllNotes(){
+  var all=[];
+  Object.keys(allData).forEach(function(mk2){
+    ((allData[mk2]||{}).notes||[]).forEach(function(n){
+      all.push(n);
+    });
+  });
+  return all;
+}
+
+// Get notes for CURRENT display month only (by note.date field)
+function getCurrentMonthNotes(){
+  var ym=curYear+'-'+String(curMonth+1).padStart(2,'0');
+  return getAllNotes().filter(function(n){
+    return n.date&&n.date.startsWith(ym);
+  });
+}
+
 function getNotesTotalsByExpLabel(){
-  const notes=(allData[ck()]||{}).notes||[];
-  const totals={};
-  notes.forEach(n=>{
+  // Use getCurrentMonthNotes to get notes matching displayed month
+  var notes=getCurrentMonthNotes();
+  var totals={};
+  notes.forEach(function(n){
     migrateNote(n);
-    const sub=n.subCat||getNoteCat(n);
-    const expLbl=catToExpLabel(sub);
+    var sub=n.subCat||getNoteCat(n);
+    var expLbl=catToExpLabel(sub);
     totals[expLbl]=(totals[expLbl]||0)+Number(n.amount||0);
   });
   return totals;
@@ -1917,7 +1937,8 @@ function delNote(i){
   renderNotes();
 }
 function addNote(){
-  const mk=ck();
+  // Save note to allData key matching current display year/month
+  const mk=curYear+'-'+String(curMonth+1).padStart(2,'0');
   if(!allData[mk])allData[mk]=defMonth();
   if(!allData[mk].notes)allData[mk].notes=[];
   const mc=getMainCats()[0];
@@ -1942,7 +1963,7 @@ function addNote(){
 }
 
 function updateNotesSummary(){
-  const t=T(),notes=(allData[ck()]||{}).notes||[];
+  const t=T(),notes=getCurrentMonthNotes();
   const total=notes.reduce((s,n)=>s+Number(n.amount||0),0);
   const byExpLbl={};
   notes.forEach(n=>{
@@ -1969,7 +1990,7 @@ function updateNotesSummary(){
     </div>`;
 }
 function updateNotesChart(){
-  const notes=(allData[ck()]||{}).notes||[];
+  const notes=getCurrentMonthNotes();
   const byLbl={};
   notes.forEach(n=>{
     migrateNote(n);
@@ -1989,8 +2010,14 @@ function updateNotesChart(){
 function getMV(key,mi){
   const d=allData[mkey(curYear,mi)];if(!d||!d[key])return 0;
   let v=d[key].reduce((s,x)=>s+Number(x.act||0),0);
-  if(key==='expenses'&&d.notes){
-    v+=d.notes.reduce((s,n)=>s+Number(n.amount||0),0);
+  if(key==='expenses'){
+    // Sum notes from ALL allData where note.date matches this month
+    const gmvYM=mkey(curYear,mi);
+    Object.keys(allData).forEach(function(mk3){
+      ((allData[mk3]||{}).notes||[]).forEach(function(n){
+        if(n.date&&n.date.startsWith(gmvYM))v+=Number(n.amount||0);
+      });
+    });
   }
   return v;
 }
@@ -2769,7 +2796,9 @@ function addNoteNew(){
   var parts=subVal.split('|');
   var mainCat=parts[0]||(_noteActiveCat||'daily');
   var subCat=parts[1]||'';
-  var mk=ck();
+  // Save to allData key matching note's date year/month
+  var dp=date.split('-');
+  var mk=dp[0]+'-'+dp[1];
   if(!allData[mk])allData[mk]=defMonth();
   if(!allData[mk].notes)allData[mk].notes=[];
   allData[mk].notes.push({date:date,note:subCat,mainCat:mainCat,subCat:subCat,amount:amount,cat:subCat});
