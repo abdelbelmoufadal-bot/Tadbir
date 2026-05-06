@@ -2376,12 +2376,16 @@ function renderCalendar(){
   });
   thead.appendChild(htr);
 
-  // Collect notes from ALL months that match curYear/curMonth
-  var calYM=curYear+'-'+(String(curMonth+1).padStart(2,'0'));
+  // Collect notes from ALL allData keys - match by YEAR and MONTH in note.date
+  var calYear=curYear;
+  var calMonthStr=String(curMonth+1).padStart(2,'0');
   var dayTotals={};
   Object.keys(allData).forEach(function(mk2){
     ((allData[mk2]||{}).notes||[]).forEach(function(n){
-      if(n.date&&n.date.startsWith(calYM)&&Number(n.amount||0)>0){
+      if(!n.date||!Number(n.amount||0))return;
+      var parts=n.date.split('-');
+      // Match: same year AND same month (ignore which allData key it's in)
+      if(parts[0]==calYear&&parts[1]===calMonthStr){
         dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount);
       }
     });
@@ -2434,8 +2438,8 @@ function renderCalendar(){
     numDiv.textContent=d;
     td2.appendChild(numDiv);
 
-    // Amount + bar (only if has data)
-    if(val>0){
+    // Amount + bar (only if has data > 0)
+    if(val>0&&val!==undefined){
       var amtDiv=document.createElement('div');
       amtDiv.className='cal-day-amount';
       amtDiv.style.color=color;
