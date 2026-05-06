@@ -2726,28 +2726,44 @@ function initNotesMonthFilter(){
   var sel=document.getElementById('nf-month-filter');
   if(!sel)return;
   sel.innerHTML='';
-  // Build list of months that have data + current month
+  // Scan ALL notes from ALL allData to find unique months
   var months=new Set();
-  var mk=ck();
-  months.add(mk);
-  var notes=(allData[mk]||{}).notes||[];
-  notes.forEach(function(n){if(n.date)months.add(n.date.slice(0,7));});
-  // Also scan allData for other months
+  // Add current display month
+  var displayYM=curYear+'-'+String(curMonth+1).padStart(2,'0');
+  months.add(displayYM);
+  // Scan all notes by their actual date
   Object.keys(allData).forEach(function(k){
-    var mn=(allData[k]||{}).notes||[];
-    mn.forEach(function(n){if(n.date)months.add(n.date.slice(0,7));});
+    ((allData[k]||{}).notes||[]).forEach(function(n){
+      if(n.date&&n.date.length>=7)months.add(n.date.slice(0,7));
+    });
   });
   var t=T();
-  Array.from(months).sort().reverse().forEach(function(ym){
+  // Sort descending (most recent first)
+  var sorted=Array.from(months).sort().reverse();
+  // Find the most recent month that has actual notes
+  var latestWithNotes=null;
+  sorted.forEach(function(ym){
+    if(latestWithNotes)return;
+    var hasNotes=false;
+    Object.keys(allData).forEach(function(k){
+      ((allData[k]||{}).notes||[]).forEach(function(n){
+        if(n.date&&n.date.startsWith(ym)&&Number(n.amount||0)>0)hasNotes=true;
+      });
+    });
+    if(hasNotes)latestWithNotes=ym;
+  });
+  // Default: most recent with notes OR display month
+  var defaultYM=latestWithNotes||displayYM;
+  sorted.forEach(function(ym){
     var parts=ym.split('-');
     var mIdx=parseInt(parts[1])-1;
     var opt=document.createElement('option');
     opt.value=ym;
     opt.textContent=t.months[mIdx]+' '+parts[0];
-    if(ym===mk)opt.selected=true;
+    if(ym===defaultYM)opt.selected=true;
     sel.appendChild(opt);
   });
-  _noteFilterMonth=mk;
+  _noteFilterMonth=defaultYM;
 }
 
 function addNoteNew(){
@@ -2796,11 +2812,11 @@ function renderNotesList(){
   var fSel=document.getElementById('nf-month-filter');
   _noteFilterMonth=fSel?fSel.value:ck();
 
-  // Collect notes from ALL months matching filter
+  // Collect notes from ALL allData - match by note.date (not allData key)
   var allNotes=[];
   Object.keys(allData).forEach(function(mk2){
     ((allData[mk2]||{}).notes||[]).forEach(function(n,i){
-      if(n.date&&n.date.startsWith(_noteFilterMonth)){
+      if(n.date&&_noteFilterMonth&&n.date.startsWith(_noteFilterMonth)){
         allNotes.push({n:n,mk:mk2,i:i});
       }
     });
