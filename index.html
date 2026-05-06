@@ -763,7 +763,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
 <nav class="nav-tabs" style="display:none;">
   <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
-  <div class="nav-tab" onclick="showTab('notes',this)">📋 <span id="t-tab2">سجل المصاريف</span></div>
+  <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
   <div class="nav-tab" onclick="showTab('drive',this)">🚗 <span id="t-tab5">In Drive</span></div>
   <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
 
@@ -1015,7 +1015,7 @@ const LANGS={
     expLabel:['Alimentation','Marché','Café','Gasoil','Autre'],
     pin_enter:'Entrez votre code PIN',pin_create:'Créer un code PIN (4 chiffres)',pin_confirm:'Confirmez le PIN',
     pin_wrong:'❌ Code PIN incorrect',pin_mismatch:'❌ Les codes ne correspondent pas',pin_note:'Ce code protège votre application',pin_forgot:'PIN oublié ?',
-    saved:'Sauvegardé automatiquement',new_btn:'✦ Nouveau mois',tab1:'Tableau de bord',tab2:'Journal des dépenses',tab3:'Comparaison mensuelle',
+    saved:'Sauvegardé automatiquement',new_btn:'✦ Nouveau mois',tab1:'Tableau de bord',tab2:'Carnet de notes',tab3:'Comparaison mensuelle',
     pick:'Choisir le mois',nm:'Nouveau mois',nm_sub:'Comment démarrer ?',
     nm1:'Copier le budget prévu',nm1s:'Garder les montants prévus, repartir de zéro',
     nm2:'Mois vide',nm2s:'Page blanche',nm3:'Tout copier',nm3s:'Identique au mois précédent',nm_btn:'Créer ✓',
@@ -1030,7 +1030,7 @@ const LANGS={
     ch1:'Répartition des dépenses',ch2:'Prévu vs Réalisé',
     col_item:'Désignation',col_act:'Réalisé',col_pln:'Prévu',col_goal:'Objectif',col_src:'Source',col_ent:'Créancier',
     add_bills:'＋ Ajouter une facture',add_exp:'＋ Ajouter une dépense',add_sav:'＋ Ajouter un objectif',add_dbt:'＋ Ajouter une dette',add_inc:'＋ Ajouter un revenu',
-    notes_title:'Journal des dépenses',notes_info:'Tout ce que vous ajoutez ici est automatiquement comptabilisé dans vos dépenses',
+    notes_title:'Carnet de notes',notes_info:'Tout ce que vous ajoutez ici est automatiquement comptabilisé dans vos dépenses',
     notes_sub:'Journal des dépenses',notes_edit:'Modifiable',notes_chart:'Répartition',notes_sum:'Résumé',
     nt_date:'Date',nt_note:'Note',nt_subcat:'Options',nt_cat:'Catégorie',nt_amount:'Montant',nt_cur:'Devise',add_note:'＋ Ajouter une note',
     monthly_title:'Comparaison mensuelle',monthly_chart:'Évolution revenus/dépenses',monthly_total:'Total',monthly_remain:'Solde',
@@ -1048,7 +1048,7 @@ const LANGS={
     expLabel:['Food','Market','Café','Gasoil','Other'],
     pin_enter:'Enter your PIN',pin_create:'Create a PIN (4 digits)',pin_confirm:'Confirm your PIN',
     pin_wrong:'❌ Incorrect PIN',pin_mismatch:'❌ PINs do not match',pin_note:'This PIN protects your app',pin_forgot:'Forgot PIN?',
-    saved:'Auto-saved',new_btn:'✦ New Month',tab1:'Dashboard',tab2:'Expense log',tab3:'Monthly Overview',
+    saved:'Auto-saved',new_btn:'✦ New Month',tab1:'Dashboard',tab2:'Notes',tab3:'Monthly Overview',
     pick:'Choose month',nm:'New Month',nm_sub:'How do you want to start?',
     nm1:'Copy planned budget',nm1s:'Keep planned amounts, reset actual',
     nm2:'Empty month',nm2s:'Blank page',nm3:'Copy everything',nm3s:'Same as last month',nm_btn:'Create ✓',
@@ -1063,7 +1063,7 @@ const LANGS={
     ch1:'Where money goes',ch2:'Planned vs Actual',
     col_item:'Item',col_act:'Actual',col_pln:'Planned',col_goal:'Goal',col_src:'Source',col_ent:'Creditor',
     add_bills:'＋ Add bill',add_exp:'＋ Add expense',add_sav:'＋ Add goal',add_dbt:'＋ Add debt',add_inc:'＋ Add income source',
-    notes_title:'Expense log',notes_info:'Everything you add here is automatically counted in your expenses',
+    notes_title:'Notes',notes_info:'Everything you add here is automatically counted in your expenses',
     notes_sub:'Expense log',notes_edit:'Editable',notes_chart:'Breakdown',notes_sum:'Summary',
     nt_date:'Date',nt_note:'Note',nt_cat:'Category',nt_amount:'Amount',nt_cur:'Currency',add_note:'＋ Add note',
     monthly_title:'Monthly comparison',monthly_chart:'Income vs Expenses trend',monthly_total:'Total',monthly_remain:'Balance',
@@ -1081,7 +1081,7 @@ const LANGS={
     expLabel:['Alimentación','Mercado','Café','Gasoil','Otro'],
     pin_enter:'Introduce tu PIN',pin_create:'Crear PIN (4 dígitos)',pin_confirm:'Confirma el PIN',
     pin_wrong:'❌ PIN incorrecto',pin_mismatch:'❌ Los PINs no coinciden',pin_note:'Este PIN protege tu aplicación',pin_forgot:'¿Olvidaste el PIN?',
-    saved:'Guardado automáticamente',new_btn:'✦ Nuevo mes',tab1:'Panel de control',tab2:'Registro de gastos',tab3:'Comparativa mensual',
+    saved:'Guardado automáticamente',new_btn:'✦ Nuevo mes',tab1:'Panel de control',tab2:'Cuaderno de notas',tab3:'Comparativa mensual',
     pick:'Elegir mes',nm:'Nuevo mes',nm_sub:'¿Cómo quieres empezar?',
     nm1:'Copiar presupuesto previsto',nm1s:'Mantener montos previstos, reiniciar real',
     nm2:'Mes en blanco',nm2s:'Página en blanco',nm3:'Copiar todo',nm3s:'Igual que el mes anterior',nm_btn:'Crear ✓',
@@ -1096,7 +1096,7 @@ const LANGS={
     ch1:'Distribución de gastos',ch2:'Previsto vs Real',
     col_item:'Concepto',col_act:'Real',col_pln:'Previsto',col_goal:'Objetivo',col_src:'Fuente',col_ent:'Acreedor',
     add_bills:'＋ Añadir factura',add_exp:'＋ Añadir gasto',add_sav:'＋ Añadir objetivo',add_dbt:'＋ Añadir deuda',add_inc:'＋ Añadir ingreso',
-    notes_title:'Registro de gastos',notes_info:'Todo lo que añadas aquí se suma automáticamente a tus gastos en el panel',
+    notes_title:'Cuaderno de notas',notes_info:'Todo lo que añadas aquí se suma automáticamente a tus gastos en el panel',
     notes_sub:'Registro de gastos',notes_edit:'Editable',notes_chart:'Distribución',notes_sum:'Resumen',
     nt_date:'Fecha',nt_note:'Nota',nt_subcat:'Opciones',nt_cat:'Categoría',nt_amount:'Importe',nt_cur:'Moneda',add_note:'＋ Añadir nota',
     monthly_title:'Comparativa mensual',monthly_chart:'Evolución ingresos/gastos',monthly_total:'Total',monthly_remain:'Saldo',
@@ -1271,7 +1271,7 @@ function setLang(l){
   set('pin-sub', pinMode==='setup1'?t.pin_create:pinMode==='setup2'?t.pin_confirm:t.pin_enter);
   set('pin-note',''); set('pin-forgot',t.pin_forgot);
   set('t-saved',t.saved); set('t-new-btn',t.new_btn);
-  set('t-tab1',t.tab1); set('t-tab2',t.tab2||'سجل المصاريف'); set('t-tab3',t.tab3);
+  set('t-tab1',t.tab1); set('t-tab2',t.tab2); set('t-tab3',t.tab3);
   set('t-pick',t.pick); set('t-nm',t.nm); set('t-nm-sub',t.nm_sub);
   set('t-nm1',t.nm1); set('t-nm1s',t.nm1s); set('t-nm2',t.nm2); set('t-nm2s',t.nm2s);
   set('t-nm3',t.nm3); set('t-nm3s',t.nm3s); set('t-nm-btn',t.nm_btn);
@@ -1363,7 +1363,6 @@ function unlockApp(){
   });
   const d=$('tab-dashboard');
   if(d)d.classList.add('active');
-  // Load from localStorage only (Firebase load handled by onFbAuthChange)
   loadData();
   $('currencySelect').value=currency;
   setLang(lang);
@@ -1414,20 +1413,39 @@ function monthHasRealData(mk){
 }
 
 function loadData(){
+  // ── MIGRATION: wipe ALL old versions so new defaults load cleanly ──
+  const CURRENT_VER='v33';
+  const storedVer=localStorage.getItem('sf_version');
+  if(storedVer!==CURRENT_VER){
+    // Keep only PIN settings, clear everything else
+    const pin=localStorage.getItem(PIN_KEY);
+    const pinOn=localStorage.getItem(PINON_KEY);
+    const savedLang=localStorage.getItem('sf_lang');
+    localStorage.clear();
+    if(pin)localStorage.setItem(PIN_KEY,pin);
+    if(pinOn)localStorage.setItem(PINON_KEY,pinOn);
+    if(savedLang)localStorage.setItem('sf_lang',savedLang);
+    localStorage.setItem('sf_version',CURRENT_VER);
+    allData={};
+  }
+
   try{
     const s=localStorage.getItem(SK);
     if(s){
       const p=JSON.parse(s);
       allData=p.allData||{};
       currency=p.currency||'درهم';
-      curYear=p.curYear||new Date().getFullYear();
-      curMonth=p.curMonth!==undefined?p.curMonth:new Date().getMonth();
+      curYear=p.curYear||2025;
+      curMonth=p.curMonth!==undefined?p.curMonth:4;
       if(p.lang)lang=p.lang;
     }
   }catch(e){allData={};}
-  // Ensure current month exists
+
+  // Apply defaults to current month if empty
   const mk=ck();
-  if(!monthHasRealData(mk))allData[mk]=defMonth();
+  if(!monthHasRealData(mk)){
+    allData[mk]=defMonth();
+  }
   if(!allData[mk].notes)allData[mk].notes=[];
 }
 
@@ -1460,13 +1478,10 @@ function resetDefaults(){
 }
 
 function persistData(){
-  // 1. Always save to localStorage
-  try{
-    localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));
-    localStorage.setItem('sf_last_save',new Date().toLocaleString());
-  }catch(e){}
-  // 2. Save to Firestore only when: logged in + auth ready + not loading from cloud
-  if(_authReady && !_isLoadingFromCloud && _fbUid && typeof fbSaveToCloud==='function'){
+  // Save to localStorage always
+  try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));localStorage.setItem('sf_last_save',new Date().toLocaleString());}catch(e){}
+  // Save to Firestore only when auth is ready and not loading
+  if(!_isLoadingFromCloud && _authReady && typeof _fbUid !== 'undefined' && _fbUid && typeof fbSaveToCloud === 'function'){
     fbSaveToCloud();
   }
 }
@@ -1532,35 +1547,13 @@ function deleteRow(sec,idx){
 // catIdx: 0=مواد غذائية, 1=السوق, 2=قهوة, 3=النقل→Gasoil, 4=أخرى
 // expLabel matches expenses table labels
 // ══════════════════════════════════════════════
-// Get ALL notes from ALL allData months
-function getAllNotes(){
-  var all=[];
-  Object.keys(allData).forEach(function(mk2){
-    ((allData[mk2]||{}).notes||[]).forEach(function(n){
-      all.push(n);
-    });
-  });
-  return all;
-}
-
-// Get notes for CURRENT display month only (by note.date field)
-function getCurrentMonthNotes(){
-  // Simple: return notes matching curYear-curMonth ONLY
-  // curYear is set correctly by fbLoadFromCloud via newestNoteYM
-  var ym=curYear+'-'+String(curMonth+1).padStart(2,'0');
-  return getAllNotes().filter(function(n){
-    return n.date&&n.date.startsWith(ym);
-  });
-}
-
 function getNotesTotalsByExpLabel(){
-  // Use getCurrentMonthNotes to get notes matching displayed month
-  var notes=getCurrentMonthNotes();
-  var totals={};
-  notes.forEach(function(n){
+  const notes=(allData[ck()]||{}).notes||[];
+  const totals={};
+  notes.forEach(n=>{
     migrateNote(n);
-    var sub=n.subCat||getNoteCat(n);
-    var expLbl=catToExpLabel(sub);
+    const sub=n.subCat||getNoteCat(n);
+    const expLbl=catToExpLabel(sub);
     totals[expLbl]=(totals[expLbl]||0)+Number(n.amount||0);
   });
   return totals;
@@ -1809,32 +1802,9 @@ function getNoteSubLabel(n){
 
 // expLabel for expense matching: use subCat
 function catToExpLabel(catStr){
-  // Transport cases → Gasoil
-  if(['النقل','Transport','Transporte','نقل عام','Gasoil','صيانة سيارة',
-      'Entretien voiture','Car maintenance','Mantenimiento coche'].includes(catStr))return 'Gasoil';
-  // Haircut/care → الحلاقة
-  if(['حلاقة/عناية','Coiffeur/Soins','Haircut/Care','Peluquería/Cuidados'].includes(catStr))return 'الحلاقة';
-  // Map subCats to expense labels
-  const map={
-    'إيجار':'الإيجار','Loyer':'الإيجار','Rent':'الإيجار','Alquiler':'الإيجار',
-    'كهرباء/ماء':'الضو','Électricité/Eau':'الضو','Electricity/Water':'الضو',
-    'دواء':'صيدلية','Médicaments':'صيدلية','Medicine':'صيدلية','Medicamentos':'صيدلية',
-    'طبيب/عيادة':'صيدلية','Médecin':'صيدلية','Doctor':'صيدلية',
-    'ترفيه':'الترفيه','Loisirs':'الترفيه','Entertainment':'الترفيه','Ocio':'الترفيه',
-    'هدايا':'متنوع','Cadeaux':'متنوع','Gifts':'متنوع','Regalos':'متنوع',
-    'سفر':'متنوع','Voyage':'متنوع','Travel':'متنوع','Viaje':'متنوع',
-    'ملابس':'ملابس','Vêtements':'ملابس','Clothes':'ملابس','Ropa':'ملابس',
-    'مطعم':'مطعم','Restaurant':'مطعم',
-    'قهوة':'قهوة','Café':'قهوة',
-    'السوق':'السوق','Marché':'السوق','Market':'السوق','Mercado':'السوق',
-    'مواد غذائية':'مواد غذائية','Alimentation':'مواد غذائية','Food':'مواد غذائية','Alimentación':'مواد غذائية',
-    'تعليم/دورات':'متنوع','Formation/Cours':'متنوع','Courses/Training':'متنوع',
-    'كتب':'متنوع','Livres':'متنوع','Books':'متنوع','Libros':'متنوع',
-    'توفير':'متنوع','Épargne':'متنوع','Savings':'متنوع','Ahorro':'متنوع',
-    'طوارئ':'متنوع','Urgences':'متنوع','Emergency':'متنوع','Emergencias':'متنوع',
-    'سداد ديون':'متنوع','Remboursement dettes':'متنوع',
-  };
-  return map[catStr]||catStr;
+  // Transport → Gasoil special case
+  if(catStr==='النقل'||catStr==='Transport'||catStr==='Transporte'||catStr==='نقل عام'||catStr==='Gasoil')return 'Gasoil';
+  return catStr;
 }
 function getNoteCat(n){
   if(n.subCat)return n.subCat;
@@ -1947,8 +1917,7 @@ function delNote(i){
   renderNotes();
 }
 function addNote(){
-  // Save note to allData key matching current display year/month
-  const mk=curYear+'-'+String(curMonth+1).padStart(2,'0');
+  const mk=ck();
   if(!allData[mk])allData[mk]=defMonth();
   if(!allData[mk].notes)allData[mk].notes=[];
   const mc=getMainCats()[0];
@@ -1973,7 +1942,7 @@ function addNote(){
 }
 
 function updateNotesSummary(){
-  const t=T(),notes=getCurrentMonthNotes();
+  const t=T(),notes=(allData[ck()]||{}).notes||[];
   const total=notes.reduce((s,n)=>s+Number(n.amount||0),0);
   const byExpLbl={};
   notes.forEach(n=>{
@@ -2000,7 +1969,7 @@ function updateNotesSummary(){
     </div>`;
 }
 function updateNotesChart(){
-  const notes=getCurrentMonthNotes();
+  const notes=(allData[ck()]||{}).notes||[];
   const byLbl={};
   notes.forEach(n=>{
     migrateNote(n);
@@ -2020,14 +1989,8 @@ function updateNotesChart(){
 function getMV(key,mi){
   const d=allData[mkey(curYear,mi)];if(!d||!d[key])return 0;
   let v=d[key].reduce((s,x)=>s+Number(x.act||0),0);
-  if(key==='expenses'){
-    // Sum notes from ALL allData where note.date matches this month
-    const gmvYM=mkey(curYear,mi);
-    Object.keys(allData).forEach(function(mk3){
-      ((allData[mk3]||{}).notes||[]).forEach(function(n){
-        if(n.date&&n.date.startsWith(gmvYM))v+=Number(n.amount||0);
-      });
-    });
+  if(key==='expenses'&&d.notes){
+    v+=d.notes.reduce((s,n)=>s+Number(n.amount||0),0);
   }
   return v;
 }
@@ -2206,33 +2169,13 @@ async function fbLoadFromCloud(uid){
       const d=snap.data();
       if(d.allData)allData=d.allData;
       if(d.currency)currency=d.currency;
-      if(d.lang){lang=d.lang;}
-      // Restore curYear/curMonth from saved state
       if(d.curYear)curYear=d.curYear;
       if(d.curMonth!==undefined)curMonth=d.curMonth;
-      // Sync curYear to most recent notes if newer
-      var newestYM=null;
-      Object.keys(allData).forEach(function(mk2){
-        ((allData[mk2]||{}).notes||[]).forEach(function(n){
-          if(n.date&&n.date.length>=7){
-            var nym=n.date.slice(0,7);
-            if(!newestYM||nym>newestYM)newestYM=nym;
-          }
-        });
-      });
-      if(newestYM){
-        var np=newestYM.split('-');
-        var ny=parseInt(np[0]);
-        var nm=parseInt(np[1])-1;
-        if(ny>curYear||(ny===curYear&&nm>curMonth)){
-          curYear=ny;curMonth=nm;
-        }
-      }
-      // Ensure current month has data
-      var mk=ck();
+      if(d.lang){lang=d.lang;}
+      const mk=ck();
       if(!monthHasRealData(mk))allData[mk]=defMonth();
       if(!allData[mk].notes)allData[mk].notes=[];
-      // Save to localStorage only (not back to Firestore during load)
+      // Save to localStorage immediately after cloud load
       try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));}catch(e){}
       $('currencySelect').value=currency;
       setLang(lang);
@@ -2242,20 +2185,785 @@ async function fbLoadFromCloud(uid){
       setSyncStatus('ok');
       _isLoadingFromCloud=false;
       _authReady=true;
+      // If any save was queued during load, execute now
       if(_saveQueue){_saveQueue=false;fbSaveToCloud();}
       showToast('☁️ '+(T().toast_loaded||'تم تحميل بياناتك من السحاب'));
     }else{
-      // No cloud data yet — save local data to cloud
       _isLoadingFromCloud=false;
       _authReady=true;
+      // No cloud data yet — upload local data
       await fbSaveToCloud();
     }
   }catch(e){
     console.error('Firestore load error:',e);
-    _isLoadingFromCloud=false;
-    _authReady=true;
+    setSyncStatus('ok');
   }
 }
+
+// persistData is already defined above — patch it to also cloud-save
+// We do this by wrapping at call sites via a flag check inside the original
+
+// Show app after Google auth (and optional PIN)
+function showAppAfterAuth(user){
+  if(!user && window._pendingUser) user=window._pendingUser;
+  if(!user) return;
+  if(_appReady) return; // prevent multiple calls
+  _appReady=true;
+  window._pendingUser=null;
+
+  // ── Toggle auth UI ──
+  const so=$('auth-signed-out'); if(so)so.style.display='none';
+  const si=$('auth-signed-in'); if(si)si.style.display='flex';
+  // Set avatar and user info
+  const av=$('auth-avatar');
+  if(av&&user.photoURL)av.src=user.photoURL;
+  else if(av)av.src='https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=7EC8B0&color=fff';
+  const udAv=$('ud-avatar');
+  if(udAv&&user.photoURL)udAv.src=user.photoURL;
+  const udNm=$('ud-name'); if(udNm)udNm.textContent=user.displayName||'';
+  const udEm=$('ud-email'); if(udEm)udEm.textContent=user.email||'';
+
+  // ── Show app ──
+  $('landing-page').style.display='none';
+  $('pin-screen').classList.add('hidden');
+  const hdr=document.querySelector('.header');
+  const nav=document.querySelector('.nav-tabs');
+  const ftr=document.querySelector('.footer');
+  if(hdr)hdr.style.display='';
+  if(nav)nav.style.display='';
+  if(ftr)ftr.style.display='';
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.style.display=''; p.classList.remove('active');
+  });
+  const dash=$('tab-dashboard');
+  if(dash)dash.classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const firstTab=document.querySelector('.nav-tab');
+  if(firstTab)firstTab.classList.add('active');
+
+  setSyncStatus('sync');
+  fbLoadFromCloud(user.uid);
+  showToast('👋 '+(user.displayName||user.email));
+}
+
+// Auth state change handler
+window.onFbAuthChange = function(user){
+  if(user){
+    // USER SIGNED IN
+    _fbUid = user.uid;
+    // Update auth avatar/name
+    const av=$('auth-avatar');
+    if(av&&user.photoURL)av.src=user.photoURL;
+    const udAv=$('ud-avatar');
+    if(udAv&&user.photoURL)udAv.src=user.photoURL;
+    const udNm=$('ud-name');
+    if(udNm)udNm.textContent=user.displayName||'';
+    const udEm=$('ud-email');
+    if(udEm)udEm.textContent=user.email||'';
+    // Check PIN
+    pinEnabled=localStorage.getItem(PINON_KEY)==='1';
+    const savedPin=localStorage.getItem(PIN_KEY);
+    if(pinEnabled && savedPin && !_appReady){
+      lang=localStorage.getItem('sf_lang')||lang;
+      setLang(lang);
+      pinMode='verify'; pinBuffer=''; updateDots();
+      set('pin-sub',T().pin_enter);
+      $('pin-forgot').style.display='block';
+      $('pin-screen').classList.remove('hidden');
+      window._pendingUser=user;
+    } else if(!_appReady){
+      showAppAfterAuth(user);
+    }
+  } else {
+    // USER SIGNED OUT — show landing WITHOUT reload
+    _fbUid=null; allData={}; _appReady=false;
+    // Hide app, show landing
+    ['.header','.nav-tabs','.footer'].forEach(s=>{
+      const el=document.querySelector(s);if(el)el.style.display='none';
+    });
+    document.querySelectorAll('.tab-panel').forEach(p=>{
+      p.style.display='none'; p.classList.remove('active');
+    });
+    $('landing-page').style.display='block';
+    $('pin-screen').classList.add('hidden');
+    $('auth-signed-in').style.display='none';
+    $('auth-signed-out').style.display='';
+    setSyncStatus('off');
+  }
+};
+
+// ══════════════════════════════════════════════
+// USER DROPDOWN
+// ══════════════════════════════════════════════
+function toggleUserDropdown(){
+  const dd=$('user-dropdown');
+  dd.classList.toggle('open');
+  // Close on outside click
+  if(dd.classList.contains('open')){
+    setTimeout(()=>{
+      document.addEventListener('click', closeDropdownOutside, {once:true});
+    },10);
+  }
+}
+function closeDropdownOutside(e){
+  const dd=$('user-dropdown');
+  if(dd&&!dd.contains(e.target)&&e.target.id!=='auth-avatar'){
+    dd.classList.remove('open');
+  }
+}
+function closeUserDropdown(){$('user-dropdown').classList.remove('open');}
+
+function initLandingCharts(){
+  // Donut chart
+  const dc=document.getElementById('lnd-donut');
+  const bc=document.getElementById('lnd-bar');
+  if(!dc||!bc)return;
+  new Chart(dc,{
+    type:'doughnut',
+    data:{
+      labels:['الفواتير','المصاريف','التوفير','الديون'],
+      datasets:[{
+        data:[1259,2200,1000,1260],
+        backgroundColor:['#E8A598','#B5A8D4','#8DB4CF','#D4A853'],
+        borderWidth:2,borderColor:'rgba(255,255,255,.08)',hoverOffset:6
+      }]
+    },
+    options:{cutout:'58%',plugins:{legend:{position:'bottom',labels:{color:'rgba(255,255,255,.4)',font:{size:10,family:'Tajawal'},padding:8,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}
+  });
+  new Chart(bc,{
+    type:'bar',
+    data:{
+      labels:['الفواتير','المصاريف','التوفير','الديون'],
+      datasets:[
+        {label:'تصرفت',data:[1259,2200,1000,1260],backgroundColor:['#E8A598','#B5A8D4','#8DB4CF','#D4A853'],borderRadius:5,borderSkipped:false},
+        {label:'مخطط',data:[1500,2500,1500,1500],backgroundColor:'rgba(255,255,255,.07)',borderRadius:5,borderSkipped:false}
+      ]
+    },
+    options:{
+      indexAxis:'y',
+      plugins:{legend:{position:'bottom',labels:{color:'rgba(255,255,255,.4)',font:{size:10,family:'Tajawal'},padding:8,usePointStyle:true}}},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.3)',font:{size:9}}},
+        y:{grid:{display:false},ticks:{color:'rgba(255,255,255,.4)',font:{size:10,family:'Tajawal'}}}
+      },
+      responsive:true,maintainAspectRatio:true
+    }
+  });
+}
+
+
+// ══════════════════════════════════════════════
+// MONTHLY CALENDAR (in dashboard)
+// ══════════════════════════════════════════════
+function renderCalendar(){
+  var thead=document.getElementById('cal-thead');
+  var tbody=document.getElementById('cal-tbody');
+  if(!thead||!tbody)return;
+  var t=T();
+
+  // Full day names for header (RTL: أحد first = rightmost)
+  var DN_AR=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+  var DN_FR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  var DN_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var DN_ES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  var dayNames=lang==='fr'?DN_FR:lang==='en'?DN_EN:lang==='es'?DN_ES:DN_AR;
+
+  // Header row
+  thead.innerHTML='';
+  var htr=document.createElement('tr');
+  dayNames.forEach(function(d){
+    var th=document.createElement('th');th.textContent=d;htr.appendChild(th);
+  });
+  thead.appendChild(htr);
+
+  // Collect notes - match by displayed month/year
+  // Use the displayed year from calendar (curYear) and displayed month (curMonth)
+  var calMonthStr=String(curMonth+1).padStart(2,'0');
+  var dayTotals={};
+  Object.keys(allData).forEach(function(mk2){
+    ((allData[mk2]||{}).notes||[]).forEach(function(n){
+      if(!n.date||!Number(n.amount||0))return;
+      var parts=n.date.split('-');
+      if(!parts[1])return;
+      // Match by month AND year in the note's date field
+      var noteYear=parseInt(parts[0]);
+      var noteMonth=parts[1];
+      if(noteMonth===calMonthStr&&noteYear===curYear){
+        dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount);
+      }
+    });
+  });
+
+  // Month total
+  var monthTotal=Object.values(dayTotals).reduce(function(s,v){return s+v;},0);
+  var elTot=document.getElementById('cal-total-val');
+  if(elTot)elTot.textContent=fmt(monthTotal);
+  var elCur=document.getElementById('cal-cur');
+  if(elCur)elCur.textContent=currency;
+
+  // Color scale
+  var vals=Object.values(dayTotals).filter(function(v){return v>0;});
+  var maxVal=Math.max.apply(null,vals.concat([1]));
+
+  // Build grid
+  tbody.innerHTML='';
+  // Use local date for day-of-week to avoid timezone shift
+  var firstDt=new Date(curYear,curMonth,1);
+  var firstDow=firstDt.getDay(); // 0=Sun
+  var lastDate=new Date(curYear,curMonth+1,0).getDate();
+  var _td=new Date();
+  var todayKey=_td.getFullYear()+'-'+String(_td.getMonth()+1).padStart(2,'0')+'-'+String(_td.getDate()).padStart(2,'0');
+
+  var tr=document.createElement('tr');
+  var col=0;
+
+  // Empty cells before day 1
+  for(var e=0;e<firstDow;e++){
+    var td=document.createElement('td');td.className='empty';
+    tr.appendChild(td);col++;
+  }
+
+  for(var d=1;d<=lastDate;d++){
+    // Build date string directly to avoid timezone issues
+    var dk=curYear+'-'+String(curMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var val=dayTotals[dk]||0;
+    var isToday=dk===todayKey;
+    var pct=val/maxVal;
+
+    var color='';
+    if(val>0){
+      color=pct<0.33?'#22c55e':pct<0.66?'#f59e0b':'#ef4444';
+    }
+
+    var td2=document.createElement('td');
+    if(isToday)td2.className='today-cell';
+
+    // Day number
+    var numDiv=document.createElement('div');
+    numDiv.className='cal-day-num';
+    numDiv.textContent=d;
+    td2.appendChild(numDiv);
+
+    // Amount + bar (only if has data > 0)
+    if(val>0&&val!==undefined){
+      var amtDiv=document.createElement('div');
+      amtDiv.className='cal-day-amount';
+      amtDiv.style.color=color;
+      amtDiv.textContent=fmt(val);
+      td2.appendChild(amtDiv);
+
+      var bar=document.createElement('div');
+      bar.className='cal-day-bar';
+      bar.style.background=color;
+      td2.appendChild(bar);
+    }
+
+    td2.title=t.months[curMonth]+' '+d+(val>0?' — '+fmt(val)+' '+currency:'');
+    tr.appendChild(td2);
+    col++;
+
+    if(col%7===0){
+      tbody.appendChild(tr);
+      tr=document.createElement('tr');
+    }
+  }
+
+  // Fill remaining cells
+  while(col%7!==0){
+    var tdx=document.createElement('td');tdx.className='empty';
+    tr.appendChild(tdx);col++;
+  }
+  if(tr.children.length>0)tbody.appendChild(tr);
+
+  // Title
+  var titleEl=document.getElementById('cal-title-lbl');
+  if(titleEl){
+    var prefix=lang==='fr'?'Résumé ':lang==='en'?'Summary ':lang==='es'?'Resumen ':'ملخص مصاريف ';
+    titleEl.textContent=prefix+t.months[curMonth]+' '+curYear;
+  }
+}
+
+// ══════════════════════════════════════════════
+// IN DRIVE TAB
+// ══════════════════════════════════════════════
+function getDriveData(){
+  return (allData[ck()]||{}).driveEntries||[];
+}
+
+function addDriveEntry(){
+  const date=document.getElementById('drive-date').value;
+  const trips=Number(document.getElementById('drive-trips').value)||0;
+  const total=Number(document.getElementById('drive-total').value)||0;
+  if(!date||trips<=0||total<=0){showToast('❌ '+(T().drive_fill||'أكمل كل الحقول'));return;}
+  const mk=ck();
+  if(!allData[mk])allData[mk]=defMonth();
+  if(!allData[mk].driveEntries)allData[mk].driveEntries=[];
+  allData[mk].driveEntries.push({date,trips,total,avg:Math.round(total/trips)});
+  // Sync to income "عمل ثاني"
+  syncDriveToIncome();
+  persistData();
+  document.getElementById('drive-trips').value='';
+  document.getElementById('drive-total').value='';
+  renderDriveTab();
+  showToast(T().toast_add||'✓');
+}
+
+function syncDriveToIncome(){
+  const mk=ck();
+  const entries=getDriveData();
+  const monthTotal=entries.reduce(function(s,e){return s+Number(e.total||0);},0);
+  // Find "عمل ثاني" or second income row
+  const income=allData[mk].income||[];
+  let found=false;
+  income.forEach(function(row){
+    if(row.label==='عمل ثاني'||row.label==='2ème emploi'||row.label==='2nd job'||row.label==='2º trabajo'||row.label==='خدمة ثانية'){
+      row.act=monthTotal;found=true;
+    }
+  });
+  if(!found&&income.length>1){income[1].act=monthTotal;}
+  renderSection('income');
+  recalc();
+}
+
+function deleteDriveEntry(idx){
+  const mk=ck();
+  if(!allData[mk]||!allData[mk].driveEntries)return;
+  allData[mk].driveEntries.splice(idx,1);
+  syncDriveToIncome();
+  persistData();
+  renderDriveTab();
+}
+
+function renderDriveTab(){
+  const panel=document.getElementById('tab-drive');
+  if(!panel||!panel.classList.contains('active'))return;
+  const t=T();
+  const entries=getDriveData();
+
+  // Today
+  const todayKey=new Date().toISOString().slice(0,10);
+  const todayEntries=entries.filter(function(e){return e.date===todayKey;});
+  const todayTotal=todayEntries.reduce(function(s,e){return s+e.total;},0);
+  const todayTrips=todayEntries.reduce(function(s,e){return s+e.trips;},0);
+
+  // Week
+  const now=new Date();
+  const ws=new Date(now);ws.setDate(now.getDate()-now.getDay());
+  const weekTotal=entries.filter(function(e){
+    const d=new Date(e.date);return d>=ws&&d<=now;
+  }).reduce(function(s,e){return s+e.total;},0);
+
+  // Month total
+  const monthTotal=entries.reduce(function(s,e){return s+e.total;},0);
+  const monthTrips=entries.reduce(function(s,e){return s+e.trips;},0);
+  const avgPerTrip=monthTrips>0?Math.round(monthTotal/monthTrips):0;
+
+  // Update stats
+  var el;
+  el=document.getElementById('drv-today');if(el)el.textContent=fmt(todayTotal);
+  el=document.getElementById('drv-week');if(el)el.textContent=fmt(weekTotal);
+  el=document.getElementById('drv-month');if(el)el.textContent=fmt(monthTotal);
+  el=document.getElementById('drv-avg');if(el)el.textContent=fmt(avgPerTrip);
+  el=document.getElementById('drv-trips');if(el)el.textContent=monthTrips;
+
+  // Set today's date in input
+  const dateInput=document.getElementById('drive-date');
+  if(dateInput&&!dateInput.value)dateInput.value=todayKey;
+
+  // Week bar chart
+  renderDriveWeekBars(entries,ws,now);
+
+  // Entries list
+  renderDriveList(entries);
+}
+
+function renderDriveWeekBars(entries,ws,now){
+  const bars=document.getElementById('drive-week-bars');
+  if(!bars)return;
+  bars.innerHTML='';
+  const dayNames=lang==='fr'?['D','L','M','M','J','V','S']:
+                 lang==='en'?['S','M','T','W','T','F','S']:
+                 lang==='es'?['D','L','M','X','J','V','S']:
+                 ['أح','اث','ثل','أر','خم','جم','سب'];
+  const vals=Array.from({length:7},function(_,i){
+    const wd=new Date(ws);wd.setDate(ws.getDate()+i);
+    const dk=wd.toISOString().slice(0,10);
+    return entries.filter(function(e){return e.date===dk;}).reduce(function(s,e){return s+e.total;},0);
+  });
+  const maxVal=Math.max.apply(null,vals.concat([1]));
+  const todayDow=new Date().getDay();
+  vals.forEach(function(val,i){
+    const isToday=i===todayDow;
+    const pct=Math.max(4,Math.round((val/maxVal)*100));
+    const item=document.createElement('div');
+    item.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;';
+    const track=document.createElement('div');
+    track.style.cssText='width:100%;height:80px;display:flex;align-items:flex-end;background:var(--bg);border-radius:8px;overflow:hidden;';
+    const fill=document.createElement('div');
+    fill.style.cssText='width:100%;height:'+pct+'%;background:'+(isToday?'var(--mint)':'var(--lav)')+';border-radius:8px;min-height:4px;transition:height .5s;';
+    track.appendChild(fill);
+    const lbl=document.createElement('div');
+    lbl.style.cssText='font-size:9px;color:'+(isToday?'var(--mint)':'var(--light)')+';font-weight:'+(isToday?'800':'600')+';text-align:center;';
+    lbl.textContent=dayNames[i];
+    const valLbl=document.createElement('div');
+    valLbl.style.cssText='font-size:8px;color:var(--mid);font-family:"DM Mono",monospace;';
+    valLbl.textContent=val>0?fmt(val):'';
+    item.appendChild(track);item.appendChild(valLbl);item.appendChild(lbl);
+    bars.appendChild(item);
+  });
+}
+
+function renderDriveList(entries){
+  const list=document.getElementById('drive-entries-list');
+  if(!list)return;
+  list.innerHTML='';
+  if(!entries.length){
+    list.innerHTML='<div style="padding:20px;text-align:center;color:var(--light);font-size:12px;">🚗 لا توجد رحلات مسجلة هذا الشهر</div>';
+    return;
+  }
+  // Sort by date descending
+  const sorted=entries.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+  sorted.forEach(function(e,i){
+    const realIdx=entries.indexOf(e);
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);';
+    const icon=document.createElement('div');
+    icon.style.cssText='width:36px;height:36px;border-radius:10px;background:var(--mint-ll);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;';
+    icon.textContent='🚗';
+    const info=document.createElement('div');
+    info.style.cssText='flex:1;';
+    info.innerHTML='<div style="font-size:12px;font-weight:600;color:var(--dark);">'+e.date+'</div>'
+      +'<div style="font-size:10px;color:var(--light);">'+(T().drive_trips||'رحلات')+': '+e.trips+' • '+(T().drive_avg||'معدل')+': '+fmt(e.avg)+' '+currency+'</div>';
+    const amt=document.createElement('div');
+    amt.style.cssText='font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:var(--mint);flex-shrink:0;';
+    amt.textContent=fmt(e.total);
+    const del=document.createElement('button');
+    del.style.cssText='background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
+    del.textContent='✕';
+    del.onclick=(function(idx){return function(){deleteDriveEntry(idx);};})(realIdx);
+    row.appendChild(icon);row.appendChild(info);row.appendChild(amt);row.appendChild(del);
+    list.appendChild(row);
+  });
+}
+
+// ══════════════════════════════════════════════
+// NOTES TAB — NEW UI
+// ══════════════════════════════════════════════
+
+let _noteActiveCat = null; // active main cat id
+let _noteFilterMonth = null; // 'YYYY-MM' or null = current month
+
+// Icon bg colors per cat id
+const CAT_BG = {
+  fixed:'#EAF7F3', daily:'#EAF3DE', transport:'#FBF3E6',
+  health:'#FCEBEB', clothes:'#F0EDF9', learning:'#E6F1FB',
+  fun:'#FFF3E0', invest:'#F3EBF7'
+};
+const CAT_COLOR = {
+  fixed:'#0F6E56', daily:'#3B6D11', transport:'#854F0B',
+  health:'#A32D2D', clothes:'#533AB7', learning:'#185FA5',
+  fun:'#854F0B', invest:'#6b3fa0'
+};
+
+function initNotesPills(){
+  var wrap=document.getElementById('notes-pills-wrap');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  var cats=getMainCats();
+  // "الكل" pill
+  var allPill=document.createElement('span');
+  allPill.className='notes-pill'+(_noteActiveCat===null?' active':'');
+  allPill.textContent='🔍 '+(lang==='fr'?'Tout':lang==='en'?'All':lang==='es'?'Todo':'الكل');
+  allPill.onclick=function(){_noteActiveCat=null;initNotesPills();updateNoteSubSelect();renderNotesList();};
+  wrap.appendChild(allPill);
+  cats.forEach(function(mc){
+    var pill=document.createElement('span');
+    pill.className='notes-pill'+(_noteActiveCat===mc.id?' active':'');
+    pill.textContent=mc.icon+' '+mc.label;
+    pill.onclick=function(){_noteActiveCat=mc.id;initNotesPills();updateNoteSubSelect();renderNotesList();};
+    wrap.appendChild(pill);
+  });
+}
+
+function updateNoteSubSelect(){
+  var sel=document.getElementById('nf-sub');
+  if(!sel)return;
+  sel.innerHTML='';
+  if(_noteActiveCat===null){
+    // Show all subs from all cats
+    getMainCats().forEach(function(mc){
+      var grp=document.createElement('optgroup');
+      grp.label=mc.icon+' '+mc.label;
+      mc.subs.forEach(function(s){
+        var opt=document.createElement('option');
+        opt.value=mc.id+'|'+s;opt.textContent=s;
+        grp.appendChild(opt);
+      });
+      sel.appendChild(grp);
+    });
+  } else {
+    var mc=getMainCats().find(function(c){return c.id===_noteActiveCat;});
+    if(mc){
+      mc.subs.forEach(function(s){
+        var opt=document.createElement('option');
+        opt.value=mc.id+'|'+s;opt.textContent=s;
+        sel.appendChild(opt);
+      });
+    }
+  }
+}
+
+function initNotesMonthFilter(){
+  var sel=document.getElementById('nf-month-filter');
+  if(!sel)return;
+  sel.innerHTML='';
+  // Scan ALL notes from ALL allData to find unique months
+  var months=new Set();
+  // Add current display month
+  var displayYM=curYear+'-'+String(curMonth+1).padStart(2,'0');
+  months.add(displayYM);
+  // Scan all notes by their actual date
+  Object.keys(allData).forEach(function(k){
+    ((allData[k]||{}).notes||[]).forEach(function(n){
+      if(n.date&&n.date.length>=7)months.add(n.date.slice(0,7));
+    });
+  });
+  var t=T();
+  // Sort descending (most recent first)
+  var sorted=Array.from(months).sort().reverse();
+  // Find the most recent month that has actual notes
+  var latestWithNotes=null;
+  sorted.forEach(function(ym){
+    if(latestWithNotes)return;
+    var hasNotes=false;
+    Object.keys(allData).forEach(function(k){
+      ((allData[k]||{}).notes||[]).forEach(function(n){
+        if(n.date&&n.date.startsWith(ym)&&Number(n.amount||0)>0)hasNotes=true;
+      });
+    });
+    if(hasNotes)latestWithNotes=ym;
+  });
+  // Default: most recent with notes OR display month
+  var defaultYM=latestWithNotes||displayYM;
+  sorted.forEach(function(ym){
+    var parts=ym.split('-');
+    var mIdx=parseInt(parts[1])-1;
+    var opt=document.createElement('option');
+    opt.value=ym;
+    opt.textContent=t.months[mIdx]+' '+parts[0];
+    if(ym===defaultYM)opt.selected=true;
+    sel.appendChild(opt);
+  });
+  _noteFilterMonth=defaultYM;
+}
+
+function addNoteNew(){
+  var dateEl=document.getElementById('nf-date');
+  var subEl=document.getElementById('nf-sub');
+  var amountEl=document.getElementById('nf-amount');
+  if(!dateEl||!subEl||!amountEl)return;
+  var date=dateEl.value;
+  var amount=Number(amountEl.value)||0;
+  var subVal=subEl.value; // 'catId|subLabel'
+  if(!date||amount<=0){showToast('❌ '+(T().drive_fill||'أكمل الحقول'));return;}
+  var parts=subVal.split('|');
+  var mainCat=parts[0]||(_noteActiveCat||'daily');
+  var subCat=parts[1]||'';
+  var mk=ck();
+  if(!allData[mk])allData[mk]=defMonth();
+  if(!allData[mk].notes)allData[mk].notes=[];
+  allData[mk].notes.push({date:date,note:subCat,mainCat:mainCat,subCat:subCat,amount:amount,cat:subCat});
+  amountEl.value='';
+  persistData();
+  renderNotesTab();
+  renderNotesInExpenses();
+  recalc();
+  showToast(T().toast_add||'✓');
+}
+
+function deleteNoteNew(idx){
+  var mk=ck();
+  if(!allData[mk]||!allData[mk].notes)return;
+  allData[mk].notes.splice(idx,1);
+  persistData();
+  renderNotesTab();
+  renderNotesInExpenses();
+  recalc();
+}
+
+function renderNotesList(){
+  var listEl=document.getElementById('notes-entries-list');
+  var footerVal=document.getElementById('nf-footer-val');
+  var footerCur=document.getElementById('nf-footer-cur');
+  var filterTotal=document.getElementById('nf-filter-total');
+  var filterCur=document.getElementById('nf-filter-cur');
+  if(!listEl)return;
+
+  // Get selected filter month
+  var fSel=document.getElementById('nf-month-filter');
+  _noteFilterMonth=fSel?fSel.value:ck();
+
+  // Collect notes from ALL allData - match by note.date (not allData key)
+  var allNotes=[];
+  Object.keys(allData).forEach(function(mk2){
+    ((allData[mk2]||{}).notes||[]).forEach(function(n,i){
+      if(n.date&&_noteFilterMonth&&n.date.startsWith(_noteFilterMonth)){
+        allNotes.push({n:n,mk:mk2,i:i});
+      }
+    });
+  });
+
+  // Filter by active cat
+  var filtered=allNotes;
+  if(_noteActiveCat){
+    filtered=allNotes.filter(function(obj){
+      return (obj.n.mainCat===_noteActiveCat)||(obj.n.catIdx!==undefined&&getMainCats()[obj.n.catIdx||0]&&getMainCats()[obj.n.catIdx||0].id===_noteActiveCat);
+    });
+  }
+
+  // Sort by date desc
+  filtered.sort(function(a,b){return (b.n.date||'').localeCompare(a.n.date||'');});
+
+  var total=filtered.reduce(function(s,obj){return s+Number(obj.n.amount||0);},0);
+  if(filterTotal)filterTotal.textContent=fmt(total);
+  if(filterCur)filterCur.textContent=currency;
+  if(footerCur)footerCur.textContent=currency;
+  if(footerVal){
+    var span=footerVal.querySelector('span')||footerVal;
+    footerVal.childNodes[0].textContent=fmt(total)+' ';
+    if(footerCur)footerVal.appendChild(footerCur);
+  }
+
+  listEl.innerHTML='';
+  if(!filtered.length){
+    var empty=document.createElement('div');
+    empty.style.cssText='padding:24px;text-align:center;color:var(--light);font-size:12px;';
+    empty.innerHTML='<div style="font-size:28px;margin-bottom:8px;">📭</div><div>لا توجد مصاريف</div>';
+    listEl.appendChild(empty);
+    return;
+  }
+
+  filtered.forEach(function(obj){
+    var n=obj.n;
+    var mc=getMainCats().find(function(c){return c.id===n.mainCat;})||getMainCats()[n.catIdx||0]||getMainCats()[0];
+    var row=document.createElement('div');
+    row.className='note-entry-row';
+
+    var icon=document.createElement('div');
+    icon.className='ne-icon';
+    icon.style.background=CAT_BG[mc.id]||'#EAF7F3';
+    icon.textContent=mc.icon||'💰';
+
+    var info=document.createElement('div');
+    info.className='ne-info';
+    var title=document.createElement('div');
+    title.className='ne-title';
+    title.textContent=n.subCat||n.note||n.cat||mc.label;
+    var sub=document.createElement('div');
+    sub.className='ne-sub';
+    sub.textContent=mc.label+' • '+n.date;
+    info.appendChild(title);info.appendChild(sub);
+
+    var amt=document.createElement('div');
+    amt.className='ne-amount';
+    amt.style.color=CAT_COLOR[mc.id]||'var(--dark)';
+    amt.textContent=fmt(n.amount);
+
+    var del=document.createElement('button');
+    del.className='ne-del';
+    del.textContent='✕';
+    // Find real index in allData[mk].notes
+    var realMk=obj.mk;
+    var realIdx=obj.i;
+    del.onclick=(function(mk2,idx2){return function(){
+      if(!allData[mk2]||!allData[mk2].notes)return;
+      allData[mk2].notes.splice(idx2,1);
+      persistData();renderNotesTab();renderNotesInExpenses();recalc();
+    };})(realMk,realIdx);
+
+    row.appendChild(icon);row.appendChild(info);row.appendChild(amt);row.appendChild(del);
+    listEl.appendChild(row);
+  });
+
+  // Update bar chart
+  renderNotesCatBars(filtered);
+  // Update footer
+  if(footerVal){
+    footerVal.innerHTML=fmt(total)+' <span style="font-size:11px;font-weight:400;color:var(--light);">'+currency+'</span>';
+  }
+}
+
+function renderNotesCatBars(filtered){
+  var barsEl=document.getElementById('notes-cat-bars');
+  if(!barsEl)return;
+  barsEl.innerHTML='';
+  var bycat={};
+  filtered.forEach(function(obj){
+    var mc=getMainCats().find(function(c){return c.id===obj.n.mainCat;})||getMainCats()[0];
+    var lbl=mc.icon+' '+mc.label;
+    bycat[lbl]=(bycat[lbl]||{total:0,color:CAT_COLOR[mc.id]||'var(--mint)',id:mc.id});
+    bycat[lbl].total+=Number(obj.n.amount||0);
+  });
+  var maxVal=Math.max.apply(null,Object.values(bycat).map(function(v){return v.total;}).concat([1]));
+  Object.entries(bycat).sort(function(a,b){return b[1].total-a[1].total;}).forEach(function(entry){
+    var lbl=entry[0];var v=entry[1];
+    var pct=Math.round(v.total/maxVal*100);
+    var row=document.createElement('div');
+    row.className='bar-r';
+    row.innerHTML='<span class="bar-lbl" style="font-size:10px;color:var(--mid);width:80px;text-align:right;flex-shrink:0;">'+lbl+'</span>'
+      +'<div class="bar-track" style="flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;">'
+      +'<div class="bar-fill" style="width:'+pct+'%;background:'+v.color+';height:100%;border-radius:4px;transition:width .5s;"></div></div>'
+      +'<span class="bar-val" style="font-size:10px;color:var(--mid);width:40px;text-align:left;font-family:DM Mono,monospace;">'+fmt(v.total)+'</span>';
+    barsEl.appendChild(row);
+  });
+  // Also update donut chart
+  updateNotesChart2(bycat);
+}
+
+function updateNotesChart2(bycat){
+  if(!chartNotes)return;
+  var keys=Object.keys(bycat);
+  var vals=keys.map(function(k){return bycat[k].total;});
+  var colors=Object.values(bycat).map(function(v){return v.color;});
+  if(!keys.length)return;
+  chartNotes.data.labels=keys;
+  chartNotes.data.datasets[0].data=vals;
+  chartNotes.data.datasets[0].backgroundColor=colors;
+  chartNotes.update('none');
+}
+
+function renderNotesTab(){
+  // Init pills if needed
+  initNotesPills();
+  // Init month filter
+  initNotesMonthFilter();
+  // Set today date in input
+  var dateEl=document.getElementById('nf-date');
+  if(dateEl&&!dateEl.value){
+    var _nd=new Date();
+    dateEl.value=_nd.getFullYear()+'-'+String(_nd.getMonth()+1).padStart(2,'0')+'-'+String(_nd.getDate()).padStart(2,'0');
+  }
+  // Init sub select
+  updateNoteSubSelect();
+  // Render list
+  renderNotesList();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  // ALWAYS show landing page on startup — no PIN screen here
+  $('landing-page').style.display='block';
+  $('pin-screen').classList.add('hidden'); // never show PIN on startup
+  // Hide entire app
+  ['.header','.nav-tabs','.footer'].forEach(s=>{
+    const el=document.querySelector(s);if(el)el.style.display='none';
+  });
+  document.querySelectorAll('.tab-panel').forEach(p=>p.style.display='none');
+  // Clear any signout flag
+  sessionStorage.removeItem('show_landing');
+  initCharts();
+  setTimeout(initLandingCharts, 200);
+  // Firebase onAuthStateChanged will handle routing after Google sign-in
+});
 </script>
 </body>
 </html>
