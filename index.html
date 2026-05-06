@@ -2204,6 +2204,26 @@ async function fbLoadFromCloud(uid){
       if(!allData[mk].notes)allData[mk].notes=[];
       // Save to localStorage immediately after cloud load
       try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));}catch(e){}
+      // Sync curYear/curMonth to most recent month with notes
+      // This handles case where Firebase has old curYear but new notes
+      var newestNoteYM=null;
+      Object.keys(allData).forEach(function(mk2){
+        ((allData[mk2]||{}).notes||[]).forEach(function(n){
+          if(n.date&&n.date.length>=7){
+            var nym=n.date.slice(0,7);
+            if(!newestNoteYM||nym>newestNoteYM)newestNoteYM=nym;
+          }
+        });
+      });
+      if(newestNoteYM){
+        var np=newestNoteYM.split('-');
+        var ny=parseInt(np[0]);
+        var nm=parseInt(np[1])-1;
+        // Only update if newer than current
+        if(ny>curYear||(ny===curYear&&nm>curMonth)){
+          curYear=ny;curMonth=nm;
+        }
+      }
       $('currencySelect').value=currency;
       setLang(lang);
       renderAll();
