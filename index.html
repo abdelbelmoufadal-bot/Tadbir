@@ -1122,7 +1122,7 @@ let _authReady=false;     // true only after cloud load completes
 let _saveQueue=false;     // pending save after cloud load
 let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
 
-const mkey=(y,m)=>`${y}-${String(m).padStart(2,'0')}`;
+const mkey=(y,m)=>`${y}-${String(m+1).padStart(2,'0')}`;
 const ck=()=>mkey(curYear,curMonth);
 const fmt=n=>Number(n||0).toLocaleString('ar-MA');
 const T=()=>LANGS[lang];
