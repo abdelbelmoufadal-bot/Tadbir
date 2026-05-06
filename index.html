@@ -2177,18 +2177,6 @@ async function fbLoadFromCloud(uid){
       if(!allData[mk].notes)allData[mk].notes=[];
       // Save to localStorage immediately after cloud load
       try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));}catch(e){}
-      // Auto-navigate to the most recent month that has notes
-      var latestNoteDate=null;
-      Object.keys(allData).forEach(function(mk2){
-        ((allData[mk2]||{}).notes||[]).forEach(function(n){
-          if(n.date&&(!latestNoteDate||n.date>latestNoteDate))latestNoteDate=n.date;
-        });
-      });
-      if(latestNoteDate){
-        var lp=latestNoteDate.split('-');
-        curYear=parseInt(lp[0]);
-        curMonth=parseInt(lp[1])-1;
-      }
       $('currencySelect').value=currency;
       setLang(lang);
       renderAll();
@@ -2419,9 +2407,12 @@ function renderCalendar(){
 
   // Build grid
   tbody.innerHTML='';
-  var firstDow=new Date(curYear,curMonth,1).getDay(); // 0=Sun
+  // Use local date for day-of-week to avoid timezone shift
+  var firstDt=new Date(curYear,curMonth,1);
+  var firstDow=firstDt.getDay(); // 0=Sun
   var lastDate=new Date(curYear,curMonth+1,0).getDate();
-  var todayKey=new Date().toISOString().slice(0,10);
+  var _td=new Date();
+  var todayKey=_td.getFullYear()+'-'+String(_td.getMonth()+1).padStart(2,'0')+'-'+String(_td.getDate()).padStart(2,'0');
 
   var tr=document.createElement('tr');
   var col=0;
@@ -2433,8 +2424,8 @@ function renderCalendar(){
   }
 
   for(var d=1;d<=lastDate;d++){
-    var dt=new Date(curYear,curMonth,d);
-    var dk=dt.toISOString().slice(0,10);
+    // Build date string directly to avoid timezone issues
+    var dk=curYear+'-'+String(curMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     var val=dayTotals[dk]||0;
     var isToday=dk===todayKey;
     var pct=val/maxVal;
@@ -2948,7 +2939,10 @@ function renderNotesTab(){
   initNotesMonthFilter();
   // Set today date in input
   var dateEl=document.getElementById('nf-date');
-  if(dateEl&&!dateEl.value)dateEl.value=new Date().toISOString().slice(0,10);
+  if(dateEl&&!dateEl.value){
+    var _nd=new Date();
+    dateEl.value=_nd.getFullYear()+'-'+String(_nd.getMonth()+1).padStart(2,'0')+'-'+String(_nd.getDate()).padStart(2,'0');
+  }
   // Init sub select
   updateNoteSubSelect();
   // Render list
