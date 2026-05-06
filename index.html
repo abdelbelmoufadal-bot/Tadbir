@@ -2177,6 +2177,18 @@ async function fbLoadFromCloud(uid){
       if(!allData[mk].notes)allData[mk].notes=[];
       // Save to localStorage immediately after cloud load
       try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));}catch(e){}
+      // Auto-navigate to the most recent month that has notes
+      var latestNoteDate=null;
+      Object.keys(allData).forEach(function(mk2){
+        ((allData[mk2]||{}).notes||[]).forEach(function(n){
+          if(n.date&&(!latestNoteDate||n.date>latestNoteDate))latestNoteDate=n.date;
+        });
+      });
+      if(latestNoteDate){
+        var lp=latestNoteDate.split('-');
+        curYear=parseInt(lp[0]);
+        curMonth=parseInt(lp[1])-1;
+      }
       $('currencySelect').value=currency;
       setLang(lang);
       renderAll();
@@ -2376,16 +2388,19 @@ function renderCalendar(){
   });
   thead.appendChild(htr);
 
-  // Collect notes from ALL allData keys - match by YEAR and MONTH in note.date
-  var calYear=curYear;
+  // Collect notes - match by displayed month/year
+  // Use the displayed year from calendar (curYear) and displayed month (curMonth)
   var calMonthStr=String(curMonth+1).padStart(2,'0');
   var dayTotals={};
   Object.keys(allData).forEach(function(mk2){
     ((allData[mk2]||{}).notes||[]).forEach(function(n){
       if(!n.date||!Number(n.amount||0))return;
       var parts=n.date.split('-');
-      // Match: same year AND same month (ignore which allData key it's in)
-      if(parts[0]==calYear&&parts[1]===calMonthStr){
+      if(!parts[1])return;
+      // Match by month AND year in the note's date field
+      var noteYear=parseInt(parts[0]);
+      var noteMonth=parts[1];
+      if(noteMonth===calMonthStr&&noteYear===curYear){
         dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount);
       }
     });
