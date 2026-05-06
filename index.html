@@ -248,30 +248,28 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 @media(max-width:700px){.daily-stats-row{grid-template-columns:repeat(3,1fr);}.daily-form-grid{grid-template-columns:1fr;}}
 /* ══ MONTHLY CALENDAR ══ */
 .cal-wrap{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
-.cal-header{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.cal-title{font-size:13px;font-weight:800;color:var(--dark);display:flex;align-items:center;gap:7px;}
-.cal-title .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--lav));}
-.cal-total-badge{background:var(--mint-ll);border:1px solid var(--mint-l);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:5px;}
-/* TABLE STYLE CALENDAR */
-.cal-table{width:100%;border-collapse:collapse;}
-.cal-table th{font-size:11px;font-weight:700;color:var(--mid);text-align:center;padding:10px 4px;background:var(--bg);border-bottom:2px solid var(--border);}
-.cal-table td{border:1px solid var(--border);vertical-align:top;padding:8px 6px;min-height:70px;width:calc(100%/7);}
+.cal-header{padding:16px 20px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.cal-title{font-size:15px;font-weight:800;color:var(--dark);display:flex;align-items:center;gap:8px;}
+.cal-total-badge{background:var(--mint-ll);border:1px solid var(--mint-l);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--dark);}
+.cal-table{width:100%;border-collapse:collapse;direction:rtl;}
+.cal-table th{font-size:12px;font-weight:600;color:var(--mid);text-align:center;padding:12px 6px;background:var(--bg);border:1px solid var(--border);}
+.cal-table td{border:1px solid var(--border);vertical-align:top;padding:10px 8px;height:80px;text-align:right;}
 .cal-table td.empty{background:var(--bg);}
-.cal-table td.has-data{cursor:pointer;}
-.cal-table td.has-data:hover{background:var(--bg);}
-.cal-table td.today{background:var(--mint-ll);}
-.cal-day-num{font-size:13px;font-weight:700;color:var(--mid);line-height:1;margin-bottom:6px;}
-.cal-table td.today .cal-day-num{width:26px;height:26px;background:var(--mint);color:var(--dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;}
-.cal-day-amount{font-size:12px;font-family:'DM Mono',monospace;font-weight:800;margin-bottom:4px;}
-.cal-day-bar{height:3px;border-radius:3px;width:60%;}
-.cal-legend{display:flex;align-items:center;gap:14px;padding:10px 18px 12px;border-top:1px solid var(--border);flex-wrap:wrap;}
-.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mid);font-weight:600;}
-.cal-legend-dot{width:10px;height:10px;border-radius:3px;}
+.cal-day-num{font-size:16px;font-weight:700;color:var(--dark);line-height:1;margin-bottom:6px;}
+.cal-table td.today-cell{background:#f0fdf8;}
+.cal-table td.today-cell .cal-day-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--mint);color:#fff;border-radius:50%;font-size:15px;font-weight:800;}
+.cal-day-amount{font-size:13px;font-family:'DM Mono',monospace;font-weight:700;line-height:1;margin-bottom:5px;}
+.cal-day-bar{height:3px;border-radius:3px;width:50%;margin-top:2px;}
+.cal-legend{display:flex;align-items:center;gap:16px;padding:10px 20px 14px;border-top:1px solid var(--border);flex-wrap:wrap;}
+.cal-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mid);font-weight:600;}
+.cal-legend-dot{width:12px;height:4px;border-radius:3px;}
 @media(max-width:700px){
-  .cal-table td{padding:4px 3px;min-height:50px;}
-  .cal-day-num{font-size:11px;}
-  .cal-day-amount{font-size:10px;}
+  .cal-table td{height:54px;padding:5px 4px;}
+  .cal-day-num{font-size:13px;}
+  .cal-day-amount{font-size:11px;}
+  .cal-table th{font-size:10px;padding:8px 2px;}
 }
+
 
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
 /* ══ IN DRIVE ══ */
@@ -2275,19 +2273,19 @@ function initLandingCharts(){
 // MONTHLY CALENDAR (in dashboard)
 // ══════════════════════════════════════════════
 function renderCalendar(){
-  const thead=document.getElementById('cal-thead');
-  const tbody=document.getElementById('cal-tbody');
+  var thead=document.getElementById('cal-thead');
+  var tbody=document.getElementById('cal-tbody');
   if(!thead||!tbody)return;
-  const t=T();
+  var t=T();
 
-  // Day names — full names for header
-  const dayNamesAR=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
-  const dayNamesFR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  const dayNamesEN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const dayNamesES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-  const dayNames=lang==='fr'?dayNamesFR:lang==='en'?dayNamesEN:lang==='es'?dayNamesES:dayNamesAR;
+  // Full day names for header (RTL: أحد first = rightmost)
+  var DN_AR=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+  var DN_FR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  var DN_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var DN_ES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  var dayNames=lang==='fr'?DN_FR:lang==='en'?DN_EN:lang==='es'?DN_ES:DN_AR;
 
-  // Build header
+  // Header row
   thead.innerHTML='';
   var htr=document.createElement('tr');
   dayNames.forEach(function(d){
@@ -2295,51 +2293,56 @@ function renderCalendar(){
   });
   thead.appendChild(htr);
 
-  // Get notes data grouped by date
-  const mk=ck();
-  const notes=(allData[mk]||{}).notes||[];
-  const dayTotals={};
+  // Collect notes by date
+  var mk=ck();
+  var notes=(allData[mk]||{}).notes||[];
+  var dayTotals={};
   notes.forEach(function(n){
-    if(n.date&&n.amount){
-      dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount||0);
+    if(n.date&&Number(n.amount||0)>0){
+      dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount);
     }
   });
 
   // Month total
-  const monthTotal=Object.values(dayTotals).reduce(function(s,v){return s+v;},0);
-  const el_total=document.getElementById('cal-total-val');
-  if(el_total)el_total.textContent=fmt(monthTotal);
-  const el_cur=document.getElementById('cal-cur');
-  if(el_cur)el_cur.textContent=currency;
+  var monthTotal=Object.values(dayTotals).reduce(function(s,v){return s+v;},0);
+  var elTot=document.getElementById('cal-total-val');
+  if(elTot)elTot.textContent=fmt(monthTotal);
+  var elCur=document.getElementById('cal-cur');
+  if(elCur)elCur.textContent=currency;
 
   // Color scale
-  const allVals=Object.values(dayTotals).filter(function(v){return v>0;});
-  const maxVal=Math.max.apply(null,allVals.concat([1]));
+  var vals=Object.values(dayTotals).filter(function(v){return v>0;});
+  var maxVal=Math.max.apply(null,vals.concat([1]));
 
-  // Build table body
+  // Build grid
   tbody.innerHTML='';
-  const firstDay=new Date(curYear,curMonth,1);
-  const lastDay=new Date(curYear,curMonth+1,0);
-  const firstDow=firstDay.getDay(); // 0=Sun
-  const todayKey=new Date().toISOString().slice(0,10);
+  var firstDow=new Date(curYear,curMonth,1).getDay(); // 0=Sun
+  var lastDate=new Date(curYear,curMonth+1,0).getDate();
+  var todayKey=new Date().toISOString().slice(0,10);
 
-  var row=document.createElement('tr');
-  // Empty cells at start
+  var tr=document.createElement('tr');
+  var col=0;
+
+  // Empty cells before day 1
   for(var e=0;e<firstDow;e++){
-    var td=document.createElement('td');td.className='empty';row.appendChild(td);
+    var td=document.createElement('td');td.className='empty';
+    tr.appendChild(td);col++;
   }
 
-  var col=firstDow;
-  for(var d=1;d<=lastDay.getDate();d++){
+  for(var d=1;d<=lastDate;d++){
     var dt=new Date(curYear,curMonth,d);
     var dk=dt.toISOString().slice(0,10);
     var val=dayTotals[dk]||0;
     var isToday=dk===todayKey;
     var pct=val/maxVal;
 
+    var color='';
+    if(val>0){
+      color=pct<0.33?'#22c55e':pct<0.66?'#f59e0b':'#ef4444';
+    }
+
     var td2=document.createElement('td');
-    if(val>0)td2.className='has-data';
-    if(isToday)td2.className+=' today';
+    if(isToday)td2.className='today-cell';
 
     // Day number
     var numDiv=document.createElement('div');
@@ -2347,40 +2350,41 @@ function renderCalendar(){
     numDiv.textContent=d;
     td2.appendChild(numDiv);
 
-    // Amount + bar
+    // Amount + bar (only if has data)
     if(val>0){
-      var color=pct<0.33?'#7EC8B0':pct<0.66?'#E8C49A':'#E8A598';
       var amtDiv=document.createElement('div');
       amtDiv.className='cal-day-amount';
       amtDiv.style.color=color;
       amtDiv.textContent=fmt(val);
       td2.appendChild(amtDiv);
+
       var bar=document.createElement('div');
       bar.className='cal-day-bar';
       bar.style.background=color;
       td2.appendChild(bar);
     }
+
     td2.title=t.months[curMonth]+' '+d+(val>0?' — '+fmt(val)+' '+currency:'');
-    row.appendChild(td2);
+    tr.appendChild(td2);
     col++;
 
-    // New row every 7 cols
     if(col%7===0){
-      tbody.appendChild(row);
-      row=document.createElement('tr');
+      tbody.appendChild(tr);
+      tr=document.createElement('tr');
     }
   }
+
   // Fill remaining cells
   while(col%7!==0){
     var tdx=document.createElement('td');tdx.className='empty';
-    row.appendChild(tdx);col++;
+    tr.appendChild(tdx);col++;
   }
-  if(row.children.length>0)tbody.appendChild(row);
+  if(tr.children.length>0)tbody.appendChild(tr);
 
   // Title
-  const titleEl=document.getElementById('cal-title-lbl');
+  var titleEl=document.getElementById('cal-title-lbl');
   if(titleEl){
-    const prefix=lang==='fr'?'Résumé ':lang==='en'?'Summary ':lang==='es'?'Resumen ':'ملخص مصاريف ';
+    var prefix=lang==='fr'?'Résumé ':lang==='en'?'Summary ':lang==='es'?'Resumen ':'ملخص مصاريف ';
     titleEl.textContent=prefix+t.months[curMonth]+' '+curYear;
   }
 }
