@@ -978,8 +978,8 @@ const LANGS={
   },
   dar:{dir:'rtl',
     months:['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
-    cats:['مواد غذائية','السوق','قهوة','النقل','أخرى'],
-    expLabel:['مواد غذائية','السوق','قهوة','Gasoil','أخرى'],
+    cats:['مواد غذائية','السوق','قهوة/تدخين','النقل','أخرى'],
+    expLabel:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','أخرى'],
     pin_enter:'دخل رمز PIN ديالك',pin_create:'درلي PIN جديد (4 أرقام)',pin_confirm:'عاود دخل PIN',
     pin_wrong:'❌ PIN غلط',pin_mismatch:'❌ الأرقام ما خرجوش بحال',pin_note:'هاد الرمز كيحمي التطبيق ديالك',pin_forgot:'نسيتي PIN؟',
     saved:'محفوظ',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'سجل المصاريف',tab3:'مقارنة شهرية',
@@ -1011,8 +1011,8 @@ const LANGS={
   },
   fr:{dir:'ltr',
     months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-    cats:['Alimentation','Marché','Café','Transport','Autre'],
-    expLabel:['Alimentation','Marché','Café','Gasoil','Autre'],
+    cats:['Alimentation','Marché','Café/Tabac','Transport','Autre'],
+    expLabel:['Alimentation','Marché','Café/Tabac','Gasoil','Autre'],
     pin_enter:'Entrez votre code PIN',pin_create:'Créer un code PIN (4 chiffres)',pin_confirm:'Confirmez le PIN',
     pin_wrong:'❌ Code PIN incorrect',pin_mismatch:'❌ Les codes ne correspondent pas',pin_note:'Ce code protège votre application',pin_forgot:'PIN oublié ?',
     saved:'Sauvegardé automatiquement',new_btn:'✦ Nouveau mois',tab1:'Tableau de bord',tab2:'Carnet de notes',tab3:'Comparaison mensuelle',
@@ -1044,8 +1044,8 @@ const LANGS={
   },
   en:{dir:'ltr',
     months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-    cats:['Food','Market','Café','Transport','Other'],
-    expLabel:['Food','Market','Café','Gasoil','Other'],
+    cats:['Food','Market','Coffee/Tobacco','Transport','Other'],
+    expLabel:['Food','Market','Coffee/Tobacco','Gasoil','Other'],
     pin_enter:'Enter your PIN',pin_create:'Create a PIN (4 digits)',pin_confirm:'Confirm your PIN',
     pin_wrong:'❌ Incorrect PIN',pin_mismatch:'❌ PINs do not match',pin_note:'This PIN protects your app',pin_forgot:'Forgot PIN?',
     saved:'Auto-saved',new_btn:'✦ New Month',tab1:'Dashboard',tab2:'Notes',tab3:'Monthly Overview',
@@ -1077,8 +1077,8 @@ const LANGS={
   },
   es:{dir:'ltr',
     months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    cats:['Alimentación','Mercado','Café','Transporte','Otro'],
-    expLabel:['Alimentación','Mercado','Café','Gasoil','Otro'],
+    cats:['Alimentación','Mercado','Café/Tabaco','Transporte','Otro'],
+    expLabel:['Alimentación','Mercado','Café/Tabaco','Gasoil','Otro'],
     pin_enter:'Introduce tu PIN',pin_create:'Crear PIN (4 dígitos)',pin_confirm:'Confirma el PIN',
     pin_wrong:'❌ PIN incorrecto',pin_mismatch:'❌ Los PINs no coinciden',pin_note:'Este PIN protege tu aplicación',pin_forgot:'¿Olvidaste el PIN?',
     saved:'Guardado automáticamente',new_btn:'✦ Nuevo mes',tab1:'Panel de control',tab2:'Cuaderno de notas',tab3:'Comparativa mensual',
@@ -1139,7 +1139,8 @@ const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 const MAIN_CATS = {
   ar: [
     {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['إيجار','كهرباء/ماء','غاز','انترنت','تأمين']},
-    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','مطعم','قهوة']},
+    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','مطعم','عصير']},
+    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة','نسكافي','شاي','سيجارة','شيشة','تبغ']},
     {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','نقل عام','صيانة سيارة']},
     {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','صيدلية']},
     {id:'clothes', icon:'👕', label:'الملابس والمظهر',      subs:['ملابس','حلاقة/عناية']},
@@ -1149,7 +1150,8 @@ const MAIN_CATS = {
   ],
   dar: [
     {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['الكراء','الكهرباء/الماء','الغاز','الانترنت','التأمين']},
-    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','ريستو','قهوة']},
+    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','ريستو','عصير']},
+    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة','نسكافي','أتاي','سيجارة','شيشة','تبغ']},
     {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','النقل العام','صيانة طوموبيل']},
     {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','الصيدلية']},
     {id:'clothes', icon:'👕', label:'الحوايج والمظهر',      subs:['الحوايج','الحلاقة/العناية']},
@@ -1159,7 +1161,8 @@ const MAIN_CATS = {
   ],
   fr: [
     {id:'fixed',   icon:'🏠', label:'Charges fixes',        subs:['Loyer','Électricité/Eau','Gaz','Internet','Assurance']},
-    {id:'daily',   icon:'🛒', label:'Vie quotidienne',      subs:['Alimentation','Marché','Restaurant','Café']},
+    {id:'daily',   icon:'🛒', label:'Vie quotidienne',      subs:['Alimentation','Marché','Restaurant','Jus']},
+    {id:'cafe_smoke',icon:'☕', label:'Café & Tabac',           subs:['Café','Nescafé','Thé','Cigarettes','Chicha','Tabac']},
     {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Transport public','Entretien voiture']},
     {id:'health',  icon:'🏥', label:'Santé',                subs:['Médicaments','Médecin','Pharmacie']},
     {id:'clothes', icon:'👕', label:'Vêtements et apparence',subs:['Vêtements','Coiffeur/Soins']},
@@ -1169,7 +1172,8 @@ const MAIN_CATS = {
   ],
   en: [
     {id:'fixed',   icon:'🏠', label:'Fixed expenses',       subs:['Rent','Electricity/Water','Gas','Internet','Insurance']},
-    {id:'daily',   icon:'🛒', label:'Daily living',         subs:['Food','Market','Restaurant','Café']},
+    {id:'daily',   icon:'🛒', label:'Daily living',         subs:['Food','Market','Restaurant','Juice']},
+    {id:'cafe_smoke',icon:'☕', label:'Coffee & Tobacco',      subs:['Coffee','Nescafé','Tea','Cigarettes','Hookah','Tobacco']},
     {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Public transport','Car maintenance']},
     {id:'health',  icon:'🏥', label:'Health',               subs:['Medicine','Doctor','Pharmacy']},
     {id:'clothes', icon:'👕', label:'Clothes & appearance', subs:['Clothes','Haircut/Care']},
@@ -1179,7 +1183,8 @@ const MAIN_CATS = {
   ],
   es: [
     {id:'fixed',   icon:'🏠', label:'Gastos fijos',         subs:['Alquiler','Electricidad/Agua','Gas','Internet','Seguro']},
-    {id:'daily',   icon:'🛒', label:'Vida diaria',          subs:['Alimentación','Mercado','Restaurante','Café']},
+    {id:'daily',   icon:'🛒', label:'Vida diaria',          subs:['Alimentación','Mercado','Restaurante','Zumo']},
+    {id:'cafe_smoke',icon:'☕', label:'Café y Tabaco',         subs:['Café','Nescafé','Té','Cigarrillos','Cachimba','Tabaco']},
     {id:'transport',icon:'🚗',label:'Transporte',            subs:['Gasoil','Transporte público','Mantenimiento coche']},
     {id:'health',  icon:'🏥', label:'Salud',                subs:['Medicamentos','Médico','Farmacia']},
     {id:'clothes', icon:'👕', label:'Ropa y apariencia',    subs:['Ropa','Peluquería/Cuidados']},
@@ -1203,35 +1208,35 @@ function getMainLabel(mainId){
 const DEF_LABELS={
   ar:{
     bills:['الضو','الماء','Wi-fi','التليفون','الإيجار','التأمين','نتفليكس','الغاز'],
-    expenses:['مواد غذائية','السوق','قهوة','Gasoil','الترفيه','ملابس','صيدلية','مطعم','الحلاقة','متنوع'],
+    expenses:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','الترفيه','ملابس','صيدلية','مطعم','الحلاقة','متنوع'],
     savings:['المشروع','السفر','طوارئ','تعليم'],
     debts:['Credit Dacia','البنك','كريدي شخصي'],
     income:['الراتب','عمل ثاني','إيجار مستلم']
   },
   dar:{
     bills:['الضو','الماء','Wi-fi','التليفون','الكراء','التأمين','نتفليكس','الغاز'],
-    expenses:['مواد غذائية','السوق','قهوة','Gasoil','الترفيه','الحوايج','الصيدلية','ريستو','الحلاقة','متنوع'],
+    expenses:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','الترفيه','الحوايج','الصيدلية','ريستو','الحلاقة','متنوع'],
     savings:['المشروع','السفر','الطوارئ','التعليم'],
     debts:['Credit Dacia','البنك','كريدي شخصي'],
     income:['الراتب','خدمة ثانية','كراء مستلم']
   },
   fr:{
     bills:['Électricité','Eau','Wi-fi','Téléphone','Loyer','Assurance','Netflix','Gaz'],
-    expenses:['Alimentation','Marché','Café','Gasoil','Loisirs','Vêtements','Pharmacie','Restaurant','Coiffeur','Divers'],
+    expenses:['Alimentation','Marché','Café/Tabac','Gasoil','Loisirs','Vêtements','Pharmacie','Restaurant','Coiffeur','Divers'],
     savings:['Projet','Voyage','Urgences','Éducation'],
     debts:['Crédit voiture','Banque','Crédit perso'],
     income:['Salaire','2ème emploi','Loyer reçu']
   },
   en:{
     bills:['Electricity','Water','Wi-fi','Phone','Rent','Insurance','Netflix','Gas'],
-    expenses:['Food','Market','Café','Gasoil','Entertainment','Clothes','Pharmacy','Restaurant','Haircut','Misc'],
+    expenses:['Food','Market','Coffee/Tobacco','Gasoil','Entertainment','Clothes','Pharmacy','Restaurant','Haircut','Misc'],
     savings:['Project','Travel','Emergency','Education'],
     debts:['Car credit','Bank','Personal loan'],
     income:['Salary','2nd job','Rent received']
   },
   es:{
     bills:['Electricidad','Agua','Wi-fi','Teléfono','Alquiler','Seguro','Netflix','Gas'],
-    expenses:['Alimentación','Mercado','Café','Gasoil','Ocio','Ropa','Farmacia','Restaurante','Peluquería','Varios'],
+    expenses:['Alimentación','Mercado','Café/Tabaco','Gasoil','Ocio','Ropa','Farmacia','Restaurante','Peluquería','Varios'],
     savings:['Proyecto','Viaje','Emergencias','Educación'],
     debts:['Crédito coche','Banco','Préstamo personal'],
     income:['Salario','2º trabajo','Alquiler recibido']
@@ -1564,7 +1569,7 @@ function deleteRow(sec,idx){
 
 // ══════════════════════════════════════════════
 // NOTES → EXPENSES SYNC (per category)
-// catIdx: 0=مواد غذائية, 1=السوق, 2=قهوة, 3=النقل→Gasoil, 4=أخرى
+// catIdx: 0=مواد غذائية, 1=السوق, 2=قهوة/تدخين, 3=النقل→Gasoil, 4=أخرى
 // expLabel matches expenses table labels
 // ══════════════════════════════════════════════
 // Get ALL notes from ALL allData months
@@ -1825,7 +1830,7 @@ function migrateNote(n){
     }
   }
   // Default mapping from old cats
-  const defaultMap={'مواد غذائية':'daily','السوق':'daily','قهوة':'daily','Gasoil':'transport','النقل':'transport','غذاء':'daily','تسوق':'daily','Food':'daily','Market':'daily','Café':'daily','Transport':'transport','Alimentation':'daily','Marché':'daily','Alimentación':'daily','Mercado':'daily'};
+  const defaultMap={'مواد غذائية':'daily','السوق':'daily','قهوة':'cafe_smoke','قهوة/تدخين':'cafe_smoke','سيجارة':'cafe_smoke','شيشة':'cafe_smoke','تبغ':'cafe_smoke','نسكافي':'cafe_smoke','أتاي':'cafe_smoke','Gasoil':'transport','النقل':'transport','غذاء':'daily','تسوق':'daily','Food':'daily','Market':'daily','Café':'cafe_smoke','Coffee':'cafe_smoke','Cigarettes':'cafe_smoke','Tobacco':'cafe_smoke','Hookah':'cafe_smoke','Transport':'transport','Alimentation':'daily','Marché':'daily','Alimentación':'daily','Mercado':'daily'};
   const mappedId=defaultMap[oldCat]||'daily';
   const mc=cats.find(c=>c.id===mappedId);
   n.mainCat=mappedId;
@@ -2732,12 +2737,12 @@ let _noteFilterMonth = null; // 'YYYY-MM' or null = current month
 const CAT_BG = {
   fixed:'#EAF7F3', daily:'#EAF3DE', transport:'#FBF3E6',
   health:'#FCEBEB', clothes:'#F0EDF9', learning:'#E6F1FB',
-  fun:'#FFF3E0', invest:'#F3EBF7'
+  fun:'#FFF3E0', invest:'#F3EBF7', cafe_smoke:'#FFF8EC'
 };
 const CAT_COLOR = {
   fixed:'#0F6E56', daily:'#3B6D11', transport:'#854F0B',
   health:'#A32D2D', clothes:'#533AB7', learning:'#185FA5',
-  fun:'#854F0B', invest:'#6b3fa0'
+  fun:'#854F0B', invest:'#6b3fa0', cafe_smoke:'#7A4F1D'
 };
 
 function initNotesPills(){
