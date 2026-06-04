@@ -269,6 +269,61 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .note-entry-row:hover{background:var(--bg);}
 .ne-remark{font-size:10px;color:var(--light);margin-top:2px;font-style:italic;display:flex;align-items:center;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
 .ne-remark::before{content:'💬';font-style:normal;font-size:10px;flex-shrink:0;}
+/* ── EDIT MODAL ── */
+.edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.edit-modal-overlay.open{display:flex;}
+.edit-modal-box{background:var(--card);border-radius:18px;padding:20px;width:100%;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+.edit-modal-title{font-size:14px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+.edit-field-group{margin-bottom:12px;}
+.edit-field-label{font-size:10px;font-weight:700;color:var(--light);margin-bottom:5px;display:block;}
+.edit-field-input{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:9px 12px;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--dark);outline:none;background:var(--bg);transition:border-color .2s;}
+.edit-field-input:focus{border-color:var(--mint);background:#fff;}
+.edit-field-select{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:9px 12px;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--dark);outline:none;background:var(--bg);cursor:pointer;}
+.edit-actions{display:flex;gap:8px;margin-top:16px;}
+.edit-save-btn{flex:1;padding:11px;background:var(--mint);border:none;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:var(--dark);cursor:pointer;}
+.edit-cancel-btn{padding:11px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;color:var(--mid);cursor:pointer;}
+.ne-edit{background:none;border:none;color:var(--light);cursor:pointer;font-size:13px;padding:4px 5px;border-radius:5px;transition:all .15s;flex-shrink:0;}
+.ne-edit:hover{color:var(--mint);background:var(--mint-ll);}
+/* ── FAB FLOATING BUTTON ── */
+.fab{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:150;
+  background:linear-gradient(135deg,var(--mint),var(--sage));
+  border:none;border-radius:50px;padding:14px 28px;
+  font-family:'Tajawal',sans-serif;font-size:15px;font-weight:800;color:var(--dark);
+  cursor:pointer;box-shadow:0 8px 30px rgba(126,200,176,.45);
+  display:none;align-items:center;gap:8px;transition:all .25s;white-space:nowrap;}
+.fab:hover{transform:translateX(-50%) translateY(-3px);box-shadow:0 12px 40px rgba(126,200,176,.55);}
+.fab.visible{display:flex;}
+/* ── BUDGET LIMITS ── */
+.budget-limit-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);}
+.budget-limit-row:last-child{border-bottom:none;}
+.bl-cat{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;}
+.bl-input{width:90px;border:1.5px solid var(--border);border-radius:8px;padding:5px 9px;font-family:'DM Mono',monospace;font-size:12px;outline:none;text-align:center;background:var(--bg);}
+.bl-input:focus{border-color:var(--mint);}
+.budget-warn-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;margin-right:6px;}
+.budget-warn-badge.ok{background:#E6F4EE;color:#0F6E56;}
+.budget-warn-badge.warn{background:#FFF3E0;color:#854F0B;}
+.budget-warn-badge.over{background:#FCEBEB;color:#A32D2D;}
+/* ── WEEKLY STATS ── */
+.weekly-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+.weekly-stat{background:var(--card);border-radius:12px;padding:13px 10px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;}
+.weekly-stat-val{font-size:18px;font-weight:800;font-family:'DM Mono',monospace;color:var(--dark);}
+.weekly-stat-lbl{font-size:9px;color:var(--light);margin-top:4px;font-weight:600;}
+.weekly-bars-wrap{background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
+.weekly-bars{display:flex;align-items:flex-end;gap:6px;height:100px;margin-top:12px;}
+.wbar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.wbar-fill{width:100%;border-radius:6px 6px 0 0;min-height:4px;transition:height .5s;}
+.wbar-lbl{font-size:9px;color:var(--light);font-weight:600;}
+.wbar-val{font-size:8px;color:var(--mid);font-family:'DM Mono',monospace;}
+.wbar-item.today .wbar-lbl{color:var(--mint);font-weight:800;}
+.wbar-item.today .wbar-fill{background:var(--mint) !important;}
+/* ── PDF ── */
+.pdf-export-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 11px;border-radius:10px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-family:'Tajawal',sans-serif;font-size:11px;font-weight:600;color:var(--dark);margin-bottom:6px;transition:all .18s;}
+.pdf-export-btn:hover{border-color:var(--peach);background:var(--peach-l);}
+/* ── OFFLINE ── */
+.offline-banner{display:none;position:fixed;top:56px;left:0;right:0;z-index:190;background:#E8A598;color:#fff;font-size:12px;font-weight:700;text-align:center;padding:8px;font-family:'Tajawal',sans-serif;}
+.offline-banner.show{display:block;}
+@media(max-width:700px){.weekly-grid{grid-template-columns:repeat(2,1fr);}}
+
 .nf-remark-wrap{display:flex;align-items:center;gap:6px;margin-top:6px;padding:0 2px;}
 .nf-remark-input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
 .nf-remark-input:focus{border-color:var(--mint);background:#fff;}
@@ -675,6 +730,8 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="modal-box">
     <div class="modal-title"><span id="t-bk"></span> 💾<button class="modal-close" onclick="closeModal('backupModal')">✕</button></div>
     <div class="backup-section"><h3 id="t-exp-h"></h3>
+      <button class="pdf-export-btn" onclick="exportExcel()" style="border-color:#1D6F42;"><span class="bicon">📊</span><div class="btxt"><span id="t-excel-btn">تصدير Excel (4 أوراق)</span><span>فواتير، مصاريف، توفير، ملخص</span></div></button>
+      <button class="pdf-export-btn" onclick="exportPDF()"><span class="bicon">📄</span><div class="btxt"><span id="t-pdf-btn">تصدير تقرير PDF</span><span id="t-pdf-s">ملخص شهري جاهز للطباعة</span></div></button>
       <button class="backup-btn" onclick="exportJSON()"><span class="bicon">📥</span><div class="btxt"><span id="t-exp-btn"></span><span id="t-exp-s"></span></div></button>
     </div>
     <div class="backup-section"><h3 id="t-imp-h"></h3>
@@ -694,6 +751,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
         <div><div style="font-size:11px;font-weight:600;" id="t-pin-lbl"></div><div style="font-size:9px;color:var(--light);" id="t-pin-s"></div></div>
         <button class="toggle" id="pin-toggle" onclick="togglePIN()"></button>
       </div>
+      <button class="backup-btn" onclick="closeModal('backupModal');openBudgetModal()" style="border-color:var(--blue);"><span class="bicon">🎯</span><div class="btxt"><span>إعداد ميزانية الفئات</span><span>تحديد حد أقصى لكل قسم</span></div></button>
       <button class="backup-btn" onclick="startChangePIN()" style="margin-top:9px;"><span class="bicon">🔑</span><div class="btxt"><span id="t-pin-ch"></span><span id="t-pin-chs"></span></div></button>
     </div>
     <div class="last-backup" id="last-backup-info"></div>
@@ -772,6 +830,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
   <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
   <div class="nav-tab" onclick="showTab('drive',this)">🚗 <span id="t-tab5">In Drive</span></div>
+  <div class="nav-tab" onclick="showTab('weekly',this)">📊 <span id="t-tab6">إحصائيات</span></div>
   <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
 
 </nav>
@@ -935,11 +994,74 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
 </div></div>
 
+<div id="tab-weekly" class="tab-panel"><div class="main">
+  <div class="weekly-grid" id="weekly-stats-grid"></div>
+  <div class="weekly-bars-wrap">
+    <div class="card-title" style="font-size:12px;font-weight:800;"><span class="dot" style="background:var(--mint);display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:6px;"></span><span id="t-week-chart">مصاريف الأسبوع الحالي</span></div>
+    <div class="weekly-bars" id="weekly-bars-chart"></div>
+  </div>
+  <div class="card" style="margin-bottom:14px;">
+    <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span>توزيع المصاريف حسب الفئة — هذا الشهر</span></div></div>
+    <div id="weekly-cat-bars" style="padding:14px;"></div>
+  </div>
+</div></div>
+
 <div id="tab-monthly" class="tab-panel"><div class="main">
   <div class="section-title"><span id="t-monthly-title"></span> — <span id="monthly-yr-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
   <div class="card" style="overflow-x:auto;margin-bottom:14px;"><table class="monthly-table"><thead id="monthly-head"></thead><tbody id="monthly-body"></tbody></table></div>
   <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-monthly-chart"></span></div></div><div class="chart-wrap" style="height:230px;"><canvas id="monthlyLine"></canvas></div></div>
 </div></div>
+
+
+<!-- ── OFFLINE BANNER ── -->
+<div class="offline-banner" id="offline-banner">📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً</div>
+
+<!-- ── FAB (Floating Action Button) ── -->
+<button class="fab" id="fab-btn" onclick="fabQuickAdd()">＋ تسجيل مصروف</button>
+
+<!-- ── EDIT NOTE MODAL ── -->
+<div class="edit-modal-overlay" id="editNoteModal">
+  <div class="edit-modal-box">
+    <div class="edit-modal-title">
+      <span>✏️ تعديل المصروف</span>
+      <button class="modal-close" onclick="closeEditNoteModal()">✕</button>
+    </div>
+    <div class="edit-field-group">
+      <label class="edit-field-label" id="el-date">التاريخ</label>
+      <input type="date" class="edit-field-input" id="edit-note-date">
+    </div>
+    <div class="edit-field-group">
+      <label class="edit-field-label" id="el-cat">الفئة</label>
+      <select class="edit-field-select" id="edit-note-cat" onchange="editNoteUpdateSubs()"></select>
+    </div>
+    <div class="edit-field-group">
+      <label class="edit-field-label" id="el-sub">الخيار</label>
+      <select class="edit-field-select" id="edit-note-sub"></select>
+    </div>
+    <div class="edit-field-group">
+      <label class="edit-field-label" id="el-amount">المبلغ</label>
+      <input type="number" class="edit-field-input" id="edit-note-amount" min="0">
+    </div>
+    <div class="edit-field-group">
+      <label class="edit-field-label" id="el-remark">الملاحظة</label>
+      <input type="text" class="edit-field-input" id="edit-note-remark" maxlength="80" placeholder="اختياري...">
+    </div>
+    <div class="edit-actions">
+      <button class="edit-cancel-btn" onclick="closeEditNoteModal()">إلغاء</button>
+      <button class="edit-save-btn" onclick="saveEditNote()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── BUDGET LIMITS MODAL ── -->
+<div class="modal-overlay" id="budgetModal" onclick="if(event.target===this)closeModal('budgetModal')">
+  <div class="modal-box">
+    <div class="modal-title"><span>🎯 ميزانية لكل فئة</span><button class="modal-close" onclick="closeModal('budgetModal')">✕</button></div>
+    <div style="font-size:10px;color:var(--light);margin-bottom:12px;">حدد مبلغاً أقصى لكل فئة. ستتلقى تحذيراً عند الاقتراب من الحد.</div>
+    <div id="budget-limits-list"></div>
+    <button class="modal-btn" onclick="saveBudgetLimits()">💾 حفظ الحدود</button>
+  </div>
+</div>
 
 <footer class="footer" style="display:none;">
   <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.2</div>
@@ -977,7 +1099,7 @@ const LANGS={
     add_bills:'＋ إضافة فاتورة',add_exp:'＋ إضافة مصروف',add_sav:'＋ إضافة هدف',add_dbt:'＋ إضافة دين',add_inc:'＋ إضافة مصدر دخل',
     notes_title:'دفتر الملاحظات',notes_info:'كل ما تضيفه هنا يتجمع تلقائياً مع المصاريف في لوحة الميزانية',
     notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'ملخص',
-    nt_date:'التاريخ',nt_note:'الملاحظات',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ إضافة ملاحظة',nt_remark:'💬 ملاحظة (اختياري)',nt_remark_ph:'مثال: ماركة، محل، سبب...',
+    nt_date:'التاريخ',nt_note:'الملاحظات',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ إضافة ملاحظة',nt_remark:'💬 ملاحظة (اختياري)',nt_remark_ph:'مثال: ماركة، محل، سبب...',tab_weekly:'📊 إحصائيات',week_chart:'مصاريف الأسبوع الحالي',add_note_fab:'تسجيل مصروف',pdf_btn:'تصدير PDF',excel_btn:'تصدير Excel',
     monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
     footer:'دبّر فلوسك بذكاء — تدبير 💚',
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
@@ -1010,7 +1132,7 @@ const LANGS={
     add_bills:'＋ زيد فاكتورة',add_exp:'＋ زيد مصروف',add_sav:'＋ زيد هدف',add_dbt:'＋ زيد دين',add_inc:'＋ زيد مصدر دخل',
     notes_title:'سجل المصاريف',notes_info:'كل لي تزيد هنا كيتجمع تلقائياً مع المصاريف فلوحة الميزانية',
     notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'الملخص',
-    nt_date:'التاريخ',nt_note:'الملاحظة',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ زيد ملاحظة',nt_remark:'💬 ملاحظة (اختياري)',nt_remark_ph:'مثلاً: ماركة، حانوت، علاش...',
+    nt_date:'التاريخ',nt_note:'الملاحظة',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ زيد ملاحظة',nt_remark:'💬 ملاحظة (اختياري)',nt_remark_ph:'مثلاً: ماركة، حانوت، علاش...',tab_weekly:'📊 إحصاءات',week_chart:'مصاريف هاد الأسبوع',add_note_fab:'سجل مصروف',pdf_btn:'تصدير PDF',excel_btn:'تصدير Excel',
     monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
     footer:'دبّر فلوسك بذكاء — تدبير 💚',
     import_confirm:'هاد العملية غادي تبدل البيانات. واش متأكد؟',
@@ -1043,7 +1165,7 @@ const LANGS={
     add_bills:'＋ Ajouter une facture',add_exp:'＋ Ajouter une dépense',add_sav:'＋ Ajouter un objectif',add_dbt:'＋ Ajouter une dette',add_inc:'＋ Ajouter un revenu',
     notes_title:'Carnet de notes',notes_info:'Tout ce que vous ajoutez ici est automatiquement comptabilisé dans vos dépenses',
     notes_sub:'Journal des dépenses',notes_edit:'Modifiable',notes_chart:'Répartition',notes_sum:'Résumé',
-    nt_date:'Date',nt_note:'Note',nt_subcat:'Options',nt_cat:'Catégorie',nt_amount:'Montant',nt_cur:'Devise',add_note:'＋ Ajouter une note',nt_remark:'💬 Remarque (optionnel)',nt_remark_ph:'Ex: marque, magasin, raison...',
+    nt_date:'Date',nt_note:'Note',nt_subcat:'Options',nt_cat:'Catégorie',nt_amount:'Montant',nt_cur:'Devise',add_note:'＋ Ajouter une note',nt_remark:'💬 Remarque (optionnel)',nt_remark_ph:'Ex: marque, magasin, raison...',tab_weekly:'📊 Statistiques',week_chart:'Dépenses semaine',add_note_fab:'Ajouter',pdf_btn:'Exporter PDF',excel_btn:'Exporter Excel',
     monthly_title:'Comparaison mensuelle',monthly_chart:'Évolution revenus/dépenses',monthly_total:'Total',monthly_remain:'Solde',
     footer:'Gérez votre budget intelligemment — Tadbir 💚',
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
@@ -1076,7 +1198,7 @@ const LANGS={
     add_bills:'＋ Add bill',add_exp:'＋ Add expense',add_sav:'＋ Add goal',add_dbt:'＋ Add debt',add_inc:'＋ Add income source',
     notes_title:'Notes',notes_info:'Everything you add here is automatically counted in your expenses',
     notes_sub:'Expense log',notes_edit:'Editable',notes_chart:'Breakdown',notes_sum:'Summary',
-    nt_date:'Date',nt_note:'Note',nt_cat:'Category',nt_amount:'Amount',nt_cur:'Currency',add_note:'＋ Add note',nt_remark:'💬 Remark (optional)',nt_remark_ph:'E.g.: brand, store, reason...',
+    nt_date:'Date',nt_note:'Note',nt_cat:'Category',nt_amount:'Amount',nt_cur:'Currency',add_note:'＋ Add note',nt_remark:'💬 Remark (optional)',nt_remark_ph:'E.g.: brand, store, reason...',tab_weekly:'📊 Stats',week_chart:'This week',add_note_fab:'Add expense',pdf_btn:'Export PDF',excel_btn:'Export Excel',
     monthly_title:'Monthly comparison',monthly_chart:'Income vs Expenses trend',monthly_total:'Total',monthly_remain:'Balance',
     footer:'Manage your budget smartly — Tadbir 💚',
     import_confirm:'This will replace your data. Are you sure?',
@@ -1109,7 +1231,7 @@ const LANGS={
     add_bills:'＋ Añadir factura',add_exp:'＋ Añadir gasto',add_sav:'＋ Añadir objetivo',add_dbt:'＋ Añadir deuda',add_inc:'＋ Añadir ingreso',
     notes_title:'Cuaderno de notas',notes_info:'Todo lo que añadas aquí se suma automáticamente a tus gastos en el panel',
     notes_sub:'Registro de gastos',notes_edit:'Editable',notes_chart:'Distribución',notes_sum:'Resumen',
-    nt_date:'Fecha',nt_note:'Nota',nt_subcat:'Opciones',nt_cat:'Categoría',nt_amount:'Importe',nt_cur:'Moneda',add_note:'＋ Añadir nota',nt_remark:'💬 Observación (opcional)',nt_remark_ph:'Ej: marca, tienda, motivo...',
+    nt_date:'Fecha',nt_note:'Nota',nt_subcat:'Opciones',nt_cat:'Categoría',nt_amount:'Importe',nt_cur:'Moneda',add_note:'＋ Añadir nota',nt_remark:'💬 Observación (opcional)',nt_remark_ph:'Ej: marca, tienda, motivo...',tab_weekly:'📊 Estadísticas',week_chart:'Esta semana',add_note_fab:'Agregar',pdf_btn:'PDF',excel_btn:'Excel',
     monthly_title:'Comparativa mensual',monthly_chart:'Evolución ingresos/gastos',monthly_total:'Total',monthly_remain:'Saldo',
     footer:'Gestiona tu presupuesto — Tadbir 💚',
     import_confirm:'Esto reemplazará tus datos. ¿Estás seguro?',
@@ -1314,8 +1436,13 @@ function setLang(l){
   set('nt-date',t.nt_date); set('nt-note',t.nt_note);
   set('nt-maincat',t.nt_cat||'الفئة'); set('nt-subcat',t.nt_subcat||'الخيارات');
   set('nt-amount',t.nt_amount); set('nt-cur',t.nt_cur); set('add-note-btn',t.add_note);
+  set('t-tab6',t.tab_weekly||'📊 إحصائيات');
+  set('t-week-chart',t.week_chart||'مصاريف الأسبوع');
+  set('t-excel-btn',t.excel_btn||'تصدير Excel');
+  set('t-pdf-btn',t.pdf_btn||'تصدير PDF');
   set('nf-lbl-remark',t.nt_remark||'💬 ملاحظة (اختياري)');
   const remEl=document.getElementById('nf-remark');if(remEl)remEl.placeholder=t.nt_remark_ph||'مثال: ماركة، محل...';
+  const fabEl=document.getElementById('fab-btn');if(fabEl)fabEl.innerHTML='＋ '+(t.add_note_fab||'تسجيل مصروف');
   set('add-note-mobile-lbl', t.add_note||'＋ إضافة');
   set('t-monthly-title',t.monthly_title); set('t-monthly-chart',t.monthly_chart);
   set('t-footer',t.footer);
@@ -1761,6 +1888,10 @@ function recalc(){
   if(chartDonut){chartDonut.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];chartDonut.update('none');}
   if(chartBar){chartBar.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];chartBar.data.datasets[1].data=[bill.pln,exp.pln,sav.pln,dbt.pln];chartBar.update('none');}
   if(chartHero){chartHero.data.datasets[0].data=[rem>0?rem:0,bill.act+exp.act+sav.act+dbt.act];chartHero.update('none');}
+  // Refresh weekly tab if visible
+  const wPanel=document.getElementById('tab-weekly');
+  if(wPanel&&wPanel.classList.contains('active'))renderWeeklyTab();
+  if(typeof checkDailyReminder==='function')checkDailyReminder();
 }
 
 // ══════════════════════════════════════════════
@@ -2146,11 +2277,13 @@ function showTab(name,el){
   el.classList.add('active');
   if(name==='monthly')buildMonthlyTable();
   if(name==='notes')renderNotesTab();
+  if(name==='weekly')renderWeeklyTab();
   if(name==='drive'){
     const dateInput=document.getElementById('drive-date');
     if(dateInput&&!dateInput.value)dateInput.value=new Date().toISOString().slice(0,10);
     renderDriveTab();
   }
+  updateFabVisibility();
 }
 function changeCurrency(val){currency=val;syncCur();persistData();}
 function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=$(id);if(e)e.textContent=currency;});const h=$('hero-cur');if(h)h.textContent=currency;}
@@ -2367,6 +2500,7 @@ window.onFbAuthChange = function(user){
     }
   } else {
     // USER SIGNED OUT — show landing WITHOUT reload
+    const fabEl2=document.getElementById('fab-btn');if(fabEl2)fabEl2.classList.remove('visible');
     // On sauvegarde d'abord avant de vider la memoire
     try{if(Object.keys(allData).length>0){const payload=JSON.stringify({allData,currency,curYear,curMonth,lang});localStorage.setItem(SK,payload);localStorage.setItem('sf_backup',payload);}}catch(e){}
     _fbUid=null; allData={}; _appReady=false;
@@ -2986,7 +3120,10 @@ function renderNotesList(){
       persistData();renderNotesTab();renderNotesInExpenses();recalc();
     };})(realMk,realIdx);
 
-    row.appendChild(icon);row.appendChild(info);row.appendChild(amt);row.appendChild(del);
+    var editBtn=document.createElement('button');
+    editBtn.className='ne-edit';editBtn.title='تعديل';editBtn.textContent='✏️';
+    editBtn.onclick=(function(mk2,idx2){return function(e){e.stopPropagation();openEditNoteModal(mk2,idx2);};})(realMk,realIdx);
+    row.appendChild(icon);row.appendChild(info);row.appendChild(amt);row.appendChild(editBtn);row.appendChild(del);
     listEl.appendChild(row);
   });
 
@@ -3052,6 +3189,519 @@ function renderNotesTab(){
   updateNoteSubSelect();
   // Render list
   renderNotesList();
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// AMÉLIORATION 1 — MODIFIER UN Mصروف (Edit Note)
+// ══════════════════════════════════════════════════════════════════
+let _editNoteMk=null, _editNoteIdx=null;
+
+function openEditNoteModal(mk, idx){
+  _editNoteMk=mk; _editNoteIdx=idx;
+  const n=allData[mk].notes[idx];
+  const t=T();
+  // Labels
+  const el=document.getElementById('el-date');if(el)el.textContent=t.nt_date||'التاريخ';
+  const elc=document.getElementById('el-cat');if(elc)elc.textContent=t.nt_cat||'الفئة';
+  const els=document.getElementById('el-sub');if(els)els.textContent=t.nt_subcat||'الخيار';
+  const ela=document.getElementById('el-amount');if(ela)ela.textContent=t.nt_amount||'المبلغ';
+  const elr=document.getElementById('el-remark');if(elr)elr.textContent=t.nt_remark||'الملاحظة';
+  // Values
+  const dateEl=document.getElementById('edit-note-date');
+  if(dateEl)dateEl.value=n.date||'';
+  const amtEl=document.getElementById('edit-note-amount');
+  if(amtEl)amtEl.value=n.amount||0;
+  const remEl=document.getElementById('edit-note-remark');
+  if(remEl)remEl.value=n.remark||'';
+  // Category select
+  const catSel=document.getElementById('edit-note-cat');
+  if(catSel){
+    catSel.innerHTML='';
+    getMainCats().forEach(function(mc){
+      const opt=document.createElement('option');
+      opt.value=mc.id; opt.textContent=mc.icon+' '+mc.label;
+      if(mc.id===n.mainCat)opt.selected=true;
+      catSel.appendChild(opt);
+    });
+    editNoteUpdateSubs(n.subCat);
+  }
+  document.getElementById('editNoteModal').classList.add('open');
+}
+
+function editNoteUpdateSubs(selectedSub){
+  const catSel=document.getElementById('edit-note-cat');
+  const subSel=document.getElementById('edit-note-sub');
+  if(!catSel||!subSel)return;
+  const mc=getMainCats().find(function(x){return x.id===catSel.value;});
+  subSel.innerHTML='';
+  if(mc){
+    mc.subs.forEach(function(s){
+      const opt=document.createElement('option');
+      opt.value=s; opt.textContent=s;
+      if(s===selectedSub)opt.selected=true;
+      subSel.appendChild(opt);
+    });
+  }
+}
+
+function closeEditNoteModal(){
+  document.getElementById('editNoteModal').classList.remove('open');
+  _editNoteMk=null; _editNoteIdx=null;
+}
+
+function saveEditNote(){
+  if(_editNoteMk===null||_editNoteIdx===null)return;
+  const n=allData[_editNoteMk].notes[_editNoteIdx];
+  const newDate=document.getElementById('edit-note-date').value;
+  const newAmt=Number(document.getElementById('edit-note-amount').value)||0;
+  const newCat=document.getElementById('edit-note-cat').value;
+  const newSub=document.getElementById('edit-note-sub').value;
+  const newRem=document.getElementById('edit-note-remark').value.trim();
+  if(!newDate||newAmt<=0){showToast('❌ تحقق من القيم');return;}
+  // If date changed → move to new month key
+  const newMk=newDate.slice(0,7);
+  if(newMk!==_editNoteMk){
+    allData[_editNoteMk].notes.splice(_editNoteIdx,1);
+    if(!allData[newMk])allData[newMk]=defMonth();
+    if(!allData[newMk].notes)allData[newMk].notes=[];
+    allData[newMk].notes.push({date:newDate,mainCat:newCat,subCat:newSub,note:newSub,cat:newSub,amount:newAmt,remark:newRem});
+  }else{
+    n.date=newDate; n.amount=newAmt; n.mainCat=newCat; n.subCat=newSub; n.note=newSub; n.cat=newSub; n.remark=newRem;
+  }
+  closeEditNoteModal();
+  persistData(); renderNotesTab(); renderNotesInExpenses(); recalc();
+  showToast('✅ '+(T().toast_add||'تم الحفظ'));
+}
+
+// ══════════════════════════════════════════════════════════════════
+// AMÉLIORATION 2 — FAB (QUICK ADD FLOATING BUTTON)
+// ══════════════════════════════════════════════════════════════════
+function fabQuickAdd(){
+  // Switch to notes tab and focus amount field
+  const notesTab=document.querySelector('.nav-tab:nth-child(2)');
+  if(notesTab)showTab('notes',notesTab);
+  setTimeout(function(){
+    const amt=document.getElementById('nf-amount');
+    if(amt){amt.focus();amt.select();}
+  },100);
+}
+
+function updateFabVisibility(){
+  const fab=document.getElementById('fab-btn');
+  if(!fab)return;
+  const activePanel=document.querySelector('.tab-panel.active');
+  const isNotes=activePanel&&activePanel.id==='tab-notes';
+  fab.classList.toggle('visible', !isNotes && !!_fbUid);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// AMÉLIORATION 3 — BUDGET LIMITS PAR CATÉGORIE
+// ══════════════════════════════════════════════════════════════════
+const BUDGET_KEY='sf_budgets';
+
+function getBudgetLimits(){
+  try{return JSON.parse(localStorage.getItem(BUDGET_KEY)||'{}');}catch(e){return{};}
+}
+
+function saveBudgetLimits(){
+  const limits={};
+  document.querySelectorAll('.bl-input').forEach(function(inp){
+    const cat=inp.dataset.cat;
+    const val=Number(inp.value)||0;
+    if(cat&&val>0)limits[cat]=val;
+  });
+  localStorage.setItem(BUDGET_KEY,JSON.stringify(limits));
+  closeModal('budgetModal');
+  showToast('✅ تم حفظ الميزانية');
+  recalc();
+  renderWeeklyTab();
+}
+
+function openBudgetModal(){
+  const limits=getBudgetLimits();
+  const list=document.getElementById('budget-limits-list');
+  if(!list)return;
+  list.innerHTML='';
+  getMainCats().forEach(function(mc){
+    const row=document.createElement('div');
+    row.className='budget-limit-row';
+    const lim=limits[mc.id]||0;
+    row.innerHTML='<div class="bl-cat"><span style="font-size:16px;">'+mc.icon+'</span><span>'+mc.label+'</span></div>'
+      +'<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:9px;color:var(--light);">'+currency+'</span><input class="bl-input" type="number" min="0" data-cat="'+mc.id+'" value="'+(lim||'')+'" placeholder="—"></div>';
+    list.appendChild(row);
+  });
+  openModal('budgetModal');
+}
+
+function getCatSpentThisMonth(catId){
+  var mk=ck();
+  var total=0;
+  ((allData[mk]||{}).notes||[]).forEach(function(n){
+    if(n.mainCat===catId)total+=Number(n.amount||0);
+  });
+  return total;
+}
+
+function renderBudgetWarnings(){
+  const limits=getBudgetLimits();
+  // Inject warning badges into pills
+  document.querySelectorAll('.notes-pill').forEach(function(pill){
+    pill.querySelectorAll('.budget-warn-badge').forEach(function(b){b.remove();});
+  });
+  getMainCats().forEach(function(mc){
+    const lim=limits[mc.id];
+    if(!lim)return;
+    const spent=getCatSpentThisMonth(mc.id);
+    const pct=spent/lim;
+    const badge=document.createElement('span');
+    badge.className='budget-warn-badge '+(pct>=1?'over':pct>=0.8?'warn':'ok');
+    badge.textContent=pct>=1?'تجاوز!':Math.round(pct*100)+'%';
+    // Find matching pill
+    document.querySelectorAll('.notes-pill').forEach(function(p){
+      if(p.textContent.includes(mc.icon)){p.appendChild(badge);}
+    });
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
+// AMÉLIORATION 4 — STATISTIQUES HEBDOMADAIRES
+// ══════════════════════════════════════════════════════════════════
+function renderWeeklyTab(){
+  const panel=document.getElementById('tab-weekly');
+  if(!panel||!panel.classList.contains('active'))return;
+
+  const mk=ck();
+  const notes=[];
+  Object.keys(allData).forEach(function(k){
+    ((allData[k]||{}).notes||[]).forEach(function(n){notes.push(n);});
+  });
+  const monthNotes=((allData[mk]||{}).notes)||[];
+
+  // Current week bounds
+  const now=new Date();
+  const dow=now.getDay();
+  const weekStart=new Date(now);weekStart.setDate(now.getDate()-dow);weekStart.setHours(0,0,0,0);
+  const weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);weekEnd.setHours(23,59,59,999);
+
+  function inWeek(d){const dt=new Date(d);return dt>=weekStart&&dt<=weekEnd;}
+  function todayKey(){return now.toISOString().slice(0,10);}
+
+  const weekNotes=monthNotes.filter(function(n){return n.date&&inWeek(n.date);});
+  const todayNotes=monthNotes.filter(function(n){return n.date===todayKey();});
+  const weekTotal=weekNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
+  const todayTotal=todayNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
+  const monthTotal=monthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
+  const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const daysPassed=Math.max(1,now.getDate());
+  const dailyAvg=Math.round(monthTotal/daysPassed);
+  const weekAvg=Math.round(weekTotal/Math.max(1,weekNotes.length?7:1));
+
+  // Stats grid
+  const grid=document.getElementById('weekly-stats-grid');
+  if(grid){
+    const dayNames=lang==='fr'?['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']:lang==='en'?['Sun','Mon','Tue','Wed','Thu','Fri','Sat']:['أح','اث','ثل','أر','خم','جم','سب'];
+    grid.innerHTML=[
+      {val:fmt(todayTotal),lbl:'اليوم '+dayNames[dow]},
+      {val:fmt(weekTotal), lbl:'هذا الأسبوع'},
+      {val:fmt(dailyAvg),  lbl:'متوسط يومي'},
+      {val:fmt(monthTotal),lbl:'إجمالي الشهر'}
+    ].map(function(s){
+      return '<div class="weekly-stat"><div class="weekly-stat-val">'+s.val+'</div><div class="weekly-stat-lbl">'+s.lbl+'</div><div style="font-size:9px;color:var(--light);">'+currency+'</div></div>';
+    }).join('');
+  }
+
+  // Weekly bar chart (7 days)
+  const bars=document.getElementById('weekly-bars-chart');
+  if(bars){
+    bars.innerHTML='';
+    const dayNames7=lang==='fr'?['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']:lang==='en'?['Sun','Mon','Tue','Wed','Thu','Fri','Sat']:['أح','اث','ثل','أر','خم','جم','سب'];
+    const dayTotals=Array.from({length:7},function(_,i){
+      const d=new Date(weekStart);d.setDate(weekStart.getDate()+i);
+      const dk=d.toISOString().slice(0,10);
+      return monthNotes.filter(function(n){return n.date===dk;}).reduce(function(s,n){return s+Number(n.amount||0);},0);
+    });
+    const maxVal=Math.max.apply(null,dayTotals.concat([1]));
+    dayTotals.forEach(function(val,i){
+      const isToday=(i===dow);
+      const pct=Math.max(4,Math.round((val/maxVal)*100));
+      const item=document.createElement('div');
+      item.className='wbar-item'+(isToday?' today':'');
+      const color=isToday?'var(--mint)':'var(--lav)';
+      item.innerHTML='<div class="wbar-val">'+(val>0?fmt(val):'')+'</div>'
+        +'<div class="wbar-fill" style="height:'+pct+'%;background:'+color+';"></div>'
+        +'<div class="wbar-lbl">'+dayNames7[i]+'</div>';
+      bars.appendChild(item);
+    });
+  }
+
+  // Category breakdown bars
+  const catBars=document.getElementById('weekly-cat-bars');
+  if(catBars){
+    catBars.innerHTML='';
+    const limits=getBudgetLimits();
+    const byCat={};
+    monthNotes.forEach(function(n){
+      const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||getMainCats()[0];
+      byCat[mc.id]=(byCat[mc.id]||{total:0,icon:mc.icon,label:mc.label,color:CAT_COLOR[mc.id]||'var(--mint)',id:mc.id});
+      byCat[mc.id].total+=Number(n.amount||0);
+    });
+    const maxCat=Math.max.apply(null,Object.values(byCat).map(function(v){return v.total;}).concat([1]));
+    Object.values(byCat).sort(function(a,b){return b.total-a.total;}).forEach(function(v){
+      const pct=Math.round(v.total/maxCat*100);
+      const lim=limits[v.id];
+      const limPct=lim?Math.min(100,Math.round(v.total/lim*100)):null;
+      const warnCls=lim?(limPct>=100?'over':limPct>=80?'warn':'ok'):null;
+      const warnTxt=lim?(limPct>=100?'⚠️ تجاوز الحد':limPct>=80?'⚠️ قريب من الحد':'✅ ضمن الميزانية'):'';
+      const row=document.createElement('div');
+      row.style.cssText='margin-bottom:10px;';
+      row.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
+        +'<span style="font-size:11px;font-weight:600;">'+v.icon+' '+v.label+'</span>'
+        +'<div style="display:flex;align-items:center;gap:8px;">'
+        +(warnCls?'<span class="budget-warn-badge '+warnCls+'">'+warnTxt+'</span>':'')
+        +'<span style="font-size:11px;font-family:DM Mono,monospace;font-weight:700;">'+fmt(v.total)+' '+currency+'</span>'
+        +(lim?'<span style="font-size:9px;color:var(--light);">/ '+fmt(lim)+'</span>':'')
+        +'</div></div>'
+        +'<div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden;">'
+        +'<div style="width:'+pct+'%;background:'+v.color+';height:100%;border-radius:4px;transition:width .5s;"></div></div>';
+      catBars.appendChild(row);
+    });
+    if(!Object.keys(byCat).length){
+      catBars.innerHTML='<div style="padding:20px;text-align:center;color:var(--light);font-size:12px;">لا توجد بيانات هذا الشهر</div>';
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// AMÉLIORATION 5 — PDF EXPORT
+// ══════════════════════════════════════════════════════════════════
+function exportPDF(){
+  const mk=ck();
+  const t=T();
+  const monthNotes=((allData[mk]||{}).notes)||[];
+  const monthData=allData[mk]||{};
+
+  // Group notes by date
+  const byDate={};
+  monthNotes.forEach(function(n){
+    if(!byDate[n.date])byDate[n.date]=[];
+    byDate[n.date].push(n);
+  });
+
+  // Compute totals
+  const totalInc=(monthData.income||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const totalBills=(monthData.bills||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const totalExp=(monthData.expenses||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const totalNotes=monthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
+  const totalSav=(monthData.savings||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const totalDbt=(monthData.debts||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const monthLabel=(t.months||[])[curMonth]||('شهر '+(curMonth+1));
+
+  let rows='';
+  Object.keys(byDate).sort().reverse().forEach(function(date){
+    byDate[date].forEach(function(n){
+      const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'💰',label:n.mainCat||''};
+      rows+='<tr><td>'+date+'</td><td>'+mc.icon+' '+mc.label+'</td><td>'+(n.subCat||n.note||'')+'</td><td>'+(n.remark||'—')+'</td><td style="text-align:left;font-weight:700;">'+fmt(n.amount)+' '+currency+'</td></tr>';
+    });
+  });
+
+  const html='<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>تقرير '+monthLabel+' '+curYear+'</title>'
+    +'<style>body{font-family:Tajawal,Arial,sans-serif;margin:0;padding:24px;background:#f8f9fb;color:#2D3142;direction:rtl;}'
+    +'.header{background:linear-gradient(135deg,#2D3142,#3D4260);color:#fff;border-radius:14px;padding:20px 24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}'
+    +'.header h1{margin:0;font-size:22px;} .header .sub{font-size:12px;color:rgba(255,255,255,.5);margin-top:4px;}'
+    +'.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}'
+    +'.kpi{background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.07);}'
+    +'.kpi-lbl{font-size:10px;color:#9AA0B0;margin-bottom:4px;}'
+    +'.kpi-val{font-size:18px;font-weight:800;}'
+    +'table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07);}'
+    +'th{background:#2D3142;color:#fff;padding:10px 12px;font-size:11px;text-align:right;}'
+    +'td{padding:9px 12px;font-size:12px;border-bottom:1px solid #E8EAEF;}'
+    +'tr:last-child td{border-bottom:none;}'
+    +'.total-row td{font-weight:800;background:#EAF7F3;}'
+    +'.footer{text-align:center;margin-top:20px;font-size:10px;color:#9AA0B0;}'
+    +'@media print{body{background:#fff;}}'
+    +'</style></head><body>'
+    +'<div class="header"><div><div class="sub">تقرير شهري — تدبير Tadbir</div><h1>'+monthLabel+' '+curYear+'</h1></div>'
+    +'<div style="text-align:left;"><div style="font-size:28px;font-weight:800;color:#7EC8B0;">'+fmt(totalNotes)+' '+currency+'</div><div class="sub">إجمالي المصاريف المسجلة</div></div></div>'
+    +'<div class="kpis">'
+    +'<div class="kpi"><div class="kpi-lbl">💵 الدخل</div><div class="kpi-val" style="color:#A8C5A0;">'+fmt(totalInc)+' '+currency+'</div></div>'
+    +'<div class="kpi"><div class="kpi-lbl">🧾 الفواتير</div><div class="kpi-val" style="color:#E8A598;">'+fmt(totalBills)+' '+currency+'</div></div>'
+    +'<div class="kpi"><div class="kpi-lbl">🛒 المصاريف</div><div class="kpi-val" style="color:#B5A8D4;">'+fmt(totalExp+totalNotes)+' '+currency+'</div></div>'
+    +'<div class="kpi"><div class="kpi-lbl">🏦 التوفير</div><div class="kpi-val" style="color:#8DB4CF;">'+fmt(totalSav)+' '+currency+'</div></div>'
+    +'<div class="kpi"><div class="kpi-lbl">💳 الديون</div><div class="kpi-val" style="color:#D4A853;">'+fmt(totalDbt)+' '+currency+'</div></div>'
+    +'<div class="kpi"><div class="kpi-lbl">✅ الباقي</div><div class="kpi-val" style="color:#7EC8B0;">'+fmt(totalInc-totalBills-totalExp-totalNotes-totalSav-totalDbt)+' '+currency+'</div></div>'
+    +'</div>'
+    +'<table><thead><tr><th>التاريخ</th><th>الفئة</th><th>التفصيل</th><th>ملاحظة</th><th>المبلغ</th></tr></thead><tbody>'
+    +rows
+    +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
+    +'</tbody></table>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.2 — '+new Date().toLocaleDateString()+'</div>'
+    +'</body></html>';
+
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='تدبير-'+monthLabel+'-'+curYear+'.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  closeModal('backupModal');
+  showToast('📄 جاهز للطباعة');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// AMÉLIORATION 6 — OFFLINE DETECTION
+// ══════════════════════════════════════════════════════════════════
+function initOfflineDetection(){
+  function updateOnlineStatus(){
+    const banner=document.getElementById('offline-banner');
+    if(banner)banner.classList.toggle('show',!navigator.onLine);
+  }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// AMÉLIORATION 7 — DAILY REMINDER (badge sur onglet)
+// ══════════════════════════════════════════════════════════════════
+function checkDailyReminder(){
+  const mk=ck();
+  const today=new Date().toISOString().slice(0,10);
+  const notes=((allData[mk]||{}).notes)||[];
+  const hasTodayEntry=notes.some(function(n){return n.date===today;});
+  // Update page title
+  if(!hasTodayEntry&&_fbUid){
+    document.title='💰 تدبير — لم تسجل مصاريف اليوم';
+  }else{
+    document.title='تدبير';
+  }
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// AMÉLIORATION 8 — EXPORT EXCEL (XLSX natif sans librairie)
+// Génère un vrai fichier .xlsx en utilisant SheetJS CDN
+// ══════════════════════════════════════════════════════════════════
+function exportExcel(){
+  // Load SheetJS from CDN if not loaded
+  if(typeof XLSX === 'undefined'){
+    const script=document.createElement('script');
+    script.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    script.onload=function(){_doExportExcel();};
+    script.onerror=function(){
+      showToast('❌ تعذر تحميل مكتبة Excel');
+    };
+    document.head.appendChild(script);
+    showToast('⏳ جاري التحميل...');
+    return;
+  }
+  _doExportExcel();
+}
+
+function _doExportExcel(){
+  const mk=ck();
+  const t=T();
+  const monthLabel=(t.months||[])[curMonth]||('M'+(curMonth+1));
+  const wb=XLSX.utils.book_new();
+
+  // ── Sheet 1: دفتر المصاريف (Notes) ──
+  const monthNotes=((allData[mk]||{}).notes)||[];
+  const notesRows=[['التاريخ','الفئة','التفصيل','الملاحظة','المبلغ','العملة']];
+  monthNotes.slice().sort((a,b)=>a.date>b.date?-1:1).forEach(function(n){
+    const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'💰',label:n.mainCat||''};
+    notesRows.push([n.date, mc.icon+' '+mc.label, n.subCat||n.note||'', n.remark||'', Number(n.amount||0), currency]);
+  });
+  // Total row
+  const totalNotes=monthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
+  notesRows.push(['','','','الإجمالي', totalNotes, currency]);
+  const wsNotes=XLSX.utils.aoa_to_sheet(notesRows);
+  // Column widths
+  wsNotes['!cols']=[{wch:12},{wch:22},{wch:18},{wch:24},{wch:12},{wch:8}];
+  // Style header row
+  const headerRange=XLSX.utils.decode_range(wsNotes['!ref']);
+  for(let C=headerRange.s.c;C<=headerRange.e.c;C++){
+    const addr=XLSX.utils.encode_cell({r:0,c:C});
+    if(!wsNotes[addr])continue;
+    wsNotes[addr].s={fill:{fgColor:{rgb:'2D3142'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
+  }
+  XLSX.utils.book_append_sheet(wb, wsNotes, 'دفتر المصاريف');
+
+  // ── Sheet 2: ملخص شهري ──
+  const md=allData[mk]||{};
+  const totalInc=(md.income||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const totalBills=(md.bills||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const totalExp=(md.expenses||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const totalSav=(md.savings||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const totalDbt=(md.debts||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
+  const remBalance=totalInc-totalBills-totalExp-totalNotes-totalSav-totalDbt;
+
+  const summaryRows=[
+    ['ملخص شهر '+monthLabel+' '+curYear,'',''],
+    ['','',''],
+    ['البند','المبلغ','العملة'],
+    ['💵 الدخل الإجمالي', totalInc, currency],
+    ['🧾 الفواتير الثابتة', totalBills, currency],
+    ['🛒 المصاريف اليومية', totalExp+totalNotes, currency],
+    ['🏦 التوفير', totalSav, currency],
+    ['💳 الديون', totalDbt, currency],
+    ['','',''],
+    ['✅ الرصيد المتبقي', remBalance, currency],
+    ['','',''],
+  ];
+
+  // Category breakdown
+  summaryRows.push(['── تفصيل حسب الفئة ──','','']);
+  const byCat={};
+  monthNotes.forEach(function(n){
+    const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'💰',label:n.mainCat||'أخرى',id:n.mainCat};
+    const k=mc.icon+' '+mc.label;
+    byCat[k]=(byCat[k]||0)+Number(n.amount||0);
+  });
+  Object.entries(byCat).sort((a,b)=>b[1]-a[1]).forEach(function([k,v]){
+    summaryRows.push([k, v, currency]);
+  });
+
+  const wsSummary=XLSX.utils.aoa_to_sheet(summaryRows);
+  wsSummary['!cols']=[{wch:28},{wch:14},{wch:8}];
+  XLSX.utils.book_append_sheet(wb, wsSummary, 'الملخص الشهري');
+
+  // ── Sheet 3: الفواتير الثابتة ──
+  const billsRows=[['الوصف','المبلغ المخطط','المبلغ الفعلي','النسبة %']];
+  (md.bills||[]).forEach(function(r){
+    const pln=Number(r.pln||0), act=Number(r.act||0);
+    billsRows.push([r.label||'', pln, act, pln>0?Math.round(act/pln*100)+'%':'—']);
+  });
+  const wsBills=XLSX.utils.aoa_to_sheet(billsRows);
+  wsBills['!cols']=[{wch:24},{wch:14},{wch:14},{wch:10}];
+  XLSX.utils.book_append_sheet(wb, wsBills, 'الفواتير الثابتة');
+
+  // ── Sheet 4: التوفير والديون ──
+  const savRows=[['النوع','الوصف','المخطط','الفعلي']];
+  (md.savings||[]).forEach(function(r){savRows.push(['💰 توفير', r.label||'', Number(r.pln||0), Number(r.act||0)]);});
+  (md.debts||[]).forEach(function(r){savRows.push(['💳 دين', r.label||'', Number(r.pln||0), Number(r.act||0)]);});
+  const wsSav=XLSX.utils.aoa_to_sheet(savRows);
+  wsSav['!cols']=[{wch:12},{wch:24},{wch:14},{wch:14}];
+  XLSX.utils.book_append_sheet(wb, wsSav, 'التوفير والديون');
+
+  // ── Sheet 5: إحصائيات القهوة والتدخين ──
+  const smokeNotes=monthNotes.filter(function(n){return n.mainCat==='cafe_smoke';});
+  if(smokeNotes.length>0){
+    const smokeRows=[['التاريخ','التفصيل','ملاحظة','المبلغ']];
+    smokeNotes.slice().sort((a,b)=>a.date>b.date?-1:1).forEach(function(n){
+      smokeRows.push([n.date, n.subCat||n.note||'', n.remark||'', Number(n.amount||0)]);
+    });
+    const smokeTotal=smokeNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
+    smokeRows.push(['','الإجمالي','', smokeTotal]);
+    const wsSmoke=XLSX.utils.aoa_to_sheet(smokeRows);
+    wsSmoke['!cols']=[{wch:12},{wch:18},{wch:20},{wch:12}];
+    XLSX.utils.book_append_sheet(wb, wsSmoke, 'القهوة والتدخين');
+  }
+
+  // Save file
+  const filename='تدبير-'+monthLabel+'-'+curYear+'.xlsx';
+  XLSX.writeFile(wb, filename);
+  closeModal('backupModal');
+  showToast('📊 تم تصدير Excel');
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
