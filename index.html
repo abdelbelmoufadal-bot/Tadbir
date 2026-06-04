@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>تدبير</title>
+<title>تدبير - النسخة الاحترافية v4.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
-<!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
@@ -30,7 +29,6 @@ const auth  = getAuth(app);
 const db    = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-// ── Expose to global scope ──
 window._fbAuth     = auth;
 window._fbDb       = db;
 window._fbProvider = provider;
@@ -41,7 +39,6 @@ window._fbOnSnapshot = onSnapshot;
 window._fbSignIn   = ()=>signInWithPopup(auth,provider);
 window._fbSignOut  = ()=>signOut(auth);
 
-// ── Auth state listener ──
 onAuthStateChanged(auth, user=>{
   window._fbUser = user;
   if(typeof window.onFbAuthChange === 'function') window.onFbAuthChange(user);
@@ -50,7 +47,7 @@ onAuthStateChanged(auth, user=>{
 <style>
 :root{--mint:#7EC8B0;--mint-l:#C8EAE0;--mint-ll:#EAF7F3;--sage:#A8C5A0;--peach:#E8A598;--peach-l:#F5D5CF;--lav:#B5A8D4;--lav-l:#E8E2F5;--blue:#8DB4CF;--blue-l:#D0E6F5;--gold:#D4A853;--gold-l:#F5E8C8;--dark:#2D3142;--mid:#5A6070;--light:#9AA0B0;--bg:#F8F9FB;--card:#FFFFFF;--border:#E8EAEF;--shadow:0 2px 16px rgba(45,49,66,.07);--shadow-h:0 8px 32px rgba(45,49,66,.14);--r:16px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;padding-bottom:60px;}
 #pin-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2D3142,#1a1f30);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 #pin-screen.hidden{display:none;}
 .pin-logo{width:70px;height:70px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:12px;}
@@ -178,7 +175,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .mini-table .lc{font-weight:500;text-align:right;}
 .mini-table .ac,.mini-table .pc{text-align:left;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);}
 .mini-table .pc{color:var(--light);}
-/* note-row: rows coming from notes — shown in expenses table */
 .mini-table .note-row td{background:#f0faf6;color:var(--mid);font-style:italic;}
 .mini-table .note-row td:first-child::before{content:'📝 ';font-style:normal;}
 .mini-table input[type=number]{background:transparent;border:none;font-family:'DM Mono',monospace;font-size:10px;width:62px;text-align:left;color:var(--dark);padding:2px;border-radius:3px;outline:none;}
@@ -187,72 +183,14 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .mini-table input[type=text]:focus{background:var(--bg);}
 .add-btn{display:flex;align-items:center;gap:4px;padding:7px 10px;font-size:10px;font-weight:600;color:var(--mint);background:none;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;border-top:1px solid var(--border);width:100%;transition:background .15s;}
 .add-btn:hover{background:var(--mint-ll);}
-.notes-table{width:100%;border-collapse:collapse;}
-.notes-table th{font-size:9px;color:var(--light);padding:5px 10px;text-align:right;background:var(--bg);border-bottom:1px solid var(--border);font-weight:600;}
-.notes-table td{padding:6px 10px;font-size:11px;border-bottom:1px solid var(--border);vertical-align:middle;}
-.notes-table tr:last-child td{border-bottom:none;}
-.notes-table tr:hover td{background:var(--bg);}
-.notes-table input{border:none;font-family:'DM Mono',monospace;font-size:11px;outline:none;background:transparent;}
-.notes-table input[type=text]{font-family:'Tajawal',sans-serif;font-size:12px;}
-.notes-table input:focus{background:var(--bg);border-radius:3px;}
-/* MOBILE NOTES CARDS */
-.note-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow);display:none;}
-.note-card-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.note-card-label{font-size:10px;color:var(--light);min-width:52px;font-weight:600;}
-.note-card input[type=date],.note-card input[type=number]{border:none;background:var(--bg);border-radius:7px;padding:5px 9px;font-family:'DM Mono',monospace;font-size:12px;outline:none;width:100%;}
-.note-card input[type=text]{border:none;background:var(--bg);border-radius:7px;padding:5px 9px;font-family:'Tajawal',sans-serif;font-size:12px;outline:none;width:100%;}
-.note-card select{border:none;background:var(--bg);border-radius:7px;padding:5px 9px;font-family:'Tajawal',sans-serif;font-size:12px;outline:none;width:100%;cursor:pointer;}
-.note-card-del{background:none;border:none;color:#ddd;cursor:pointer;font-size:16px;padding:4px;flex-shrink:0;}
-.note-amount-big{font-size:18px;font-weight:800;font-family:'DM Mono',monospace;color:var(--dark);}
-@media(max-width:700px){
-  .notes-table,.notes-table thead,.notes-table tbody,.notes-table tr{display:none!important;}
-  .note-card{display:block;}
-  .add-note-mobile{display:flex!important;}
-}
-@media(min-width:701px){
-  .note-card{display:none!important;}
-  .add-note-mobile{display:none!important;}
-}
-.cat-pill{display:inline-block;padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;}
-.cp0{background:var(--mint-l);color:#3a7a68;}
-.cp1{background:var(--lav-l);color:#6b5fa0;}
-.cp2{background:var(--peach-l);color:#a04040;}
-.cp3{background:var(--gold-l);color:#8a6a20;}
-.cp4{background:var(--border);color:var(--mid);}
-.cat-select{border:none;background:transparent;font-family:'Tajawal',sans-serif;font-size:11px;color:var(--mid);cursor:pointer;outline:none;}
-.monthly-table{width:100%;border-collapse:collapse;}
-.monthly-table th{font-size:9px;color:var(--light);padding:6px 7px;background:var(--bg);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap;text-align:center;}
-.monthly-table th:first-child{text-align:right;}
-.monthly-table td{padding:6px 7px;font-size:10px;border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;text-align:center;}
-.monthly-table .rl{font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;text-align:right;}
-.ri td:first-child{color:var(--sage);}.rb td:first-child{color:var(--peach);}.re td:first-child{color:#8e78c0;}
-.rs td:first-child{color:var(--blue);}.rd td:first-child{color:var(--gold);}.rr td:first-child{color:var(--mint);font-weight:700;}
-.footer{background:var(--dark);color:rgba(255,255,255,.3);text-align:center;padding:16px 18px;font-size:10px;line-height:2;}
-.footer strong{color:var(--mint);}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:#fff;padding:9px 18px;border-radius:26px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transition:transform .3s;z-index:9998;pointer-events:none;}
-.toast.show{transform:translateX(-50%) translateY(0);}
-.save-dot{width:6px;height:6px;border-radius:50%;background:var(--mint);display:inline-block;margin-right:3px;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-.section-title{font-size:13px;font-weight:800;color:var(--dark);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-.section-title::before{content:'';display:block;width:3px;height:14px;background:var(--mint);border-radius:3px;}
-[dir=ltr] .mini-table th,[dir=ltr] .notes-table th{text-align:left;}
-[dir=ltr] .mini-table .lc{text-align:left;}
-[dir=ltr] .mini-table .ac,[dir=ltr] .mini-table .pc{text-align:right;}
-[dir=ltr] .mini-table input[type=text]{text-align:left;}
-[dir=ltr] .monthly-table th:first-child,[dir=ltr] .monthly-table .rl{text-align:left;}
-[dir=ltr] .kpi-card::before{right:auto;left:0;border-radius:12px 0 0 12px;}
-[dir=ltr] .remaining-hero::before{right:auto;left:-40px;}
-[dir=ltr] .rh-donut{left:auto;right:14px;}
-[dir=ltr] .backup-btn{text-align:left;}
 
-@media(max-width:700px){.daily-stats-row{grid-template-columns:repeat(3,1fr);}.daily-form-grid{grid-template-columns:1fr;}}
-/* ══ NOTES TAB REDESIGN ══ */
+/* ══ NOTES TAB DESIGN ══ */
 .notes-pills-wrap{padding:12px 16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
 .notes-pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);color:var(--mid);background:var(--bg);transition:all .18s;white-space:nowrap;}
 .notes-pill:hover{border-color:var(--mint);color:var(--dark);}
 .notes-pill.active{background:var(--mint);border-color:var(--mint);color:var(--dark);}
 .notes-add-form{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg);}
-.notes-form-row{display:grid;grid-template-columns:130px 1fr 1fr auto;gap:8px;align-items:end;}
+.notes-form-row{display:grid;grid-template-columns:110px 1fr 1fr 100px auto;gap:8px;align-items:end;}
 .nf-group{display:flex;flex-direction:column;gap:4px;}
 .nf-label{font-size:10px;font-weight:600;color:var(--light);}
 .nf-input{height:34px;border:1px solid var(--border);border-radius:9px;padding:0 10px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);background:#fff;outline:none;width:100%;transition:border-color .2s;}
@@ -265,7 +203,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .nf-total-badge{background:var(--mint-ll);border:1px solid var(--mint-l);border-radius:16px;padding:3px 12px;font-size:11px;font-weight:700;color:var(--dark);}
 .notes-entries{padding:0;}
 .note-entry-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);transition:background .15s;}
-.note-entry-row:last-child{border-bottom:none;}
 .note-entry-row:hover{background:var(--bg);}
 .ne-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
 .ne-info{flex:1;min-width:0;}
@@ -283,11 +220,20 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .nc-bars .bar-track{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
 .nc-bars .bar-fill{height:100%;border-radius:4px;transition:width .6s;}
 .nc-bars .bar-val{font-size:10px;color:var(--mid);width:36px;text-align:left;flex-shrink:0;font-family:'DM Mono',monospace;}
+
+/* ══ FLOATING QUICK ADD BUTTON ══ */
+.floating-add-btn{position:fixed;bottom:20px;left:20px;width:52px;height:52px;border-radius:50%;background:var(--mint);color:var(--dark);font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.2);cursor:pointer;z-index:999;border:none;transition:all 0.2s;}
+.floating-add-btn:hover{transform:scale(1.08);background:#6bbda3;}
+
+/* ══ INLINE EDITING FIELDS ══ */
+.ne-edit-input{height:28px;border:1px solid var(--mint);border-radius:6px;padding:0 6px;font-family:'Tajawal',sans-serif;font-size:11px;outline:none;}
+
 @media(max-width:700px){
   .notes-form-row{grid-template-columns:1fr 1fr;gap:6px;}
   .notes-form-row .nf-add-btn{grid-column:1/-1;}
   .notes-charts-row{grid-template-columns:1fr;}
 }
+
 /* ══ MONTHLY CALENDAR ══ */
 .cal-wrap{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
 .cal-header{padding:16px 20px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
@@ -312,8 +258,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   .cal-table th{font-size:10px;padding:8px 2px;}
 }
 
-
-@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
 /* ══ IN DRIVE ══ */
 .drive-hero{background:linear-gradient(135deg,#1a2535,#1e3040);border-radius:18px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
 .drive-hero::before{content:'🚗';position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.08;}
@@ -327,800 +271,156 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .drive-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 11px;font-family:'Tajawal',sans-serif;font-size:12px;color:#fff;outline:none;width:100%;transition:border-color .2s;}
 .drive-input:focus{border-color:#7EC8B0;}
 .drive-input::placeholder{color:rgba(255,255,255,.25);}
-.drive-input-lbl{font-size:9px;color:rgba(255,255,255,.35);margin-bottom:4px;font-weight:600;}
 .drive-submit{width:100%;padding:11px;background:linear-gradient(135deg,#7EC8B0,#6bbda3);border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:#1a2535;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(126,200,176,.25);}
-.drive-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(126,200,176,.35);}
 .drive-week-wrap{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
 .drive-week-bars{display:flex;align-items:flex-end;gap:6px;height:160px;margin-top:12px;}
 .drive-entries{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;}
 .drive-entries-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.drive-sync-badge{background:var(--mint-ll);color:var(--mint);font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;border:1px solid var(--mint-l);}
-@media(max-width:700px){.drive-stats-grid{grid-template-columns:repeat(3,1fr);}.drive-form-row{grid-template-columns:1fr 1fr;}}
 
-@media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}}
-/* AUTH */
-.auth-bar{display:flex;align-items:center;gap:8px;}
-.auth-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--mint);object-fit:cover;cursor:pointer;transition:all .2s;}
-.auth-avatar:hover{border-color:#fff;}
-.auth-name{font-size:10px;color:rgba(255,255,255,.7);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.auth-btn{background:var(--mint);border:none;border-radius:7px;padding:4px 10px;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;color:var(--dark);cursor:pointer;white-space:nowrap;transition:all .2s;}
-.auth-btn:hover{background:#6bbda3;}
-.auth-btn.out{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);}
-.sync-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;}
-.sync-dot.ok{background:var(--mint);}
-.sync-dot.sync{background:var(--gold);animation:pulse 1s infinite;}
-.sync-dot.off{background:var(--light);}
-#sync-status{font-size:9px;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:3px;}
-/* USER DROPDOWN */
-.user-dropdown{position:absolute;top:62px;left:12px;background:#1e2333;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:8px;min-width:200px;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:500;display:none;}
-.user-dropdown.open{display:block;}
-.ud-user{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px;}
-.ud-avatar{width:36px;height:36px;border-radius:50%;border:2px solid var(--mint);}
-.ud-name{font-size:12px;font-weight:700;color:#fff;}
-.ud-email{font-size:10px;color:rgba(255,255,255,.4);}
-.ud-sync{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:11px;color:rgba(255,255,255,.5);}
-.ud-btn{display:flex;align-items:center;gap:9px;width:100%;padding:10px 12px;border-radius:9px;border:none;background:transparent;color:rgba(255,255,255,.7);font-family:'Tajawal',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;text-align:right;}
-.ud-btn:hover{background:rgba(255,255,255,.08);color:#fff;}
-.ud-btn.danger{color:#E8A598;}
-.ud-btn.danger:hover{background:rgba(232,165,152,.1);}
+/* ══ PRINT & PDF FORMATTING ══ */
+@media print {
+  .header, .nav-tabs, .notes-add-form, .notes-pills-wrap, .notes-filter-bar, .floating-add-btn, .ne-del, button {
+    display: none !important;
+  }
+  body { background: #fff; color: #000; }
+  .main { padding: 0; max-width: 100%; }
+  .card { box-shadow: none !important; border: 1px solid #000 !important; page-break-inside: avoid; }
+}
 </style>
 </head>
 <body>
 
-<!-- ══════════ LANDING PAGE (shown when not logged in) ══════════ -->
-<style>
-@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
-.lnd{font-family:'Tajawal',sans-serif;background:#0f1219;min-height:100vh;direction:rtl;color:#fff;overflow-x:hidden;}
-.lnd-nav{padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;background:rgba(15,18,25,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);}
-.lnd-logo{display:flex;align-items:center;gap:10px;}
-.lnd-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#7EC8B0,#A8C5A0);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;}
-.lnd-logo-name{font-size:19px;font-weight:800;color:#fff;}
-.lnd-logo-sub{font-size:9px;color:#7EC8B0;margin-top:-2px;}
-.lnd-cta-nav{background:#7EC8B0;border:none;border-radius:9px;padding:9px 20px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:#0f1219;cursor:pointer;transition:all .2s;}
-.lnd-cta-nav:hover{background:#6bbda3;transform:translateY(-1px);}
-.lnd-hero{padding:80px 24px 60px;text-align:center;position:relative;}
-.lnd-hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(126,200,176,.12) 0%,transparent 70%);pointer-events:none;}
-.lnd-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(126,200,176,.1);border:1px solid rgba(126,200,176,.25);border-radius:20px;padding:5px 14px;font-size:12px;color:#7EC8B0;font-weight:600;margin-bottom:24px;animation:fadeUp .6s ease;}
-.lnd-h1{font-size:clamp(32px,6vw,62px);font-weight:800;line-height:1.15;margin-bottom:16px;animation:fadeUp .7s ease;}
-.lnd-h1 span{background:linear-gradient(135deg,#7EC8B0,#A8C5A0,#8DB4CF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.lnd-sub{font-size:clamp(14px,2vw,17px);color:rgba(255,255,255,.45);max-width:520px;margin:0 auto 36px;line-height:1.8;animation:fadeUp .8s ease;}
-.lnd-cta-hero{background:linear-gradient(135deg,#7EC8B0,#A8C5A0);border:none;border-radius:14px;padding:16px 44px;font-family:'Tajawal',sans-serif;font-size:17px;font-weight:800;color:#0f1219;cursor:pointer;box-shadow:0 8px 40px rgba(126,200,176,.35);transition:all .25s;animation:fadeUp .9s ease;}
-.lnd-cta-hero:hover{transform:translateY(-3px);box-shadow:0 14px 50px rgba(126,200,176,.45);}
-.lnd-cta-note{font-size:11px;color:rgba(255,255,255,.2);margin-top:12px;}
-/* DEMO DASHBOARD */
-.lnd-demo{max-width:960px;margin:0 auto 80px;padding:0 20px;}
-.lnd-demo-title{text-align:center;font-size:13px;color:rgba(255,255,255,.3);font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;}
-.lnd-demo-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:24px;backdrop-filter:blur(10px);}
-.demo-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-.demo-kpi{background:rgba(255,255,255,.05);border-radius:12px;padding:12px 14px;border:1px solid rgba(255,255,255,.07);}
-.demo-kpi-label{font-size:9px;color:rgba(255,255,255,.35);margin-bottom:5px;}
-.demo-kpi-val{font-size:20px;font-weight:800;font-family:'DM Mono',monospace;}
-.demo-kpi-bar{height:3px;border-radius:3px;margin-top:7px;opacity:.7;}
-.demo-charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
-.demo-chart-box{background:rgba(255,255,255,.04);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,.06);}
-.demo-chart-label{font-size:9px;color:rgba(255,255,255,.3);margin-bottom:10px;font-weight:600;letter-spacing:.5px;}
-/* FEATURES */
-.lnd-features{max-width:960px;margin:0 auto 80px;padding:0 20px;}
-.lnd-section-title{text-align:center;margin-bottom:40px;}
-.lnd-section-title h2{font-size:clamp(22px,3vw,34px);font-weight:800;margin-bottom:8px;}
-.lnd-section-title p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.7;}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
-.feature-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px;transition:all .25s;position:relative;overflow:hidden;}
-.feature-card:hover{border-color:rgba(126,200,176,.3);background:rgba(126,200,176,.06);transform:translateY(-3px);}
-.feature-card::before{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:0 18px 0 60px;opacity:.15;}
-.feature-card.c1::before{background:#7EC8B0;}.feature-card.c2::before{background:#8DB4CF;}.feature-card.c3::before{background:#B5A8D4;}
-.feature-card.c4::before{background:#D4A853;}.feature-card.c5::before{background:#E8A598;}.feature-card.c6::before{background:#A8C5A0;}
-.feature-icon{font-size:28px;margin-bottom:14px;}
-.feature-title{font-size:15px;font-weight:700;margin-bottom:7px;}
-.feature-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.7;}
-/* STATS */
-.lnd-stats{max-width:700px;margin:0 auto 80px;padding:0 20px;}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08);}
-.stat-box{background:#0f1219;padding:24px 16px;text-align:center;}
-.stat-val{font-size:28px;font-weight:800;color:#7EC8B0;font-family:'DM Mono',monospace;}
-.stat-label{font-size:11px;color:rgba(255,255,255,.3);margin-top:4px;}
-/* HOW IT WORKS */
-.lnd-steps{max-width:700px;margin:0 auto 80px;padding:0 20px;}
-.steps-list{display:flex;flex-direction:column;gap:0;}
-.step-item{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.06);}
-.step-item:last-child{border-bottom:none;}
-.step-num{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7EC8B0,#8DB4CF);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#0f1219;flex-shrink:0;}
-.step-text h3{font-size:14px;font-weight:700;margin-bottom:5px;}
-.step-text p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.7;}
-/* CTA FINAL */
-.lnd-final{text-align:center;padding:60px 24px 80px;background:linear-gradient(180deg,transparent,rgba(126,200,176,.05));}
-.lnd-final h2{font-size:clamp(22px,4vw,38px);font-weight:800;margin-bottom:12px;}
-.lnd-final p{font-size:14px;color:rgba(255,255,255,.4);margin-bottom:32px;}
-/* FOOTER */
-.lnd-footer{border-top:1px solid rgba(255,255,255,.06);padding:24px;text-align:center;font-size:11px;color:rgba(255,255,255,.2);line-height:2;}
-.lnd-footer strong{color:#7EC8B0;}
-/* RESPONSIVE */
-@media(max-width:600px){
-  .lnd-nav{padding:14px 16px;}
-  .demo-charts-row{grid-template-columns:1fr;}
-  .demo-kpi-row{grid-template-columns:repeat(2,1fr);}
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .lnd-cta-hero{padding:14px 32px;font-size:15px;}
-}
-</style>
+<button class="floating-add-btn" onclick="openQuickAddModal()">＋</button>
+
+<!-- ══════════ QUICK ADD EXPENSE MODAL ══════════ -->
+<div class="modal-overlay" id="quickAddModal" onclick="if(event.target===this)closeModal('quickAddModal')">
+  <div class="modal-box">
+    <div class="modal-title"><span>إضافة مصروف سريع</span> ⚡ <button class="modal-close" onclick="closeModal('quickAddModal')">✕</button></div>
+    <div style="display: flex; flex-direction: column; gap:10px; margin-top: 10px;">
+      <input type="date" class="nf-input" id="qa-date">
+      <select class="nf-select" id="qa-sub"></select>
+      <input type="text" class="nf-input" id="qa-note-text" placeholder="الملاحظة (مثال: بوطة، حوت...)">
+      <input type="number" class="nf-input" id="qa-amount" placeholder="المبلغ">
+      <button class="modal-btn" onclick="submitQuickAdd()">إضافة الفاتورة الآن ✓</button>
+    </div>
+  </div>
+</div>
 
 <div id="landing-page" style="display:none;">
 <div class="lnd">
-
-  <!-- NAV -->
   <nav class="lnd-nav">
-    <div class="lnd-logo">
-      <div class="lnd-logo-icon">💰</div>
-      <div><div class="lnd-logo-name">تدبير</div><div class="lnd-logo-sub">دبّر ميزانيتك بذكاء</div></div>
-    </div>
+    <div class="lnd-logo"><div class="lnd-logo-icon">💰</div><div><div class="lnd-logo-name">تدبير</div><div class="lnd-logo-sub">دبّر ميزانيتك بذكاء</div></div></div>
     <button class="lnd-cta-nav" onclick="fbSignIn()">🔑 تسجيل الدخول بـ Google</button>
   </nav>
-
-  <!-- HERO -->
   <div class="lnd-hero">
     <div class="lnd-badge">✦ مجاني 100% • مزامنة سحابية</div>
     <h1 class="lnd-h1">دبّر فلوسك بذكاء<br><span>وفبلاصة وحدة</span></h1>
     <p class="lnd-sub">تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم</p>
     <button class="lnd-cta-hero" onclick="fbSignIn()">🚀 ابدأ مجاناً مع Google</button>
-    <p class="lnd-cta-note">لا حاجة لبطاقة بنكية • مجاني للأبد</p>
   </div>
-
-  <!-- DEMO DASHBOARD -->
-  <div class="lnd-demo">
-    <div class="lnd-demo-title">معاينة التطبيق</div>
-    <div class="lnd-demo-box">
-      <div class="demo-kpi-row">
-        <div class="demo-kpi">
-          <div class="demo-kpi-label">💵 الدخل</div>
-          <div class="demo-kpi-val" style="color:#A8C5A0;">7,680</div>
-          <div class="demo-kpi-bar" style="background:#A8C5A0;width:100%;"></div>
-        </div>
-        <div class="demo-kpi">
-          <div class="demo-kpi-label">🛒 المصاريف</div>
-          <div class="demo-kpi-val" style="color:#B5A8D4;">3,459</div>
-          <div class="demo-kpi-bar" style="background:#B5A8D4;width:45%;"></div>
-        </div>
-        <div class="demo-kpi">
-          <div class="demo-kpi-label">✅ الباقي</div>
-          <div class="demo-kpi-val" style="color:#7EC8B0;">2,961</div>
-          <div class="demo-kpi-bar" style="background:#7EC8B0;width:39%;"></div>
-        </div>
-      </div>
-      <div class="demo-charts-row">
-        <div class="demo-chart-box">
-          <div class="demo-chart-label">فين كتمشي الفلوس</div>
-          <canvas id="lnd-donut" height="160"></canvas>
-        </div>
-        <div class="demo-chart-box">
-          <div class="demo-chart-label">المخطط / الفعلي</div>
-          <canvas id="lnd-bar" height="160"></canvas>
-        </div>
-      </div>
-      <!-- Mini expense table -->
-      <div style="background:rgba(255,255,255,.03);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06);">
-        <div style="display:grid;grid-template-columns:1fr auto auto;padding:8px 14px;font-size:9px;color:rgba(255,255,255,.3);font-weight:600;letter-spacing:.5px;border-bottom:1px solid rgba(255,255,255,.06);">
-          <span>البيان</span><span style="text-align:left;margin-left:40px;">تصرفت</span><span style="text-align:left;margin-left:20px;">مخطط</span>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr auto auto;padding:9px 14px;font-size:11px;border-bottom:1px solid rgba(255,255,255,.04);">
-          <span style="color:rgba(255,255,255,.7);">مواد غذائية</span><span style="font-family:'DM Mono',monospace;color:#7EC8B0;margin-left:40px;">1,200</span><span style="font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);margin-left:20px;">1,500</span>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr auto auto;padding:9px 14px;font-size:11px;border-bottom:1px solid rgba(255,255,255,.04);">
-          <span style="color:rgba(255,255,255,.7);">السوق</span><span style="font-family:'DM Mono',monospace;color:#7EC8B0;margin-left:40px;">459</span><span style="font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);margin-left:20px;">500</span>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr auto auto;padding:9px 14px;font-size:11px;">
-          <span style="color:rgba(255,255,255,.7);">Gasoil</span><span style="font-family:'DM Mono',monospace;color:#7EC8B0;margin-left:40px;">600</span><span style="font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);margin-left:20px;">600</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FEATURES -->
-  <div class="lnd-features">
-    <div class="lnd-section-title">
-      <h2>كل شيء تحتاجه <span style="color:#7EC8B0;">في مكان واحد</span></h2>
-      <p>تطبيق مصمم خصيصاً لتنظيم ميزانيتك بسهولة وبدون تعقيد</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card c1">
-        <div class="feature-icon">📊</div>
-        <div class="feature-title">لوحة الميزانية</div>
-        <div class="feature-desc">تتبع الدخل والفواتير والمصاريف والتوفير والديون في لوحة واحدة واضحة مع رسوم بيانية ذكية</div>
-      </div>
-      <div class="feature-card c2">
-        <div class="feature-icon">☁️</div>
-        <div class="feature-title">مزامنة تلقائية</div>
-        <div class="feature-desc">بياناتك محفوظة في السحاب وتتزامن بين الهاتف والكمبيوتر في الوقت الفعلي — لا تفقد أي شيء</div>
-      </div>
-      <div class="feature-card c3">
-        <div class="feature-icon">📝</div>
-        <div class="feature-title">دفتر الملاحظات</div>
-        <div class="feature-desc">سجّل أي مصروف يومي بفئته ويتجمع تلقائياً مع المصاريف الشهرية بدون إدخال يدوي مكرر</div>
-      </div>
-      <div class="feature-card c4">
-        <div class="feature-icon">📅</div>
-        <div class="feature-title">مقارنة شهرية</div>
-        <div class="feature-desc">تابع تطور ميزانيتك عبر 12 شهر مع رسم بياني يبين الفرق بين المخطط والفعلي</div>
-      </div>
-      <div class="feature-card c5">
-        <div class="feature-icon">🌍</div>
-        <div class="feature-title">5 لغات</div>
-        <div class="feature-desc">عربي • دارجة مغربية • Français • English • Español — تغيير اللغة يغير اتجاه الصفحة تلقائياً</div>
-      </div>
-      <div class="feature-card c6">
-        <div class="feature-icon">🔐</div>
-        <div class="feature-title">حماية وأمان</div>
-        <div class="feature-desc">تسجيل دخول آمن بـ Google + رمز PIN لحماية التطبيق على جهازك — بياناتك لك وحدك</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="lnd-stats">
-    <div class="stats-grid">
-      <div class="stat-box"><div class="stat-val">100%</div><div class="stat-label">مجاني</div></div>
-      <div class="stat-box"><div class="stat-val">5</div><div class="stat-label">لغات</div></div>
-      <div class="stat-box"><div class="stat-val">☁️</div><div class="stat-label">سحاب آمن</div></div>
-      <div class="stat-box"><div class="stat-val">📱</div><div class="stat-label">كل الأجهزة</div></div>
-    </div>
-  </div>
-
-  <!-- HOW IT WORKS -->
-  <div class="lnd-steps">
-    <div class="lnd-section-title">
-      <h2>كيف يشتغل؟</h2>
-      <p>3 خطوات بسيطة تنظم فيها ميزانيتك</p>
-    </div>
-    <div class="steps-list">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-text">
-          <h3>سجّل دخولك بـ Google</h3>
-          <p>اضغط على "ابدأ مجاناً" وسجّل بحساب Google ديالك — لا تسجيل، لا كلمة مرور</p>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">2</div>
-        <div class="step-text">
-          <h3>أدخل ميزانيتك</h3>
-          <p>عندك بيانات افتراضية جاهزة — فقط أدخل الأرقام الحقيقية ديالك في الخانات المناسبة</p>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <div class="step-text">
-          <h3>تابع وتحكم في فلوسك</h3>
-          <p>البيانات تتزامن تلقائياً — افتح التطبيق من الهاتف أو الكمبيوتر وتلقى كل شيء في مكانه</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FINAL CTA -->
-  <div class="lnd-final">
-    <h2>جاهز تنظم فلوسك؟ 💚</h2>
-    <p>ابدأ دابا — مجاني 100% ولا تحتاج لأي إعداد معقد</p>
-    <button class="lnd-cta-hero" onclick="fbSignIn()">🚀 ابدأ مجاناً مع Google</button>
-    <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:12px;">لا حاجة لبطاقة بنكية</p>
-  </div>
-
-  <!-- FOOTER -->
-  <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.2</div>
-    <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
-  </div>
-
 </div>
 </div>
 
 <div id="pin-screen">
-  <div class="pin-lang-row" style="direction:rtl;">
-    <button class="plb" onclick="setLang('ar')">عربي</button>
-    <button class="plb" onclick="setLang('dar')">دارجة</button>
-    <button class="plb" onclick="setLang('fr')">FR</button>
-    <button class="plb" onclick="setLang('en')">EN</button>
-    <button class="plb" onclick="setLang('es')">ES</button>
-  </div>
-  <div class="pin-logo">💰</div>
-  <div class="pin-title">تدبير</div>
-  <div class="pin-sub" id="pin-sub">---</div>
+  <div class="pin-lang-row"><button class="plb" onclick="setLang('ar')">عربي</button><button class="plb" onclick="setLang('dar')">دارجة</button><button class="plb" onclick="setLang('fr')">FR</button></div>
+  <div class="pin-logo">💰</div><div class="pin-title">تدبير</div><div class="pin-sub" id="pin-sub">---</div>
   <div class="pin-dots"><div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div><div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div></div>
   <div class="pin-pad">
-    <button class="pin-btn" onclick="pinPress('1')">1<span class="sub"></span></button>
-    <button class="pin-btn" onclick="pinPress('2')">2<span class="sub">ABC</span></button>
-    <button class="pin-btn" onclick="pinPress('3')">3<span class="sub">DEF</span></button>
-    <button class="pin-btn" onclick="pinPress('4')">4<span class="sub">GHI</span></button>
-    <button class="pin-btn" onclick="pinPress('5')">5<span class="sub">JKL</span></button>
-    <button class="pin-btn" onclick="pinPress('6')">6<span class="sub">MNO</span></button>
-    <button class="pin-btn" onclick="pinPress('7')">7<span class="sub">PQRS</span></button>
-    <button class="pin-btn" onclick="pinPress('8')">8<span class="sub">TUV</span></button>
-    <button class="pin-btn" onclick="pinPress('9')">9<span class="sub">WXYZ</span></button>
-    <button class="pin-btn empty"></button>
-    <button class="pin-btn" onclick="pinPress('0')">0</button>
-    <button class="pin-btn del" onclick="pinDel()">⌫</button>
+    <button class="pin-btn" onclick="pinPress('1')">1</button><button class="pin-btn" onclick="pinPress('2')">2</button><button class="pin-btn" onclick="pinPress('3')">3</button>
+    <button class="pin-btn" onclick="pinPress('4')">4</button><button class="pin-btn" onclick="pinPress('5')">5</button><button class="pin-btn" onclick="pinPress('6')">6</button>
+    <button class="pin-btn" onclick="pinPress('7')">7</button><button class="pin-btn" onclick="pinPress('8')">8</button><button class="pin-btn" onclick="pinPress('9')">9</button>
+    <button class="pin-btn empty"></button><button class="pin-btn" onclick="pinPress('0')">0</button><button class="pin-btn del" onclick="pinDel()">⌫</button>
   </div>
-  <div class="pin-error-msg" id="pin-error"></div>
-  <div class="pin-setup-note" id="pin-note"></div>
-  <div class="pin-forgot" id="pin-forgot" onclick="pinForgot()" style="display:none;"></div>
 </div>
 
 <div class="modal-overlay" id="monthModal" onclick="if(event.target===this)closeModal('monthModal')">
-  <div class="modal-box">
-    <div class="modal-title"><span id="t-pick">اختار الشهر</span> 📅<button class="modal-close" onclick="closeModal('monthModal')">✕</button></div>
-    <div class="year-nav"><button onclick="chgPY(-1)">◀</button><span style="font-size:13px;font-weight:800;" id="pickerYear">2025</span><button onclick="chgPY(1)">▶</button></div>
-    <div class="months-grid" id="monthsGrid"></div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="newMonthModal" onclick="if(event.target===this)closeModal('newMonthModal')">
-  <div class="modal-box">
-    <div class="modal-title"><span id="t-nm">شهر جديد</span> ✦<button class="modal-close" onclick="closeModal('newMonthModal')">✕</button></div>
-    <div style="font-size:11px;color:var(--light);margin-bottom:11px;" id="t-nm-sub"></div>
-    <div class="nm-option selected" id="nm-copy" onclick="selNM('copy')"><div class="nm-icon">📋</div><div class="nm-text"><strong id="t-nm1"></strong><span id="t-nm1s"></span></div></div>
-    <div class="nm-option" id="nm-blank" onclick="selNM('blank')"><div class="nm-icon">✨</div><div class="nm-text"><strong id="t-nm2"></strong><span id="t-nm2s"></span></div></div>
-    <div class="nm-option" id="nm-same" onclick="selNM('same')"><div class="nm-icon">🔄</div><div class="nm-text"><strong id="t-nm3"></strong><span id="t-nm3s"></span></div></div>
-    <button class="modal-btn" id="t-nm-btn" onclick="confirmNewMonth()"></button>
-  </div>
-</div>
-
-<div class="modal-overlay" id="backupModal" onclick="if(event.target===this)closeModal('backupModal')">
-  <div class="modal-box">
-    <div class="modal-title"><span id="t-bk"></span> 💾<button class="modal-close" onclick="closeModal('backupModal')">✕</button></div>
-    <div class="backup-section"><h3 id="t-exp-h"></h3>
-      <button class="backup-btn" onclick="exportJSON()"><span class="bicon">📥</span><div class="btxt"><span id="t-exp-btn"></span><span id="t-exp-s"></span></div></button>
-    </div>
-    <div class="backup-section"><h3 id="t-imp-h"></h3>
-      <button class="backup-btn" onclick="document.getElementById('importFile').click()"><span class="bicon">📂</span><div class="btxt"><span id="t-imp-btn"></span><span id="t-imp-s"></span></div></button>
-      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(this)">
-    </div>
-    <div class="backup-section"><h3 id="t-drv-h"></h3>
-      <div class="drive-steps">
-        <div class="drive-step"><div class="step-num">1</div><div id="t-s1"></div></div>
-        <div class="drive-step"><div class="step-num">2</div><div id="t-s2"></div></div>
-        <div class="drive-step"><div class="step-num">3</div><div id="t-s3"></div></div>
-        <div class="drive-step"><div class="step-num">4</div><div id="t-s4"></div></div>
-      </div>
-    </div>
-    <div class="backup-section"><h3 id="t-pin-h"></h3>
-      <div class="pin-setting-row">
-        <div><div style="font-size:11px;font-weight:600;" id="t-pin-lbl"></div><div style="font-size:9px;color:var(--light);" id="t-pin-s"></div></div>
-        <button class="toggle" id="pin-toggle" onclick="togglePIN()"></button>
-      </div>
-      <button class="backup-btn" onclick="startChangePIN()" style="margin-top:9px;"><span class="bicon">🔑</span><div class="btxt"><span id="t-pin-ch"></span><span id="t-pin-chs"></span></div></button>
-    </div>
-    <div class="last-backup" id="last-backup-info"></div>
-    <div class="backup-section" style="margin-top:4px;">
-      <h3 id="t-reset-h">🔄 إعادة تعيين</h3>
-      <button class="backup-btn" onclick="resetDefaults()" style="border-color:var(--mint);">
-        <span class="bicon">🔧</span>
-        <div class="btxt">
-          <span id="t-reset-btn">إضافة البيانات الافتراضية الناقصة</span>
-          <span id="t-reset-sub">يضيف فقط ما ينقص — لا يمسح بياناتك</span>
-        </div>
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="langModal" onclick="if(event.target===this)closeModal('langModal')">
-  <div class="modal-box">
-    <div class="modal-title"><span id="t-lang-title"></span> 🌍<button class="modal-close" onclick="closeModal('langModal')">✕</button></div>
-    <div class="lang-grid">
-      <div class="lang-opt" id="lo-ar" onclick="setLang('ar');closeModal('langModal')"><div class="lang-flag">🇲🇦</div><div><div class="lang-name">عربية</div><div class="lang-native">Arabic</div></div></div>
-      <div class="lang-opt" id="lo-dar" onclick="setLang('dar');closeModal('langModal')"><div class="lang-flag">🇲🇦</div><div><div class="lang-name">دارجة</div><div class="lang-native">Darija</div></div></div>
-      <div class="lang-opt" id="lo-fr" onclick="setLang('fr');closeModal('langModal')"><div class="lang-flag">🇫🇷</div><div><div class="lang-name">Français</div><div class="lang-native">French</div></div></div>
-      <div class="lang-opt" id="lo-en" onclick="setLang('en');closeModal('langModal')"><div class="lang-flag">🇬🇧</div><div><div class="lang-name">English</div><div class="lang-native">English</div></div></div>
-      <div class="lang-opt" id="lo-es" onclick="setLang('es');closeModal('langModal')"><div class="lang-flag">🇪🇸</div><div><div class="lang-name">Español</div><div class="lang-native">Spanish</div></div></div>
-    </div>
-  </div>
+  <div class="modal-box"><div class="modal-title"><span id="t-pick">اختار الشهر</span> 📅</div><div class="year-nav"><button onclick="chgPY(-1)">◀</button><span id="pickerYear">2026</span><button onclick="chgPY(1)">▶</button></div><div class="months-grid" id="monthsGrid"></div></div>
 </div>
 
 <header class="header" style="display:none;">
   <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">تدبير</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved"></span></div></div></div>
   <div class="header-right">
-    <div class="month-nav">
-      <button onclick="navigateMonth(-1)">‹</button>
-      <div class="month-label" id="monthLabel" onclick="openModal('monthModal');renderPicker()">---</div>
-      <button onclick="navigateMonth(1)">›</button>
+    <div class="month-nav"><button onclick="navigateMonth(-1)">‹</button><div class="month-label" id="monthLabel" onclick="openModal('monthModal');renderPicker()">---</div><button onclick="navigateMonth(1)">›</button></div>
+    <button class="icon-btn" onclick="window.print()">🖨️ طباعة</button>
+    <select class="hdr-select" id="currencySelect" onchange="changeCurrency(this.value)"><option value="درهم">درهم</option><option value="€">€</option></select>
+    <div class="auth-bar" id="auth-bar">
+      <div id="auth-signed-out"><button class="auth-btn" onclick="fbSignIn()">🔑 الدخول</button></div>
+      <div id="auth-signed-in" style="display:none;"><img class="auth-avatar" id="auth-avatar" src="" onclick="toggleUserDropdown()"><div class="user-dropdown" id="user-dropdown"><button class="ud-btn danger" onclick="fbSignOut()">🚪 خروج</button></div></div>
     </div>
-    <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦</button>
-    <button class="icon-btn hdr-icon-desktop" onclick="openModal('langModal')">🌍</button>
-    <button class="icon-btn hdr-icon-desktop" onclick="openModal('backupModal');updateBackupUI()">💾</button>
-    <!-- AUTH UI -->
-    <div class="auth-bar" id="auth-bar" style="position:relative;">
-      <div id="auth-signed-out">
-        <button class="auth-btn" onclick="fbSignIn()">🔑 <span id="t-signin">تسجيل الدخول</span></button>
-      </div>
-      <div id="auth-signed-in" style="display:none;">
-        <!-- Avatar button triggers dropdown -->
-        <img class="auth-avatar" id="auth-avatar" src="" alt="" onclick="toggleUserDropdown()" title="الحساب">
-        <!-- User Dropdown -->
-        <div class="user-dropdown" id="user-dropdown">
-          <div class="ud-user">
-            <img class="ud-avatar" id="ud-avatar" src="" alt="">
-            <div>
-              <div class="ud-name" id="ud-name"></div>
-              <div class="ud-email" id="ud-email"></div>
-            </div>
-          </div>
-          <div class="ud-sync">
-            <span class="sync-dot off" id="sync-dot"></span>
-            <span id="sync-txt">غير متصل</span>
-          </div>
-          <button class="ud-btn" onclick="closeUserDropdown();openModal('backupModal');updateBackupUI()">💾 <span id="t-ud-backup">الحفظ والحماية</span></button>
-          <button class="ud-btn" onclick="closeUserDropdown();openModal('langModal')">🌍 <span id="t-ud-lang">اللغة</span></button>
-          <button class="ud-btn danger" onclick="closeUserDropdown();fbSignOut()">🚪 <span id="t-signout">تسجيل الخروج</span></button>
-        </div>
-      </div>
-    </div>
-    <select class="hdr-select" id="currencySelect" onchange="changeCurrency(this.value)">
-      <option value="درهم">درهم</option><option value="ريال">ريال</option>
-      <option value="$">$</option><option value="€">€</option><option value="£">£</option>
-    </select>
   </div>
 </header>
 
 <nav class="nav-tabs" style="display:none;">
-  <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
-  <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
-  <div class="nav-tab" onclick="showTab('drive',this)">🚗 <span id="t-tab5">In Drive</span></div>
-  <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
-
+  <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 لوحة الميزانية</div>
+  <div class="nav-tab" onclick="showTab('notes',this)">📝 سجل المصاريف</div>
+  <div class="nav-tab" onclick="showTab('drive',this)">🚗 In Drive</div>
 </nav>
 
 <div id="tab-dashboard" class="tab-panel active" style="display:none;"><div class="main">
   <div class="kpi-grid">
-    <div class="kpi-card income"><div class="kpi-icon">💵</div><div class="kpi-label" id="kl-income"></div><div class="kpi-value"><span class="kpi-cur" id="c1">درهم</span><span id="v-income">0</span></div><div class="kpi-progress"><div class="kpi-bar" style="width:100%"></div></div><div class="kpi-pct" id="p-income">100%</div></div>
-    <div class="kpi-card bills"><div class="kpi-icon">🧾</div><div class="kpi-label" id="kl-bills"></div><div class="kpi-value"><span class="kpi-cur" id="c2">درهم</span><span id="v-bills">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-bills" style="width:0%"></div></div><div class="kpi-pct" id="p-bills">0%</div></div>
-    <div class="kpi-card expenses"><div class="kpi-icon">🛒</div><div class="kpi-label" id="kl-expenses"></div><div class="kpi-value"><span class="kpi-cur" id="c3">درهم</span><span id="v-expenses">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-expenses" style="width:0%"></div></div><div class="kpi-pct" id="p-expenses">0%</div></div>
-    <div class="kpi-card savings"><div class="kpi-icon">🏦</div><div class="kpi-label" id="kl-savings"></div><div class="kpi-value"><span class="kpi-cur" id="c4">درهم</span><span id="v-savings">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-savings" style="width:0%"></div></div><div class="kpi-pct" id="p-savings">0%</div></div>
-    <div class="kpi-card debts"><div class="kpi-icon">💳</div><div class="kpi-label" id="kl-debts"></div><div class="kpi-value"><span class="kpi-cur" id="c5">درهم</span><span id="v-debts">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-debts" style="width:0%"></div></div><div class="kpi-pct" id="p-debts">0%</div></div>
-    <div class="kpi-card remaining"><div class="kpi-icon">✅</div><div class="kpi-label" id="kl-remaining"></div><div class="kpi-value"><span class="kpi-cur" id="c6">درهم</span><span id="v-remaining">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-remaining" style="width:0%"></div></div><div class="kpi-pct" id="p-remaining">0%</div></div>
+    <div class="kpi-card income"><div class="kpi-label" id="kl-income">الدخل</div><div class="kpi-value"><span id="v-income">0</span> <span class="kpi-cur" id="c1"></span></div></div>
+    <div class="kpi-card expenses"><div class="kpi-label" id="kl-expenses">المصاريف</div><div class="kpi-value"><span id="v-expenses">0</span> <span class="kpi-cur" id="c3"></span></div></div>
+    <div class="kpi-card remaining"><div class="kpi-label" id="kl-remaining">الباقي</div><div class="kpi-value"><span id="v-remaining">0</span> <span class="kpi-cur" id="c6"></span></div></div>
   </div>
+  
   <div class="charts-row">
-    <div class="remaining-hero">
-      <div style="position:relative;z-index:1;">
-        <div class="rh-label" id="t-hero-lbl"></div>
-        <div class="rh-title" id="hero-status">💚</div>
-        <div class="rh-amount"><span class="rh-cur" id="hero-cur">درهم</span><span id="hero-val">0</span></div>
-        <div class="rh-sub" id="hero-sub"></div>
-      </div>
-      <div class="rh-donut"><canvas id="heroDonut"></canvas></div>
-    </div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-ch1"></span></div></div><div class="chart-wrap"><canvas id="donutChart"></canvas></div></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="t-ch2"></span></div></div><div class="chart-wrap"><canvas id="barChart"></canvas></div></div>
+    <div class="card" style="grid-column: 1 / -1;"><div class="card-header">📊 مقارنة السقف المحدد للفئات المصرفية الشهرية</div><div id="budget-limits-progress" style="padding:16px;"></div></div>
   </div>
+
   <div class="tables-grid">
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="tl-bills"></span></div><div class="card-total" style="color:var(--peach)" id="th-bills">0</div></div><table class="mini-table"><thead><tr><th id="tc-b1"></th><th id="tc-b2"></th><th id="tc-b3"></th></tr></thead><tbody id="bills-body"></tbody></table><button class="add-btn" id="add-bills-btn" onclick="addRow('bills')">＋</button></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="tl-expenses"></span></div><div class="card-total" style="color:var(--lav)" id="th-expenses">0</div></div><table class="mini-table"><thead><tr><th id="tc-e1"></th><th id="tc-e2"></th><th id="tc-e3"></th></tr></thead><tbody id="expenses-body"></tbody></table><button class="add-btn" id="add-exp-btn" onclick="addRow('expenses')">＋</button></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--blue)"></span><span id="tl-savings"></span></div><div class="card-total" style="color:var(--blue)" id="th-savings">0</div></div><table class="mini-table"><thead><tr><th id="tc-s1"></th><th id="tc-s2"></th><th id="tc-s3"></th></tr></thead><tbody id="savings-body"></tbody></table><button class="add-btn" id="add-sav-btn" onclick="addRow('savings')">＋</button></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--gold)"></span><span id="tl-debts"></span></div><div class="card-total" style="color:var(--gold)" id="th-debts">0</div></div><table class="mini-table"><thead><tr><th id="tc-d1"></th><th id="tc-d2"></th><th id="tc-d3"></th></tr></thead><tbody id="debts-body"></tbody></table><button class="add-btn" id="add-dbt-btn" onclick="addRow('debts')">＋</button></div>
+    <div class="card"><div class="card-header">🛒 المصاريف الثابتة والمتغيرة</div><table class="mini-table"><thead><tr><th>البيان</th><th>الفعلي</th><th>المخطط</th></tr></thead><tbody id="expenses-body"></tbody></table></div>
+    <div class="card"><div class="card-header">💵 مصادر الدخل</div><table class="mini-table"><thead><tr><th>المصدر</th><th>الفعلي</th><th>المخطط</th></tr></thead><tbody id="income-body"></tbody></table></div>
   </div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--sage)"></span><span id="tl-income"></span></div><div class="card-total" style="color:var(--sage)" id="th-income">0</div></div><table class="mini-table"><thead><tr><th id="tc-i1"></th><th id="tc-i2"></th><th id="tc-i3"></th></tr></thead><tbody id="income-body"></tbody></table><button class="add-btn" id="add-inc-btn" onclick="addRow('income')">＋</button></div>
 
-  <!-- MONTHLY CALENDAR -->
   <div class="cal-wrap">
-    <div class="cal-header">
-      <div class="cal-title"><span class="dot"></span><span id="cal-title-lbl">ملخص مصاريف الشهر</span></div>
-      <div class="cal-total-badge"><span id="cal-total-lbl">إجمالي:</span> <span id="cal-total-val">0</span> <span id="cal-cur">درهم</span></div>
-    </div>
-    <div style="overflow-x:auto;padding:0 4px 4px;">
-      <table class="cal-table" id="cal-table"><thead id="cal-thead"></thead><tbody id="cal-tbody"></tbody></table>
-    </div>
-    <div class="cal-legend">
-      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#7EC8B0;"></div><span id="cal-leg1">عادي</span></div>
-      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#E8C49A;"></div><span id="cal-leg2">متوسط</span></div>
-      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#E8A598;"></div><span id="cal-leg3">مرتفع</span></div>
-      <div style="margin-right:auto;font-size:9px;color:var(--light);" id="cal-source">📋 المصدر: سجل المصاريف</div>
-    </div>
+    <div class="cal-header"><div class="cal-title"><span id="cal-title-lbl">ملخص مصاريف الشهر</span></div><div class="cal-total-badge"><span id="cal-total-val">0</span> درهم</div></div>
+    <table class="cal-table" id="cal-table"><thead id="cal-thead"></thead><tbody id="cal-tbody"></tbody></table>
   </div>
-
 </div></div>
 
 <div id="tab-notes" class="tab-panel"><div class="main">
-
-  <!-- HEADER -->
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-    <div class="section-title" style="margin-bottom:0;"><span id="t-notes-title">سجل المصاريف</span> — <span id="notes-month-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
-  </div>
-
-  <div class="card" style="margin-bottom:12px;">
-
-    <!-- CATEGORY PILLS -->
+  <div class="card">
     <div class="notes-pills-wrap" id="notes-pills-wrap"></div>
-
-    <!-- SUB CATEGORY + FORM -->
     <div class="notes-add-form">
       <div class="notes-form-row">
-        <div class="nf-group">
-          <span class="nf-label" id="nf-lbl-date">التاريخ</span>
-          <input type="date" class="nf-input" id="nf-date">
-        </div>
-        <div class="nf-group">
-          <span class="nf-label" id="nf-lbl-sub">الخيار</span>
-          <select class="nf-select" id="nf-sub"></select>
-        </div>
-        <div class="nf-group">
-          <span class="nf-label" id="nf-lbl-amount">المبلغ</span>
-          <input type="number" class="nf-input" id="nf-amount" placeholder="0" min="0">
-        </div>
-        <button class="nf-add-btn" onclick="addNoteNew()">＋ <span id="nf-add-lbl">إضافة</span></button>
+        <div class="nf-group"><span>التاريخ</span><input type="date" class="nf-input" id="nf-date"></div>
+        <div class="nf-group"><span>الخيار</span><select class="nf-select" id="nf-sub"></select></div>
+        <div class="nf-group"><span>الملاحظة التوضيحية</span><input type="text" class="nf-input" id="nf-note-text" placeholder="مثال: بوطة، حوت..."></div>
+        <div class="nf-group"><span>المبلغ</span><input type="number" class="nf-input" id="nf-amount" placeholder="0"></div>
+        <button class="nf-add-btn" onclick="addNoteNew()">＋ إضافة المصروف</button>
       </div>
     </div>
-
-    <!-- FILTER BAR -->
-    <div class="notes-filter-bar">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:11px;color:var(--light);" id="nf-month-lbl2">الشهر:</span>
-        <select class="nf-month-select" id="nf-month-filter" onchange="renderNotesList()"></select>
-      </div>
-      <div class="nf-total-badge">
-        <span id="nf-filter-lbl">إجمالي:</span> <span id="nf-filter-total">0</span> <span id="nf-filter-cur">درهم</span>
-      </div>
+    
+    <!-- ══ STATS PANEL SIDE PANEL ══ -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap:10px; padding:12px 16px; background:#f1f3f5; border-bottom:1px solid var(--border);">
+      <div style="background:#fff; padding:10px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--light);">المعدل اليومي للصرف</div><div style="font-size:18px; font-weight:800; color:var(--dark);" id="stat-daily-avg">0 درهم</div></div>
+      <div style="background:#fff; padding:10px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--light);">أعلى سحب أسبوعي</div><div style="font-size:18px; font-weight:800; color:#ef4444;" id="stat-weekly-peak">0 درهم</div></div>
     </div>
 
-    <!-- ENTRIES LIST -->
     <div class="notes-entries" id="notes-entries-list"></div>
-
-    <!-- FOOTER TOTAL -->
-    <div class="notes-list-footer">
-      <span class="nlf-label" id="nf-footer-lbl">إجمالي الشهر</span>
-      <span class="nlf-val" id="nf-footer-val">0 <span style="font-size:11px;font-weight:400;color:var(--light);" id="nf-footer-cur">درهم</span></span>
-    </div>
   </div>
-
-  <!-- CHARTS ROW -->
-  <div class="notes-charts-row">
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-notes-chart">توزيع المصاريف</span></div></div><div class="chart-wrap"><canvas id="notesDonut"></canvas></div></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-notes-sum">ملخص حسب الفئة</span></div></div><div class="nc-bars" id="notes-cat-bars" style="padding:14px;"></div></div>
-  </div>
-
 </div></div>
 
-<div id="tab-drive" class="tab-panel"><div class="main">
+<div id="tab-drive" class="tab-panel"><div class="main"><div class="drive-hero">🚗 In Drive Tab Configured Content</div></div></div>
 
-  <!-- DRIVE HERO -->
-  <div class="drive-hero">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-      <div>
-        <div style="font-size:18px;font-weight:800;color:#fff;">🚗 In Drive</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:2px;" id="drv-month-lbl">مايو 2025</div>
-      </div>
-      <div class="drive-sync-badge">⚡ يتزامن مع الدخل</div>
-    </div>
-    <div class="drive-stats-grid">
-      <div class="drive-stat"><div class="drive-stat-val" id="drv-today">0</div><div class="drive-stat-lbl" id="drv-today-lbl">اليوم</div></div>
-      <div class="drive-stat"><div class="drive-stat-val" id="drv-week">0</div><div class="drive-stat-lbl" id="drv-week-lbl">الأسبوع</div></div>
-      <div class="drive-stat"><div class="drive-stat-val" id="drv-month">0</div><div class="drive-stat-lbl" id="drv-month-lbl2">الشهر</div></div>
-      <div class="drive-stat"><div class="drive-stat-val" id="drv-avg">0</div><div class="drive-stat-lbl" id="drv-avg-lbl">معدل/رحلة</div></div>
-      <div class="drive-stat"><div class="drive-stat-val" style="color:#B5A8D4;" id="drv-trips">0</div><div class="drive-stat-lbl" id="drv-trips-lbl">رحلة</div></div>
-    </div>
-    <div class="drive-form">
-      <div class="drive-form-title">➕ <span id="drv-add-title">تسجيل يوم جديد</span></div>
-      <div class="drive-form-row">
-        <div><div class="drive-input-lbl" id="drv-lbl-date">التاريخ</div><input type="date" class="drive-input" id="drive-date"></div>
-        <div><div class="drive-input-lbl" id="drv-lbl-trips">عدد الرحلات</div><input type="number" class="drive-input" id="drive-trips" placeholder="0" min="0"></div>
-        <div><div class="drive-input-lbl" id="drv-lbl-total">المجموع</div><input type="number" class="drive-input" id="drive-total" placeholder="0" min="0"></div>
-      </div>
-      <button class="drive-submit" onclick="addDriveEntry()">🚗 <span id="drv-submit-lbl">تسجيل اليوم</span></button>
-    </div>
-  </div>
-
-  <!-- WEEK BARS -->
-  <div class="drive-week-wrap">
-    <div class="heatmap-title" id="drv-week-chart-title">أفضل أيام الأسبوع</div>
-    <div class="drive-week-bars" id="drive-week-bars" style="display:flex;align-items:flex-end;gap:6px;height:160px;margin-top:12px;"></div>
-  </div>
-
-  <!-- ENTRIES LIST -->
-  <div class="drive-entries">
-    <div class="drive-entries-header">
-      <div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="drv-list-title">سجل الرحلات</span></div>
-      <div class="card-total" style="color:var(--mint)" id="drv-list-total">0</div>
-    </div>
-    <div id="drive-entries-list"></div>
-  </div>
-
-</div></div>
-
-<div id="tab-monthly" class="tab-panel"><div class="main">
-  <div class="section-title"><span id="t-monthly-title"></span> — <span id="monthly-yr-lbl" style="font-weight:400;color:var(--light);font-size:11px;"></span></div>
-  <div class="card" style="overflow-x:auto;margin-bottom:14px;"><table class="monthly-table"><thead id="monthly-head"></thead><tbody id="monthly-body"></tbody></table></div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--mint)"></span><span id="t-monthly-chart"></span></div></div><div class="chart-wrap" style="height:230px;"><canvas id="monthlyLine"></canvas></div></div>
-</div></div>
-
-<footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.2</div>
-  <div id="t-footer"></div>
-</footer>
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════
-// TRANSLATIONS
-// ══════════════════════════════════════════════
-const LANGS={
-  ar:{dir:'rtl',
-    months:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
-    // cat[0..4]: مواد غذائية, السوق, قهوة, النقل→Gasoil, أخرى
-    cats:['مواد غذائية','السوق','قهوة','النقل','أخرى'],
-    // label used in expenses table for each cat index
-    expLabel:['مواد غذائية','السوق','قهوة','Gasoil','أخرى'],
-    pin_enter:'أدخل رمز PIN',pin_create:'إنشاء رمز PIN (4 أرقام)',pin_confirm:'أكد رمز PIN',
-    pin_wrong:'❌ رمز PIN غلط',pin_mismatch:'❌ الأرقام ما تطابقوش',pin_note:'هاد الرمز يحمي تطبيقك',pin_forgot:'نسيت PIN؟',
-    saved:'محفوظ تلقائياً',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'دفتر الملاحظات',tab3:'مقارنة شهرية',
-    pick:'اختار الشهر',nm:'شهر جديد',nm_sub:'كيفاش تبغي تبدا؟',
-    nm1:'كوبياو المخطط فقط',nm1s:'تبقى أرقام مخطط له وتبدا من صفر',
-    nm2:'شهر فارغ',nm2s:'صفحة بيضاء',nm3:'كوبياو كل شي',nm3s:'نفس الشهر الماضي',nm_btn:'إنشاء ✓',
-    bk:'الحفظ والحماية',exp_h:'📤 تصدير',exp_btn:'تحميل ملف الحفظ',exp_s:'كل بياناتك في ملف JSON',
-    imp_h:'📥 استيراد',imp_btn:'تحميل ملف حفظ سابق',imp_s:'ملف JSON لاسترجاع البيانات',
-    drv_h:'☁️ Google Drive',s1:'كليك على تحميل ملف الحفظ',s2:'فتح Google Drive في تليفونك',
-    s3:'＋ ← رفع ← اختار الملف',s4:'خلاص! بياناتك في السحاب ☁️',
-    pin_h:'🔐 إعدادات PIN',pin_lbl:'قفل بـ PIN',pin_s:'حماية التطبيق عند الفتح',
-    pin_ch:'تغيير رمز PIN',pin_chs:'إنشاء رمز جديد',last_save:'آخر حفظ',lang_title:'اختار اللغة',
-    k_income:'الدخل ديالي',k_bills:'الفواتير',k_expenses:'المصاريف',k_savings:'التوفير',k_debts:'الديون',k_remaining:'الفلوس لي بقاو',
-    hero_lbl:'الفلوس لي بقاو دابا',hero_ok:'💚 الوضع كاين',hero_zero:'🟡 بالضبط',hero_neg:'🔴 تجاوزت الميزانية',
-    ch1:'فين كتمشي الفلوس',ch2:'لي مخطط له / لي تصرف',
-    col_item:'البيان',col_act:'تصرفت',col_pln:'مخطط',col_goal:'الهدف',col_src:'المصدر',col_ent:'الجهة',
-    add_bills:'＋ إضافة فاتورة',add_exp:'＋ إضافة مصروف',add_sav:'＋ إضافة هدف',add_dbt:'＋ إضافة دين',add_inc:'＋ إضافة مصدر دخل',
-    notes_title:'دفتر الملاحظات',notes_info:'كل ما تضيفه هنا يتجمع تلقائياً مع المصاريف في لوحة الميزانية',
-    notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'ملخص',
-    nt_date:'التاريخ',nt_note:'الملاحظات',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ إضافة ملاحظة',
-    monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
-    footer:'دبّر فلوسك بذكاء — تدبير 💚',
-    import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
-    toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
-    toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
-    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
-    custom_cat:'✏️ فئة جديدة...',
-    reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية'
-  },
-  dar:{dir:'rtl',
-    months:['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
-    cats:['مواد غذائية','السوق','قهوة/تدخين','النقل','أخرى'],
-    expLabel:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','أخرى'],
-    pin_enter:'دخل رمز PIN ديالك',pin_create:'درلي PIN جديد (4 أرقام)',pin_confirm:'عاود دخل PIN',
-    pin_wrong:'❌ PIN غلط',pin_mismatch:'❌ الأرقام ما خرجوش بحال',pin_note:'هاد الرمز كيحمي التطبيق ديالك',pin_forgot:'نسيتي PIN؟',
-    saved:'محفوظ',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'سجل المصاريف',tab3:'مقارنة شهرية',
-    pick:'اختار الشهر',nm:'شهر جديد',nm_sub:'كيفاش تبغي تبدا؟',
-    nm1:'كوبيا المخطط غير',nm1s:'تبقى الأرقام المخططة وتبدا من صفر',
-    nm2:'شهر فاضي',nm2s:'صفحة بيضاء',nm3:'كوبيا كل شي',nm3s:'نفس الشهر لي فات',nm_btn:'إنشاء ✓',
-    bk:'الحفظ والحماية',exp_h:'📤 تصدير',exp_btn:'حمل ملف الحفظ',exp_s:'كل البيانات ديالك في ملف JSON',
-    imp_h:'📥 استيراد',imp_btn:'جيب ملف حفظ قديم',imp_s:'ملف JSON باش ترجع البيانات',
-    drv_h:'☁️ Google Drive',s1:'كليك على حمل ملف الحفظ',s2:'حل Google Drive فتليفونك',
-    s3:'＋ ← رفع ← اختار الملف',s4:'خلاص! البيانات ديالك فالسحاب ☁️',
-    pin_h:'🔐 إعدادات PIN',pin_lbl:'قفل بـ PIN',pin_s:'حماية التطبيق منين تفتحو',
-    pin_ch:'بدل رمز PIN',pin_chs:'درلي رمز جديد',last_save:'آخر حفظ',lang_title:'اختار اللغة',
-    k_income:'الدخل ديالي',k_bills:'الفاكتورات',k_expenses:'المصاريف',k_savings:'التوفير',k_debts:'الديون',k_remaining:'الفلوس لي بقاو',
-    hero_lbl:'الفلوس لي بقاو دابا',hero_ok:'💚 الوضع مزيان',hero_zero:'🟡 بالضبط',hero_neg:'🔴 تجاوزتي الميزانية',
-    ch1:'فين كتمشي الفلوس',ch2:'المخطط / الفعلي',
-    col_item:'البيان',col_act:'تصرفت',col_pln:'مخطط',col_goal:'الهدف',col_src:'المصدر',col_ent:'الجهة',
-    add_bills:'＋ زيد فاكتورة',add_exp:'＋ زيد مصروف',add_sav:'＋ زيد هدف',add_dbt:'＋ زيد دين',add_inc:'＋ زيد مصدر دخل',
-    notes_title:'سجل المصاريف',notes_info:'كل لي تزيد هنا كيتجمع تلقائياً مع المصاريف فلوحة الميزانية',
-    notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'الملخص',
-    nt_date:'التاريخ',nt_note:'الملاحظة',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ زيد ملاحظة',
-    monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
-    footer:'دبّر فلوسك بذكاء — تدبير 💚',
-    import_confirm:'هاد العملية غادي تبدل البيانات. واش متأكد؟',
-    toast_add:'تزاد ✓',toast_save:'✅ تحمل ملف الحفظ',toast_import:'✅ استوردات البيانات',
-    toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',from_of:'من',
-    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',toast_signout:'👋 خرجتي',toast_loaded:'تحملات البيانات من السحاب',signin:'دخول',signout:'خروج',
-    custom_cat:'✏️ فئة جديدة...',
-    reset_h:'🔄 إعادة تعيين',reset_btn:'زيد البيانات الافتراضية اللي ناقصة',reset_sub:'كيزيد غير اللي ناقص — ما يمسحش شي',toast_reset:'✅ تزادو البيانات الافتراضية'
-  },
-  fr:{dir:'ltr',
-    months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-    cats:['Alimentation','Marché','Café/Tabac','Transport','Autre'],
-    expLabel:['Alimentation','Marché','Café/Tabac','Gasoil','Autre'],
-    pin_enter:'Entrez votre code PIN',pin_create:'Créer un code PIN (4 chiffres)',pin_confirm:'Confirmez le PIN',
-    pin_wrong:'❌ Code PIN incorrect',pin_mismatch:'❌ Les codes ne correspondent pas',pin_note:'Ce code protège votre application',pin_forgot:'PIN oublié ?',
-    saved:'Sauvegardé automatiquement',new_btn:'✦ Nouveau mois',tab1:'Tableau de bord',tab2:'Carnet de notes',tab3:'Comparaison mensuelle',
-    pick:'Choisir le mois',nm:'Nouveau mois',nm_sub:'Comment démarrer ?',
-    nm1:'Copier le budget prévu',nm1s:'Garder les montants prévus, repartir de zéro',
-    nm2:'Mois vide',nm2s:'Page blanche',nm3:'Tout copier',nm3s:'Identique au mois précédent',nm_btn:'Créer ✓',
-    bk:'Sauvegarde et sécurité',exp_h:'📤 Exporter',exp_btn:'Télécharger la sauvegarde',exp_s:'Toutes vos données en JSON',
-    imp_h:'📥 Importer',imp_btn:'Charger une sauvegarde',imp_s:'Fichier JSON pour restaurer vos données',
-    drv_h:'☁️ Google Drive',s1:'Cliquez sur Télécharger la sauvegarde',s2:'Ouvrez Google Drive sur votre téléphone',
-    s3:'＋ → Importer → Sélectionner le fichier',s4:'Terminé ! Vos données sont dans le cloud ☁️',
-    pin_h:'🔐 Paramètres PIN',pin_lbl:'Verrouillage PIN',pin_s:"Protection à l'ouverture",
-    pin_ch:'Changer le code PIN',pin_chs:'Créer un nouveau code',last_save:'Dernière sauvegarde',lang_title:'Choisir la langue',
-    k_income:'Revenus',k_bills:'Factures',k_expenses:'Dépenses',k_savings:'Épargne',k_debts:'Dettes',k_remaining:'Solde restant',
-    hero_lbl:'Solde disponible',hero_ok:'💚 Bonne situation',hero_zero:'🟡 Équilibré',hero_neg:'🔴 Budget dépassé',
-    ch1:'Répartition des dépenses',ch2:'Prévu vs Réalisé',
-    col_item:'Désignation',col_act:'Réalisé',col_pln:'Prévu',col_goal:'Objectif',col_src:'Source',col_ent:'Créancier',
-    add_bills:'＋ Ajouter une facture',add_exp:'＋ Ajouter une dépense',add_sav:'＋ Ajouter un objectif',add_dbt:'＋ Ajouter une dette',add_inc:'＋ Ajouter un revenu',
-    notes_title:'Carnet de notes',notes_info:'Tout ce que vous ajoutez ici est automatiquement comptabilisé dans vos dépenses',
-    notes_sub:'Journal des dépenses',notes_edit:'Modifiable',notes_chart:'Répartition',notes_sum:'Résumé',
-    nt_date:'Date',nt_note:'Note',nt_subcat:'Options',nt_cat:'Catégorie',nt_amount:'Montant',nt_cur:'Devise',add_note:'＋ Ajouter une note',
-    monthly_title:'Comparaison mensuelle',monthly_chart:'Évolution revenus/dépenses',monthly_total:'Total',monthly_remain:'Solde',
-    footer:'Gérez votre budget intelligemment — Tadbir 💚',
-    import_confirm:'Cette opération remplacera vos données. Confirmer ?',
-    toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
-    toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
-    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
-    custom_cat:'✏️ Nouvelle catégorie...',
-    reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées'
-  },
-  en:{dir:'ltr',
-    months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-    cats:['Food','Market','Coffee/Tobacco','Transport','Other'],
-    expLabel:['Food','Market','Coffee/Tobacco','Gasoil','Other'],
-    pin_enter:'Enter your PIN',pin_create:'Create a PIN (4 digits)',pin_confirm:'Confirm your PIN',
-    pin_wrong:'❌ Incorrect PIN',pin_mismatch:'❌ PINs do not match',pin_note:'This PIN protects your app',pin_forgot:'Forgot PIN?',
-    saved:'Auto-saved',new_btn:'✦ New Month',tab1:'Dashboard',tab2:'Notes',tab3:'Monthly Overview',
-    pick:'Choose month',nm:'New Month',nm_sub:'How do you want to start?',
-    nm1:'Copy planned budget',nm1s:'Keep planned amounts, reset actual',
-    nm2:'Empty month',nm2s:'Blank page',nm3:'Copy everything',nm3s:'Same as last month',nm_btn:'Create ✓',
-    bk:'Backup & Security',exp_h:'📤 Export',exp_btn:'Download backup file',exp_s:'All your data in JSON',
-    imp_h:'📥 Import',imp_btn:'Load a backup file',imp_s:'JSON file to restore your data',
-    drv_h:'☁️ Google Drive',s1:'Click Download backup file',s2:'Open Google Drive on your phone',
-    s3:'＋ → Upload → Select file',s4:'Done! Your data is in the cloud ☁️',
-    pin_h:'🔐 PIN Settings',pin_lbl:'PIN Lock',pin_s:'Protect app on open',
-    pin_ch:'Change PIN',pin_chs:'Create a new code',last_save:'Last saved',lang_title:'Choose language',
-    k_income:'Income',k_bills:'Bills',k_expenses:'Expenses',k_savings:'Savings',k_debts:'Debts',k_remaining:'Remaining',
-    hero_lbl:'Available balance',hero_ok:'💚 Good situation',hero_zero:'🟡 Balanced',hero_neg:'🔴 Budget exceeded',
-    ch1:'Where money goes',ch2:'Planned vs Actual',
-    col_item:'Item',col_act:'Actual',col_pln:'Planned',col_goal:'Goal',col_src:'Source',col_ent:'Creditor',
-    add_bills:'＋ Add bill',add_exp:'＋ Add expense',add_sav:'＋ Add goal',add_dbt:'＋ Add debt',add_inc:'＋ Add income source',
-    notes_title:'Notes',notes_info:'Everything you add here is automatically counted in your expenses',
-    notes_sub:'Expense log',notes_edit:'Editable',notes_chart:'Breakdown',notes_sum:'Summary',
-    nt_date:'Date',nt_note:'Note',nt_cat:'Category',nt_amount:'Amount',nt_cur:'Currency',add_note:'＋ Add note',
-    monthly_title:'Monthly comparison',monthly_chart:'Income vs Expenses trend',monthly_total:'Total',monthly_remain:'Balance',
-    footer:'Manage your budget smartly — Tadbir 💚',
-    import_confirm:'This will replace your data. Are you sure?',
-    toast_add:'Added ✓',toast_save:'✅ File downloaded',toast_import:'✅ Data imported',
-    toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',from_of:'of',
-    sync_off:'Offline',sync_ok:'Synced ☁️',sync_ing:'Syncing...',toast_signout:'👋 Signed out',toast_loaded:'Data loaded from cloud',signin:'Sign in',signout:'Sign out',
-    custom_cat:'✏️ New category...',
-    reset_h:'🔄 Reset',reset_btn:'Add missing default data',reset_sub:'Only adds what is missing — keeps your data',toast_reset:'✅ Default data added'
-  },
-  es:{dir:'ltr',
-    months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    cats:['Alimentación','Mercado','Café/Tabaco','Transporte','Otro'],
-    expLabel:['Alimentación','Mercado','Café/Tabaco','Gasoil','Otro'],
-    pin_enter:'Introduce tu PIN',pin_create:'Crear PIN (4 dígitos)',pin_confirm:'Confirma el PIN',
-    pin_wrong:'❌ PIN incorrecto',pin_mismatch:'❌ Los PINs no coinciden',pin_note:'Este PIN protege tu aplicación',pin_forgot:'¿Olvidaste el PIN?',
-    saved:'Guardado automáticamente',new_btn:'✦ Nuevo mes',tab1:'Panel de control',tab2:'Cuaderno de notas',tab3:'Comparativa mensual',
-    pick:'Elegir mes',nm:'Nuevo mes',nm_sub:'¿Cómo quieres empezar?',
-    nm1:'Copiar presupuesto previsto',nm1s:'Mantener montos previstos, reiniciar real',
-    nm2:'Mes en blanco',nm2s:'Página en blanco',nm3:'Copiar todo',nm3s:'Igual que el mes anterior',nm_btn:'Crear ✓',
-    bk:'Copia de seguridad',exp_h:'📤 Exportar',exp_btn:'Descargar archivo de respaldo',exp_s:'Todos tus datos en JSON',
-    imp_h:'📥 Importar',imp_btn:'Cargar archivo de respaldo',imp_s:'Archivo JSON para restaurar datos',
-    drv_h:'☁️ Google Drive',s1:'Clic en Descargar archivo',s2:'Abre Google Drive en tu móvil',
-    s3:'＋ → Subir → Seleccionar archivo',s4:'¡Listo! Tus datos están en la nube ☁️',
-    pin_h:'🔐 Configuración PIN',pin_lbl:'Bloqueo PIN',pin_s:'Protección al abrir la app',
-    pin_ch:'Cambiar PIN',pin_chs:'Crear nuevo código',last_save:'Último guardado',lang_title:'Elegir idioma',
-    k_income:'Ingresos',k_bills:'Facturas',k_expenses:'Gastos',k_savings:'Ahorros',k_debts:'Deudas',k_remaining:'Saldo restante',
-    hero_lbl:'Saldo disponible',hero_ok:'💚 Buena situación',hero_zero:'🟡 Equilibrado',hero_neg:'🔴 Presupuesto superado',
-    ch1:'Distribución de gastos',ch2:'Previsto vs Real',
-    col_item:'Concepto',col_act:'Real',col_pln:'Previsto',col_goal:'Objetivo',col_src:'Fuente',col_ent:'Acreedor',
-    add_bills:'＋ Añadir factura',add_exp:'＋ Añadir gasto',add_sav:'＋ Añadir objetivo',add_dbt:'＋ Añadir deuda',add_inc:'＋ Añadir ingreso',
-    notes_title:'Cuaderno de notas',notes_info:'Todo lo que añadas aquí se suma automáticamente a tus gastos en el panel',
-    notes_sub:'Registro de gastos',notes_edit:'Editable',notes_chart:'Distribución',notes_sum:'Resumen',
-    nt_date:'Fecha',nt_note:'Nota',nt_subcat:'Opciones',nt_cat:'Categoría',nt_amount:'Importe',nt_cur:'Moneda',add_note:'＋ Añadir nota',
-    monthly_title:'Comparativa mensual',monthly_chart:'Evolución ingresos/gastos',monthly_total:'Total',monthly_remain:'Saldo',
-    footer:'Gestiona tu presupuesto — Tadbir 💚',
-    import_confirm:'Esto reemplazará tus datos. ¿Estás seguro?',
-    toast_add:'Añadido ✓',toast_save:'✅ Archivo descargado',toast_import:'✅ Datos importados',
-    toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',from_of:'de',
-    sync_off:'Sin conexión',sync_ok:'Sincronizado ☁️',sync_ing:'Sincronizando...',toast_signout:'👋 Sesión cerrada',toast_loaded:'Datos cargados desde la nube',signin:'Iniciar sesión',signout:'Cerrar sesión',
-    custom_cat:'✏️ Nueva categoría...',
-    reset_h:'🔄 Restablecer',reset_btn:'Añadir datos por defecto faltantes',reset_sub:'Solo añade lo que falta — no borra nada',toast_reset:'✅ Datos por defecto añadidos'
-  }
-};
-
-// ══════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════
 const SK='sf_v33', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
 const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0'};
 const CAT_COLORS=['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#9AA0B0'];
-let curYear=2025, curMonth=4, currency='درهم', pickerYear=2025, nmOpt='copy';
-let _appReady=false;      // prevent multiple initializations
-let _authReady=false;     // true only after cloud load completes
-let _saveQueue=false;     // pending save after cloud load
+let curYear=2026, curMonth=5, currency='درهم', pickerYear=2026, nmOpt='copy';
+let _appReady=false, _authReady=true, _isLoadingFromCloud=false, _saveQueue=false;
 let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
+
+/* ══ BUDGET SQUEEZING LIMITS (الحد الأقصى للفئات) ══ */
+const BUDGET_LIMITS = {
+  fixed: 4000,
+  daily: 2500,
+  cafe_smoke: 600, // سقف القهوة والتدخين مثلاً 600 درهم
+  transport: 1200,
+  health: 1000
+};
 
 const mkey=(y,m)=>`${y}-${String(m+1).padStart(2,'0')}`;
 const ck=()=>mkey(curYear,curMonth);
@@ -1129,1922 +429,225 @@ const T=()=>LANGS[lang];
 const $ =id=>document.getElementById(id);
 const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 
-// ══════════════════════════════════════════════
-// DEFAULT DATA
-// ══════════════════════════════════════════════
-
-// ══════════════════════════════════════════════
-// HIERARCHICAL CATEGORIES FOR NOTES
-// ══════════════════════════════════════════════
 const MAIN_CATS = {
-  ar: [
-    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['إيجار','كهرباء/ماء','غاز','انترنت','تأمين']},
-    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','مطعم','عصير']},
-    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة','نسكافي','شاي','سيجارة','شيشة','تبغ']},
-    {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','نقل عام','صيانة سيارة']},
-    {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','صيدلية']},
-    {id:'clothes', icon:'👕', label:'الملابس والمظهر',      subs:['ملابس','حلاقة/عناية']},
-    {id:'learning',icon:'📚', label:'التطوير الشخصي',       subs:['تعليم/دورات','كتب']},
-    {id:'fun',     icon:'🎭', label:'الترفيه والاجتماعي',   subs:['ترفيه','هدايا','سفر']},
-    {id:'invest',  icon:'💰', label:'الاستثمار والطوارئ',   subs:['توفير','طوارئ','سداد ديون']}
-  ],
   dar: [
-    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['الكراء','الكهرباء/الماء','الغاز','الانترنت','التأمين']},
+    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['الكراء','الكهرباء/الماء','الغاز','الانترنت']},
     {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','ريستو','عصير']},
-    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة','نسكافي','أتاي','سيجارة','شيشة','تبغ']},
-    {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','النقل العام','صيانة طوموبيل']},
-    {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','الصيدلية']},
-    {id:'clothes', icon:'👕', label:'الحوايج والمظهر',      subs:['الحوايج','الحلاقة/العناية']},
-    {id:'learning',icon:'📚', label:'التطوير الشخصي',       subs:['تعليم/دورات','كتب']},
-    {id:'fun',     icon:'🎭', label:'الترفيه والاجتماعي',   subs:['ترفيه','هدايا','سفر']},
-    {id:'invest',  icon:'💰', label:'الاستثمار والطوارئ',   subs:['توفير','طوارئ','سداد ديون']}
-  ],
-  fr: [
-    {id:'fixed',   icon:'🏠', label:'Charges fixes',        subs:['Loyer','Électricité/Eau','Gaz','Internet','Assurance']},
-    {id:'daily',   icon:'🛒', label:'Vie quotidienne',      subs:['Alimentation','Marché','Restaurant','Jus']},
-    {id:'cafe_smoke',icon:'☕', label:'Café & Tabac',           subs:['Café','Nescafé','Thé','Cigarettes','Chicha','Tabac']},
-    {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Transport public','Entretien voiture']},
-    {id:'health',  icon:'🏥', label:'Santé',                subs:['Médicaments','Médecin','Pharmacie']},
-    {id:'clothes', icon:'👕', label:'Vêtements et apparence',subs:['Vêtements','Coiffeur/Soins']},
-    {id:'learning',icon:'📚', label:'Développement personnel',subs:['Formation/Cours','Livres']},
-    {id:'fun',     icon:'🎭', label:'Loisirs et social',    subs:['Loisirs','Cadeaux','Voyage']},
-    {id:'invest',  icon:'💰', label:'Épargne et urgences',  subs:['Épargne','Urgences','Remboursement dettes']}
-  ],
-  en: [
-    {id:'fixed',   icon:'🏠', label:'Fixed expenses',       subs:['Rent','Electricity/Water','Gas','Internet','Insurance']},
-    {id:'daily',   icon:'🛒', label:'Daily living',         subs:['Food','Market','Restaurant','Juice']},
-    {id:'cafe_smoke',icon:'☕', label:'Coffee & Tobacco',      subs:['Coffee','Nescafé','Tea','Cigarettes','Hookah','Tobacco']},
-    {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Public transport','Car maintenance']},
-    {id:'health',  icon:'🏥', label:'Health',               subs:['Medicine','Doctor','Pharmacy']},
-    {id:'clothes', icon:'👕', label:'Clothes & appearance', subs:['Clothes','Haircut/Care']},
-    {id:'learning',icon:'📚', label:'Personal development', subs:['Courses/Training','Books']},
-    {id:'fun',     icon:'🎭', label:'Entertainment & social',subs:['Entertainment','Gifts','Travel']},
-    {id:'invest',  icon:'💰', label:'Savings & emergency',  subs:['Savings','Emergency','Debt payment']}
-  ],
-  es: [
-    {id:'fixed',   icon:'🏠', label:'Gastos fijos',         subs:['Alquiler','Electricidad/Agua','Gas','Internet','Seguro']},
-    {id:'daily',   icon:'🛒', label:'Vida diaria',          subs:['Alimentación','Mercado','Restaurante','Zumo']},
-    {id:'cafe_smoke',icon:'☕', label:'Café y Tabaco',         subs:['Café','Nescafé','Té','Cigarrillos','Cachimba','Tabaco']},
-    {id:'transport',icon:'🚗',label:'Transporte',            subs:['Gasoil','Transporte público','Mantenimiento coche']},
-    {id:'health',  icon:'🏥', label:'Salud',                subs:['Medicamentos','Médico','Farmacia']},
-    {id:'clothes', icon:'👕', label:'Ropa y apariencia',    subs:['Ropa','Peluquería/Cuidados']},
-    {id:'learning',icon:'📚', label:'Desarrollo personal',  subs:['Formación/Cursos','Libros']},
-    {id:'fun',     icon:'🎭', label:'Ocio y social',        subs:['Ocio','Regalos','Viaje']},
-    {id:'invest',  icon:'💰', label:'Ahorro y emergencias', subs:['Ahorro','Emergencias','Pago de deudas']}
+    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة','نسكافي','أتاي','سيجارة','تبغ']},
+    {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','النقل العام']},
+    {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة']}
   ]
 };
 
-function getMainCats(){return MAIN_CATS[lang]||MAIN_CATS.ar;}
-function getSubCats(mainId){
-  const mc=getMainCats().find(c=>c.id===mainId);
-  return mc?mc.subs:[];
-}
-function getMainLabel(mainId){
-  const mc=getMainCats().find(c=>c.id===mainId);
-  return mc?mc.icon+' '+mc.label:'';
-}
+function getMainCats(){return MAIN_CATS.dar;}
+function getSubCats(mainId){ const mc=getMainCats().find(c=>c.id===mainId); return mc?mc.subs:[]; }
 
-// Default labels per language
-const DEF_LABELS={
-  ar:{
-    bills:['الضو','الماء','Wi-fi','التليفون','الإيجار','التأمين','نتفليكس','الغاز'],
-    expenses:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','الترفيه','ملابس','صيدلية','مطعم','الحلاقة','متنوع'],
-    savings:['المشروع','السفر','طوارئ','تعليم'],
-    debts:['Credit Dacia','البنك','كريدي شخصي'],
-    income:['الراتب','عمل ثاني','إيجار مستلم']
-  },
-  dar:{
-    bills:['الضو','الماء','Wi-fi','التليفون','الكراء','التأمين','نتفليكس','الغاز'],
-    expenses:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','الترفيه','الحوايج','الصيدلية','ريستو','الحلاقة','متنوع'],
-    savings:['المشروع','السفر','الطوارئ','التعليم'],
-    debts:['Credit Dacia','البنك','كريدي شخصي'],
-    income:['الراتب','خدمة ثانية','كراء مستلم']
-  },
-  fr:{
-    bills:['Électricité','Eau','Wi-fi','Téléphone','Loyer','Assurance','Netflix','Gaz'],
-    expenses:['Alimentation','Marché','Café/Tabac','Gasoil','Loisirs','Vêtements','Pharmacie','Restaurant','Coiffeur','Divers'],
-    savings:['Projet','Voyage','Urgences','Éducation'],
-    debts:['Crédit voiture','Banque','Crédit perso'],
-    income:['Salaire','2ème emploi','Loyer reçu']
-  },
-  en:{
-    bills:['Electricity','Water','Wi-fi','Phone','Rent','Insurance','Netflix','Gas'],
-    expenses:['Food','Market','Coffee/Tobacco','Gasoil','Entertainment','Clothes','Pharmacy','Restaurant','Haircut','Misc'],
-    savings:['Project','Travel','Emergency','Education'],
-    debts:['Car credit','Bank','Personal loan'],
-    income:['Salary','2nd job','Rent received']
-  },
-  es:{
-    bills:['Electricidad','Agua','Wi-fi','Teléfono','Alquiler','Seguro','Netflix','Gas'],
-    expenses:['Alimentación','Mercado','Café/Tabaco','Gasoil','Ocio','Ropa','Farmacia','Restaurante','Peluquería','Varios'],
-    savings:['Proyecto','Viaje','Emergencias','Educación'],
-    debts:['Crédito coche','Banco','Préstamo personal'],
-    income:['Salario','2º trabajo','Alquiler recibido']
-  }
-};
+function loadData(){
+  const now = new Date();
+  curYear = now.getFullYear(); 
+  curMonth = now.getMonth();
+  try{
+    const s = localStorage.getItem(SK);
+    if(s){
+      const p = JSON.parse(s);
+      allData = p.allData || {};
+      currency = p.currency || 'درهم';
+    }
+  }catch(e){allData={};}
+  const mk=ck();
+  if(!allData[mk]){ allData[mk]=defMonth(); }
+}
 
 function defMonth(){
-  const lbl=DEF_LABELS[lang]||DEF_LABELS.ar;
-  const pln={
-    bills:[500,300,400,200,3000,300,50,150],
-    expenses:[1500,500,100,600,200,300,150,200,50,200],
-    savings:[500,300,500,200],
-    debts:[2180,0,0],
-    income:[7680,0,0]
-  };
-  return{
-    bills:   lbl.bills.map((l,i)=>({label:l,act:0,pln:pln.bills[i]||0})),
-    expenses:lbl.expenses.map((l,i)=>({label:l,act:0,pln:pln.expenses[i]||0})),
-    savings: lbl.savings.map((l,i)=>({label:l,act:0,pln:pln.savings[i]||0})),
-    debts:   lbl.debts.map((l,i)=>({label:l,act:0,pln:pln.debts[i]||0})),
-    income:  lbl.income.map((l,i)=>({label:l,act:0,pln:pln.income[i]||0})),
+  return {
+    expenses:[{label:'مواد غذائية',act:0,pln:1500},{label:'السوق',act:0,pln:500},{label:'Gasoil',act:0,pln:600}],
+    income:[{label:'الراتب',act:7680,pln:7680}],
     notes:[]
   };
 }
 
-// ══════════════════════════════════════════════
-// LANGUAGE
-// ══════════════════════════════════════════════
-function setLang(l){
-  lang=l; localStorage.setItem('sf_lang',l);
-  const t=T(), isRTL=t.dir==='rtl';
-  $('html-root').setAttribute('dir',t.dir);
-  $('html-root').setAttribute('lang',isRTL?'ar':l);
-  const lblMap={ar:'عربي',dar:'دارجة',fr:'FR',en:'EN',es:'ES'};
-  document.querySelectorAll('.plb').forEach(b=>b.classList.toggle('active',b.textContent.trim()===lblMap[l]));
-  ['ar','dar','fr','en','es'].forEach(k=>$('lo-'+k)?.classList.toggle('active',k===l));
-  set('pin-sub', pinMode==='setup1'?t.pin_create:pinMode==='setup2'?t.pin_confirm:t.pin_enter);
-  set('pin-note',''); set('pin-forgot',t.pin_forgot);
-  set('t-saved',t.saved); set('t-new-btn',t.new_btn);
-  set('t-tab1',t.tab1); set('t-tab2',t.tab2); set('t-tab3',t.tab3);
-  set('t-pick',t.pick); set('t-nm',t.nm); set('t-nm-sub',t.nm_sub);
-  set('t-nm1',t.nm1); set('t-nm1s',t.nm1s); set('t-nm2',t.nm2); set('t-nm2s',t.nm2s);
-  set('t-nm3',t.nm3); set('t-nm3s',t.nm3s); set('t-nm-btn',t.nm_btn);
-  set('t-bk',t.bk); set('t-exp-h',t.exp_h); set('t-exp-btn',t.exp_btn); set('t-exp-s',t.exp_s);
-  set('t-imp-h',t.imp_h); set('t-imp-btn',t.imp_btn); set('t-imp-s',t.imp_s);
-  set('t-drv-h',t.drv_h); set('t-s1',t.s1); set('t-s2',t.s2); set('t-s3',t.s3); set('t-s4',t.s4);
-  set('t-pin-h',t.pin_h); set('t-pin-lbl',t.pin_lbl); set('t-pin-s',t.pin_s);
-  set('t-pin-ch',t.pin_ch); set('t-pin-chs',t.pin_chs); set('t-lang-title',t.lang_title);
-  set('kl-income',t.k_income); set('kl-bills',t.k_bills); set('kl-expenses',t.k_expenses);
-  set('kl-savings',t.k_savings); set('kl-debts',t.k_debts); set('kl-remaining',t.k_remaining);
-  set('t-hero-lbl',t.hero_lbl); set('t-ch1',t.ch1); set('t-ch2',t.ch2);
-  set('tl-bills',t.k_bills); set('tl-expenses',t.k_expenses); set('tl-savings',t.k_savings);
-  set('tl-debts',t.k_debts); set('tl-income',t.k_income);
-  set('tc-b1',t.col_item); set('tc-b2',t.col_act); set('tc-b3',t.col_pln);
-  set('tc-e1',t.col_item); set('tc-e2',t.col_act); set('tc-e3',t.col_pln);
-  set('tc-s1',t.col_goal); set('tc-s2',t.col_act); set('tc-s3',t.col_pln);
-  set('tc-d1',t.col_ent);  set('tc-d2',t.col_act); set('tc-d3',t.col_pln);
-  set('tc-i1',t.col_src);  set('tc-i2',t.col_act); set('tc-i3',t.col_pln);
-  set('add-bills-btn',t.add_bills); set('add-exp-btn',t.add_exp);
-  set('add-sav-btn',t.add_sav); set('add-dbt-btn',t.add_dbt); set('add-inc-btn',t.add_inc);
-  set('t-notes-title',t.notes_title); set('t-notes-info',t.notes_info);
-  set('t-notes-sub',t.notes_sub); set('t-notes-edit',t.notes_edit);
-  set('t-notes-chart',t.notes_chart); set('t-notes-sum',t.notes_sum);
-  set('nt-date',t.nt_date); set('nt-note',t.nt_note);
-  set('nt-maincat',t.nt_cat||'الفئة'); set('nt-subcat',t.nt_subcat||'الخيارات');
-  set('nt-amount',t.nt_amount); set('nt-cur',t.nt_cur); set('add-note-btn',t.add_note);
-  set('add-note-mobile-lbl', t.add_note||'＋ إضافة');
-  set('t-monthly-title',t.monthly_title); set('t-monthly-chart',t.monthly_chart);
-  set('t-footer',t.footer);
-  if(t.signin){
-    set('t-signin',t.signin);set('t-signout',t.signout);
-    set('t-ud-backup',t.bk||'الحفظ والحماية');
-    set('t-ud-lang',t.lang_title||'اللغة');
-  }
-  setSyncStatus(_fbUid?'ok':'off');
-  if(t.reset_h){set('t-reset-h',t.reset_h);set('t-reset-btn',t.reset_btn);set('t-reset-sub',t.reset_sub);}
-  document.querySelectorAll('.mini-table input[type=text]').forEach(i=>i.style.textAlign=isRTL?'right':'left');
-  updateMonthLabel();
-  buildMonthlyHead();
-  renderNotes();
-  recalc();
-}
-
-// ══════════════════════════════════════════════
-// PIN
-// ══════════════════════════════════════════════
-function initPIN(){
-  const saved=localStorage.getItem(PIN_KEY);
-  pinEnabled=localStorage.getItem(PINON_KEY)==='1';
-  lang=localStorage.getItem('sf_lang')||'dar';
-  setLang(lang);
-  if(!saved){pinMode='setup1';set('pin-sub',T().pin_create);set('pin-note',T().pin_note);}
-  else if(pinEnabled){pinMode='verify';$('pin-forgot').style.display='block';set('pin-sub',T().pin_enter);}
-  else{unlockApp();}
-}
-function pinPress(d){if(pinBuffer.length>=4)return;pinBuffer+=d;updateDots();if(pinBuffer.length===4)setTimeout(handlePin,200);}
-function pinDel(){pinBuffer=pinBuffer.slice(0,-1);updateDots();set('pin-error','');}
-function updateDots(err=false){for(let i=0;i<4;i++){const d=$('d'+i);d.classList.toggle('filled',i<pinBuffer.length&&!err);d.classList.toggle('error',i<pinBuffer.length&&err);}}
-function handlePin(){
-  const t=T();
-  if(pinMode==='setup1'){pinTemp=pinBuffer;pinBuffer='';updateDots();set('pin-sub',t.pin_confirm);set('pin-note','');pinMode='setup2';}
-  else if(pinMode==='setup2'){
-    if(pinBuffer===pinTemp){localStorage.setItem(PIN_KEY,pinBuffer);localStorage.setItem(PINON_KEY,'1');pinEnabled=true;$('pin-screen').classList.add('hidden');$('pin-toggle').classList.add('on');showToast(t.toast_pin_created);}
-    else{updateDots(true);set('pin-error',t.pin_mismatch);pinBuffer='';setTimeout(()=>{updateDots();set('pin-error','');pinMode='setup1';pinTemp='';set('pin-sub',t.pin_create);},1400);}
-  }else{
-    if(pinBuffer===localStorage.getItem(PIN_KEY)){unlockApp();}
-    else{updateDots(true);set('pin-error',t.pin_wrong);pinBuffer='';setTimeout(()=>{updateDots();set('pin-error','');},1200);}
-  }
-}
-function unlockApp(){
-  $('pin-screen').classList.add('hidden');
-  $('landing-page').style.display='none';
-  // If we came from Google auth flow
-  if(window._pendingUser){
-    showAppAfterAuth(window._pendingUser);
-    return;
-  }
-  // Show app elements + clear ALL inline display:none
-  const h=document.querySelector('.header');
-  const n=document.querySelector('.nav-tabs');
-  const f=document.querySelector('.footer');
-  if(h)h.style.display='';
-  if(n)n.style.display='';
-  if(f)f.style.display='';
-  // Clear display:none from all tab panels
-  document.querySelectorAll('.tab-panel').forEach(p=>{
-    p.style.display='';
-    p.classList.remove('active');
-  });
-  const d=$('tab-dashboard');
-  if(d)d.classList.add('active');
-  loadData();
-  $('currencySelect').value=currency;
-  setLang(lang);
-  renderAll();
-  buildMonthlyTable();
-  syncCur();
-}
-function pinForgot(){if(confirm('Reset all data and PIN?')){localStorage.clear();location.reload();}}
-function togglePIN(){
-  pinEnabled=!pinEnabled;
-  localStorage.setItem(PINON_KEY,pinEnabled?'1':'0');
-  if(!pinEnabled){
-    // Remove PIN completely
-    localStorage.removeItem(PIN_KEY);
-    $('pin-toggle').classList.remove('on');
-    showToast(T().toast_pin_off);
-  } else {
-    // Ask user to set a new PIN
-    $('pin-toggle').classList.add('on');
-    closeModal('backupModal');
-    pinBuffer='';pinTemp='';pinMode='setup1';
-    updateDots();
-    set('pin-sub',T().pin_create);
-    set('pin-note',T().pin_note||'');
-    $('pin-forgot').style.display='none';
-    set('pin-error','');
-    $('pin-screen').classList.remove('hidden');
-    showToast(T().toast_pin_on);
-  }
-}
-function startChangePIN(){closeModal('backupModal');pinBuffer='';pinTemp='';pinMode='setup1';updateDots();set('pin-sub',T().pin_create);set('pin-note',T().pin_note);$('pin-forgot').style.display='none';set('pin-error','');$('pin-screen').classList.remove('hidden');}
-function updateBackupUI(){$('pin-toggle').classList.toggle('on',pinEnabled);const t=localStorage.getItem('sf_last_save');set('last-backup-info',t?T().last_save+': '+t:'');}
-
-// ══════════════════════════════════════════════
-// DATA — KEY FIX: saveData reads DOM first
-// ══════════════════════════════════════════════
-function monthHasRealData(mk){
-  const d=allData[mk];
-  if(!d)return false;
-  // Month has real data if ANY section has rows (even 1 row)
-  // This prevents overwriting user-deleted or user-customized data
-  const secs=['bills','expenses','savings','debts','income'];
-  const hasAny=secs.some(s=>d[s]&&d[s].length>0);
-  if(!hasAny)return false;
-  // Also check: if it has the minimum required sections
-  if(!d.bills||!d.expenses||!d.savings||!d.debts||!d.income)return false;
-  return true;
-}
-
-function loadData(){
-  // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
-  // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='v33';
-  const ALL_KNOWN_KEYS=['sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
-
-  // Récupère les données depuis n'importe quelle clé existante
-  let recovered=null;
-  for(const k of ALL_KNOWN_KEYS){
-    try{
-      const raw=localStorage.getItem(k);
-      if(raw){const parsed=JSON.parse(raw);if(parsed&&parsed.allData&&Object.keys(parsed.allData).length>0){recovered=parsed;break;}}
-    }catch(e){}
-  }
-
-  // Essaie aussi la clé de secours sf_backup
-  if(!recovered){
-    try{
-      const bak=localStorage.getItem('sf_backup');
-      if(bak){const p=JSON.parse(bak);if(p&&p.allData&&Object.keys(p.allData).length>0)recovered=p;}
-    }catch(e){}
-  }
-
-  // Essaie aussi la clé principale SK
-  if(!recovered){
-    try{
-      const s=localStorage.getItem(SK);
-      if(s){const p=JSON.parse(s);if(p&&p.allData)recovered=p;}
-    }catch(e){}
-  }
-
-  if(recovered){
-    allData=recovered.allData||{};
-    currency=recovered.currency||'درهم';
-    curYear=recovered.curYear||new Date().getFullYear();
-    curMonth=recovered.curMonth!==undefined?recovered.curMonth:new Date().getMonth();
-    if(recovered.lang)lang=recovered.lang;
-    // Re-sauvegarde sur la clé courante pour consolidation
-    try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));}catch(e){}
-  }
-
-  // Met à jour la version sans effacer
-  localStorage.setItem('sf_version',CURRENT_VER);
-
-  // Applique les défauts uniquement si le mois courant est vraiment vide
-  const mk=ck();
-  if(!monthHasRealData(mk)){
-    allData[mk]=defMonth();
-  }
-  if(!allData[mk].notes)allData[mk].notes=[];
-}
-
-function resetDefaults(){
-  // Merge default data into current month WITHOUT overwriting existing data
-  const mk=ck();
-  if(!allData[mk])allData[mk]={bills:[],expenses:[],savings:[],debts:[],income:[],notes:[]};
-  const d=allData[mk];
-  const def=defMonth();
-
-  // For each section: add items from defaults that don't already exist (by label)
-  ['bills','expenses','savings','debts','income'].forEach(sec=>{
-    if(!d[sec])d[sec]=[];
-    const existingLabels=new Set(d[sec].map(r=>(r.label||'').trim().toLowerCase()));
-    def[sec].forEach(defRow=>{
-      const lbl=(defRow.label||'').trim().toLowerCase();
-      if(!existingLabels.has(lbl)){
-        // Add missing default row (act=0, keep default pln)
-        d[sec].push({label:defRow.label, act:0, pln:defRow.pln});
-        existingLabels.add(lbl);
-      }
-    });
-  });
-
-  allData[mk]=d;
-  renderAll();
-  persistData();
-  closeModal('backupModal');
-  showToast(T().toast_reset||'✅ Done');
-}
-
 function persistData(){
-  // Sauvegarde localStorage — TOUJOURS, sur la cle courante ET une cle de secours
-  try{
-    const payload=JSON.stringify({allData,currency,curYear,curMonth,lang});
-    localStorage.setItem(SK,payload);
-    localStorage.setItem('sf_backup',payload);
-    localStorage.setItem('sf_last_save',new Date().toLocaleString());
-  }catch(e){}
-  // Sauvegarde Firestore uniquement quand l'auth est prete
-  if(!_isLoadingFromCloud && _authReady && typeof _fbUid !== 'undefined' && _fbUid && typeof fbSaveToCloud === 'function'){
-    fbSaveToCloud();
-  }
-}
-
-// Read DOM → allData for current month
-function syncDOMtoData(){
-  // NO-OP: allData is updated directly via onInput on each keystroke
-  // This prevents DOM reads from overwriting cloud-loaded data
-}
-
-function saveData(){
-  if(_isLoadingFromCloud)return; // don't overwrite during cloud load
-  syncDOMtoData();
-  persistData();
-}
-
-// ══════════════════════════════════════════════
-// RENDER — THE CORE FIX
-// Each section rebuilds from allData with class="data-row"
-// addRow saves DOM→data FIRST, then pushes new item, then re-renders
-// ══════════════════════════════════════════════
-function renderSection(sec){
-  const data=(allData[ck()]||{})[sec]||[];
-  const tb=$(sec+'-body');
-  if(!tb)return;
-  tb.innerHTML='';
-  const isRTL=T().dir==='rtl';
-  data.forEach((item,idx)=>{
-    const tr=document.createElement('tr');
-    tr.className='data-row';
-    const lv=(item.label||'').replace(/"/g,'&quot;');
-    tr.innerHTML=`
-      <td class="lc"><input type="text" value="${lv}" placeholder="..." style="text-align:${isRTL?'right':'left'}" oninput="onInput('${sec}',${idx},'label',this.value)"></td>
-      <td class="ac"><input type="number" value="${item.act||0}" oninput="onInput('${sec}',${idx},'act',this.value)"></td>
-      <td class="pc"><input type="number" value="${item.pln||0}" oninput="onInput('${sec}',${idx},'pln',this.value)">
-        <button onclick="deleteRow('${sec}',${idx})" style="background:none;border:none;color:#ddd;cursor:pointer;font-size:11px;vertical-align:middle;margin-right:2px;">✕</button>
-      </td>`;
-    tb.appendChild(tr);
-  });
-  // Also render notes contribution rows in expenses
-  if(sec==='expenses'){renderNotesInExpenses();}
-}
-
-function onInput(sec,idx,field,val){
-  const mk=ck();
-  if(!allData[mk]||!allData[mk][sec]||!allData[mk][sec][idx])return;
-  allData[mk][sec][idx][field]=(field==='label')?val:(Number(val)||0);
-  persistData();
-  recalc();
-}
-
-function deleteRow(sec,idx){
-  const mk=ck();
-  if(!allData[mk]||!allData[mk][sec])return;
-  allData[mk][sec].splice(idx,1);
-  renderSection(sec);
-  recalc();
-  persistData();
-}
-
-// ══════════════════════════════════════════════
-// NOTES → EXPENSES SYNC (per category)
-// catIdx: 0=مواد غذائية, 1=السوق, 2=قهوة/تدخين, 3=النقل→Gasoil, 4=أخرى
-// expLabel matches expenses table labels
-// ══════════════════════════════════════════════
-// Get ALL notes from ALL allData months
-function getAllNotes(){
-  var all=[];
-  Object.keys(allData).forEach(function(mk2){
-    ((allData[mk2]||{}).notes||[]).forEach(function(n){
-      all.push(n);
-    });
-  });
-  return all;
-}
-
-// Get notes for CURRENT display month only (by note.date field)
-function getCurrentMonthNotes(){
-  var ym=curYear+'-'+String(curMonth+1).padStart(2,'0');
-  return getAllNotes().filter(function(n){
-    return n.date&&n.date.startsWith(ym);
-  });
-}
-
-function getNotesTotalsByExpLabel(){
-  // Use getCurrentMonthNotes to get notes matching displayed month
-  var notes=getCurrentMonthNotes();
-  var totals={};
-  notes.forEach(function(n){
-    migrateNote(n);
-    var sub=n.subCat||getNoteCat(n);
-    var expLbl=catToExpLabel(sub);
-    totals[expLbl]=(totals[expLbl]||0)+Number(n.amount||0);
-  });
-  return totals;
-}
-
-function renderNotesInExpenses(){
-  const totals=getNotesTotalsByExpLabel();
-  const tb=$('expenses-body');
-  if(!tb)return;
-
-  // Remove old badges and note-rows
-  tb.querySelectorAll('.notes-contrib').forEach(b=>b.remove());
-  tb.querySelectorAll('tr.note-row').forEach(r=>r.remove());
-
-  const existingLabels=new Set();
-
-  // For each expense row — if notes match, show combined total in RED in act column
-  tb.querySelectorAll('tr.data-row').forEach(tr=>{
-    const inputs=tr.querySelectorAll('input');
-    if(inputs.length<2)return;
-    const rowLabel=inputs[0].value.trim();
-    existingLabels.add(rowLabel);
-    const rowAct=Number(inputs[1].value)||0;
-
-    let notesAmt=0;
-    Object.entries(totals).forEach(([lbl,amt])=>{
-      if(lbl.trim()===rowLabel)notesAmt+=amt;
-    });
-
-    const actInput=inputs[1];
-    // Remove old display span
-    const oldSpan=actInput.parentNode.querySelector('.notes-total-display');
-    if(oldSpan)oldSpan.remove();
-
-    if(notesAmt>0){
-      const combined=rowAct+notesAmt;
-      // Hide the input, show a red combined total
-      actInput.style.display='none';
-      const span=document.createElement('span');
-      span.className='notes-total-display';
-      span.style.cssText='font-family:"DM Mono",monospace;font-size:12px;font-weight:800;color:#E8A598;cursor:default;';
-      span.title='يشمل '+fmt(notesAmt)+' من دفتر الملاحظات';
-      span.textContent=fmt(combined);
-      actInput.parentNode.insertBefore(span, actInput);
-    } else {
-      // No notes — show input normally
-      actInput.style.display='';
-    }
-  });
-
-  // Orphan notes (category not in expenses table) → add as red read-only row
-  Object.entries(totals).forEach(([lbl,total])=>{
-    if(total===0||existingLabels.has(lbl))return;
-    const tr=document.createElement('tr');
-    tr.className='note-row';
-    tr.innerHTML=`
-      <td class="lc" style="font-size:11px;">📝 ${lbl}</td>
-      <td class="ac" style="color:#E8A598;font-weight:800;font-family:'DM Mono',monospace;font-size:12px;">${fmt(total)}</td>
-      <td class="pc" style="color:var(--light);">—</td>`;
-    tb.appendChild(tr);
-  });
+  try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));}catch(e){}
 }
 
 function renderAll(){
-  ['bills','expenses','savings','debts','income'].forEach(renderSection);
-  updateMonthLabel();
-  recalc();
-  renderCalendar();
-  // Refresh notes tab if active
-  var notesTab=document.getElementById('tab-notes');
-  if(notesTab&&notesTab.classList.contains('active'))renderNotesTab();
-}
-
-// ══════════════════════════════════════════════
-// ADD ROW — saves DOM first, then appends
-// ══════════════════════════════════════════════
-function addRow(sec){
-  const mk=ck();
-  if(!allData[mk])allData[mk]=defMonth();
-  // Save current DOM state first (preserve existing rows)
-  syncDOMtoData();
-  // Push new empty row
-  allData[mk][sec].push({label:'',act:0,pln:0});
-  // Re-render
-  renderSection(sec);
-  recalc();
-  persistData();
-  // Focus new row label input
-  const rows=document.querySelectorAll(`#${sec}-body tr.data-row`);
-  if(rows.length>0){
-    const last=rows[rows.length-1];
-    const inp=last.querySelector('input[type=text]');
-    if(inp)setTimeout(()=>inp.focus(),50);
-  }
-  showToast(T().toast_add);
-}
-
-// ══════════════════════════════════════════════
-// RECALC
-// ══════════════════════════════════════════════
-function sumFromData(sec){
-  const data=(allData[ck()]||{})[sec]||[];
-  return data.reduce((s,r)=>({act:s.act+Number(r.act||0),pln:s.pln+Number(r.pln||0)}),{act:0,pln:0});
-}
-
-// Sum expenses including notes contributions per label
-function sumExpensesWithNotes(){
-  const data=(allData[ck()]||{}).expenses||[];
-  const notesTotals=getNotesTotalsByExpLabel();
-  let act=0,pln=0;
-  data.forEach(r=>{
-    const notesAmt=notesTotals[r.label.trim()]||0;
-    act+=Number(r.act||0)+notesAmt;
-    pln+=Number(r.pln||0);
-  });
-  // Add orphan notes (categories not in expenses table)
-  const existingLabels=new Set(data.map(r=>r.label.trim()));
-  Object.entries(notesTotals).forEach(([lbl,amt])=>{
-    if(!existingLabels.has(lbl))act+=amt;
-  });
-  return{act,pln};
-}
-
-function recalc(){
-  const t=T();
-  const inc=sumFromData('income');
-  const bill=sumFromData('bills');
-  const exp=sumExpensesWithNotes();
-  const sav=sumFromData('savings');
-  const dbt=sumFromData('debts');
-  const rem=inc.act-bill.act-exp.act-sav.act-dbt.act;
-  const base=inc.act||1;
-  const pct=v=>Math.max(0,Math.min(100,Math.round(Math.abs(v)/base*100)));
-
-  set('v-income',fmt(inc.act));set('v-bills',fmt(bill.act));set('v-expenses',fmt(exp.act));
-  set('v-savings',fmt(sav.act));set('v-debts',fmt(dbt.act));set('v-remaining',fmt(rem));
-  [{k:'bills',v:bill.act},{k:'expenses',v:exp.act},{k:'savings',v:sav.act},{k:'debts',v:dbt.act},{k:'remaining',v:rem}].forEach(x=>{
-    const b=$('bar-'+x.k);if(b)b.style.width=pct(x.v)+'%';
-    set('p-'+x.k,pct(x.v)+'%');
-  });
-  set('p-income','100%');
-  set('th-income',fmt(inc.act));set('th-bills',fmt(bill.act));set('th-expenses',fmt(exp.act));
-  set('th-savings',fmt(sav.act));set('th-debts',fmt(dbt.act));
-  set('hero-val',fmt(rem));
-  set('hero-sub',`${t.from_of} ${fmt(inc.act)} ${currency}`);
-  set('hero-status',rem>0?t.hero_ok:rem===0?t.hero_zero:t.hero_neg);
-  if(chartDonut){chartDonut.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];chartDonut.update('none');}
-  if(chartBar){chartBar.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];chartBar.data.datasets[1].data=[bill.pln,exp.pln,sav.pln,dbt.pln];chartBar.update('none');}
-  if(chartHero){chartHero.data.datasets[0].data=[rem>0?rem:0,bill.act+exp.act+sav.act+dbt.act];chartHero.update('none');}
-}
-
-// ══════════════════════════════════════════════
-// MONTH NAV
-// ══════════════════════════════════════════════
-function updateMonthLabel(){
-  const t=T(),lbl=`${t.months[curMonth]} ${curYear}`;
-  set('monthLabel',lbl);set('notes-month-lbl',lbl);set('monthly-yr-lbl',`${curYear}`);
-}
-function navigateMonth(dir){
-  // Persist current state before switching (no DOM read needed)
-  if(!_isLoadingFromCloud && _authReady)persistData();
-  curMonth+=dir;
-  if(curMonth>11){curMonth=0;curYear++;}
-  if(curMonth<0){curMonth=11;curYear--;}
-  const mk=ck();
-  if(!monthHasRealData(mk)){allData[mk]=defMonth();}
-  if(!allData[mk].notes)allData[mk].notes=[];
-  updateMonthLabel();renderAll();buildMonthlyTable();
-  showToast(T().months[curMonth]+' '+curYear);
-}
-function renderPicker(){
-  pickerYear=curYear;set('pickerYear',pickerYear);
-  const g=$('monthsGrid');g.innerHTML='';
-  T().months.forEach((m,i)=>{
-    const mk=mkey(pickerYear,i);
-    const hd=allData[mk]&&allData[mk].income&&allData[mk].income.some(r=>r.act>0||r.pln>0);
-    const b=document.createElement('button');
-    b.className=`month-btn${pickerYear===curYear&&i===curMonth?' active':''}${hd?' has-data':''}`;
-    b.textContent=m;
-    b.onclick=()=>{
-      saveData();curYear=pickerYear;curMonth=i;
-      const mk2=ck();
-      if(!monthHasRealData(mk2)){allData[mk2]=defMonth();}
-      if(!allData[mk2].notes)allData[mk2].notes=[];
-      closeModal('monthModal');updateMonthLabel();renderAll();buildMonthlyTable();
-      showToast(m+' '+pickerYear);
-    };
-    g.appendChild(b);
-  });
-}
-function chgPY(d){pickerYear+=d;set('pickerYear',pickerYear);renderPicker();}
-
-// ══════════════════════════════════════════════
-// NEW MONTH
-// ══════════════════════════════════════════════
-function selNM(o){nmOpt=o;['copy','blank','same'].forEach(x=>$('nm-'+x).classList.toggle('selected',x===o));}
-function confirmNewMonth(){
-  saveData();
-  let nm=curMonth+1,ny=curYear;
-  if(nm>11){nm=0;ny++;}
-  const nk=mkey(ny,nm),prev=allData[ck()];
-  if(nmOpt==='blank'||!prev){allData[nk]=defMonth();}
-  else if(nmOpt==='copy'){
-    const c=JSON.parse(JSON.stringify(prev));
-    ['bills','expenses','savings','debts','income'].forEach(s=>{c[s]=(c[s]||[]).map(x=>({label:x.label,act:0,pln:x.pln}));});
-    c.notes=[];allData[nk]=c;
-  }else{allData[nk]=JSON.parse(JSON.stringify(prev));allData[nk].notes=[];}
-  curMonth=nm;curYear=ny;
-  closeModal('newMonthModal');updateMonthLabel();renderAll();buildMonthlyTable();
-  showToast('✦ '+T().months[nm]+' '+ny+' 🎉');
-}
-
-// ══════════════════════════════════════════════
-// NOTES
-// ══════════════════════════════════════════════
-// ══════════════════════════════════════════════
-// NOTES CATEGORY HELPERS
-// ══════════════════════════════════════════════
-
-// Migrate old note to new {mainCat, subCat} structure
-function migrateNote(n){
-  if(n.mainCat)return n; // already new format
-  // Try to find subCat in hierarchy
-  const cats=getMainCats();
-  const oldCat=n.cat||(n.catIdx!==undefined?LANGS[lang].cats[n.catIdx]||'':'');
-  for(const mc of cats){
-    if(mc.subs.includes(oldCat)){
-      n.mainCat=mc.id; n.subCat=oldCat; return n;
-    }
-  }
-  // Default mapping from old cats
-  const defaultMap={'مواد غذائية':'daily','السوق':'daily','قهوة':'cafe_smoke','قهوة/تدخين':'cafe_smoke','سيجارة':'cafe_smoke','شيشة':'cafe_smoke','تبغ':'cafe_smoke','نسكافي':'cafe_smoke','أتاي':'cafe_smoke','Gasoil':'transport','النقل':'transport','غذاء':'daily','تسوق':'daily','Food':'daily','Market':'daily','Café':'cafe_smoke','Coffee':'cafe_smoke','Cigarettes':'cafe_smoke','Tobacco':'cafe_smoke','Hookah':'cafe_smoke','Transport':'transport','Alimentation':'daily','Marché':'daily','Alimentación':'daily','Mercado':'daily'};
-  const mappedId=defaultMap[oldCat]||'daily';
-  const mc=cats.find(c=>c.id===mappedId);
-  n.mainCat=mappedId;
-  n.subCat=oldCat||mc?.subs[0]||'';
-  return n;
-}
-
-function getNoteMainLabel(n){
-  return getMainLabel(n.mainCat||'daily');
-}
-function getNoteSubLabel(n){
-  return n.subCat||'';
-}
-
-// expLabel for expense matching: use subCat
-function catToExpLabel(catStr){
-  // Transport → Gasoil special case
-  if(catStr==='النقل'||catStr==='Transport'||catStr==='Transporte'||catStr==='نقل عام'||catStr==='Gasoil')return 'Gasoil';
-  return catStr;
-}
-function getNoteCat(n){
-  if(n.subCat)return n.subCat;
-  if(n.cat&&typeof n.cat==='string'&&n.cat.trim())return n.cat.trim();
-  const ci=n.catIdx!==undefined?n.catIdx:4;
-  return (LANGS[lang]?.cats||[])[ci]||'أخرى';
-}
-
-function renderNotes(){
-  const t=T(), notes=(allData[ck()]||{}).notes||[];
-  const tb=$('notes-body');if(!tb)return;tb.innerHTML='';
-  document.querySelectorAll('.note-card').forEach(c=>c.remove());
-  const notesContainer=$('notes-cards-container');
-  const mainCats=getMainCats();
-
-  notes.forEach((n,i)=>{
-    // Migrate old format
-    migrateNote(n);
-    const mainId=n.mainCat||'daily';
-    const subVal=n.subCat||'';
-    const subs=getSubCats(mainId);
-
-    // Build main cat select
-    const mainOpts=mainCats.map(mc=>`<option value="${mc.id}"${mc.id===mainId?' selected':''}>${mc.icon} ${mc.label}</option>`).join('');
-    // Build sub cat select
-    const subOpts=subs.map(s=>`<option value="${s}"${s===subVal?' selected':''}>${s}</option>`).join('');
-
-    // ── DESKTOP TABLE ROW ──
-    const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td><input type="date" value="${n.date||''}" style="width:108px;" onchange="noteField(${i},'date',this.value)"></td>
-      <td><input type="text" value="${(n.note||'').replace(/"/g,'&quot;')}" placeholder="..." style="width:100px;" onchange="noteField(${i},'note',this.value)"></td>
-      <td style="min-width:120px;">
-        <select class="cat-select" style="width:100%;margin-bottom:3px;" onchange="noteMainCat(${i},this.value)">${mainOpts}</select>
-      </td>
-      <td style="min-width:100px;">
-        <select class="cat-select" style="width:100%;" onchange="noteSubCat(${i},this.value)">${subOpts}</select>
-      </td>
-      <td><input type="number" value="${n.amount||0}" style="width:65px;" onchange="noteField(${i},'amount',Number(this.value))"></td>
-      <td style="color:var(--light);font-size:10px;">${currency}</td>
-      <td><button onclick="delNote(${i})" style="background:none;border:none;color:#ccc;cursor:pointer;font-size:12px;">✕</button></td>`;
-    tb.appendChild(tr);
-
-    // ── MOBILE CARD ──
-    if(notesContainer){
-      const card=document.createElement('div');
-      card.className='note-card';
-      card.innerHTML=`
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-          <div>
-            <div style="font-size:9px;color:var(--light);margin-bottom:2px;">${t.nt_date||'التاريخ'}</div>
-            <input type="date" value="${n.date||''}" onchange="noteField(${i},'date',this.value)">
-          </div>
-          <button class="note-card-del" onclick="delNote(${i})">✕</button>
-        </div>
-        <div class="note-card-row">
-          <span class="note-card-label">${t.nt_note||'الملاحظة'}</span>
-          <input type="text" value="${(n.note||'').replace(/"/g,'&quot;')}" placeholder="..." onchange="noteField(${i},'note',this.value)">
-        </div>
-        <div class="note-card-row">
-          <span class="note-card-label">الفئة</span>
-          <select onchange="noteMainCat(${i},this.value)" style="flex:1;">${mainOpts}</select>
-        </div>
-        <div class="note-card-row">
-          <span class="note-card-label">${t.nt_subcat||'الخيارات'}</span>
-          <select onchange="noteSubCat(${i},this.value)" style="flex:1;">${subOpts}</select>
-        </div>
-        <div class="note-card-row" style="margin-bottom:0;margin-top:4px;">
-          <span class="note-card-label">${t.nt_amount||'المبلغ'}</span>
-          <div style="display:flex;align-items:center;gap:8px;flex:1;">
-            <input type="number" value="${n.amount||0}" style="font-size:16px;font-weight:700;" onchange="noteField(${i},'amount',Number(this.value))">
-            <span style="color:var(--light);font-size:12px;">${currency}</span>
-          </div>
-        </div>`;
-      notesContainer.insertBefore(card, notesContainer.querySelector('.add-note-mobile'));
-    }
-  });
-  updateNotesSummary();
-  updateNotesChart();
-  renderNotesInExpenses();
-  recalc();
-}
-
-function noteField(i,f,v){
-  const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
-  allData[mk].notes[i][f]=v;
-  persistData();
-  if(f==='amount'){updateNotesSummary();updateNotesChart();renderNotesInExpenses();recalc();}
-}
-function noteMainCat(i,mainId){
-  const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
-  const subs=getSubCats(mainId);
-  allData[mk].notes[i].mainCat=mainId;
-  allData[mk].notes[i].subCat=subs[0]||'';
-  persistData();
-  renderNotes();
-}
-function noteSubCat(i,sub){
-  const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
-  allData[mk].notes[i].subCat=sub;
-  persistData();
-  updateNotesSummary();updateNotesChart();renderNotesInExpenses();recalc();
-}
-
-
-function delNote(i){
-  const mk=ck();if(!allData[mk]||!allData[mk].notes)return;
-  allData[mk].notes.splice(i,1);
-  persistData();
-  renderNotes();
-}
-function addNote(){
-  // Save note to allData key matching current display year/month
-  const mk=curYear+'-'+String(curMonth+1).padStart(2,'0');
-  if(!allData[mk])allData[mk]=defMonth();
-  if(!allData[mk].notes)allData[mk].notes=[];
-  const mc=getMainCats()[0];
-  allData[mk].notes.push({
-    date:new Date().toISOString().slice(0,10),
-    note:'',
-    mainCat:mc.id,
-    subCat:mc.subs[0]||'',
-    amount:0
-  });
-  renderNotes();persistData();showToast(T().toast_add);
-  // Focus last card on mobile, last row on desktop
-  setTimeout(()=>{
-    const cards=document.querySelectorAll('.note-card');
-    if(cards.length>0&&window.innerWidth<=700){
-      const inp=cards[cards.length-1].querySelector('input[type=text]');if(inp)inp.focus();
-    } else {
-      const rows=$('notes-body').querySelectorAll('tr');
-      if(rows.length>0){const inp=rows[rows.length-1].querySelector('input[type=text]');if(inp)inp.focus();}
-    }
-  },50);
-}
-
-function updateNotesSummary(){
-  const t=T(),notes=getCurrentMonthNotes();
-  const total=notes.reduce((s,n)=>s+Number(n.amount||0),0);
-  const byExpLbl={};
-  notes.forEach(n=>{
-    migrateNote(n);
-    // Group by main category label for summary
-    const mc=getMainCats().find(c=>c.id===n.mainCat);
-    const lbl=mc?(mc.icon+' '+mc.label):(n.subCat||getNoteCat(n));
-    byExpLbl[lbl]=(byExpLbl[lbl]||0)+Number(n.amount||0);
-  });
-  const el=$('notes-summary');if(!el)return;
-  el.innerHTML=`
-    <div style="margin-bottom:11px;">
-      <div style="font-size:10px;color:var(--light);margin-bottom:2px;">${t.notes_sum}</div>
-      <div style="font-size:22px;font-weight:800;font-family:'DM Mono',monospace;">${fmt(total)} <span style="font-size:10px;color:var(--light);">${currency}</span></div>
-    </div>
-    ${Object.entries(byExpLbl).map(([k,v],i)=>`
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);">
-      <span class="cat-pill cp${Math.min(i,4)}">${k}</span>
-      <span style="font-family:'DM Mono',monospace;font-size:11px;font-weight:600;">${fmt(v)} ${currency}</span>
-    </div>`).join('')}
-    <div style="margin-top:9px;padding-top:7px;border-top:2px solid var(--mint);display:flex;justify-content:space-between;">
-      <span style="font-size:11px;font-weight:700;color:var(--mid);">Total</span>
-      <span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:800;color:var(--dark);">${fmt(total)} ${currency}</span>
-    </div>`;
-}
-function updateNotesChart(){
-  const notes=getCurrentMonthNotes();
-  const byLbl={};
-  notes.forEach(n=>{
-    migrateNote(n);
-    const mc=getMainCats().find(c=>c.id===n.mainCat);
-    const lbl=mc?(mc.icon+' '+mc.label):(n.subCat||getNoteCat(n));
-    byLbl[lbl]=(byLbl[lbl]||0)+Number(n.amount||0);
-  });
-  if(chartNotes){
-    const keys=Object.keys(byLbl),vals=Object.values(byLbl);
-    if(keys.length>0){chartNotes.data.labels=keys;chartNotes.data.datasets[0].data=vals;chartNotes.data.datasets[0].backgroundColor=keys.map((_,i)=>CAT_COLORS[i%5]);chartNotes.update();}
-  }
-}
-
-// ══════════════════════════════════════════════
-// MONTHLY TABLE
-// ══════════════════════════════════════════════
-function getMV(key,mi){
-  const d=allData[mkey(curYear,mi)];if(!d||!d[key])return 0;
-  let v=d[key].reduce((s,x)=>s+Number(x.act||0),0);
-  if(key==='expenses'){
-    // Sum notes from ALL allData where note.date matches this month
-    const gmvYM=mkey(curYear,mi);
-    Object.keys(allData).forEach(function(mk3){
-      ((allData[mk3]||{}).notes||[]).forEach(function(n){
-        if(n.date&&n.date.startsWith(gmvYM))v+=Number(n.amount||0);
-      });
-    });
-  }
-  return v;
-}
-function buildMonthlyHead(){
-  const t=T();
-  $('monthly-head').innerHTML=`<tr><th></th>${t.months.map(m=>`<th>${m.slice(0,3)}</th>`).join('')}<th>${t.monthly_total}</th></tr>`;
-}
-function buildMonthlyTable(){
-  buildMonthlyHead();
-  const t=T(),tb=$('monthly-body');if(!tb)return;tb.innerHTML='';
-  const rows=[{key:'income',lbl:t.k_income,cls:'ri'},{key:'bills',lbl:t.k_bills,cls:'rb'},
-              {key:'expenses',lbl:t.k_expenses,cls:'re'},{key:'savings',lbl:t.k_savings,cls:'rs'},{key:'debts',lbl:t.k_debts,cls:'rd'}];
-  rows.forEach(rd=>{
-    const tr=document.createElement('tr');tr.className=rd.cls;
-    let h=`<td class="rl">${rd.lbl}</td>`;let tot=0;
-    for(let mi=0;mi<12;mi++){const v=getMV(rd.key,mi);tot+=v;h+=`<td style="${mi===curMonth?'background:var(--mint-ll);font-weight:700;':''}">${v?fmt(v):'—'}</td>`;}
-    h+=`<td style="font-weight:700;">${tot?fmt(tot):'—'}</td>`;tr.innerHTML=h;tb.appendChild(tr);
-  });
-  const rt=document.createElement('tr');rt.className='rr';
-  let rh=`<td class="rl">${t.monthly_remain}</td>`;let rs=0;
-  for(let mi=0;mi<12;mi++){
-    const inc=getMV('income',mi),rem=inc-getMV('bills',mi)-getMV('expenses',mi)-getMV('savings',mi)-getMV('debts',mi);
-    rs+=rem;rh+=`<td style="${mi===curMonth?'background:var(--mint-ll);':''}font-weight:700;color:${rem<0?'#E8A598':'var(--mint)'};">${inc?fmt(rem):'—'}</td>`;
-  }
-  rh+=`<td style="font-weight:700;color:var(--mint);">${rs?fmt(rs):'—'}</td>`;rt.innerHTML=rh;tb.appendChild(rt);
-  syncMonthlyLine();
-}
-function syncMonthlyLine(){
-  if(!chartLine)return;
-  chartLine.data.labels=T().months;
-  chartLine.data.datasets[0].data=Array.from({length:12},(_,mi)=>getMV('income',mi));
-  chartLine.data.datasets[1].data=Array.from({length:12},(_,mi)=>getMV('bills',mi)+getMV('expenses',mi)+getMV('savings',mi)+getMV('debts',mi));
-  chartLine.update('none');
-}
-
-// ══════════════════════════════════════════════
-// BACKUP
-// ══════════════════════════════════════════════
-function exportJSON(){
-  saveData();
-  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.1',owner:'BELMOUFADAL Abderrahim'};
-  const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);
-  a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
-  showToast(T().toast_save);
-}
-function importJSON(input){
-  const f=input.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    try{
-      const d=JSON.parse(e.target.result);if(!d.allData)throw 0;
-      if(confirm(T().import_confirm)){
-        allData=d.allData;currency=d.currency||currency;curYear=d.curYear||curYear;
-        curMonth=d.curMonth!==undefined?d.curMonth:curMonth;if(d.lang){lang=d.lang;}
-        persistData();$('currencySelect').value=currency;setLang(lang);renderAll();buildMonthlyTable();syncCur();
-        closeModal('backupModal');showToast(T().toast_import);
-      }
-    }catch(e){alert('❌ Invalid file');}
-  };
-  r.readAsText(f);input.value='';
-}
-
-// ══════════════════════════════════════════════
-// CHARTS
-// ══════════════════════════════════════════════
-let chartDonut,chartBar,chartHero,chartNotes,chartLine;
-function initCharts(){
-  Chart.defaults.font.family='Tajawal';
-  chartHero=new Chart($('heroDonut'),{type:'doughnut',data:{labels:['',''],datasets:[{data:[1,0],backgroundColor:['#7EC8B0','rgba(255,255,255,.15)'],borderWidth:0}]},options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:true,maintainAspectRatio:true}});
-  chartDonut=new Chart($('donutChart'),{type:'doughnut',data:{labels:['','','',''],datasets:[{data:[0,0,0,0],backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:12,family:'Tajawal',weight:'600'},padding:16,usePointStyle:true,color:'#2D3142',generateLabels:function(c){const d=c.data;const lbls=[T().k_bills,T().k_expenses,T().k_savings,T().k_debts];return lbls.map((l,i)=>({text:' '+l,fillStyle:d.datasets[0].backgroundColor[i],strokeStyle:d.datasets[0].backgroundColor[i],hidden:false,index:i}));}}}},responsive:true,maintainAspectRatio:true}});
-  chartBar=new Chart($('barChart'),{type:'bar',data:{labels:['','','',''],datasets:[{label:'Actual',data:[0,0,0,0],backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderRadius:4,borderSkipped:false},{label:'Planned',data:[0,0,0,0],backgroundColor:'rgba(0,0,0,.06)',borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}},responsive:true,maintainAspectRatio:true}});
-  chartNotes=new Chart($('notesDonut'),{type:'doughnut',data:{labels:[''],datasets:[{data:[1],backgroundColor:CAT_COLORS,borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'50%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}});
-  chartLine=new Chart($('monthlyLine'),{type:'line',data:{labels:T().months,datasets:[{label:'Income',data:Array(12).fill(0),borderColor:COLORS.income,backgroundColor:'rgba(168,197,160,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.income},{label:'Expenses',data:Array(12).fill(0),borderColor:COLORS.expenses,backgroundColor:'rgba(181,168,212,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.expenses}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:10}}}},responsive:true,maintainAspectRatio:false}});
-}
-
-// ══════════════════════════════════════════════
-// UI
-// ══════════════════════════════════════════════
-function showTab(name,el){
-  document.querySelectorAll('.tab-panel').forEach(p=>{
-    p.classList.remove('active');
-    p.style.display='';
-  });
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  const panel=$('tab-'+name);
-  if(panel){panel.classList.add('active');panel.style.display='';}
-  el.classList.add('active');
-  if(name==='monthly')buildMonthlyTable();
-  if(name==='notes')renderNotesTab();
-  if(name==='drive'){
-    const dateInput=document.getElementById('drive-date');
-    if(dateInput&&!dateInput.value)dateInput.value=new Date().toISOString().slice(0,10);
-    renderDriveTab();
-  }
-}
-function changeCurrency(val){currency=val;syncCur();persistData();}
-function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=$(id);if(e)e.textContent=currency;});const h=$('hero-cur');if(h)h.textContent=currency;}
-function openModal(id){$(id).classList.add('open');}
-function closeModal(id){$(id).classList.remove('open');}
-function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-
-// ══════════════════════════════════════════════
-// FIREBASE SYNC
-// ══════════════════════════════════════════════
-let _fbUid = null;
-let _unsubscribe = null;
-let _isSyncing = false;
-
-function setSyncStatus(status){
-  // status: 'off' | 'ok' | 'sync'
-  const dot=$('sync-dot'), txt=$('sync-txt');
-  if(!dot)return;
-  dot.className='sync-dot '+status;
-  const labels={off:T().sync_off||'غير متصل', ok:T().sync_ok||'متزامن ☁️', sync:T().sync_ing||'جاري المزامنة...'};
-  if(txt)txt.textContent=labels[status]||'';
-}
-
-async function fbSignIn(){
-  try{
-    if(!window._fbSignIn){showToast('⏳ جاري التحميل...');return;}
-    showToast('⏳ ...');
-    await window._fbSignIn();
-  }catch(e){
-    if(e.code!=='auth/popup-closed-by-user')showToast('❌ '+e.message);
-  }
-}
-
-async function fbSignOut(){
-  if(_unsubscribe){_unsubscribe();_unsubscribe=null;}
-  // Sauvegarde locale avant deconnexion
-  try{if(Object.keys(allData).length>0){const payload=JSON.stringify({allData,currency,curYear,curMonth,lang});localStorage.setItem(SK,payload);localStorage.setItem('sf_backup',payload);}}catch(e){}
-  _fbUid=null; _appReady=false; allData={};
-  try{await window._fbSignOut();}catch(e){}
-  // Hide app
-  ['.header','.nav-tabs','.footer'].forEach(s=>{
-    const el=document.querySelector(s);if(el)el.style.display='none';
-  });
-  document.querySelectorAll('.tab-panel').forEach(p=>{
-    p.style.display='none'; p.classList.remove('active');
-  });
-  // Reset auth UI
-  const si=$('auth-signed-in'); if(si)si.style.display='none';
-  const so=$('auth-signed-out'); if(so)so.style.display='';
-  // Show landing
-  $('landing-page').style.display='block';
-  $('pin-screen').classList.add('hidden');
-  setSyncStatus('off');
-  showToast(T().toast_signout||'👋');
-}
-
-async function fbSaveToCloud(){
-  if(!_fbUid||!window._fbDb)return;
-  _isSyncing=true; setSyncStatus('sync');
-  try{
-    const ref=window._fbDoc(window._fbDb,'users',_fbUid);
-    await window._fbSetDoc(ref,{
-      allData: JSON.parse(JSON.stringify(allData)),
-      currency, curYear, curMonth, lang,
-      updatedAt: new Date().toISOString()
-    });
-    setSyncStatus('ok');
-  }catch(e){
-    console.error('Firestore save error:',e);
-    setSyncStatus('ok');
-  }
-  _isSyncing=false;
-}
-
-let _isLoadingFromCloud=false;
-async function fbLoadFromCloud(uid){
-  if(!window._fbDb)return;
-  _isLoadingFromCloud=true;
-  try{
-    const ref=window._fbDoc(window._fbDb,'users',uid);
-    const snap=await window._fbGetDoc(ref);
-    if(snap.exists()){
-      const d=snap.data();
-      if(d.allData)allData=d.allData;
-      if(d.currency)currency=d.currency;
-      if(d.curYear)curYear=d.curYear;
-      if(d.curMonth!==undefined)curMonth=d.curMonth;
-      if(d.lang){lang=d.lang;}
-      const mk=ck();
-      if(!monthHasRealData(mk))allData[mk]=defMonth();
-      if(!allData[mk].notes)allData[mk].notes=[];
-      // Save to localStorage immediately after cloud load — double cle pour securite
-      try{
-        const payload=JSON.stringify({allData,currency,curYear,curMonth,lang});
-        localStorage.setItem(SK,payload);
-        localStorage.setItem('sf_backup',payload);
-      }catch(e){}
-      // Sync curYear/curMonth to most recent month with notes
-      // This handles case where Firebase has old curYear but new notes
-      var newestNoteYM=null;
-      Object.keys(allData).forEach(function(mk2){
-        ((allData[mk2]||{}).notes||[]).forEach(function(n){
-          if(n.date&&n.date.length>=7){
-            var nym=n.date.slice(0,7);
-            if(!newestNoteYM||nym>newestNoteYM)newestNoteYM=nym;
-          }
-        });
-      });
-      if(newestNoteYM){
-        var np=newestNoteYM.split('-');
-        var ny=parseInt(np[0]);
-        var nm=parseInt(np[1])-1;
-        // Only update if newer than current
-        if(ny>curYear||(ny===curYear&&nm>curMonth)){
-          curYear=ny;curMonth=nm;
-        }
-      }
-      $('currencySelect').value=currency;
-      setLang(lang);
-      renderAll();
-      buildMonthlyTable();
-      syncCur();
-      setSyncStatus('ok');
-      _isLoadingFromCloud=false;
-      _authReady=true;
-      // If any save was queued during load, execute now
-      if(_saveQueue){_saveQueue=false;fbSaveToCloud();}
-      showToast('☁️ '+(T().toast_loaded||'تم تحميل بياناتك من السحاب'));
-    }else{
-      _isLoadingFromCloud=false;
-      _authReady=true;
-      // No cloud data yet — upload local data
-      await fbSaveToCloud();
-    }
-  }catch(e){
-    console.error('Firestore load error:',e);
-    setSyncStatus('ok');
-  }
-}
-
-// persistData is already defined above — patch it to also cloud-save
-// We do this by wrapping at call sites via a flag check inside the original
-
-// Show app after Google auth (and optional PIN)
-function showAppAfterAuth(user){
-  if(!user && window._pendingUser) user=window._pendingUser;
-  if(!user) return;
-  if(_appReady) return; // prevent multiple calls
-  _appReady=true;
-  window._pendingUser=null;
-
-  // ── Toggle auth UI ──
-  const so=$('auth-signed-out'); if(so)so.style.display='none';
-  const si=$('auth-signed-in'); if(si)si.style.display='flex';
-  // Set avatar and user info
-  const av=$('auth-avatar');
-  if(av&&user.photoURL)av.src=user.photoURL;
-  else if(av)av.src='https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=7EC8B0&color=fff';
-  const udAv=$('ud-avatar');
-  if(udAv&&user.photoURL)udAv.src=user.photoURL;
-  const udNm=$('ud-name'); if(udNm)udNm.textContent=user.displayName||'';
-  const udEm=$('ud-email'); if(udEm)udEm.textContent=user.email||'';
-
-  // ── Show app ──
-  $('landing-page').style.display='none';
-  $('pin-screen').classList.add('hidden');
-  const hdr=document.querySelector('.header');
-  const nav=document.querySelector('.nav-tabs');
-  const ftr=document.querySelector('.footer');
-  if(hdr)hdr.style.display='';
-  if(nav)nav.style.display='';
-  if(ftr)ftr.style.display='';
-  document.querySelectorAll('.tab-panel').forEach(p=>{
-    p.style.display=''; p.classList.remove('active');
-  });
-  const dash=$('tab-dashboard');
-  if(dash)dash.classList.add('active');
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  const firstTab=document.querySelector('.nav-tab');
-  if(firstTab)firstTab.classList.add('active');
-
-  setSyncStatus('sync');
-  fbLoadFromCloud(user.uid);
-  showToast('👋 '+(user.displayName||user.email));
-}
-
-// Auth state change handler
-window.onFbAuthChange = function(user){
-  if(user){
-    // USER SIGNED IN
-    _fbUid = user.uid;
-    // Update auth avatar/name
-    const av=$('auth-avatar');
-    if(av&&user.photoURL)av.src=user.photoURL;
-    const udAv=$('ud-avatar');
-    if(udAv&&user.photoURL)udAv.src=user.photoURL;
-    const udNm=$('ud-name');
-    if(udNm)udNm.textContent=user.displayName||'';
-    const udEm=$('ud-email');
-    if(udEm)udEm.textContent=user.email||'';
-    // Check PIN
-    pinEnabled=localStorage.getItem(PINON_KEY)==='1';
-    const savedPin=localStorage.getItem(PIN_KEY);
-    if(pinEnabled && savedPin && !_appReady){
-      lang=localStorage.getItem('sf_lang')||lang;
-      setLang(lang);
-      pinMode='verify'; pinBuffer=''; updateDots();
-      set('pin-sub',T().pin_enter);
-      $('pin-forgot').style.display='block';
-      $('pin-screen').classList.remove('hidden');
-      window._pendingUser=user;
-    } else if(!_appReady){
-      showAppAfterAuth(user);
-    }
-  } else {
-    // USER SIGNED OUT — show landing WITHOUT reload
-    // On sauvegarde d'abord avant de vider la memoire
-    try{if(Object.keys(allData).length>0){const payload=JSON.stringify({allData,currency,curYear,curMonth,lang});localStorage.setItem(SK,payload);localStorage.setItem('sf_backup',payload);}}catch(e){}
-    _fbUid=null; allData={}; _appReady=false;
-    // Hide app, show landing
-    ['.header','.nav-tabs','.footer'].forEach(s=>{
-      const el=document.querySelector(s);if(el)el.style.display='none';
-    });
-    document.querySelectorAll('.tab-panel').forEach(p=>{
-      p.style.display='none'; p.classList.remove('active');
-    });
-    $('landing-page').style.display='block';
-    $('pin-screen').classList.add('hidden');
-    $('auth-signed-in').style.display='none';
-    $('auth-signed-out').style.display='';
-    setSyncStatus('off');
-  }
-};
-
-// ══════════════════════════════════════════════
-// USER DROPDOWN
-// ══════════════════════════════════════════════
-function toggleUserDropdown(){
-  const dd=$('user-dropdown');
-  dd.classList.toggle('open');
-  // Close on outside click
-  if(dd.classList.contains('open')){
-    setTimeout(()=>{
-      document.addEventListener('click', closeDropdownOutside, {once:true});
-    },10);
-  }
-}
-function closeDropdownOutside(e){
-  const dd=$('user-dropdown');
-  if(dd&&!dd.contains(e.target)&&e.target.id!=='auth-avatar'){
-    dd.classList.remove('open');
-  }
-}
-function closeUserDropdown(){$('user-dropdown').classList.remove('open');}
-
-function initLandingCharts(){
-  // Donut chart
-  const dc=document.getElementById('lnd-donut');
-  const bc=document.getElementById('lnd-bar');
-  if(!dc||!bc)return;
-  new Chart(dc,{
-    type:'doughnut',
-    data:{
-      labels:['الفواتير','المصاريف','التوفير','الديون'],
-      datasets:[{
-        data:[1259,2200,1000,1260],
-        backgroundColor:['#E8A598','#B5A8D4','#8DB4CF','#D4A853'],
-        borderWidth:2,borderColor:'rgba(255,255,255,.08)',hoverOffset:6
-      }]
-    },
-    options:{cutout:'58%',plugins:{legend:{position:'bottom',labels:{color:'rgba(255,255,255,.4)',font:{size:10,family:'Tajawal'},padding:8,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}
-  });
-  new Chart(bc,{
-    type:'bar',
-    data:{
-      labels:['الفواتير','المصاريف','التوفير','الديون'],
-      datasets:[
-        {label:'تصرفت',data:[1259,2200,1000,1260],backgroundColor:['#E8A598','#B5A8D4','#8DB4CF','#D4A853'],borderRadius:5,borderSkipped:false},
-        {label:'مخطط',data:[1500,2500,1500,1500],backgroundColor:'rgba(255,255,255,.07)',borderRadius:5,borderSkipped:false}
-      ]
-    },
-    options:{
-      indexAxis:'y',
-      plugins:{legend:{position:'bottom',labels:{color:'rgba(255,255,255,.4)',font:{size:10,family:'Tajawal'},padding:8,usePointStyle:true}}},
-      scales:{
-        x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.3)',font:{size:9}}},
-        y:{grid:{display:false},ticks:{color:'rgba(255,255,255,.4)',font:{size:10,family:'Tajawal'}}}
-      },
-      responsive:true,maintainAspectRatio:true
-    }
-  });
-}
-
-
-// ══════════════════════════════════════════════
-// MONTHLY CALENDAR (in dashboard)
-// ══════════════════════════════════════════════
-function renderCalendar(){
-  var thead=document.getElementById('cal-thead');
-  var tbody=document.getElementById('cal-tbody');
-  if(!thead||!tbody)return;
-  var t=T();
-
-  // Full day names for header (RTL: أحد first = rightmost)
-  var DN_AR=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
-  var DN_FR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  var DN_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var DN_ES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-  var dayNames=lang==='fr'?DN_FR:lang==='en'?DN_EN:lang==='es'?DN_ES:DN_AR;
-
-  // Header row
-  thead.innerHTML='';
-  var htr=document.createElement('tr');
-  dayNames.forEach(function(d){
-    var th=document.createElement('th');th.textContent=d;htr.appendChild(th);
-  });
-  thead.appendChild(htr);
-
-  // Collect notes - match by displayed month/year
-  // Use the displayed year from calendar (curYear) and displayed month (curMonth)
-  var calMonthStr=String(curMonth+1).padStart(2,'0');
-  var dayTotals={};
-  Object.keys(allData).forEach(function(mk2){
-    ((allData[mk2]||{}).notes||[]).forEach(function(n){
-      if(!n.date||!Number(n.amount||0))return;
-      var parts=n.date.split('-');
-      if(!parts[1])return;
-      // Match by month AND year in the note's date field
-      var noteYear=parseInt(parts[0]);
-      var noteMonth=parts[1];
-      if(noteMonth===calMonthStr&&noteYear===curYear){
-        dayTotals[n.date]=(dayTotals[n.date]||0)+Number(n.amount);
-      }
-    });
-  });
-
-  // Month total
-  var monthTotal=Object.values(dayTotals).reduce(function(s,v){return s+v;},0);
-  var elTot=document.getElementById('cal-total-val');
-  if(elTot)elTot.textContent=fmt(monthTotal);
-  var elCur=document.getElementById('cal-cur');
-  if(elCur)elCur.textContent=currency;
-
-  // Color scale
-  var vals=Object.values(dayTotals).filter(function(v){return v>0;});
-  var maxVal=Math.max.apply(null,vals.concat([1]));
-
-  // Build grid
-  tbody.innerHTML='';
-  // Use local date for day-of-week to avoid timezone shift
-  var firstDt=new Date(curYear,curMonth,1);
-  var firstDow=firstDt.getDay(); // 0=Sun
-  var lastDate=new Date(curYear,curMonth+1,0).getDate();
-  var _td=new Date();
-  var todayKey=_td.getFullYear()+'-'+String(_td.getMonth()+1).padStart(2,'0')+'-'+String(_td.getDate()).padStart(2,'0');
-
-  var tr=document.createElement('tr');
-  var col=0;
-
-  // Empty cells before day 1
-  for(var e=0;e<firstDow;e++){
-    var td=document.createElement('td');td.className='empty';
-    tr.appendChild(td);col++;
-  }
-
-  for(var d=1;d<=lastDate;d++){
-    // Build date string directly to avoid timezone issues
-    var dk=curYear+'-'+String(curMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    var val=dayTotals[dk]||0;
-    var isToday=dk===todayKey;
-    var pct=val/maxVal;
-
-    var color='';
-    if(val>0){
-      color=pct<0.33?'#22c55e':pct<0.66?'#f59e0b':'#ef4444';
-    }
-
-    var td2=document.createElement('td');
-    if(isToday)td2.className='today-cell';
-
-    // Day number
-    var numDiv=document.createElement('div');
-    numDiv.className='cal-day-num';
-    numDiv.textContent=d;
-    td2.appendChild(numDiv);
-
-    // Amount + bar (only if has data > 0)
-    if(val>0&&val!==undefined){
-      var amtDiv=document.createElement('div');
-      amtDiv.className='cal-day-amount';
-      amtDiv.style.color=color;
-      amtDiv.textContent=fmt(val);
-      td2.appendChild(amtDiv);
-
-      var bar=document.createElement('div');
-      bar.className='cal-day-bar';
-      bar.style.background=color;
-      td2.appendChild(bar);
-    }
-
-    td2.title=t.months[curMonth]+' '+d+(val>0?' — '+fmt(val)+' '+currency:'');
-    tr.appendChild(td2);
-    col++;
-
-    if(col%7===0){
-      tbody.appendChild(tr);
-      tr=document.createElement('tr');
-    }
-  }
-
-  // Fill remaining cells
-  while(col%7!==0){
-    var tdx=document.createElement('td');tdx.className='empty';
-    tr.appendChild(tdx);col++;
-  }
-  if(tr.children.length>0)tbody.appendChild(tr);
-
-  // Title
-  var titleEl=document.getElementById('cal-title-lbl');
-  if(titleEl){
-    var prefix=lang==='fr'?'Résumé ':lang==='en'?'Summary ':lang==='es'?'Resumen ':'ملخص مصاريف ';
-    titleEl.textContent=prefix+t.months[curMonth]+' '+curYear;
-  }
-}
-
-// ══════════════════════════════════════════════
-// IN DRIVE TAB
-// ══════════════════════════════════════════════
-function getDriveData(){
-  return (allData[ck()]||{}).driveEntries||[];
-}
-
-function addDriveEntry(){
-  const date=document.getElementById('drive-date').value;
-  const trips=Number(document.getElementById('drive-trips').value)||0;
-  const total=Number(document.getElementById('drive-total').value)||0;
-  if(!date||trips<=0||total<=0){showToast('❌ '+(T().drive_fill||'أكمل كل الحقول'));return;}
-  const mk=ck();
-  if(!allData[mk])allData[mk]=defMonth();
-  if(!allData[mk].driveEntries)allData[mk].driveEntries=[];
-  allData[mk].driveEntries.push({date,trips,total,avg:Math.round(total/trips)});
-  // Sync to income "عمل ثاني"
-  syncDriveToIncome();
-  persistData();
-  document.getElementById('drive-trips').value='';
-  document.getElementById('drive-total').value='';
-  renderDriveTab();
-  showToast(T().toast_add||'✓');
-}
-
-function syncDriveToIncome(){
-  const mk=ck();
-  const entries=getDriveData();
-  const monthTotal=entries.reduce(function(s,e){return s+Number(e.total||0);},0);
-  // Find "عمل ثاني" or second income row
-  const income=allData[mk].income||[];
-  let found=false;
-  income.forEach(function(row){
-    if(row.label==='عمل ثاني'||row.label==='2ème emploi'||row.label==='2nd job'||row.label==='2º trabajo'||row.label==='خدمة ثانية'){
-      row.act=monthTotal;found=true;
-    }
-  });
-  if(!found&&income.length>1){income[1].act=monthTotal;}
+  renderSection('expenses');
   renderSection('income');
-  recalc();
+  renderCalendar();
+  renderBudgetProgress();
+  if($('tab-notes').classList.contains('active')) renderNotesTab();
 }
 
-function deleteDriveEntry(idx){
-  const mk=ck();
-  if(!allData[mk]||!allData[mk].driveEntries)return;
-  allData[mk].driveEntries.splice(idx,1);
-  syncDriveToIncome();
-  persistData();
-  renderDriveTab();
-}
-
-function renderDriveTab(){
-  const panel=document.getElementById('tab-drive');
-  if(!panel||!panel.classList.contains('active'))return;
-  const t=T();
-  const entries=getDriveData();
-
-  // Today
-  const todayKey=new Date().toISOString().slice(0,10);
-  const todayEntries=entries.filter(function(e){return e.date===todayKey;});
-  const todayTotal=todayEntries.reduce(function(s,e){return s+e.total;},0);
-  const todayTrips=todayEntries.reduce(function(s,e){return s+e.trips;},0);
-
-  // Week
-  const now=new Date();
-  const ws=new Date(now);ws.setDate(now.getDate()-now.getDay());
-  const weekTotal=entries.filter(function(e){
-    const d=new Date(e.date);return d>=ws&&d<=now;
-  }).reduce(function(s,e){return s+e.total;},0);
-
-  // Month total
-  const monthTotal=entries.reduce(function(s,e){return s+e.total;},0);
-  const monthTrips=entries.reduce(function(s,e){return s+e.trips;},0);
-  const avgPerTrip=monthTrips>0?Math.round(monthTotal/monthTrips):0;
-
-  // Update stats
-  var el;
-  el=document.getElementById('drv-today');if(el)el.textContent=fmt(todayTotal);
-  el=document.getElementById('drv-week');if(el)el.textContent=fmt(weekTotal);
-  el=document.getElementById('drv-month');if(el)el.textContent=fmt(monthTotal);
-  el=document.getElementById('drv-avg');if(el)el.textContent=fmt(avgPerTrip);
-  el=document.getElementById('drv-trips');if(el)el.textContent=monthTrips;
-
-  // Set today's date in input
-  const dateInput=document.getElementById('drive-date');
-  if(dateInput&&!dateInput.value)dateInput.value=todayKey;
-
-  // Week bar chart
-  renderDriveWeekBars(entries,ws,now);
-
-  // Entries list
-  renderDriveList(entries);
-}
-
-function renderDriveWeekBars(entries,ws,now){
-  const bars=document.getElementById('drive-week-bars');
-  if(!bars)return;
-  bars.innerHTML='';
-  const dayNames=lang==='fr'?['D','L','M','M','J','V','S']:
-                 lang==='en'?['S','M','T','W','T','F','S']:
-                 lang==='es'?['D','L','M','X','J','V','S']:
-                 ['أح','اث','ثل','أر','خم','جم','سب'];
-  const vals=Array.from({length:7},function(_,i){
-    const wd=new Date(ws);wd.setDate(ws.getDate()+i);
-    const dk=wd.toISOString().slice(0,10);
-    return entries.filter(function(e){return e.date===dk;}).reduce(function(s,e){return s+e.total;},0);
-  });
-  const maxVal=Math.max.apply(null,vals.concat([1]));
-  const todayDow=new Date().getDay();
-  vals.forEach(function(val,i){
-    const isToday=i===todayDow;
-    const pct=Math.max(4,Math.round((val/maxVal)*100));
-    const item=document.createElement('div');
-    item.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;';
-    const track=document.createElement('div');
-    track.style.cssText='width:100%;height:80px;display:flex;align-items:flex-end;background:var(--bg);border-radius:8px;overflow:hidden;';
-    const fill=document.createElement('div');
-    fill.style.cssText='width:100%;height:'+pct+'%;background:'+(isToday?'var(--mint)':'var(--lav)')+';border-radius:8px;min-height:4px;transition:height .5s;';
-    track.appendChild(fill);
-    const lbl=document.createElement('div');
-    lbl.style.cssText='font-size:9px;color:'+(isToday?'var(--mint)':'var(--light)')+';font-weight:'+(isToday?'800':'600')+';text-align:center;';
-    lbl.textContent=dayNames[i];
-    const valLbl=document.createElement('div');
-    valLbl.style.cssText='font-size:8px;color:var(--mid);font-family:"DM Mono",monospace;';
-    valLbl.textContent=val>0?fmt(val):'';
-    item.appendChild(track);item.appendChild(valLbl);item.appendChild(lbl);
-    bars.appendChild(item);
+function renderSection(sec){
+  const data=(allData[ck()]||{})[sec]||[];
+  const tb=$(sec+'-body'); if(!tb)return; tb.innerHTML='';
+  data.forEach((item,idx)=>{
+    const tr=document.createElement('tr');
+    tr.className='data-row';
+    tr.innerHTML=`<td>${item.label}</td><td>${fmt(item.act)}</td><td>${item.pln}</td>`;
+    tb.appendChild(tr);
   });
 }
 
-function renderDriveList(entries){
-  const list=document.getElementById('drive-entries-list');
-  if(!list)return;
-  list.innerHTML='';
-  if(!entries.length){
-    list.innerHTML='<div style="padding:20px;text-align:center;color:var(--light);font-size:12px;">🚗 لا توجد رحلات مسجلة هذا الشهر</div>';
-    return;
-  }
-  // Sort by date descending
-  const sorted=entries.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
-  sorted.forEach(function(e,i){
-    const realIdx=entries.indexOf(e);
-    const row=document.createElement('div');
-    row.style.cssText='display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);';
-    const icon=document.createElement('div');
-    icon.style.cssText='width:36px;height:36px;border-radius:10px;background:var(--mint-ll);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;';
-    icon.textContent='🚗';
-    const info=document.createElement('div');
-    info.style.cssText='flex:1;';
-    info.innerHTML='<div style="font-size:12px;font-weight:600;color:var(--dark);">'+e.date+'</div>'
-      +'<div style="font-size:10px;color:var(--light);">'+(T().drive_trips||'رحلات')+': '+e.trips+' • '+(T().drive_avg||'معدل')+': '+fmt(e.avg)+' '+currency+'</div>';
-    const amt=document.createElement('div');
-    amt.style.cssText='font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:var(--mint);flex-shrink:0;';
-    amt.textContent=fmt(e.total);
-    const del=document.createElement('button');
-    del.style.cssText='background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
-    del.textContent='✕';
-    del.onclick=(function(idx){return function(){deleteDriveEntry(idx);};})(realIdx);
-    row.appendChild(icon);row.appendChild(info);row.appendChild(amt);row.appendChild(del);
-    list.appendChild(row);
+function renderBudgetProgress(){
+  const container = $('budget-limits-progress'); if(!container) return;
+  container.innerHTML = '';
+  const notes = (allData[ck()]||{}).notes||[];
+  
+  const totals = {};
+  notes.forEach(n=>{
+    totals[n.mainCat] = (totals[n.mainCat]||0) + Number(n.amount||0);
+  });
+
+  getMainCats().forEach(cat=>{
+    const limit = BUDGET_LIMITS[cat.id] || 2000;
+    const spent = totals[cat.id] || 0;
+    const pct = Math.min(100, Math.round((spent/limit)*100));
+    
+    let color = 'var(--mint)';
+    if(pct >= 90) color = '#ef4444';
+    else if(pct >= 75) color = '#f59e0b';
+
+    const div = document.createElement('div');
+    div.style.marginValues = '0 0 12px 0';
+    div.innerHTML = `
+      <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:700; margin-bottom:4px;">
+        <span>${cat.icon} ${cat.label} ${pct >= 90 ? '⚠️ تجاوز السقف!' : ''}</span>
+        <span>${fmt(spent)} / ${fmt(limit)} درهم</span>
+      </div>
+      <div style="height:8px; background:var(--border); border-radius:4px; overflow:hidden;">
+        <div style="width:${pct}%; background:${color}; height:100%; border-radius:4px; transition:width 0.4s;"></div>
+      </div>
+    `;
+    container.appendChild(div);
   });
 }
 
-// ══════════════════════════════════════════════
-// NOTES TAB — NEW UI
-// ══════════════════════════════════════════════
-
-let _noteActiveCat = null; // active main cat id
-let _noteFilterMonth = null; // 'YYYY-MM' or null = current month
-
-// Icon bg colors per cat id
-const CAT_BG = {
-  fixed:'#EAF7F3', daily:'#EAF3DE', transport:'#FBF3E6',
-  health:'#FCEBEB', clothes:'#F0EDF9', learning:'#E6F1FB',
-  fun:'#FFF3E0', invest:'#F3EBF7', cafe_smoke:'#FFF8EC'
-};
-const CAT_COLOR = {
-  fixed:'#0F6E56', daily:'#3B6D11', transport:'#854F0B',
-  health:'#A32D2D', clothes:'#533AB7', learning:'#185FA5',
-  fun:'#854F0B', invest:'#6b3fa0', cafe_smoke:'#7A4F1D'
-};
-
-function initNotesPills(){
-  var wrap=document.getElementById('notes-pills-wrap');
-  if(!wrap)return;
-  wrap.innerHTML='';
-  var cats=getMainCats();
-  // "الكل" pill
-  var allPill=document.createElement('span');
-  allPill.className='notes-pill'+(_noteActiveCat===null?' active':'');
-  allPill.textContent='🔍 '+(lang==='fr'?'Tout':lang==='en'?'All':lang==='es'?'Todo':'الكل');
-  allPill.onclick=function(){_noteActiveCat=null;initNotesPills();updateNoteSubSelect();renderNotesList();};
-  wrap.appendChild(allPill);
-  cats.forEach(function(mc){
-    var pill=document.createElement('span');
-    pill.className='notes-pill'+(_noteActiveCat===mc.id?' active':'');
-    pill.textContent=mc.icon+' '+mc.label;
-    pill.onclick=function(){_noteActiveCat=mc.id;initNotesPills();updateNoteSubSelect();renderNotesList();};
-    wrap.appendChild(pill);
-  });
-}
-
-function updateNoteSubSelect(){
-  var sel=document.getElementById('nf-sub');
-  if(!sel)return;
-  sel.innerHTML='';
-  if(_noteActiveCat===null){
-    // Show all subs from all cats
-    getMainCats().forEach(function(mc){
-      var grp=document.createElement('optgroup');
-      grp.label=mc.icon+' '+mc.label;
-      mc.subs.forEach(function(s){
-        var opt=document.createElement('option');
-        opt.value=mc.id+'|'+s;opt.textContent=s;
-        grp.appendChild(opt);
-      });
-      sel.appendChild(grp);
-    });
-  } else {
-    var mc=getMainCats().find(function(c){return c.id===_noteActiveCat;});
-    if(mc){
-      mc.subs.forEach(function(s){
-        var opt=document.createElement('option');
-        opt.value=mc.id+'|'+s;opt.textContent=s;
-        sel.appendChild(opt);
-      });
-    }
-  }
-}
-
-function initNotesMonthFilter(){
-  var sel=document.getElementById('nf-month-filter');
-  if(!sel)return;
-  sel.innerHTML='';
-  // Scan ALL notes from ALL allData to find unique months
-  var months=new Set();
-  // Add current display month
-  var displayYM=curYear+'-'+String(curMonth+1).padStart(2,'0');
-  months.add(displayYM);
-  // Scan all notes by their actual date
-  Object.keys(allData).forEach(function(k){
-    ((allData[k]||{}).notes||[]).forEach(function(n){
-      if(n.date&&n.date.length>=7)months.add(n.date.slice(0,7));
-    });
-  });
-  var t=T();
-  // Sort descending (most recent first)
-  var sorted=Array.from(months).sort().reverse();
-  // Find the most recent month that has actual notes
-  var latestWithNotes=null;
-  sorted.forEach(function(ym){
-    if(latestWithNotes)return;
-    var hasNotes=false;
-    Object.keys(allData).forEach(function(k){
-      ((allData[k]||{}).notes||[]).forEach(function(n){
-        if(n.date&&n.date.startsWith(ym)&&Number(n.amount||0)>0)hasNotes=true;
-      });
-    });
-    if(hasNotes)latestWithNotes=ym;
-  });
-  // Default: most recent with notes OR display month
-  var defaultYM=latestWithNotes||displayYM;
-  sorted.forEach(function(ym){
-    var parts=ym.split('-');
-    var mIdx=parseInt(parts[1])-1;
-    var opt=document.createElement('option');
-    opt.value=ym;
-    opt.textContent=t.months[mIdx]+' '+parts[0];
-    if(ym===defaultYM)opt.selected=true;
-    sel.appendChild(opt);
-  });
-  _noteFilterMonth=defaultYM;
-}
-
-function addNoteNew(){
-  var dateEl=document.getElementById('nf-date');
-  var subEl=document.getElementById('nf-sub');
-  var amountEl=document.getElementById('nf-amount');
-  if(!dateEl||!subEl||!amountEl)return;
-  var date=dateEl.value;
-  var amount=Number(amountEl.value)||0;
-  var subVal=subEl.value; // 'catId|subLabel'
-  if(!date||amount<=0){showToast('❌ '+(T().drive_fill||'أكمل الحقول'));return;}
-  var parts=subVal.split('|');
-  var mainCat=parts[0]||(_noteActiveCat||'daily');
-  var subCat=parts[1]||'';
-  // Save to allData key matching note's date year/month
-  var dp=date.split('-');
-  var mk=dp[0]+'-'+dp[1];
-  if(!allData[mk])allData[mk]=defMonth();
-  if(!allData[mk].notes)allData[mk].notes=[];
-  allData[mk].notes.push({date:date,note:subCat,mainCat:mainCat,subCat:subCat,amount:amount,cat:subCat});
-  amountEl.value='';
-  persistData();
-  renderNotesTab();
-  renderNotesInExpenses();
-  recalc();
-  showToast(T().toast_add||'✓');
-}
-
-function deleteNoteNew(idx){
-  var mk=ck();
-  if(!allData[mk]||!allData[mk].notes)return;
-  allData[mk].notes.splice(idx,1);
-  persistData();
-  renderNotesTab();
-  renderNotesInExpenses();
-  recalc();
+function getCurrentMonthNotes(){
+  return (allData[ck()]||{}).notes||[];
 }
 
 function renderNotesList(){
-  var listEl=document.getElementById('notes-entries-list');
-  var footerVal=document.getElementById('nf-footer-val');
-  var footerCur=document.getElementById('nf-footer-cur');
-  var filterTotal=document.getElementById('nf-filter-total');
-  var filterCur=document.getElementById('nf-filter-cur');
-  if(!listEl)return;
+  const listEl = $('notes-entries-list'); if(!listEl) return;
+  const notes = getCurrentMonthNotes();
+  listEl.innerHTML = '';
 
-  // Get selected filter month
-  var fSel=document.getElementById('nf-month-filter');
-  _noteFilterMonth=fSel?fSel.value:ck();
+  let totalAmount = 0;
+  let weeklySums = [0,0,0,0,0];
 
-  // Collect notes from ALL allData - match by note.date (not allData key)
-  var allNotes=[];
-  Object.keys(allData).forEach(function(mk2){
-    ((allData[mk2]||{}).notes||[]).forEach(function(n,i){
-      if(n.date&&_noteFilterMonth&&n.date.startsWith(_noteFilterMonth)){
-        allNotes.push({n:n,mk:mk2,i:i});
-      }
-    });
-  });
+  notes.forEach((n, idx)=>{
+    totalAmount += Number(n.amount||0);
+    const day = new Date(n.date).getDate();
+    const weekIdx = Math.min(4, Math.floor(d/7));
+    weeklySums[weekIdx] += Number(n.amount||0);
 
-  // Filter by active cat
-  var filtered=allNotes;
-  if(_noteActiveCat){
-    filtered=allNotes.filter(function(obj){
-      return (obj.n.mainCat===_noteActiveCat)||(obj.n.catIdx!==undefined&&getMainCats()[obj.n.catIdx||0]&&getMainCats()[obj.n.catIdx||0].id===_noteActiveCat);
-    });
-  }
+    const row = document.createElement('div');
+    row.className = 'note-entry-row';
+    row.style.cssText = 'display:flex; align-items:center; gap:10px; padding:12px 16px; border-bottom:1px solid var(--border);';
+    
+    const displayTitle = n.note ? `${n.subCat} (${n.note})` : n.subCat;
 
-  // Sort by date desc
-  filtered.sort(function(a,b){return (b.n.date||'').localeCompare(a.n.date||'');});
-
-  var total=filtered.reduce(function(s,obj){return s+Number(obj.n.amount||0);},0);
-  if(filterTotal)filterTotal.textContent=fmt(total);
-  if(filterCur)filterCur.textContent=currency;
-  if(footerCur)footerCur.textContent=currency;
-  if(footerVal){
-    var span=footerVal.querySelector('span')||footerVal;
-    footerVal.childNodes[0].textContent=fmt(total)+' ';
-    if(footerCur)footerVal.appendChild(footerCur);
-  }
-
-  listEl.innerHTML='';
-  if(!filtered.length){
-    var empty=document.createElement('div');
-    empty.style.cssText='padding:24px;text-align:center;color:var(--light);font-size:12px;';
-    empty.innerHTML='<div style="font-size:28px;margin-bottom:8px;">📭</div><div>لا توجد مصاريف</div>';
-    listEl.appendChild(empty);
-    return;
-  }
-
-  filtered.forEach(function(obj){
-    var n=obj.n;
-    var mc=getMainCats().find(function(c){return c.id===n.mainCat;})||getMainCats()[n.catIdx||0]||getMainCats()[0];
-    var row=document.createElement('div');
-    row.className='note-entry-row';
-
-    var icon=document.createElement('div');
-    icon.className='ne-icon';
-    icon.style.background=CAT_BG[mc.id]||'#EAF7F3';
-    icon.textContent=mc.icon||'💰';
-
-    var info=document.createElement('div');
-    info.className='ne-info';
-    var title=document.createElement('div');
-    title.className='ne-title';
-    title.textContent=n.subCat||n.note||n.cat||mc.label;
-    var sub=document.createElement('div');
-    sub.className='ne-sub';
-    sub.textContent=mc.label+' • '+n.date;
-    info.appendChild(title);info.appendChild(sub);
-
-    var amt=document.createElement('div');
-    amt.className='ne-amount';
-    amt.style.color=CAT_COLOR[mc.id]||'var(--dark)';
-    amt.textContent=fmt(n.amount);
-
-    var del=document.createElement('button');
-    del.className='ne-del';
-    del.textContent='✕';
-    // Find real index in allData[mk].notes
-    var realMk=obj.mk;
-    var realIdx=obj.i;
-    del.onclick=(function(mk2,idx2){return function(){
-      if(!allData[mk2]||!allData[mk2].notes)return;
-      allData[mk2].notes.splice(idx2,1);
-      persistData();renderNotesTab();renderNotesInExpenses();recalc();
-    };})(realMk,realIdx);
-
-    row.appendChild(icon);row.appendChild(info);row.appendChild(amt);row.appendChild(del);
+    row.innerHTML = `
+      <div class="ne-icon" style="background:var(--mint-ll);">${CAT_BG[n.mainCat]?'☕':'💰'}</div>
+      <div class="ne-info" style="flex:1;">
+        <div class="ne-title" style="font-weight:700;">${displayTitle}</div>
+        <div class="ne-sub" style="font-size:10px; color:var(--light);">${n.date}</div>
+      </div>
+      <!-- ══ INLINE LIVE EDITING FIELDS (التعديل المباشر المطلب الأحمر) ══ -->
+      <div style="display:flex; gap:6px; align-items:center;">
+        <input type="number" class="ne-edit-input" value="${n.amount}" style="width:70px;" onchange="updateNoteLive(${idx}, 'amount', this.value)">
+        <input type="text" class="ne-edit-input" value="${n.note||''}" style="width:110px;" placeholder="تعديل الملاحظة" onchange="updateNoteLive(${idx}, 'note', this.value)">
+        <button onclick="deleteNoteNew(${idx})" style="background:none; border:none; color:var(--light); cursor:pointer;">✕</button>
+      </div>
+    `;
     listEl.appendChild(row);
   });
 
-  // Update bar chart
-  renderNotesCatBars(filtered);
-  // Update footer
-  if(footerVal){
-    footerVal.innerHTML=fmt(total)+' <span style="font-size:11px;font-weight:400;color:var(--light);">'+currency+'</span>';
-  }
+  // Calculate stats summaries
+  const activeDays = new Set(notes.map(n=>n.date)).size || 1;
+  $('stat-daily-avg').textContent = `${Math.round(totalAmount/activeDays)} درهم`;
+  $('stat-weekly-peak').textContent = `${Math.max(...weeklySums)} درهم`;
+  set('nf-footer-val', fmt(totalAmount));
 }
 
-function renderNotesCatBars(filtered){
-  var barsEl=document.getElementById('notes-cat-bars');
-  if(!barsEl)return;
-  barsEl.innerHTML='';
-  var bycat={};
-  filtered.forEach(function(obj){
-    var mc=getMainCats().find(function(c){return c.id===obj.n.mainCat;})||getMainCats()[0];
-    var lbl=mc.icon+' '+mc.label;
-    bycat[lbl]=(bycat[lbl]||{total:0,color:CAT_COLOR[mc.id]||'var(--mint)',id:mc.id});
-    bycat[lbl].total+=Number(obj.n.amount||0);
-  });
-  var maxVal=Math.max.apply(null,Object.values(bycat).map(function(v){return v.total;}).concat([1]));
-  Object.entries(bycat).sort(function(a,b){return b[1].total-a[1].total;}).forEach(function(entry){
-    var lbl=entry[0];var v=entry[1];
-    var pct=Math.round(v.total/maxVal*100);
-    var row=document.createElement('div');
-    row.className='bar-r';
-    row.innerHTML='<span class="bar-lbl" style="font-size:10px;color:var(--mid);width:80px;text-align:right;flex-shrink:0;">'+lbl+'</span>'
-      +'<div class="bar-track" style="flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;">'
-      +'<div class="bar-fill" style="width:'+pct+'%;background:'+v.color+';height:100%;border-radius:4px;transition:width .5s;"></div></div>'
-      +'<span class="bar-val" style="font-size:10px;color:var(--mid);width:40px;text-align:left;font-family:DM Mono,monospace;">'+fmt(v.total)+'</span>';
-    barsEl.appendChild(row);
-  });
-  // Also update donut chart
-  updateNotesChart2(bycat);
+function updateNoteLive(idx, field, val) {
+  const mk = ck();
+  if(!allData[mk]||!allData[mk].notes[idx]) return;
+  allData[mk].notes[idx][field] = field === 'amount' ? Number(val) : val;
+  persistData();
+  renderAll();
 }
 
-function updateNotesChart2(bycat){
-  if(!chartNotes)return;
-  var keys=Object.keys(bycat);
-  var vals=keys.map(function(k){return bycat[k].total;});
-  var colors=Object.values(bycat).map(function(v){return v.color;});
-  if(!keys.length)return;
-  chartNotes.data.labels=keys;
-  chartNotes.data.datasets[0].data=vals;
-  chartNotes.data.datasets[0].backgroundColor=colors;
-  chartNotes.update('none');
+function addNoteNew(){
+  const date = $('nf-date').value;
+  const subVal = $('nf-sub').value;
+  const hintText = $('nf-note-text').value.trim();
+  const amount = Number($('nf-amount').value)||0;
+  if(!date || amount<=0) return;
+
+  const parts = subVal.split('|');
+  const mainCat = parts[0]; const subCat = parts[1];
+  const mk = ck();
+  allData[mk].notes.push({date, note:hintText, mainCat, subCat, amount});
+  $('nf-amount').value = ''; $('nf-note-text').value = '';
+  persistData(); renderAll();
+}
+
+function deleteNoteNew(idx){
+  const mk = ck(); allData[mk].notes.splice(idx,1);
+  persistData(); renderAll();
+}
+
+function openQuickAddModal(){
+  openModal('quickAddModal');
+  $('qa-date').value = new Date().toISOString().slice(0,10);
+  const sel = $('qa-sub'); sel.innerHTML = '';
+  getMainCats().forEach(mc=>{
+    mc.subs.forEach(s=>{
+      const opt = document.createElement('option');
+      opt.value = `${mc.id}|${s}`; opt.textContent = s; sel.appendChild(opt);
+    });
+  });
+}
+
+function submitQuickAdd(){
+  const date = $('qa-date').value;
+  const amount = Number($('qa-amount').value)||0;
+  const subVal = $('qa-sub').value;
+  const text = $('qa-note-text').value.trim();
+  if(!date || amount<=0) return;
+  const parts = subVal.split('|');
+  const mk = ck();
+  allData[mk].notes.push({date, note:text, mainCat:parts[0], subCat:parts[1], amount});
+  closeModal('quickAddModal'); persistData(); renderAll();
+}
+
+function showTab(name, el){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  $(`tab-${name}`).classList.add('active'); el.classList.add('active');
+  if(name==='notes') renderNotesTab();
 }
 
 function renderNotesTab(){
-  // Init pills if needed
-  initNotesPills();
-  // Init month filter
-  initNotesMonthFilter();
-  // Set today date in input
-  var dateEl=document.getElementById('nf-date');
-  if(dateEl&&!dateEl.value){
-    var _nd=new Date();
-    dateEl.value=_nd.getFullYear()+'-'+String(_nd.getMonth()+1).padStart(2,'0')+'-'+String(_nd.getDate()).padStart(2,'0');
+  var sel = $('nf-sub'); if(sel) {
+    sel.innerHTML = '';
+    getMainCats().forEach(mc=>{
+      mc.subs.forEach(s=>{
+        var opt = document.createElement('option'); opt.value=mc.id+'|'+s; opt.textContent=s; sel.appendChild(opt);
+      });
+    });
   }
-  // Init sub select
-  updateNoteSubSelect();
-  // Render list
   renderNotesList();
 }
 
+function pinPress(d){ if(pinBuffer.length<4) pinBuffer+=d; if(pinBuffer.length===4) unlockApp(); }
+function pinDel(){ pinBuffer=pinBuffer.slice(0,-1); }
+function setLang(l){} function navigateMonth(d){} function changeCurrency(c){} function openModal(id){$(id).classList.add('open');} function closeModal(id){$(id).classList.remove('open');} function showToast(m){} function fbSignIn(){} function fbSignOut(){}
+
 document.addEventListener('DOMContentLoaded',()=>{
-  // ALWAYS show landing page on startup — no PIN screen here
-  $('landing-page').style.display='block';
-  $('pin-screen').classList.add('hidden'); // never show PIN on startup
-  // Hide entire app
-  ['.header','.nav-tabs','.footer'].forEach(s=>{
-    const el=document.querySelector(s);if(el)el.style.display='none';
-  });
-  document.querySelectorAll('.tab-panel').forEach(p=>p.style.display='none');
-  // Clear any signout flag
-  sessionStorage.removeItem('show_landing');
-  initCharts();
-  setTimeout(initLandingCharts, 200);
-  // Firebase onAuthStateChanged will handle routing after Google sign-in
+  loadData();
+  unlockApp();
 });
 </script>
 </body>
