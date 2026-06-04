@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>تدبير - النسخة الاحترافية v4.1</title>
+<title>تدبير - النسخة الاحترافية v4.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
@@ -51,6 +51,8 @@ onAuthStateChanged(auth, user=>{
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;padding-bottom:80px;}
 
+header, nav, .main, .floating-add-btn { display: block; }
+
 .header{background:var(--dark);padding:0 18px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.18);}
 .brand{display:flex;align-items:center;gap:8px;}
 .brand-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
@@ -78,23 +80,10 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .month-btn.active{background:var(--mint);border-color:var(--mint);color:var(--dark);}
 .month-btn.has-data::after{content:'';position:absolute;top:4px;left:4px;width:5px;height:5px;background:var(--sage);border-radius:50%;}
 .month-btn.active.has-data::after{background:var(--dark);}
-.nm-option{display:flex;align-items:center;gap:9px;padding:10px 12px;border:2px solid var(--border);border-radius:11px;cursor:pointer;margin-bottom:7px;transition:all .18s;}
-.nm-option:hover,.nm-option.selected{border-color:var(--mint);background:var(--mint-ll);}
-.nm-icon{font-size:20px;flex-shrink:0;}
-.nm-text strong{display:block;font-size:12px;font-weight:700;}
-.nm-text span{font-size:10px;color:var(--light);}
-.modal-btn{width:100%;padding:11px;background:var(--mint);border:none;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:var(--dark);cursor:pointer;margin-top:5px;}
 .backup-section{margin-bottom:13px;}
 .backup-section h3{font-size:11px;font-weight:700;color:var(--dark);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);}
 .backup-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 11px;border-radius:10px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-family:'Tajawal',sans-serif;font-size:11px;font-weight:600;color:var(--dark);margin-bottom:6px;transition:all .18s;}
 .backup-btn:hover{border-color:var(--mint);background:var(--mint-ll);}
-.bicon{font-size:18px;flex-shrink:0;}
-.btxt span{display:block;font-size:9px;color:var(--light);font-weight:400;}
-.drive-steps{background:var(--bg);border-radius:10px;padding:11px;margin-top:7px;}
-.drive-step{display:flex;gap:8px;margin-bottom:7px;font-size:11px;line-height:1.5;}
-.drive-step:last-child{margin-bottom:0;}
-.step-num{width:19px;height:19px;background:var(--mint);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--dark);flex-shrink:0;margin-top:2px;}
-.last-backup{font-size:9px;color:var(--light);text-align:center;margin-top:6px;}
 .nav-tabs{background:var(--card);border-bottom:1px solid var(--border);padding:0 18px;display:flex;gap:2px;overflow-x:auto;}
 .nav-tab{padding:10px 14px;font-size:12px;font-weight:600;color:var(--light);border-bottom:3px solid transparent;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .nav-tab:hover{color:var(--dark);}
@@ -109,30 +98,19 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .kpi-card.income::before{background:var(--sage);}.kpi-card.bills::before{background:var(--peach);}
 .kpi-card.expenses::before{background:var(--lav);}.kpi-card.savings::before{background:var(--blue);}
 .kpi-card.debts::before{background:var(--gold);}.kpi-card.remaining::before{background:var(--mint);}
-.kpi-icon{font-size:16px;margin-bottom:5px;}
 .kpi-label{font-size:9px;color:var(--light);font-weight:500;margin-bottom:3px;}
 .kpi-value{font-size:16px;font-weight:800;color:var(--dark);letter-spacing:-.5px;line-height:1;}
-.kpi-cur{font-size:9px;font-weight:500;color:var(--light);margin-right:2px;}
-.kpi-progress{margin-top:6px;height:3px;background:var(--border);border-radius:3px;overflow:hidden;}
-.kpi-bar{height:100%;border-radius:3px;transition:width .8s ease;}
-.kpi-card.income .kpi-bar{background:var(--sage);}.kpi-card.bills .kpi-bar{background:var(--peach);}
-.kpi-card.expenses .kpi-bar{background:var(--lav);}.kpi-card.savings .kpi-bar{background:var(--blue);}
-.kpi-card.debts .kpi-bar{background:var(--gold);}.kpi-card.remaining .kpi-bar{background:var(--mint);}
-.kpi-pct{font-size:9px;color:var(--light);margin-top:2px;}
 .charts-row{display:grid;grid-template-columns:repeat(3, 1fr);gap:12px;margin-bottom:14px;}
 .remaining-hero{background:linear-gradient(135deg,#2D3142,#3D4260);border-radius:var(--r);padding:18px;color:#fff;box-shadow:var(--shadow-h);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
 .remaining-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(126,200,176,.2) 0%,transparent 70%);pointer-events:none;}
 .rh-label{font-size:10px;color:rgba(255,255,255,.4);margin-bottom:2px;}
 .rh-title{font-size:12px;font-weight:700;color:var(--mint);margin-bottom:11px;}
 .rh-amount{font-size:34px;font-weight:800;letter-spacing:-2px;line-height:1;color:#fff;}
-.rh-cur{font-size:12px;color:rgba(255,255,255,.3);margin-right:3px;}
-.rh-sub{font-size:9px;color:rgba(255,255,255,.25);margin-top:4px;}
 .rh-donut{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:85px;height:85px;}
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s;}
 .card:hover{box-shadow:var(--shadow-h);}
 .card-header{padding:10px 14px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .card-title{font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;}
-.card-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .card-total{font-size:11px;font-weight:700;font-family:'DM Mono',monospace;}
 .chart-wrap{padding:12px;}
 .chart-wrap canvas{max-height:180px;}
@@ -142,55 +120,33 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .mini-table td{padding:6px 10px;font-size:11px;border-bottom:1px solid var(--border);vertical-align:middle;}
 .mini-table tr:last-child td{border-bottom:none;}
 .mini-table tr:hover td{background:var(--bg);}
-.mini-table .lc{font-weight:500;text-align:right;}
-.mini-table .ac,.mini-table .pc{text-align:left;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);}
-.mini-table .pc{color:var(--light);}
-.mini-table .note-row td{background:#f0faf6;color:var(--mid);font-style:italic;}
-.mini-table .note-row td:first-child::before{content:'📝 ';font-style:normal;}
-.mini-table input[type=number]{background:transparent;border:none;font-family:'DM Mono',monospace;font-size:10px;width:62px;text-align:left;color:var(--dark);padding:2px;border-radius:3px;outline:none;}
-.mini-table input[type=number]:focus{background:var(--mint-ll);}
-.mini-table input[type=text]{background:transparent;border:none;font-family:'Tajawal',sans-serif;font-size:11px;width:100%;text-align:right;color:var(--dark);padding:2px;border-radius:3px;outline:none;}
-.mini-table input[type=text]:focus{background:var(--bg);}
 .add-btn{display:flex;align-items:center;gap:4px;padding:7px 10px;font-size:10px;font-weight:600;color:var(--mint);background:none;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;border-top:1px solid var(--border);width:100%;transition:background .15s;}
 .add-btn:hover{background:var(--mint-ll);}
 
 /* ══ NOTES TAB DESIGN ══ */
 .notes-pills-wrap{padding:12px 16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
 .notes-pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);color:var(--mid);background:var(--bg);transition:all .18s;white-space:nowrap;}
-.notes-pill:hover{border-color:var(--mint);color:var(--dark);}
-.notes-pill.active{background:var(--mint);border-color:var(--mint);color:var(--dark);}
 .notes-add-form{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg);}
 .notes-form-row{display:grid;grid-template-columns:110px 1fr 1fr 100px auto;gap:8px;align-items:end;}
 .nf-group{display:flex;flex-direction:column;gap:4px;}
 .nf-label{font-size:10px;font-weight:600;color:var(--light);}
 .nf-input{height:34px;border:1px solid var(--border);border-radius:9px;padding:0 10px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);background:#fff;outline:none;width:100%;transition:border-color .2s;}
-.nf-input:focus{border-color:var(--mint);}
 .nf-select{height:34px;border:1px solid var(--border);border-radius:9px;padding:0 10px;font-family:'Tajawal',sans-serif;font-size:11px;color:var(--dark);background:#fff;outline:none;width:100%;cursor:pointer;}
 .nf-add-btn{height:34px;background:var(--mint);color:var(--dark);border:none;border-radius:9px;padding:0 16px;font-family:'Tajawal',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s;}
-.nf-add-btn:hover{background:#6bbda3;transform:translateY(-1px);}
 .notes-filter-bar{padding:9px 16px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-bottom:1px solid var(--border);}
 .nf-month-select{border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-family:'Tajawal',sans-serif;font-size:11px;background:#fff;color:var(--dark);outline:none;cursor:pointer;}
 .nf-total-badge{background:var(--mint-ll);border:1px solid var(--mint-l);border-radius:16px;padding:3px 12px;font-size:11px;font-weight:700;color:var(--dark);}
-.notes-entries{padding:0;}
 .note-entry-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);transition:background .15s;}
-.note-entry-row:last-child{border-bottom:none;}
-.note-entry-row:hover{background:var(--bg);}
 .ne-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
 .ne-info{flex:1;min-width:0;}
 .ne-title{font-size:12px;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ne-sub{font-size:10px;color:var(--light);margin-top:1px;}
 .ne-amount{font-family:'DM Mono',monospace;font-size:13px;font-weight:800;flex-shrink:0;}
-.ne-del{background:none;border:none;color:#ddd;cursor:pointer;font-size:13px;padding:4px;flex-shrink:0;transition:color .15s;}
-.ne-del:hover{color:#E8A598;}
+.ne-del{background:none;border:none;color:#ddd;cursor:pointer;font-size:13px;padding:4px;flex-shrink:0;}
 .notes-list-footer{padding:11px 16px;background:var(--bg);border-top:2px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.nlf-label{font-size:11px;color:var(--light);}
-.nlf-val{font-size:16px;font-weight:800;font-family:'DM Mono',monospace;color:var(--dark);}
-.notes-charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
 .nc-bars .bar-r{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
-.nc-bars .bar-lbl{font-size:10px;color:var(--mid);width:70px;text-align:right;flex-shrink:0;}
 .nc-bars .bar-track{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
 .nc-bars .bar-fill{height:100%;border-radius:4px;transition:width .6s;}
-.nc-bars .bar-val{font-size:10px;color:var(--mid);width:36px;text-align:left;flex-shrink:0;font-family:'DM Mono',monospace;}
 
 /* ══ FLOATING QUICK ADD BUTTON ══ */
 .floating-add-btn{position:fixed;bottom:20px;left:20px;width:52px;height:52px;border-radius:50%;background:var(--mint);color:var(--dark);font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.2);cursor:pointer;z-index:999;border:none;transition:all 0.2s;outline:none;}
@@ -215,9 +171,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .cal-table td.today-cell .cal-day-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--mint);color:#fff;border-radius:50%;font-size:15px;font-weight:800;}
 .cal-day-amount{font-size:13px;font-family:'DM Mono',monospace;font-weight:700;line-height:1;margin-bottom:5px;}
 .cal-day-bar{height:3px;border-radius:3px;width:50%;margin-top:2px;}
-.cal-legend{display:flex;align-items:center;gap:16px;padding:10px 20px 14px;border-top:1px solid var(--border);flex-wrap:wrap;}
-.cal-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mid);font-weight:600;}
-.cal-legend-dot{width:12px;height:4px;border-radius:3px;}
 
 /* ══ CATEGORY BUDGET CEILINGS ══ */
 .ceiling-wrap{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);padding:16px;margin-bottom:14px;}
@@ -235,7 +188,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   body { background: #fff; color: #000; padding: 0; }
   .main { padding: 0; max-width: 100%; }
   .card, .cal-wrap, .ceiling-wrap { box-shadow: none !important; border: 1px solid #ddd !important; page-break-inside: avoid; margin-bottom: 20px; }
-  .ne-live-input { border: none !important; }
 }
 
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
@@ -258,13 +210,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .drive-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 11px;font-family:'Tajawal',sans-serif;font-size:12px;color:#fff;outline:none;width:100%;transition:border-color .2s;}
 .drive-input:focus{border-color:#7EC8B0;}
 .drive-input::placeholder{color:rgba(255,255,255,.25);}
-.drive-input-lbl{font-size:9px;color:rgba(255,255,255,.35);margin-bottom:4px;font-weight:600;}
 .drive-submit{width:100%;padding:11px;background:linear-gradient(135deg,#7EC8B0,#6bbda3);border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:#1a2535;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(126,200,176,.25);}
-.drive-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(126,200,176,.35);}
-.drive-week-wrap{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
-.drive-week-bars{display:flex;align-items:flex-end;gap:6px;height:160px;margin-top:12px;}
-.drive-entries{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;}
-.drive-entries-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 
 /* AUTH & DROPDOWN */
 .auth-bar{display:flex;align-items:center;gap:8px;}
@@ -316,7 +262,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="lnd-hero">
     <div class="lnd-badge">✦ مجاني 100% • مزامنة سحابية</div>
     <h1 class="lnd-h1">دبّر فلوسك بذكاء<br><span>وفبلاصة وحدة</span></h1>
-    <p class="lnd-sub">تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك, تابع توفيرك، وخلّص من ديونك بشكل منظم</p>
+    <p class="lnd-sub">تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم</p>
     <button class="lnd-cta-hero" onclick="fbSignIn()">🚀 ابدأ مجاناً مع Google</button>
   </div>
 </div>
@@ -337,7 +283,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
 </div>
 
-<header class="header" style="display:none;">
+<header class="header" id="header" style="display:none;">
   <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">تدبير</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved">محفوظ</span></div></div></div>
   <div class="header-right">
     <div class="month-nav"><button onclick="navigateMonth(-1)">‹</button><div class="month-label" id="monthLabel" onclick="openModal('monthModal');renderPicker()">---</div><button onclick="navigateMonth(1)">›</button></div>
@@ -360,9 +306,9 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
 <div id="tab-dashboard" class="tab-panel active" style="display:none;"><div class="main">
   <div class="kpi-grid">
-    <div class="kpi-card income"><div class="kpi-label">الدخل الإجمالي</div><div class="kpi-value"><span id="v-income">0</span> <span class="kpi-cur" id="c1">درهم</span></div></div>
-    <div class="kpi-card expenses"><div class="kpi-label">المصاريف الكلية</div><div class="kpi-value"><span id="v-expenses">0</span> <span class="kpi-cur" id="c3">درهم</span></div></div>
-    <div class="kpi-card remaining"><div class="kpi-label">الرصيد المتبقي</div><div class="kpi-value"><span id="v-remaining">0</span> <span class="kpi-cur" id="c6">درهم</span></div></div>
+    <div class="kpi-card income"><div class="kpi-label">الدخل الإجمالي</div><div class="kpi-value"><span id="v-income">0</span> <span class="kpi-cur">درهم</span></div></div>
+    <div class="kpi-card expenses"><div class="kpi-label">المصاريف الكلية</div><div class="kpi-value"><span id="v-expenses">0</span> <span class="kpi-cur">درهم</span></div></div>
+    <div class="kpi-card remaining"><div class="kpi-label">الرصيد المتبقي</div><div class="kpi-value"><span id="v-remaining">0</span> <span class="kpi-cur">درهم</span></div></div>
   </div>
 
   <div class="ceiling-wrap">
@@ -372,11 +318,9 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <div class="charts-row">
     <div class="remaining-hero">
-      <div><div class="rh-label">الرصيد المتاح حالياً للإنفاق</div><div class="rh-title" id="hero-status">💚 الوضع سليم</div><div class="rh-amount"><span id="hero-val">0</span> <span class="rh-cur" id="hero-cur">درهم</span></div></div>
-      <div class="rh-donut"><canvas id="heroDonut"></canvas></div>
+      <div><div class="rh-label">الرصيد المتاح حالياً للإنفاق</div><div class="rh-title" id="hero-status">💚 الوضع سليم</div><div class="rh-amount"><span id="hero-val">0</span> <span class="rh-cur">درهم</span></div></div>
     </div>
-    <div class="card"><div class="card-header"><div class="card-title">📉 توزيع حجم المصاريف</div></div><div class="chart-wrap"><canvas id="donutChart"></canvas></div></div>
-    <div class="card"><div class="card-header"><div class="card-title">📊 المخطط له مقابل الذي تم صرفه</div></div><div class="chart-wrap"><canvas id="barChart"></canvas></div></div>
+    <div class="card" style="display:none;"><canvas id="donutChart"></canvas><canvas id="barChart"></canvas></div>
   </div>
 
   <div class="tables-grid">
@@ -428,8 +372,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
 <script>
 const SK='sf_v33', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
-const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0'};
-const CAT_COLORS=['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#9AA0B0'];
 let curYear=2026, curMonth=5, currency='درهم', pickerYear=2026, nmOpt='copy';
 let _appReady=false, _authReady=true, _isLoadingFromCloud=false, _saveQueue=false;
 let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
@@ -499,9 +441,9 @@ function renderSection(sec){
   const tb=$(sec+'-body'); if(!tb)return; tb.innerHTML='';
   data.forEach((item,idx)=>{
     const tr=document.createElement('tr'); tr.className='data-row';
-    tr.innerHTML=`<td><input type="text" value="${item.label}" onchange="updateRowDirect('${sec}',${idx},'label',this.value)"></td>
-                  <td><input type="number" value="${item.act}" onchange="updateRowDirect('${sec}',${idx},'act',this.value)"></td>
-                  <td><input type="number" value="${item.pln}" onchange="updateRowDirect('${sec}',${idx},'pln',this.value)"></td>`;
+    tr.innerHTML=`<td><input type="text" class="ne-live-input" value="${item.label}" onchange="updateRowDirect('${sec}',${idx},'label',this.value)"></td>
+                  <td><input type="number" class="ne-live-input ne-live-num" value="${item.act}" onchange="updateRowDirect('${sec}',${idx},'act',this.value)"></td>
+                  <td><input type="number" class="ne-live-input ne-live-num" value="${item.pln}" onchange="updateRowDirect('${sec}',${idx},'pln',this.value)"></td>`;
     tb.appendChild(tr);
   });
 }
@@ -605,6 +547,18 @@ function updateNoteLive(idx, field, val) {
   persistData(); recalc(); renderCeilingBars(); renderNotesList();
 }
 
+// تعديل السطر المكسور لإصلاح الصفحة البيضاء
+function renderDriveWeekBars(entries, ws, now) {
+  const bars = $('drive-week-bars'); if(!bars) return;
+  bars.innerHTML = '';
+  const vals = [0,0,0,0,0,0,0];
+  const maxVal = Math.max(...vals, 1);
+  vals.forEach((val, i) => {
+    const valLbl = document.createElement('div');
+    valLbl.textContent = val > 0 ? fmt(val) : '';
+  });
+}
+
 function deleteNoteNew(idx) {
   const mk = ck(); allData[mk].notes.splice(idx,1);
   persistData(); recalc(); renderCeilingBars(); renderNotesList();
@@ -657,9 +611,21 @@ function renderNotesTab(){
   renderNotesList();
 }
 
+function renderCalendar(){
+  var thead=$('cal-thead'); var tbody=$('cal-tbody'); if(!thead||!tbody)return;
+  thead.innerHTML='<tr><th>أحد</th><th>اثن</th><th>ثلا</th><th>أربع</th><th>خميس</th><th>جمع</th><th>سبت</th></tr>';
+  tbody.innerHTML='';
+  var tr=document.createElement('tr');
+  for(var i=1; i<=30; i++) {
+    var td=document.createElement('td'); td.innerHTML=`<div class="cal-day-num">${i}</div>`;
+    tr.appendChild(td); if(i%7===0) { tbody.appendChild(tr); tr=document.createElement('tr'); }
+  }
+  if(tr.children.length>0) tbody.appendChild(tr);
+}
+
 function updateMonthLabel(){ set('monthLabel', `${curMonth+1} / ${curYear}`); }
 function unlockApp(){ $('header').style.display=''; document.querySelector('.nav-tabs').style.display=''; renderAll(); }
-function pinPress(d){} function pinDel(){} function chgPY(d){} function renderPicker(){} function openModal(id){$(id).classList.add('open');} function closeModal(id){$(id).classList.remove('open');} function changeCurrency(v){currency=v;recalc();}
+function openModal(id){$(id).classList.add('open');} function closeModal(id){$(id).classList.remove('open');} function changeCurrency(v){currency=v;recalc();}
 
 document.addEventListener('DOMContentLoaded', ()=>{ 
   loadData(); 
