@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>تدبير - النسخة الاحترافية v4.2</title>
+<title>تدبير - النسخة المستقرة v4.5</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
-<!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
@@ -30,7 +29,6 @@ const auth  = getAuth(app);
 const db    = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-// ── Global Expose ──
 window._fbAuth     = auth;
 window._fbDb       = db;
 window._fbProvider = provider;
@@ -50,8 +48,6 @@ onAuthStateChanged(auth, user=>{
 :root{--mint:#7EC8B0;--mint-l:#C8EAE0;--mint-ll:#EAF7F3;--sage:#A8C5A0;--peach:#E8A598;--peach-l:#F5D5CF;--lav:#B5A8D4;--lav-l:#E8E2F5;--blue:#8DB4CF;--blue-l:#D0E6F5;--gold:#D4A853;--gold-l:#F5E8C8;--dark:#2D3142;--mid:#5A6070;--light:#9AA0B0;--bg:#F8F9FB;--card:#FFFFFF;--border:#E8EAEF;--shadow:0 2px 16px rgba(45,49,66,.07);--shadow-h:0 8px 32px rgba(45,49,66,.14);--r:16px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;padding-bottom:80px;}
-
-header, nav, .main, .floating-add-btn { display: block; }
 
 .header{background:var(--dark);padding:0 18px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.18);}
 .brand{display:flex;align-items:center;gap:8px;}
@@ -112,8 +108,6 @@ header, nav, .main, .floating-add-btn { display: block; }
 .card-header{padding:10px 14px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .card-title{font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;}
 .card-total{font-size:11px;font-weight:700;font-family:'DM Mono',monospace;}
-.chart-wrap{padding:12px;}
-.chart-wrap canvas{max-height:180px;}
 .tables-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
 .mini-table{width:100%;border-collapse:collapse;}
 .mini-table th{font-size:9px;font-weight:600;color:var(--light);padding:5px 10px;text-align:right;background:var(--bg);border-bottom:1px solid var(--border);}
@@ -123,9 +117,10 @@ header, nav, .main, .floating-add-btn { display: block; }
 .add-btn{display:flex;align-items:center;gap:4px;padding:7px 10px;font-size:10px;font-weight:600;color:var(--mint);background:none;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;border-top:1px solid var(--border);width:100%;transition:background .15s;}
 .add-btn:hover{background:var(--mint-ll);}
 
-/* ══ NOTES TAB DESIGN ══ */
+/* ══ NOTES TAB REDESIGN ══ */
 .notes-pills-wrap{padding:12px 16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
 .notes-pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);color:var(--mid);background:var(--bg);transition:all .18s;white-space:nowrap;}
+.notes-pill.active{background:var(--mint);border-color:var(--mint);color:var(--dark);}
 .notes-add-form{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg);}
 .notes-form-row{display:grid;grid-template-columns:110px 1fr 1fr 100px auto;gap:8px;align-items:end;}
 .nf-group{display:flex;flex-direction:column;gap:4px;}
@@ -141,12 +136,8 @@ header, nav, .main, .floating-add-btn { display: block; }
 .ne-info{flex:1;min-width:0;}
 .ne-title{font-size:12px;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ne-sub{font-size:10px;color:var(--light);margin-top:1px;}
-.ne-amount{font-family:'DM Mono',monospace;font-size:13px;font-weight:800;flex-shrink:0;}
 .ne-del{background:none;border:none;color:#ddd;cursor:pointer;font-size:13px;padding:4px;flex-shrink:0;}
 .notes-list-footer{padding:11px 16px;background:var(--bg);border-top:2px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.nc-bars .bar-r{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
-.nc-bars .bar-track{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
-.nc-bars .bar-fill{height:100%;border-radius:4px;transition:width .6s;}
 
 /* ══ FLOATING QUICK ADD BUTTON ══ */
 .floating-add-btn{position:fixed;bottom:20px;left:20px;width:52px;height:52px;border-radius:50%;background:var(--mint);color:var(--dark);font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.2);cursor:pointer;z-index:999;border:none;transition:all 0.2s;outline:none;}
@@ -197,47 +188,14 @@ header, nav, .main, .floating-add-btn { display: block; }
   .cal-table td{height:54px;padding:5px 4px;}.cal-day-num{font-size:13px;}.cal-day-amount{font-size:11px;}.cal-table th{font-size:10px;padding:8px 2px;}
 }
 
-/* IN DRIVE */
-.drive-hero{background:linear-gradient(135deg,#1a2535,#1e3040);border-radius:18px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
-.drive-hero::before{content:'🚗';position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.08;}
-.drive-stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;}
-.drive-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:11px 8px;text-align:center;}
-.drive-stat-val{font-size:17px;font-weight:800;font-family:'DM Mono',monospace;color:#7EC8B0;line-height:1;}
-.drive-stat-lbl{font-size:8px;color:rgba(255,255,255,.35);margin-top:3px;font-weight:500;}
-.drive-form{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:14px;}
-.drive-form-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:12px;}
-.drive-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
-.drive-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 11px;font-family:'Tajawal',sans-serif;font-size:12px;color:#fff;outline:none;width:100%;transition:border-color .2s;}
-.drive-input:focus{border-color:#7EC8B0;}
-.drive-input::placeholder{color:rgba(255,255,255,.25);}
-.drive-submit{width:100%;padding:11px;background:linear-gradient(135deg,#7EC8B0,#6bbda3);border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:#1a2535;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(126,200,176,.25);}
-
-/* AUTH & DROPDOWN */
-.auth-bar{display:flex;align-items:center;gap:8px;}
-.auth-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--mint);object-fit:cover;cursor:pointer;transition:all .2s;}
-.auth-avatar:hover{border-color:#fff;}
-.auth-btn{background:var(--mint);border:none;border-radius:7px;padding:4px 10px;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;color:var(--dark);cursor:pointer;white-space:nowrap;transition:all .2s;}
-.auth-btn:hover{background:#6bbda3;}
-.sync-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;}
-.sync-dot.ok{background:var(--mint);}
-.sync-dot.sync{background:var(--gold);animation:pulse 1s infinite;}
-.sync-dot.off{background:var(--light);}
-.user-dropdown{position:absolute;top:62px;left:12px;background:#1e2333;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:8px;min-width:200px;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:500;display:none;}
-.user-dropdown.open{display:block;}
-.ud-user{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px;}
-.ud-avatar{width:36px;height:36px;border-radius:50%;border:2px solid var(--mint);}
-.ud-name{font-size:12px;font-weight:700;color:#fff;}
-.ud-email{font-size:10px;color:rgba(255,255,255,.4);}
-.ud-sync{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:11px;color:rgba(255,255,255,.5);}
-.ud-btn{display:flex;align-items:center;gap:9px;width:100%;padding:10px 12px;border-radius:9px;border:none;background:transparent;color:rgba(255,255,255,.7);font-family:'Tajawal',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;text-align:right;}
-.ud-btn:hover{background:rgba(255,255,255,.08);color:#fff;}
-.ud-btn.danger{color:#E8A598;}
-.ud-btn.danger:hover{background:rgba(232,165,152,.1);}
+/* ══ DESIGN IN DRIVE CONTROLLER ══ */
+.drive-box-wrap{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
+.drive-form-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end;margin-top:14px;}
+.drive-stat-badge{background:var(--mint-ll);color:var(--dark);padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;}
 </style>
 </head>
 <body>
 
-<!-- ══════════ FLOATING QUICK ADD EXPENSE MODAL ══════════ -->
 <div class="modal-overlay" id="quickAddModal" onclick="if(event.target===this)closeModal('quickAddModal')">
   <div class="modal-box">
     <div class="modal-title"><span>إضافة مصروف سريع</span> ⚡ <button class="modal-close" onclick="closeModal('quickAddModal')">✕</button></div>
@@ -317,10 +275,9 @@ header, nav, .main, .floating-add-btn { display: block; }
   </div>
 
   <div class="charts-row">
-    <div class="remaining-hero">
+    <div class="remaining-hero" style="grid-column: 1 / -1;">
       <div><div class="rh-label">الرصيد المتاح حالياً للإنفاق</div><div class="rh-title" id="hero-status">💚 الوضع سليم</div><div class="rh-amount"><span id="hero-val">0</span> <span class="rh-cur">درهم</span></div></div>
     </div>
-    <div class="card" style="display:none;"><canvas id="donutChart"></canvas><canvas id="barChart"></canvas></div>
   </div>
 
   <div class="tables-grid">
@@ -366,28 +323,35 @@ header, nav, .main, .floating-add-btn { display: block; }
   </div>
 </div></div>
 
-<div id="tab-drive" class="tab-panel"><div class="main"><div class="drive-hero">🚗 نظام رحلات عمل الميزانية المدمجة</div></div></div>
+<div id="tab-drive" class="tab-panel"><div class="main">
+  <div class="drive-box-wrap">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="font-size:16px;">🚗 لوحة التحكم الخاصة بـ In Drive</h2>
+      <div class="drive-stat-badge">إجمالي الشهر: <span id="drv-month-total">0</span> درهم</div>
+    </div>
+    
+    <div class="drive-form-grid">
+      <div class="nf-group"><span>التاريخ</span><input type="date" class="nf-input" id="drv-date"></div>
+      <div class="nf-group"><span>عدد الرحلات</span><input type="number" class="nf-input" id="drv-trips" placeholder="0"></div>
+      <div class="nf-group"><span>المجموع المالي المحصل</span><input type="number" class="nf-input" id="drv-amount" placeholder="0"></div>
+      <button class="nf-add-btn" style="background:var(--mint);" onclick="addDriveItem()">＋ تسجيل اليوم</button>
+    </div>
+    
+    <div id="drive-list-container" style="margin-top:20px;"></div>
+  </div>
+</div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 const SK='sf_v33', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
-let curYear=2026, curMonth=5, currency='درهم', pickerYear=2026, nmOpt='copy';
-let _appReady=false, _authReady=true, _isLoadingFromCloud=false, _saveQueue=false;
-let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
+let curYear=2026, curMonth=5, currency='درهم';
+let allData={};
 
-const CATEGORY_LIMITS = {
-  fixed: 3500,       
-  daily: 2500,       
-  cafe_smoke: 500,   
-  transport: 1200,   
-  health: 800        
-};
-
+const CATEGORY_LIMITS = { fixed: 3500, daily: 2500, cafe_smoke: 500, transport: 1200, health: 800 };
 const mkey=(y,m)=>`${y}-${String(m+1).padStart(2,'0')}`;
 const ck=()=>mkey(curYear,curMonth);
 const fmt=n=>Number(n||0).toLocaleString('ar-MA');
-const T=()=>({dir:'rtl'});
 const $ =id=>document.getElementById(id);
 const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 
@@ -402,12 +366,8 @@ const MAIN_CATS = {
 };
 
 function getMainCats(){return MAIN_CATS.dar;}
-function getSubCats(mainId){ const mc=getMainCats().find(c=>c.id===mainId); return mc?mc.subs:[]; }
 
 function loadData(){
-  const now = new Date();
-  curYear = now.getFullYear(); 
-  curMonth = now.getMonth();
   try {
     const s = localStorage.getItem(SK);
     if(s){ const p = JSON.parse(s); allData = p.allData || {}; currency = p.currency || 'درهم'; }
@@ -417,22 +377,24 @@ function loadData(){
 
 function defMonth(){
   return {
-    bills:[{label:'الكراء',act:0,pln:2500},{label:'الكهرباء/الماء',act:0,pln:300}],
+    bills:[{label:'الكراء',act:2500,pln:2500},{label:'الكهرباء/الماء',act:300,pln:300}],
     expenses:[{label:'مواد غذائية',act:0,pln:1500},{label:'السوق',act:0,pln:500},{label:'Gasoil',act:0,pln:600},{label:'قهوة/تدخين',act:0,pln:400}],
     savings:[{label:'الطوارئ',act:0,pln:500}],
     debts:[],
-    income:[{label:'الراتب',act:7680,pln:7680}],
-    notes:[]
+    income:[{label:'الراتب',act:7680,pln:7680},{label:'عمل ثاني',act:0,pln:0}],
+    notes:[],
+    driveEntries:[]
   };
 }
 
 function persistData(){
-  try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth,lang}));}catch(e){}
+  try{localStorage.setItem(SK,JSON.stringify({allData,currency,curYear,curMonth}));}catch(e){}
 }
 
 function renderAll(){
   ['bills','expenses','savings','debts','income'].forEach(renderSection);
-  updateMonthLabel(); recalc(); renderCalendar(); renderCeilingBars();
+  set('monthLabel', `${curMonth+1} / ${curYear}`);
+  recalc(); renderCalendar(); renderCeilingBars(); renderDriveList();
   if($('tab-notes').classList.contains('active')) renderNotesTab();
 }
 
@@ -458,7 +420,6 @@ function renderCeilingBars(){
   const container = $('ceiling-progress-container'); if(!container) return;
   container.innerHTML = '';
   const notes = (allData[ck()]||{}).notes||[];
-  
   const spendings = {};
   notes.forEach(n=> { spendings[n.mainCat] = (spendings[n.mainCat]||0) + Number(n.amount||0); });
 
@@ -466,29 +427,23 @@ function renderCeilingBars(){
     const limit = CATEGORY_LIMITS[cat.id] || 1500;
     const spent = spendings[cat.id] || 0;
     const pct = Math.min(100, Math.round((spent / limit) * 100));
-    
     let barColor = 'var(--mint)';
     if(pct >= 90) barColor = '#ef4444'; 
-    if(pct >= 75 && pct < 90) barColor = '#f59e0b'; 
+    else if(pct >= 75) barColor = '#f59e0b'; 
 
     const card = document.createElement('div');
     card.className = 'ceiling-card';
     card.innerHTML = `
-      <div class="ceiling-info">
-        <span>${cat.icon} ${cat.label} ${pct >= 90 ? '⚠️ سقف ممتلئ' : ''}</span>
-        <span>${fmt(spent)} / ${fmt(limit)} درهم</span>
-      </div>
-      <div class="ceiling-bar-container">
-        <div class="ceiling-bar" style="width:${pct}%; background:${barColor};"></div>
-      </div>
-    `;
+      <div class="ceiling-info"><span>${cat.icon} ${cat.label}</span><span>${fmt(spent)} / ${fmt(limit)} درهم</span></div>
+      <div class="ceiling-bar-container"><div class="ceiling-bar" style="width:${pct}%; background:${barColor};"></div></div>`;
     container.appendChild(card);
   });
 }
 
 function recalc(){
-  let inc=0, bill=0, exp=0, sav=0, dbt=0;
+  let inc=0, bill=0, exp=0, sav=0, dbt=0, drvIncome=0;
   const d=allData[ck()]||defMonth();
+  
   (d.income||[]).forEach(r=>inc+=r.act);
   (d.bills||[]).forEach(r=>bill+=r.act);
   (d.expenses||[]).forEach(r=>exp+=r.act);
@@ -505,7 +460,6 @@ function renderNotesList(){
   const listEl = $('notes-entries-list'); if(!listEl) return;
   const notes = (allData[ck()]||{}).notes||[];
   listEl.innerHTML = '';
-
   let grandTotal = 0;
   let weeklyDistribution = [0, 0, 0, 0, 0];
 
@@ -517,7 +471,6 @@ function renderNotesList(){
 
     const row = document.createElement('div');
     row.className = 'note-entry-row';
-    
     const textLabel = n.note ? `${n.subCat} (${n.note})` : n.subCat;
 
     row.innerHTML = `
@@ -529,8 +482,7 @@ function renderNotesList(){
       <div style="display:flex; gap:8px; align-items:center; flex-shrink:0;">
         <input type="number" class="ne-live-input ne-live-num" value="${n.amount}" style="width:65px;" onchange="updateNoteLive(${idx}, 'amount', this.value)">
         <button class="ne-del" onclick="deleteNoteNew(${idx})">✕</button>
-      </div>
-    `;
+      </div>`;
     listEl.appendChild(row);
   });
 
@@ -542,21 +494,8 @@ function renderNotesList(){
 
 function updateNoteLive(idx, field, val) {
   const mk = ck();
-  if(!allData[mk]||!allData[mk].notes[idx]) return;
   allData[mk].notes[idx][field] = field === 'amount' ? Number(val) : val;
   persistData(); recalc(); renderCeilingBars(); renderNotesList();
-}
-
-// تعديل السطر المكسور لإصلاح الصفحة البيضاء
-function renderDriveWeekBars(entries, ws, now) {
-  const bars = $('drive-week-bars'); if(!bars) return;
-  bars.innerHTML = '';
-  const vals = [0,0,0,0,0,0,0];
-  const maxVal = Math.max(...vals, 1);
-  vals.forEach((val, i) => {
-    const valLbl = document.createElement('div');
-    valLbl.textContent = val > 0 ? fmt(val) : '';
-  });
 }
 
 function deleteNoteNew(idx) {
@@ -568,11 +507,59 @@ function addNoteNew(){
   const date = $('nf-date').value; const subVal = $('nf-sub').value;
   const textHint = $('nf-note-desc').value.trim(); const amount = Number($('nf-amount').value)||0;
   if(!date || amount <= 0) return;
-
   const parts = subVal.split('|');
   allData[ck()].notes.push({date, note:textHint, mainCat:parts[0], subCat:parts[1], amount});
   $('nf-amount').value = ''; $('nf-note-desc').value = '';
   persistData(); renderAll();
+}
+
+/* ══ IN DRIVE DATA CONTROLLER ══ */
+function addDriveItem(){
+  const date = $('drv-date').value;
+  const trips = Number($('drv-trips').value)||0;
+  const amount = Number($('drv-amount').value)||0;
+  if(!date || trips <= 0 || amount <= 0) return;
+
+  const mk = ck();
+  if(!allData[mk].driveEntries) allData[mk].driveEntries = [];
+  allData[mk].driveEntries.push({date, trips, amount});
+
+  // مزامنة أوتوماتيكية مع خانة الدخل "عمل ثاني"
+  let totalDrv = allData[mk].driveEntries.reduce((s,e)=>s+e.amount, 0);
+  let incRow = allData[mk].income.find(r=>r.label==='عمل ثاني'||r.label==='خدمة ثانية');
+  if(incRow) incRow.act = totalDrv;
+
+  $('drv-trips').value = ''; $('drv-amount').value = '';
+  persistData(); renderAll();
+}
+
+function deleteDriveItem(idx){
+  const mk = ck();
+  allData[mk].driveEntries.splice(idx, 1);
+  let totalDrv = allData[mk].driveEntries.reduce((s,e)=>s+e.amount, 0);
+  let incRow = allData[mk].income.find(r=>r.label==='عمل ثاني'||r.label==='خدمة ثانية');
+  if(incRow) incRow.act = totalDrv;
+  persistData(); renderAll();
+}
+
+function renderDriveList(){
+  const container = $('drive-list-container'); if(!container) return;
+  const entries = allData[ck()]?.driveEntries || [];
+  let total = entries.reduce((s,e)=> s + e.amount, 0);
+  set('drv-month-total', fmt(total));
+
+  container.innerHTML = '';
+  entries.forEach((e, idx)=>{
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border); font-size:12px;';
+    row.innerHTML = `
+      <div><strong>${e.date}</strong> — ${e.trips} رحلات</div>
+      <div style="display:flex; gap:12px; font-weight:700;">
+        <span>${fmt(e.amount)} درهم</span>
+        <span style="color:#ef4444; cursor:pointer;" onclick="deleteDriveItem(${idx})">✕</span>
+      </div>`;
+    container.appendChild(row);
+  });
 }
 
 function openQuickAddModal(){
@@ -601,6 +588,7 @@ function showTab(name, el){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   $(`tab-${name}`).classList.add('active'); el.classList.add('active');
   if(name === 'notes') renderNotesTab();
+  if(name === 'drive') renderDriveList();
 }
 
 function renderNotesTab(){
@@ -613,9 +601,8 @@ function renderNotesTab(){
 
 function renderCalendar(){
   var thead=$('cal-thead'); var tbody=$('cal-tbody'); if(!thead||!tbody)return;
-  thead.innerHTML='<tr><th>أحد</th><th>اثن</th><th>ثلا</th><th>أربع</th><th>خميس</th><th>جمع</th><th>سبت</th></tr>';
-  tbody.innerHTML='';
-  var tr=document.createElement('tr');
+  thead.innerHTML='<tr><th>أحد</th><th>اثن</th><th>ثلا</th><th>أرب</th><th>خميس</th><th>جمع</th><th>سبت</th></tr>';
+  tbody.innerHTML=''; var tr=document.createElement('tr');
   for(var i=1; i<=30; i++) {
     var td=document.createElement('td'); td.innerHTML=`<div class="cal-day-num">${i}</div>`;
     tr.appendChild(td); if(i%7===0) { tbody.appendChild(tr); tr=document.createElement('tr'); }
@@ -623,13 +610,17 @@ function renderCalendar(){
   if(tr.children.length>0) tbody.appendChild(tr);
 }
 
-function updateMonthLabel(){ set('monthLabel', `${curMonth+1} / ${curYear}`); }
-function unlockApp(){ $('header').style.display=''; document.querySelector('.nav-tabs').style.display=''; renderAll(); }
-function openModal(id){$(id).classList.add('open');} function closeModal(id){$(id).classList.remove('open');} function changeCurrency(v){currency=v;recalc();}
+function openModal(id){$(id).classList.add('open');} 
+function closeModal(id){$(id).classList.remove('open');} 
+function changeCurrency(v){currency=v; recalc();}
+function navigateMonth(d){ curMonth+=d; if(curMonth>11){curMonth=0;curYear++;} if(curMonth<0){curMonth=11;curYear--;} loadData(); renderAll(); }
 
 document.addEventListener('DOMContentLoaded', ()=>{ 
-  loadData(); 
-  unlockApp(); 
+  loadData();
+  $('header').style.display='';
+  document.querySelector('.nav-tabs').style.display='';
+  $('drv-date').value = new Date().toISOString().slice(0,10);
+  renderAll(); 
 });
 </script>
 </body>
