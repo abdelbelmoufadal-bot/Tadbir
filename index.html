@@ -1271,33 +1271,33 @@ const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 // ══════════════════════════════════════════════
 const MAIN_CATS = {
   ar: [
-    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['إيجار','كهرباء/ماء','غاز','انترنت','تأمين']},
-    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','مطعم','عصير']},
-    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة','نسكافي','شاي','سيجارة','شيشة','تبغ']},
+    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['إيجار','كهرباء/ماء','غاز/بوطة','انترنت','تأمين','مسحوق غسيل','جافيل/مبيض','سائل الأواني','منظف أرضيات','معطر جو','ورق حمام','ورق مطبخ','أكياس زبل','ألومينيوم']},
+    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','خضر وفواكه','لحوم وأسماك','خبز وفطور','حليب وألبان','بقالة/إبيسري','مطعم','عصير طري','بيض','زيت وتوابل','أرز وكسكس','معكرونة','طون/مصبرات','قطاني']},
+    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة كحلة','كابوتشينو','نسكافي','أتاي','كرواصة','مسمن','بغرير','فطور كومبلي','عصير طري','سيجارة','علبة تبغ','ولاعة','شيشة','تفكيكة']},
     {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','نقل عام','صيانة سيارة']},
-    {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','صيدلية']},
+    {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','صيدلية','دوليبران/مسكن','فيتامينات','سيروم/قطن','ضمادات/بلاصط','حفاضات/كوش','حليب رضع','لانجيت','سيريلاك','شامبو','صابون','معجون أسنان','مضاد عرق','جيل حلاقة','شفرات','كوتون تيج']},
     {id:'clothes', icon:'👕', label:'الملابس والمظهر',      subs:['ملابس','حلاقة/عناية']},
     {id:'learning',icon:'📚', label:'التطوير الشخصي',       subs:['تعليم/دورات','كتب']},
     {id:'fun',     icon:'🎭', label:'الترفيه والاجتماعي',   subs:['ترفيه','هدايا','سفر']},
     {id:'invest',  icon:'💰', label:'الاستثمار والطوارئ',   subs:['توفير','طوارئ','سداد ديون']}
   ],
   dar: [
-    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['الكراء','الكهرباء/الماء','الغاز','الانترنت','التأمين']},
-    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','ريستو','عصير']},
-    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة','نسكافي','أتاي','سيجارة','شيشة','تبغ']},
+    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['الكراء','الكهرباء/الماء','البوطة/غاز','الانترنت','التأمين','تيد/مسحوق غسيل','جافيل','سائل الطاسة','سانيكروا','معطر الجو','بابيي توالات','بابيي كوزين','ميكات د الزبل','ألومينيوم']},
+    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','الخضرة والفاكهة','لحم وحوت','الخبز والفطور','الحليب والبان','البيضة','الروز/الكسكس','المقرونية','الطون/المصبرات','القطاني','ريستو','عصير طري','الزيت والتوابل']},
+    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة كحلة','كابوتشينو','نسكافي','أتاي','كرواصة','مسمن','بغرير','فطور كومبلي','عصير طري','سيجارة','علبة تبغ','ولاعة','تفكيكة','شيشة']},
     {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','النقل العام','صيانة طوموبيل']},
-    {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','الصيدلية']},
+    {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','الصيدلية','دوليبران','فيتامينات','سيروم/قطن','بلاصط','كوش/حفاضات','حليب رضع','لانجيت','سيريلاك','شامبوان','صابون','سينيال','ديدوران','جيل حلاقة','شفرات','كوتون تيج']},
     {id:'clothes', icon:'👕', label:'الحوايج والمظهر',      subs:['الحوايج','الحلاقة/العناية']},
     {id:'learning',icon:'📚', label:'التطوير الشخصي',       subs:['تعليم/دورات','كتب']},
     {id:'fun',     icon:'🎭', label:'الترفيه والاجتماعي',   subs:['ترفيه','هدايا','سفر']},
     {id:'invest',  icon:'💰', label:'الاستثمار والطوارئ',   subs:['توفير','طوارئ','سداد ديون']}
   ],
   fr: [
-    {id:'fixed',   icon:'🏠', label:'Charges fixes',        subs:['Loyer','Électricité/Eau','Gaz','Internet','Assurance']},
-    {id:'daily',   icon:'🛒', label:'Vie quotidienne',      subs:['Alimentation','Marché','Restaurant','Jus']},
-    {id:'cafe_smoke',icon:'☕', label:'Café & Tabac',           subs:['Café','Nescafé','Thé','Cigarettes','Chicha','Tabac']},
+    {id:'fixed',   icon:'🏠', label:'Charges fixes',        subs:['Loyer','Électricité/Eau','Gaz/Bonbonne','Internet','Assurance','Lessive/Tide','Javel','Liquide vaisselle','Désinfectant','Désodorisant','Papier toilette','Essuie-tout','Sacs poubelle','Aluminium']},
+    {id:'daily',   icon:'🛒', label:'Vie quotidienne',      subs:['Alimentation','Marché','Légumes/Fruits','Viandes/Poissons','Pain/Viennoiseries','Lait/Produits laitiers','Oeufs','Riz/Couscous','Pâtes','Thon/Conserves','Légumineuses','Restaurant','Jus frais','Huile/Épices']},
+    {id:'cafe_smoke',icon:'☕', label:'Café & Tabac',           subs:['Café noir','Cappuccino','Nescafé','Thé','Croissant','Msemen','Beghrir','Petit-déj complet','Jus frais','Cigarettes','Paquet tabac','Briquet','Chicha','Tabac à pipe']},
     {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Transport public','Entretien voiture']},
-    {id:'health',  icon:'🏥', label:'Santé',                subs:['Médicaments','Médecin','Pharmacie']},
+    {id:'health',  icon:'🏥', label:'Santé',                subs:['Médicaments','Médecin','Pharmacie','Doliprane','Vitamines','Sérum/Coton','Pansements','Couches','Lait bébé','Lingettes','Céréales bébé','Shampoing','Savon','Dentifrice','Déodorant','Gel rasage','Lames rasoir','Coton-tige']},
     {id:'clothes', icon:'👕', label:'Vêtements et apparence',subs:['Vêtements','Coiffeur/Soins']},
     {id:'learning',icon:'📚', label:'Développement personnel',subs:['Formation/Cours','Livres']},
     {id:'fun',     icon:'🎭', label:'Loisirs et social',    subs:['Loisirs','Cadeaux','Voyage']},
@@ -1305,10 +1305,10 @@ const MAIN_CATS = {
   ],
   en: [
     {id:'fixed',   icon:'🏠', label:'Fixed expenses',       subs:['Rent','Electricity/Water','Gas','Internet','Insurance']},
-    {id:'daily',   icon:'🛒', label:'Daily living',         subs:['Food','Market','Restaurant','Juice']},
-    {id:'cafe_smoke',icon:'☕', label:'Coffee & Tobacco',      subs:['Coffee','Nescafé','Tea','Cigarettes','Hookah','Tobacco']},
+    {id:'daily',   icon:'🛒', label:'Daily living',         subs:['Groceries','Market','Vegetables/Fruits','Meat/Fish','Bread/Pastries','Milk/Dairy','Eggs','Rice/Couscous','Pasta','Tuna/Canned','Legumes','Restaurant','Fresh juice','Oil/Spices']},
+    {id:'cafe_smoke',icon:'☕', label:'Coffee & Tobacco',      subs:['Black coffee','Cappuccino','Nescafé','Tea','Croissant','Msemen','Beghrir','Full breakfast','Fresh juice','Cigarettes','Tobacco pack','Lighter','Hookah','Pipe tobacco']},
     {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Public transport','Car maintenance']},
-    {id:'health',  icon:'🏥', label:'Health',               subs:['Medicine','Doctor','Pharmacy']},
+    {id:'health',  icon:'🏥', label:'Health',               subs:['Medicine','Doctor','Pharmacy','Painkiller','Vitamins','Cotton/Serum','Bandages','Diapers','Baby milk','Baby wipes','Baby cereal','Shampoo','Soap','Toothpaste','Deodorant','Shaving gel','Razor blades','Cotton swabs']},
     {id:'clothes', icon:'👕', label:'Clothes & appearance', subs:['Clothes','Haircut/Care']},
     {id:'learning',icon:'📚', label:'Personal development', subs:['Courses/Training','Books']},
     {id:'fun',     icon:'🎭', label:'Entertainment & social',subs:['Entertainment','Gifts','Travel']},
@@ -1316,8 +1316,8 @@ const MAIN_CATS = {
   ],
   es: [
     {id:'fixed',   icon:'🏠', label:'Gastos fijos',         subs:['Alquiler','Electricidad/Agua','Gas','Internet','Seguro']},
-    {id:'daily',   icon:'🛒', label:'Vida diaria',          subs:['Alimentación','Mercado','Restaurante','Zumo']},
-    {id:'cafe_smoke',icon:'☕', label:'Café y Tabaco',         subs:['Café','Nescafé','Té','Cigarrillos','Cachimba','Tabaco']},
+    {id:'daily',   icon:'🛒', label:'Vida diaria',          subs:['Alimentación','Mercado','Verduras/Frutas','Carnes/Pescados','Pan/Bollería','Leche/Lácteos','Huevos','Arroz/Cuscús','Pasta','Atún/Conservas','Legumbres','Restaurante','Zumo fresco','Aceite/Especias']},
+    {id:'cafe_smoke',icon:'☕', label:'Café y Tabaco',         subs:['Café solo','Capuchino','Nescafé','Té','Croissant','Msemen','Beghrir','Desayuno completo','Zumo fresco','Cigarrillos','Paquete tabaco','Mechero','Cachimba','Tabaco']},
     {id:'transport',icon:'🚗',label:'Transporte',            subs:['Gasoil','Transporte público','Mantenimiento coche']},
     {id:'health',  icon:'🏥', label:'Salud',                subs:['Medicamentos','Médico','Farmacia']},
     {id:'clothes', icon:'👕', label:'Ropa y apariencia',    subs:['Ropa','Peluquería/Cuidados']},
@@ -1974,7 +1974,52 @@ function migrateNote(n){
     }
   }
   // Default mapping from old cats
-  const defaultMap={'مواد غذائية':'daily','السوق':'daily','قهوة':'cafe_smoke','قهوة/تدخين':'cafe_smoke','سيجارة':'cafe_smoke','شيشة':'cafe_smoke','تبغ':'cafe_smoke','نسكافي':'cafe_smoke','أتاي':'cafe_smoke','Gasoil':'transport','النقل':'transport','غذاء':'daily','تسوق':'daily','Food':'daily','Market':'daily','Café':'cafe_smoke','Coffee':'cafe_smoke','Cigarettes':'cafe_smoke','Tobacco':'cafe_smoke','Hookah':'cafe_smoke','Transport':'transport','Alimentation':'daily','Marché':'daily','Alimentación':'daily','Mercado':'daily'};
+  const defaultMap={
+    // 🛒 المعيشة اليومية
+    'مواد غذائية':'daily','السوق':'daily','خضر وفواكه':'daily','الخضرة والفاكهة':'daily',
+    'لحوم وأسماك':'daily','لحم وحوت':'daily','خبز وفطور':'daily','الخبز والفطور':'daily',
+    'حليب وألبان':'daily','الحليب والبان':'daily','بيض':'daily','البيضة':'daily',
+    'بقالة/إبيسري':'daily','أرز وكسكس':'daily','الروز/الكسكس':'daily',
+    'معكرونة':'daily','المقرونية':'daily','طون/مصبرات':'daily','الطون/المصبرات':'daily',
+    'قطاني':'daily','القطاني':'daily','مطعم':'daily','ريستو':'daily',
+    'عصير طري':'daily','زيت وتوابل':'daily','الزيت والتوابل':'daily',
+    'غذاء':'daily','تسوق':'daily','Food':'daily','Market':'daily',
+    'Groceries':'daily','Légumes/Fruits':'daily','Verduras/Frutas':'daily',
+    'Alimentation':'daily','Marché':'daily','Alimentación':'daily','Mercado':'daily',
+    'Vegetables/Fruits':'daily','Meat/Fish':'daily','Bread/Pastries':'daily',
+    'Milk/Dairy':'daily','Eggs':'daily','Rice/Couscous':'daily','Pasta':'daily',
+    'Tuna/Canned':'daily','Legumes':'daily','Fresh juice':'daily',
+    // 🏠 منزل / نظافة
+    'مسحوق غسيل':'fixed','تيد/مسحوق غسيل':'fixed','جافيل/مبيض':'fixed','جافيل':'fixed',
+    'سائل الأواني':'fixed','سائل الطاسة':'fixed','منظف أرضيات':'fixed','سانيكروا':'fixed',
+    'معطر جو':'fixed','معطر الجو':'fixed','ورق حمام':'fixed','بابيي توالات':'fixed',
+    'ورق مطبخ':'fixed','بابيي كوزين':'fixed','أكياس زبل':'fixed','ميكات د الزبل':'fixed',
+    'ألومينيوم':'fixed','بوطة/غاز':'fixed','البوطة/غاز':'fixed','غاز/بوطة':'fixed',
+    'Lessive/Tide':'fixed','Javel':'fixed','Liquide vaisselle':'fixed','Désinfectant':'fixed',
+    'Papier toilette':'fixed','Essuie-tout':'fixed','Sacs poubelle':'fixed',
+    // 🏥 صحة وعناية
+    'دواء':'health','طبيب/عيادة':'health','صيدلية':'health','دوليبران/مسكن':'health',
+    'دوليبران':'health','فيتامينات':'health','سيروم/قطن':'health','ضمادات/بلاصط':'health',
+    'بلاصط':'health','حفاضات/كوش':'health','كوش/حفاضات':'health','حليب رضع':'health',
+    'لانجيت':'health','سيريلاك':'health','شامبو':'health','شامبوان':'health',
+    'صابون':'health','معجون أسنان':'health','سينيال':'health','مضاد عرق':'health',
+    'ديدوران':'health','جيل حلاقة':'health','شفرات':'health','شفرات حلاقة':'health',
+    'كوتون تيج':'health','Doliprane':'health','Vitamines':'health','Diapers':'health',
+    'Baby milk':'health','Baby wipes':'health','Shampoo':'health','Soap':'health',
+    'Toothpaste':'health','Deodorant':'health','Dentifrice':'health','Shampoing':'health',
+    // ☕ قهوة وتدخين وفطور
+    'قهوة':'cafe_smoke','قهوة كحلة':'cafe_smoke','كابوتشينو':'cafe_smoke',
+    'نسكافي':'cafe_smoke','أتاي':'cafe_smoke','شاي':'cafe_smoke',
+    'كرواصة':'cafe_smoke','مسمن':'cafe_smoke','بغرير':'cafe_smoke',
+    'فطور كومبلي':'cafe_smoke','سيجارة':'cafe_smoke','علبة تبغ':'cafe_smoke',
+    'ولاعة':'cafe_smoke','شيشة':'cafe_smoke','تفكيكة':'cafe_smoke','تبغ':'cafe_smoke',
+    'Croissant':'cafe_smoke','Cappuccino':'cafe_smoke','Café noir':'cafe_smoke',
+    'Cigarettes':'cafe_smoke','Tobacco':'cafe_smoke','Hookah':'cafe_smoke',
+    'Lighter':'cafe_smoke','Briquet':'cafe_smoke',
+    // 🚗 نقل
+    'Gasoil':'transport','النقل':'transport','نقل عام':'transport',
+    'Transport':'transport','Transport public':'transport',
+  };
   const mappedId=defaultMap[oldCat]||'daily';
   const mc=cats.find(c=>c.id===mappedId);
   n.mainCat=mappedId;
