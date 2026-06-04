@@ -329,6 +329,16 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .nf-remark-input:focus{border-color:var(--mint);background:#fff;}
 .nf-remark-input::placeholder{color:var(--light);}
 .nf-remark-label{font-size:10px;color:var(--light);font-weight:600;white-space:nowrap;flex-shrink:0;}
+.nf-chips-section{padding:10px 16px 4px;border-bottom:1px solid var(--border);}
+.nf-chips-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.nf-chips-label{font-size:10px;font-weight:700;color:var(--light);}
+.nf-chips-clear{font-size:10px;color:var(--mint);cursor:pointer;border:none;background:none;font-family:'Tajawal',sans-serif;padding:0;}
+.nf-chips-grid{display:flex;flex-wrap:wrap;gap:5px;}
+.nf-chip{padding:4px 10px;border-radius:16px;border:1.5px solid var(--border);font-size:11px;cursor:pointer;background:var(--bg);color:var(--mid);transition:all .15s;user-select:none;font-family:'Tajawal',sans-serif;}
+.nf-chip:hover{border-color:var(--mint);color:var(--dark);}
+.nf-chip.nfc-sel{background:#EAF7F3;border-color:var(--mint);color:#0F6E56;font-weight:700;}
+.nf-chips-preview{margin-top:7px;min-height:0;font-size:11px;color:var(--light);font-style:italic;padding-bottom:4px;}
+.nf-chips-preview span.nfc-tag{display:inline-block;background:#EAF7F3;color:#0F6E56;border-radius:10px;padding:1px 7px;margin:2px 2px;font-size:10px;font-weight:700;font-style:normal;}
 .ne-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
 .ne-info{flex:1;min-width:0;}
 .ne-title{font-size:12px;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -348,6 +358,8 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 @media(max-width:700px){
   .notes-form-row{grid-template-columns:1fr 1fr;gap:6px;}
   .notes-form-row .nf-add-btn{grid-column:1/-1;}
+  .nf-chips-grid{gap:4px;}
+  .nf-chip{font-size:10px;padding:3px 8px;}
   .notes-charts-row{grid-template-columns:1fr;}
 }
 /* ══ MONTHLY CALENDAR ══ */
@@ -913,9 +925,19 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
         </div>
         <button class="nf-add-btn" onclick="addNoteNew()">＋ <span id="nf-add-lbl">إضافة</span></button>
       </div>
+      <!-- MULTI-SELECT CHIPS -->
+      <div class="nf-chips-section" id="nf-chips-section">
+        <div class="nf-chips-header">
+          <span class="nf-chips-label" id="nf-chips-lbl">📦 اختر ما اشتريته (يُضاف في الملاحظة)</span>
+          <button class="nf-chips-clear" onclick="clearNoteChips()" id="nf-chips-clear-btn">مسح الكل</button>
+        </div>
+        <div class="nf-chips-grid" id="nf-chips-grid"></div>
+        <div class="nf-chips-preview" id="nf-chips-preview"></div>
+      </div>
+      <!-- REMARK (manual override) -->
       <div class="nf-remark-wrap">
-        <span class="nf-remark-label" id="nf-lbl-remark">💬 ملاحظة (اختياري)</span>
-        <input type="text" class="nf-remark-input" id="nf-remark" placeholder="مثال: ماركة، محل، سبب..." maxlength="80">
+        <span class="nf-remark-label" id="nf-lbl-remark">💬 ملاحظة إضافية</span>
+        <input type="text" class="nf-remark-input" id="nf-remark" placeholder="تفصيل إضافي اختياري..." maxlength="80">
       </div>
     </div>
 
@@ -2946,13 +2968,13 @@ function initNotesPills(){
   var allPill=document.createElement('span');
   allPill.className='notes-pill'+(_noteActiveCat===null?' active':'');
   allPill.textContent='🔍 '+(lang==='fr'?'Tout':lang==='en'?'All':lang==='es'?'Todo':'الكل');
-  allPill.onclick=function(){_noteActiveCat=null;initNotesPills();updateNoteSubSelect();renderNotesList();};
+  allPill.onclick=function(){_noteActiveCat=null;initNotesPills();updateNoteSubSelect();renderNotesList();initNoteChips('daily');};
   wrap.appendChild(allPill);
   cats.forEach(function(mc){
     var pill=document.createElement('span');
     pill.className='notes-pill'+(_noteActiveCat===mc.id?' active':'');
     pill.textContent=mc.icon+' '+mc.label;
-    pill.onclick=function(){_noteActiveCat=mc.id;initNotesPills();updateNoteSubSelect();renderNotesList();};
+    pill.onclick=function(){_noteActiveCat=mc.id;initNotesPills();updateNoteSubSelect();renderNotesList();initNoteChips(mc.id);};
     wrap.appendChild(pill);
   });
 }
@@ -2961,6 +2983,9 @@ function updateNoteSubSelect(){
   var sel=document.getElementById('nf-sub');
   if(!sel)return;
   sel.innerHTML='';
+  // refresh chips for active cat
+  var chipCat=_noteActiveCat||'daily';
+  if(typeof initNoteChips==='function')initNoteChips(chipCat);
   if(_noteActiveCat===null){
     // Show all subs from all cats
     getMainCats().forEach(function(mc){
@@ -3029,6 +3054,116 @@ function initNotesMonthFilter(){
   _noteFilterMonth=defaultYM;
 }
 
+
+// ══════════════════════════════════════════════════════════════════
+// MULTI-SELECT CHIPS — sélection multiple → auto-remark
+// ══════════════════════════════════════════════════════════════════
+var _selectedChips=[];
+
+const NOTE_CHIPS = {
+  'daily': [
+    '🥚 بيض','🥛 حليب','🍞 خبز','🧈 زبدة','🧀 فرماج',
+    '🫒 زيت زيتون','🛢️ زيت مائدة','🌾 دقيق','🍚 أرز',
+    '🍝 معكرونة','🫙 كسكس','🫘 قطاني','🍗 دجاج','🥩 لحم بقر/غنم',
+    '🐟 سمك طري','🥫 طون/سردين','🍅 طماطم/مطيشة','🥔 بطاطس',
+    '🧅 بصل','🥦 خضر متنوعة','🍎 فواكه','🍋 ليمون','🍌 بنان',
+    '🍉 دلاح','🧃 عصير','🥗 سلطة','🫙 مصبرات','🧂 توابل/ملح','🍯 عسل/مربى'
+  ],
+  'fixed': [
+    '🧺 مسحوق غسيل/تيد','💧 جافيل/مبيض','🫧 سائل أواني',
+    '🧹 منظف أرضيات/سانيكروا','🌸 معطر جو','🧻 ورق حمام',
+    '🍃 ورق مطبخ','🗑️ أكياس زبل','🥄 ألومينيوم/سلوفان',
+    '🔥 بوطة غاز صغيرة','🔥 بوطة غاز كبيرة','🧽 إسفنجة/ليف',
+    '🫙 سائل جافيل كبير','🪣 مطهر أرضيات'
+  ],
+  'health': [
+    '💊 دواء روتيني','💊 دوليبران/مسكن','💉 فيتامينات',
+    '🩹 بلاصط/ضمادات','🧴 سيروم/قطن','🩺 طبيب/عيادة',
+    '👶 كوش/حفاضات','🍼 حليب رضع','🧻 لانجيت',
+    '🥣 سيريلاك','🧴 شامبو','🧼 صابون استحمام',
+    '🪥 معجون أسنان/سينيال','💈 مضاد عرق/ديدوران',
+    '🪒 جيل حلاقة','🪒 شفرات حلاقة','🩺 كوتون تيج'
+  ],
+  'cafe_smoke': [
+    '☕ قهوة كحلة','☕ كابوتشينو','🫖 نسكافي','🍵 أتاي',
+    '🥐 كرواصة','🫓 مسمن','🧇 بغرير','🍳 فطور كومبلي',
+    '🥤 عصير طري','🚬 سيجارة','📦 علبة تبغ',
+    '🔥 ولاعة','💨 شيشة/تفكيكة'
+  ],
+  'transport': [
+    '⛽ Gasoil','🚌 نقل عام/طاكسي','🔧 صيانة سيارة',
+    '🛞 إطارات','🔋 بطارية سيارة','🛣️ طريق أوتوروت'
+  ],
+  'clothes': [
+    '👕 ملابس رجال','👗 ملابس نساء','👶 ملابس أطفال',
+    '👟 حذاء','🧢 طاقية/إكسسوار','💇 حلاقة رجال','💆 عناية جمال'
+  ],
+  'fun': [
+    '🎬 سينما/ترفيه','🎮 ألعاب','🎁 هدية','✈️ سفر',
+    '🍕 خرجة مطعم','🧁 حلويات','📱 تطبيقات/اشتراك'
+  ],
+  'learning': [
+    '📚 كتاب','💻 دورة أونلاين','📝 أدوات مكتبية',
+    '🎓 تعليم/مدرسة','📰 جريدة/مجلة'
+  ],
+  'invest': [
+    '💰 توفير شهري','🏦 سداد دين','⚠️ طوارئ',
+    '📈 استثمار','🏠 صيانة منزل'
+  ]
+};
+
+function initNoteChips(catId){
+  _selectedChips=[];
+  var grid=document.getElementById('nf-chips-grid');
+  var section=document.getElementById('nf-chips-section');
+  if(!grid)return;
+  grid.innerHTML='';
+  var items=NOTE_CHIPS[catId]||NOTE_CHIPS['daily'];
+  items.forEach(function(item){
+    var chip=document.createElement('button');
+    chip.type='button';
+    chip.className='nf-chip';
+    chip.textContent=item;
+    chip.dataset.val=item;
+    chip.onclick=function(){toggleNoteChip(chip,item);};
+    grid.appendChild(chip);
+  });
+  updateChipsPreview();
+  if(section)section.style.display=items.length?'':'none';
+}
+
+function toggleNoteChip(chip,val){
+  var idx=_selectedChips.indexOf(val);
+  if(idx>=0){_selectedChips.splice(idx,1);chip.classList.remove('nfc-sel');}
+  else{_selectedChips.push(val);chip.classList.add('nfc-sel');}
+  updateChipsPreview();
+}
+
+function clearNoteChips(){
+  _selectedChips=[];
+  document.querySelectorAll('.nf-chip.nfc-sel').forEach(function(c){c.classList.remove('nfc-sel');});
+  updateChipsPreview();
+}
+
+function updateChipsPreview(){
+  var preview=document.getElementById('nf-chips-preview');
+  if(!preview)return;
+  if(_selectedChips.length===0){
+    preview.innerHTML='<span style="font-size:10px;color:var(--light);">اضغط على ما اشتريته لإضافته في الملاحظة</span>';
+  } else {
+    var tags=_selectedChips.map(function(s){
+      var label=s.replace(/^[^ ]+ /,'');
+      return '<span class="nfc-tag">'+label+'</span>';
+    }).join('');
+    preview.innerHTML='<span style="font-size:10px;color:var(--light);margin-left:4px;">ستُحفظ:</span>'+tags;
+  }
+}
+
+function getChipsAutoRemark(){
+  if(_selectedChips.length===0)return '';
+  return _selectedChips.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + ');
+}
+
 function addNoteNew(){
   var dateEl=document.getElementById('nf-date');
   var subEl=document.getElementById('nf-sub');
@@ -3038,7 +3173,10 @@ function addNoteNew(){
   var date=dateEl.value;
   var amount=Number(amountEl.value)||0;
   var subVal=subEl.value; // 'catId|subLabel'
-  var remark=(remarkEl?remarkEl.value.trim():'');
+  // Merge chips selection + manual remark
+  var chipsRemark=getChipsAutoRemark();
+  var manualRemark=(remarkEl?remarkEl.value.trim():'');
+  var remark=chipsRemark+(chipsRemark&&manualRemark?' — ':'')+manualRemark;
   if(!date||amount<=0){showToast('❌ '+(T().drive_fill||'أكمل الحقول'));return;}
   var parts=subVal.split('|');
   var mainCat=parts[0]||(_noteActiveCat||'daily');
@@ -3051,6 +3189,7 @@ function addNoteNew(){
   allData[mk].notes.push({date:date,note:subCat,mainCat:mainCat,subCat:subCat,amount:amount,cat:subCat,remark:remark});
   amountEl.value='';
   if(remarkEl)remarkEl.value='';
+  clearNoteChips();
   persistData();
   renderNotesTab();
   renderNotesInExpenses();
@@ -3230,7 +3369,7 @@ function renderNotesTab(){
     var _nd=new Date();
     dateEl.value=_nd.getFullYear()+'-'+String(_nd.getMonth()+1).padStart(2,'0')+'-'+String(_nd.getDate()).padStart(2,'0');
   }
-  // Init sub select
+  // Init sub select + chips
   updateNoteSubSelect();
   // Render list
   renderNotesList();
