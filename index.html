@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
+<!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
@@ -49,27 +50,7 @@ onAuthStateChanged(auth, user=>{
 :root{--mint:#7EC8B0;--mint-l:#C8EAE0;--mint-ll:#EAF7F3;--sage:#A8C5A0;--peach:#E8A598;--peach-l:#F5D5CF;--lav:#B5A8D4;--lav-l:#E8E2F5;--blue:#8DB4CF;--blue-l:#D0E6F5;--gold:#D4A853;--gold-l:#F5E8C8;--dark:#2D3142;--mid:#5A6070;--light:#9AA0B0;--bg:#F8F9FB;--card:#FFFFFF;--border:#E8EAEF;--shadow:0 2px 16px rgba(45,49,66,.07);--shadow-h:0 8px 32px rgba(45,49,66,.14);--r:16px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;padding-bottom:80px;}
-#pin-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2D3142,#1a1f30);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
-#pin-screen.hidden{display:none;}
-.pin-logo{width:70px;height:70px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:12px;}
-.pin-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:3px;}
-.pin-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:4px;text-align:center;}
-.pin-lang-row{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;justify-content:center;}
-.plb{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:5px 12px;color:rgba(255,255,255,.55);cursor:pointer;font-size:12px;font-weight:600;transition:all .2s;font-family:'Tajawal',sans-serif;}
-.plb:hover,.plb.active{background:var(--mint);border-color:var(--mint);color:var(--dark);}
-.pin-dots{display:flex;gap:14px;margin:16px 0;}
-.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.25);transition:all .2s;}
-.pin-dot.filled{background:var(--mint);border-color:var(--mint);}
-.pin-dot.error{background:#E8A598;border-color:#E8A598;}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:256px;}
-.pin-btn{height:64px;border-radius:14px;border:none;background:rgba(255,255,255,.08);color:#fff;font-size:22px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Tajawal',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.pin-btn:active{background:rgba(255,255,255,.2);transform:scale(.94);}
-.pin-btn .sub{font-size:8px;color:rgba(255,255,255,.3);letter-spacing:1px;}
-.pin-btn.del{background:rgba(232,165,152,.12);color:#E8A598;}
-.pin-btn.empty{background:none;cursor:default;}
-.pin-error-msg{color:#E8A598;font-size:12px;margin-top:10px;min-height:18px;font-weight:600;text-align:center;}
-.pin-setup-note{color:rgba(255,255,255,.3);font-size:11px;margin-top:8px;text-align:center;max-width:240px;line-height:1.6;}
-.pin-forgot{color:var(--mint);font-size:12px;margin-top:8px;cursor:pointer;text-decoration:underline;}
+
 .header{background:var(--dark);padding:0 18px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.18);}
 .brand{display:flex;align-items:center;gap:8px;}
 .brand-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
@@ -113,19 +94,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .drive-step{display:flex;gap:8px;margin-bottom:7px;font-size:11px;line-height:1.5;}
 .drive-step:last-child{margin-bottom:0;}
 .step-num{width:19px;height:19px;background:var(--mint);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--dark);flex-shrink:0;margin-top:2px;}
-.pin-setting-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
-.toggle{width:38px;height:20px;background:var(--border);border-radius:10px;cursor:pointer;position:relative;transition:background .2s;border:none;flex-shrink:0;}
-.toggle.on{background:var(--mint);}
-.toggle::after{content:'';position:absolute;top:3px;right:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform .2s;}
-.toggle.on::after{transform:translateX(-18px);}
 .last-backup{font-size:9px;color:var(--light);text-align:center;margin-top:6px;}
-.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
-.lang-opt{display:flex;align-items:center;gap:9px;padding:11px 12px;border:2px solid var(--border);border-radius:11px;cursor:pointer;transition:all .18s;}
-.lang-opt:hover{border-color:var(--mint);}
-.lang-opt.active{border-color:var(--mint);background:var(--mint-ll);}
-.lang-flag{font-size:22px;}
-.lang-name{font-size:12px;font-weight:700;}
-.lang-native{font-size:10px;color:var(--light);}
 .nav-tabs{background:var(--card);border-bottom:1px solid var(--border);padding:0 18px;display:flex;gap:2px;overflow-x:auto;}
 .nav-tab{padding:10px 14px;font-size:12px;font-weight:600;color:var(--light);border-bottom:3px solid transparent;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .nav-tab:hover{color:var(--dark);}
@@ -150,7 +119,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .kpi-card.expenses .kpi-bar{background:var(--lav);}.kpi-card.savings .kpi-bar{background:var(--blue);}
 .kpi-card.debts .kpi-bar{background:var(--gold);}.kpi-card.remaining .kpi-bar{background:var(--mint);}
 .kpi-pct{font-size:9px;color:var(--light);margin-top:2px;}
-.charts-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
+.charts-row{display:grid;grid-template-columns:repeat(3, 1fr);gap:12px;margin-bottom:14px;}
 .remaining-hero{background:linear-gradient(135deg,#2D3142,#3D4260);border-radius:var(--r);padding:18px;color:#fff;box-shadow:var(--shadow-h);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
 .remaining-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(126,200,176,.2) 0%,transparent 70%);pointer-events:none;}
 .rh-label{font-size:10px;color:rgba(255,255,255,.4);margin-bottom:2px;}
@@ -250,7 +219,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .cal-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mid);font-weight:600;}
 .cal-legend-dot{width:12px;height:4px;border-radius:3px;}
 
-/* ══ CATEGORY BUDGET CEILINGS (أشرطة الأسقف المالية للفئات) ══ */
+/* ══ CATEGORY BUDGET CEILINGS ══ */
 .ceiling-wrap{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);padding:16px;margin-bottom:14px;}
 .ceiling-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;}
 .ceiling-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;}
@@ -258,7 +227,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .ceiling-bar-container{height:6px;background:var(--border);border-radius:3px;overflow:hidden;position:relative;}
 .ceiling-bar{height:100%;border-radius:3px;transition:width 0.4s ease, background-color 0.3s;}
 
-/* ══ PRINT MEDIA OVERLAYS (تصدير كـ PDF جاهز للطباعة) ══ */
+/* ══ PRINT & PDF FORMATTING ══ */
 @media print {
   .header, .nav-tabs, .notes-add-form, .notes-pills-wrap, .notes-filter-bar, .floating-add-btn, .ne-del, .add-btn, button {
     display: none !important;
@@ -273,7 +242,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 @media(max-width:700px){
   .main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}
   .notes-form-row{grid-template-columns:1fr 1fr;gap:6px;}.notes-form-row .nf-add-btn{grid-column:1/-1;}.notes-charts-row{grid-template-columns:1fr;}
-  .cal-table td{height:54px;padding:5px 4px;}.cal-day-num{font-size:13px;}.cal-day-amount{font-size:11px;}.cal-table th{font-size:10px;padding:8px 2px;}
+  .cal-table td{height:54px;padding:5px 4px;].cal-day-num{font-size:13px;}.cal-day-amount{font-size:11px;}.cal-table th{font-size:10px;padding:8px 2px;}
 }
 
 /* IN DRIVE */
@@ -296,8 +265,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .drive-week-bars{display:flex;align-items:flex-end;gap:6px;height:160px;margin-top:12px;}
 .drive-entries{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;}
 .drive-entries-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.drive-sync-badge{background:var(--mint-ll);color:var(--mint);font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;border:1px solid var(--mint-l);}
-@media(max-width:700px){.drive-stats-grid{grid-template-columns:repeat(3,1fr);}.drive-form-row{grid-template-columns:1fr 1fr;}}
 
 /* AUTH & DROPDOWN */
 .auth-bar{display:flex;align-items:center;gap:8px;}
@@ -324,6 +291,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </head>
 <body>
 
+<!-- ══════════ FLOATING QUICK ADD EXPENSE MODAL ══════════ -->
 <div class="modal-overlay" id="quickAddModal" onclick="if(event.target===this)closeModal('quickAddModal')">
   <div class="modal-box">
     <div class="modal-title"><span>إضافة مصروف سريع</span> ⚡ <button class="modal-close" onclick="closeModal('quickAddModal')">✕</button></div>
@@ -354,53 +322,25 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 </div>
 
-<div id="pin-screen">
-  <div class="pin-lang-row" style="direction:rtl;">
-    <button class="plb" onclick="setLang('ar')">عربي</button><button class="plb" onclick="setLang('dar')">دارجة</button><button class="plb" onclick="setLang('fr')">FR</button>
-  </div>
-  <div class="pin-logo">💰</div><div class="pin-title">تدبير</div><div class="pin-sub" id="pin-sub">---</div>
-  <div class="pin-dots"><div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div><div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div></div>
-  <div class="pin-pad">
-    <button class="pin-btn" onclick="pinPress('1')">1</button><button class="pin-btn" onclick="pinPress('2')">2</button><button class="pin-btn" onclick="pinPress('3')">3</button>
-    <button class="pin-btn" onclick="pinPress('4')">4</button><button class="pin-btn" onclick="pinPress('5')">5</button><button class="pin-btn" onclick="pinPress('6')">6</button>
-    <button class="pin-btn" onclick="pinPress('7')">7</button><button class="pin-btn" onclick="pinPress('8')">8</button><button class="pin-btn" onclick="pinPress('9')">9</button>
-    <button class="pin-btn empty"></button><button class="pin-btn" onclick="pinPress('0')">0</button><button class="pin-btn del" onclick="pinDel()">⌫</button>
-  </div>
-  <div class="pin-error-msg" id="pin-error"></div>
-  <div class="pin-forgot" id="pin-forgot" onclick="pinForgot()" style="display:none;">نسيت PIN؟</div>
-</div>
-
-<div class="modal-overlay" id="monthModal" onclick="if(event.target===this)closeModal('monthModal')">
-  <div class="modal-box">
-    <div class="modal-title"><span id="t-pick">اختار الشهر</span> 📅<button class="modal-close" onclick="closeModal('monthModal')">✕</button></div>
-    <div class="year-nav"><button onclick="chgPY(-1)">◀</button><span style="font-size:13px;font-weight:800;" id="pickerYear">2026</span><button onclick="chgPY(1)">▶</button></div>
-    <div class="months-grid" id="monthsGrid"></div>
-  </div>
+<div id="monthModal" class="modal-overlay" onclick="if(event.target===this)closeModal('monthModal')">
+  <div class="modal-box"><div class="modal-title"><span id="t-pick">اختار الشهر</span> 📅<button class="modal-close" onclick="closeModal('monthModal')">✕</button></div><div class="year-nav"><button onclick="chgPY(-1)">◀</button><span style="font-size:13px;font-weight:800;" id="pickerYear">2026</span><button onclick="chgPY(1)">▶</button></div><div class="months-grid" id="monthsGrid"></div></div>
 </div>
 
 <div class="modal-overlay" id="newMonthModal" onclick="if(event.target===this)closeModal('newMonthModal')">
-  <div class="modal-box">
-    <div class="modal-title"><span id="t-nm">شهر جديد</span> ✦<button class="modal-close" onclick="closeModal('newMonthModal')">✕</button></div>
-    <button class="modal-btn" id="t-nm-btn" onclick="confirmNewMonth()">إنشاء ✓</button>
-  </div>
+  <div class="modal-box"><div class="modal-title"><span id="t-nm">شهر جديد</span> ✦<button class="modal-close" onclick="closeModal('newMonthModal')">✕</button></div><button class="modal-btn" id="t-nm-btn" onclick="confirmNewMonth()">إنشاء ✓</button></div>
 </div>
 
 <div class="modal-overlay" id="backupModal" onclick="if(event.target===this)closeModal('backupModal')">
   <div class="modal-box">
     <div class="modal-title"><span id="t-bk">الحفظ والحماية</span> 💾<button class="modal-close" onclick="closeModal('backupModal')">✕</button></div>
     <div class="backup-section"><h3>📤 تصدير البيانات</h3><button class="backup-btn" onclick="exportJSON()">تحميل ملف الحفظ المحلي (JSON)</button></div>
-    <div class="backup-section"><h3>🔐 إعدادات PIN</h3><div class="pin-setting-row"><span>تفعيل قفل الحماية بـ PIN</span><button class="toggle" id="pin-toggle" onclick="togglePIN()"></button></div></div>
   </div>
 </div>
 
 <header class="header" style="display:none;">
   <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">تدبير</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved">محفوظ</span></div></div></div>
   <div class="header-right">
-    <div class="month-nav">
-      <button onclick="navigateMonth(-1)">‹</button>
-      <div class="month-label" id="monthLabel" onclick="openModal('monthModal');renderPicker()">---</div>
-      <button onclick="navigateMonth(1)">›</button>
-    </div>
+    <div class="month-nav"><button onclick="navigateMonth(-1)">‹</button><div class="month-label" id="monthLabel" onclick="openModal('monthModal');renderPicker()">---</div><button onclick="navigateMonth(1)">›</button></div>
     <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦ شهر جديد</button>
     <button class="icon-btn" onclick="openModal('backupModal');updateBackupUI()">💾</button>
     <button class="icon-btn" onclick="window.print()">🖨️ طباعة</button>
@@ -465,7 +405,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
         <button class="nf-add-btn" onclick="addNoteNew()">＋ تسجيل الآن</button>
       </div>
     </div>
-
+    
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:14px 16px; background:#f8f9fa; border-bottom:1px solid var(--border);">
       <div style="background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; text-align:center;">
         <div style="font-size:10px; color:var(--light); font-weight:700; margin-bottom:4px;">متوسط الإنفاق اليومي الفعلي</div>
@@ -494,13 +434,12 @@ let curYear=2026, curMonth=5, currency='درهم', pickerYear=2026, nmOpt='copy'
 let _appReady=false, _authReady=true, _isLoadingFromCloud=false, _saveQueue=false;
 let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
 
-/* ══ BUDGET CATEGORIES CEILINGS CONFIGURATION (تكوين الأسقف المالية المحددة للفئات) ══ */
 const CATEGORY_LIMITS = {
-  fixed: 3500,       // الضروريات الثابتة
-  daily: 2500,       // المعيشة اليومية
-  cafe_smoke: 500,   // القهوة والتدخين (سقف مالي حازم 500 درهم/شهر)
-  transport: 1200,   // التنقل والمحروقات
-  health: 800        // الصحة والعناية
+  fixed: 3500,       
+  daily: 2500,       
+  cafe_smoke: 500,   
+  transport: 1200,   
+  health: 800        
 };
 
 const mkey=(y,m)=>`${y}-${String(m+1).padStart(2,'0')}`;
@@ -573,7 +512,6 @@ function updateRowDirect(sec, idx, field, val) {
   persistData(); recalc(); renderCeilingBars();
 }
 
-/* ══ DYNAMIC RENDERING FOR CATEGORY CEILINGS (بناء أشرطة الأسقف والتحذيرات الذكية) ══ */
 function renderCeilingBars(){
   const container = $('ceiling-progress-container'); if(!container) return;
   container.innerHTML = '';
@@ -588,8 +526,8 @@ function renderCeilingBars(){
     const pct = Math.min(100, Math.round((spent / limit) * 100));
     
     let barColor = 'var(--mint)';
-    if(pct >= 90) barColor = '#ef4444'; // تجاوز السقف المالي الخطير
-    else if(pct >= 75) barColor = '#f59e0b'; // اقتراب من الخط الأحمر
+    if(pct >= 90) barColor = '#ef4444'; 
+    else if(pct >= 75) barColor = '#f59e0b'; 
 
     const card = document.createElement('div');
     card.className = 'ceiling-card';
@@ -614,7 +552,7 @@ function recalc(){
   (d.expenses||[]).forEach(r=>exp+=r.act);
   (d.savings||[]).forEach(r=>sav+=r.act);
   (d.debts||[]).forEach(r=>dbt+=r.act);
-  (d.notes||[]).forEach(r=>exp+=r.amount); // دمج دفتر الملاحظات تلقائياً
+  (d.notes||[]).forEach(r=>exp+=r.amount); 
 
   const rem = inc - bill - exp - sav - dbt;
   set('v-income', fmt(inc)); set('v-expenses', fmt(bill+exp+sav+dbt)); set('v-remaining', fmt(rem));
@@ -638,7 +576,6 @@ function renderNotesList(){
     const row = document.createElement('div');
     row.className = 'note-entry-row';
     
-    // دمج الخيار مع الملاحظة التوضيحية داخل التسمية
     const textLabel = n.note ? `${n.subCat} (${n.note})` : n.subCat;
 
     row.innerHTML = `
@@ -655,7 +592,6 @@ function renderNotesList(){
     listEl.appendChild(row);
   });
 
-  // معالجة الإحصائيات المتقدمة للحركة المالية
   const dynamicDaysCount = new Set(notes.map(n=>n.date)).size || 1;
   $('stat-avg-daily').textContent = `${Math.round(grandTotal / dynamicDaysCount)} درهم`;
   $('stat-peak-weekly').textContent = `${Math.max(...weeklyDistribution)} درهم`;
@@ -685,7 +621,6 @@ function addNoteNew(){
   persistData(); renderAll();
 }
 
-/* ══ FLOATING ACTIONS CONFIGURATION (إعدادات الإضافة السريعة عبر الزر العائم) ══ */
 function openQuickAddModal(){
   openModal('quickAddModal');
   $('qa-date').value = new Date().toISOString().slice(0,10);
@@ -707,18 +642,6 @@ function submitQuickAdd(){
   persistData(); renderAll();
 }
 
-/* ══ SERVICE WORKER DAILY NOTIFICATION (برمجة التذكير اليومي السلوكي المطلب الأحمر) ══ */
-function setupDailyReminder(){
-  if('Notification' in window && 'serviceWorker' in navigator) {
-    Notification.requestPermission().then(perm => {
-      if(perm === 'granted' && navigator.serviceWorker.ready) {
-        // جدولة التذكير اليومي بشكل تلقائي عبر المتصفح
-        console.log("إشعارات تذكير الميزانية مفعلة بنجاح 🔔");
-      }
-    });
-  }
-}
-
 function showTab(name, el){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
@@ -735,11 +658,13 @@ function renderNotesTab(){
 }
 
 function updateMonthLabel(){ set('monthLabel', `${curMonth+1} / ${curYear}`); }
-function unlockApp(){ $('pin-screen').classList.add('hidden'); $('header').style.display=''; document.querySelector('.nav-tabs').style.display=''; renderAll(); setupDailyReminder(); }
-function pinPress(d){ if(pinBuffer.length < 4) pinBuffer += d; if(pinBuffer.length === 4) unlockApp(); }
-function pinDel(){ pinBuffer = pinBuffer.slice(0,-1); }
-function togglePIN(){} function chgPY(d){} function renderPicker(){} function openModal(id){$(id).classList.add('open');} function closeModal(id){$(id).classList.remove('open');} function changeCurrency(v){currency=v;recalc();}
-document.addEventListener('DOMContentLoaded', ()=>{ loadData(); unlockApp(); });
+function unlockApp(){ $('monthModal').classList.remove('open'); $('header').style.display=''; document.querySelector('.nav-tabs').style.display=''; renderAll(); }
+function pinPress(d){} function pinDel(){} function chgPY(d){} function renderPicker(){} function openModal(id){$(id).classList.add('open');} function closeModal(id){$(id).classList.remove('open');} function changeCurrency(v){currency=v;recalc();}
+
+document.addEventListener('DOMContentLoaded', ()=>{ 
+  loadData(); 
+  unlockApp(); 
+});
 </script>
 </body>
 </html>
