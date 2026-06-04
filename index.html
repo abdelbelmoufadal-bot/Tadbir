@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>تدبير - النسخة الاحترافية v4.0</title>
+<title>تدبير - النسخة الاحترافية v4.1</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
@@ -154,7 +154,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .add-btn{display:flex;align-items:center;gap:4px;padding:7px 10px;font-size:10px;font-weight:600;color:var(--mint);background:none;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;border-top:1px solid var(--border);width:100%;transition:background .15s;}
 .add-btn:hover{background:var(--mint-ll);}
 
-/* ══ NOTES TAB REDESIGN ══ */
+/* ══ NOTES TAB DESIGN ══ */
 .notes-pills-wrap{padding:12px 16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
 .notes-pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);color:var(--mid);background:var(--bg);transition:all .18s;white-space:nowrap;}
 .notes-pill:hover{border-color:var(--mint);color:var(--dark);}
@@ -242,7 +242,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 @media(max-width:700px){
   .main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}
   .notes-form-row{grid-template-columns:1fr 1fr;gap:6px;}.notes-form-row .nf-add-btn{grid-column:1/-1;}.notes-charts-row{grid-template-columns:1fr;}
-  .cal-table td{height:54px;padding:5px 4px;].cal-day-num{font-size:13px;}.cal-day-amount{font-size:11px;}.cal-table th{font-size:10px;padding:8px 2px;}
+  .cal-table td{height:54px;padding:5px 4px;}.cal-day-num{font-size:13px;}.cal-day-amount{font-size:11px;}.cal-table th{font-size:10px;padding:8px 2px;}
 }
 
 /* IN DRIVE */
@@ -316,7 +316,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="lnd-hero">
     <div class="lnd-badge">✦ مجاني 100% • مزامنة سحابية</div>
     <h1 class="lnd-h1">دبّر فلوسك بذكاء<br><span>وفبلاصة وحدة</span></h1>
-    <p class="lnd-sub">تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم</p>
+    <p class="lnd-sub">تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك, تابع توفيرك، وخلّص من ديونك بشكل منظم</p>
     <button class="lnd-cta-hero" onclick="fbSignIn()">🚀 ابدأ مجاناً مع Google</button>
   </div>
 </div>
@@ -527,7 +527,7 @@ function renderCeilingBars(){
     
     let barColor = 'var(--mint)';
     if(pct >= 90) barColor = '#ef4444'; 
-    else if(pct >= 75) barColor = '#f59e0b'; 
+    if(pct >= 75 && pct < 90) barColor = '#f59e0b'; 
 
     const card = document.createElement('div');
     card.className = 'ceiling-card';
@@ -658,7 +658,7 @@ function renderNotesTab(){
 }
 
 function updateMonthLabel(){ set('monthLabel', `${curMonth+1} / ${curYear}`); }
-function unlockApp(){ $('monthModal').classList.remove('open'); $('header').style.display=''; document.querySelector('.nav-tabs').style.display=''; renderAll(); }
+function unlockApp(){ $('header').style.display=''; document.querySelector('.nav-tabs').style.display=''; renderAll(); }
 function pinPress(d){} function pinDel(){} function chgPY(d){} function renderPicker(){} function openModal(id){$(id).classList.add('open');} function closeModal(id){$(id).classList.remove('open');} function changeCurrency(v){currency=v;recalc();}
 
 document.addEventListener('DOMContentLoaded', ()=>{ 
