@@ -747,7 +747,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   <div class="modal-box">
     <div class="modal-title"><span id="t-bk"></span> 💾<button class="modal-close" onclick="closeModal('backupModal')">✕</button></div>
     <div class="backup-section"><h3 id="t-exp-h"></h3>
-      <button class="pdf-export-btn" onclick="exportExcel()" style="border-color:#1D6F42;"><span class="bicon">📊</span><div class="btxt"><span id="t-excel-btn">تصدير Excel (4 أوراق)</span><span>فواتير، مصاريف، توفير، ملخص</span></div></button>
+      <button class="pdf-export-btn" onclick="exportExcel()" style="border-color:#1D6F42;"><span class="bicon">📊</span><div class="btxt"><span id="t-excel-btn">تصدير CSV — Excel</span><span>يفتح مباشرة في Excel وSheets</span></div></button>
       <button class="pdf-export-btn" onclick="exportPDF()"><span class="bicon">📄</span><div class="btxt"><span id="t-pdf-btn">تصدير تقرير PDF</span><span id="t-pdf-s">ملخص شهري جاهز للطباعة</span></div></button>
       <button class="backup-btn" onclick="exportJSON()"><span class="bicon">📥</span><div class="btxt"><span id="t-exp-btn"></span><span id="t-exp-s"></span></div></button>
     </div>
@@ -3846,48 +3846,47 @@ function checkDailyReminder(){
 // Génère un vrai fichier .xlsx en utilisant SheetJS CDN
 // ══════════════════════════════════════════════════════════════════
 // ══════════════════════════════════════════════════════════════════
-// EXPORT EXCEL — XLS via HTML table (100% compatible, aucun CDN)
-// Excel, LibreOffice et Google Sheets ouvrent ce format nativement
+// EXPORT — CSV (s'ouvre directement dans Excel, 100% compatible)
+// Un fichier CSV par section, packagé dans un seul téléchargement
 // ══════════════════════════════════════════════════════════════════
 
 function exportExcel(){
-  try{ _buildXls(); }
-  catch(e){ console.error('XLS error:',e); showToast('❌ خطأ: '+e.message); }
+  try{ _buildCSV(); }
+  catch(e){ console.error(e); showToast('❌ خطأ: '+e.message); }
 }
 
-function _xlsEsc(v){
+function _csvEsc(v){
   if(v===null||v===undefined)return '';
-  return String(v)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+  var s=String(v).replace(/"/g,'""');
+  if(s.indexOf(',')>=0||s.indexOf('"')>=0||s.indexOf('\n')>=0||s.indexOf('\r')>=0)
+    s='"'+s+'"';
+  return s;
 }
 
-function _xlsRow(cells, bold){
-  return '<tr>'+ cells.map(function(v){
-    var style= bold ? 'font-weight:bold;background:#2D3142;color:#ffffff;' : '';
-    var align= typeof v==='number' ? 'text-align:right;' : 'text-align:right;';
-    var val  = (v===null||v===undefined) ? '' : _xlsEsc(String(v));
-    return '<td style="'+style+align+'border:1px solid #ccc;padding:4px 8px;white-space:nowrap;">'+val+'</td>';
-  }).join('') + '</tr>';
+function _toCSV(rows){
+  return rows.map(function(row){
+    return (row||[]).map(_csvEsc).join(',');
+  }).join('\r\n');
 }
 
-function _xlsTable(rows){
-  if(!rows||!rows.length)return '<table></table>';
-  return '<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse;font-family:Arial;font-size:12px;">'
-    + rows.map(function(row,i){ return _xlsRow(row||[], i===0); }).join('')
-    + '</table>';
+function _dlCSV(csv, filename){
+  // UTF-8 BOM pour que Excel reconnaisse l'arabe
+  var bom='\uFEFF';
+  var blob=new Blob([bom+csv],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},500);
 }
 
-function _buildXls(){
+function _buildCSV(){
   var mk=ck();
   var t=T();
   var monthLabel=(t.months||[])[curMonth]||('M'+(curMonth+1));
   var md=allData[mk]||{};
-  var monthNotes=((md).notes)||[];
+  var monthNotes=(md.notes)||[];
 
-  // ── Calculs ──
   var totalNotes=monthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
   var totalInc=(md.income||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
   var totalBills=(md.bills||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
@@ -3896,125 +3895,92 @@ function _buildXls(){
   var totalDbt=(md.debts||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
   var remBalance=totalInc-totalBills-totalExp-totalNotes-totalSav-totalDbt;
 
+  function dispChips(n){
+    return (n.chips&&n.chips.length>0)
+      ?n.chips.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + ')
+      :(n.subCat||n.note||'');
+  }
+
   // ── فئات ──
   var byCat={};
   monthNotes.forEach(function(n){
-    var mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'',label:n.mainCat||'أخرى'};
-    var k=mc.label;
-    byCat[k]=(byCat[k]||0)+Number(n.amount||0);
+    var mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{label:n.mainCat||'أخرى'};
+    byCat[mc.label]=(byCat[mc.label]||0)+Number(n.amount||0);
   });
 
-  function dispChips(n){
-    return (n.chips&&n.chips.length>0)
-      ? n.chips.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + ')
-      : (n.subCat||n.note||'');
-  }
+  // ══ CSV الرئيسي — كل الأقسام في ملف واحد ══
+  var rows=[];
 
-  // ══ ورقة 1: دفتر المصاريف ══
-  var sh1=[['التاريخ','الفئة','المشتريات','المبلغ','العملة']];
+  // عنوان
+  rows.push(['تدبير — تقرير '+monthLabel+' '+curYear]);
+  rows.push([]);
+
+  // ── الملخص الشهري ──
+  rows.push(['=== الملخص الشهري ===']);
+  rows.push(['البند','المبلغ','العملة']);
+  rows.push(['الدخل الإجمالي',       totalInc,                currency]);
+  rows.push(['الفواتير الثابتة',      totalBills,              currency]);
+  rows.push(['المصاريف اليومية',      totalExp,                currency]);
+  rows.push(['سجل المصاريف',         totalNotes,              currency]);
+  rows.push(['التوفير',               totalSav,                currency]);
+  rows.push(['الديون',                totalDbt,                currency]);
+  rows.push(['الرصيد المتبقي',        remBalance,              currency]);
+  rows.push([]);
+
+  // ── تفصيل حسب الفئة ──
+  rows.push(['=== حسب الفئة ===']);
+  rows.push(['الفئة','المبلغ','العملة']);
+  Object.entries(byCat).sort(function(a,b){return b[1]-a[1];})
+    .forEach(function(e){rows.push([e[0],e[1],currency]);});
+  rows.push([]);
+
+  // ── دفتر المصاريف ──
+  rows.push(['=== دفتر المصاريف ===']);
+  rows.push(['التاريخ','الفئة','المشتريات','المبلغ','العملة']);
   monthNotes.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');})
     .forEach(function(n){
-      var mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'',label:n.mainCat||''};
-      sh1.push([n.date||'', mc.label, dispChips(n), Number(n.amount||0), currency]);
+      var mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{label:n.mainCat||''};
+      rows.push([n.date||'', mc.label, dispChips(n), Number(n.amount||0), currency]);
     });
-  sh1.push(['','','الإجمالي', totalNotes, currency]);
+  rows.push(['','','الإجمالي', totalNotes, currency]);
+  rows.push([]);
 
-  // ══ ورقة 2: الملخص الشهري ══
-  var sh2=[['البند','المبلغ','العملة']];
-  sh2.push(['الدخل الإجمالي', totalInc, currency]);
-  sh2.push(['الفواتير الثابتة', totalBills, currency]);
-  sh2.push(['المصاريف اليومية', totalExp, currency]);
-  sh2.push(['سجل المصاريف', totalNotes, currency]);
-  sh2.push(['التوفير', totalSav, currency]);
-  sh2.push(['الديون', totalDbt, currency]);
-  sh2.push(['','','']);
-  sh2.push(['الرصيد المتبقي', remBalance, currency]);
-  sh2.push(['','','']);
-  sh2.push(['حسب الفئة','','']);
-  Object.entries(byCat).sort(function(a,b){return b[1]-a[1];})
-    .forEach(function(e){sh2.push([e[0], e[1], currency]);});
-
-  // ══ ورقة 3: الفواتير الثابتة ══
-  var sh3=[['الوصف','المخطط','الفعلي','نسبة %']];
+  // ── الفواتير الثابتة ──
+  rows.push(['=== الفواتير الثابتة ===']);
+  rows.push(['الوصف','المخطط','الفعلي','نسبة %']);
   (md.bills||[]).forEach(function(r){
     var pln=Number(r.pln||0), act=Number(r.act||0);
-    sh3.push([r.label||'', pln, act, pln>0?Math.round(act/pln*100):0]);
+    rows.push([r.label||'', pln, act, pln>0?Math.round(act/pln*100):0]);
   });
-  if(sh3.length===1) sh3.push(['لا توجد بيانات','','','']);
+  rows.push([]);
 
-  // ══ ورقة 4: التوفير والديون ══
-  var sh4=[['النوع','الوصف','المخطط','الفعلي']];
-  (md.savings||[]).forEach(function(r){sh4.push(['توفير',r.label||'',Number(r.pln||0),Number(r.act||0)]);});
-  (md.debts||[]).forEach(function(r){sh4.push(['دين',r.label||'',Number(r.pln||0),Number(r.act||0)]);});
-  if(sh4.length===1) sh4.push(['لا توجد بيانات','','','']);
+  // ── التوفير والديون ──
+  rows.push(['=== التوفير والديون ===']);
+  rows.push(['النوع','الوصف','المخطط','الفعلي']);
+  (md.savings||[]).forEach(function(r){
+    rows.push(['توفير', r.label||'', Number(r.pln||0), Number(r.act||0)]);
+  });
+  (md.debts||[]).forEach(function(r){
+    rows.push(['دين', r.label||'', Number(r.pln||0), Number(r.act||0)]);
+  });
+  rows.push([]);
 
-  // ══ ورقة 5: الترفيه/الكمالية ══
+  // ── الترفيه والكمالية ──
   var smokeNotes=monthNotes.filter(function(n){return n.mainCat==='cafe_smoke';});
-  var sh5=[['التاريخ','المشتريات','المبلغ']];
-  smokeNotes.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');})
-    .forEach(function(n){sh5.push([n.date||'', dispChips(n), Number(n.amount||0)]);});
-  var smokeTotal=smokeNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
-  sh5.push(['','الإجمالي', smokeTotal]);
+  if(smokeNotes.length>0){
+    rows.push(['=== الترفيه والكمالية ===']);
+    rows.push(['التاريخ','المشتريات','المبلغ']);
+    smokeNotes.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');})
+      .forEach(function(n){rows.push([n.date||'', dispChips(n), Number(n.amount||0)]);});
+    var smokeTotal=smokeNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
+    rows.push(['','الإجمالي', smokeTotal]);
+  }
 
-  // ══ بناء HTML متعدد الأوراق ══
-  var sheets=[
-    {name:'دفتر المصاريف', rows:sh1},
-    {name:'الملخص الشهري', rows:sh2},
-    {name:'الفواتير الثابتة', rows:sh3},
-    {name:'التوفير والديون', rows:sh4},
-    {name:'الترفيه والكمالية', rows:sh5},
-  ];
+  var csv=_toCSV(rows);
+  _dlCSV(csv, 'تدبير-'+monthLabel+'-'+curYear+'.csv');
 
-  // Excel Multi-Sheet HTML format
-  var html='<?xml version="1.0"?>\n'
-    +'<?mso-application progid="Excel.Sheet"?>\n'
-    +'<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n'
-    +' xmlns:o="urn:schemas-microsoft-com:office:office"\n'
-    +' xmlns:x="urn:schemas-microsoft-com:office:excel"\n'
-    +' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"\n'
-    +' xmlns:html="http://www.w3.org/TR/REC-html40">\n'
-    +'<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">'
-    +'<Title>تدبير '+monthLabel+' '+curYear+'</Title>'
-    +'</DocumentProperties>\n'
-    +'<Styles>'
-    +'<Style ss:ID="hdr"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#2D3142" ss:Pattern="Solid"/><Alignment ss:Horizontal="Right"/></Style>'
-    +'<Style ss:ID="num"><NumberFormat ss:Format="0.00"/><Alignment ss:Horizontal="Right"/></Style>'
-    +'<Style ss:ID="ttl"><Font ss:Bold="1"/><Interior ss:Color="#EAF7F3" ss:Pattern="Solid"/><Alignment ss:Horizontal="Right"/></Style>'
-    +'<Style ss:ID="def"><Alignment ss:Horizontal="Right"/></Style>'
-    +'</Styles>\n';
-
-  sheets.forEach(function(sheet){
-    html+='<Worksheet ss:Name="'+_xlsEsc(sheet.name)+'">\n<Table>\n';
-    sheet.rows.forEach(function(row,ri){
-      html+='<Row>\n';
-      (row||[]).forEach(function(val,ci){
-        var isHdr=ri===0;
-        var isNum=typeof val==='number';
-        var isTot=ri===sheet.rows.length-1&&typeof val==='number';
-        var styleID=isHdr?'hdr':isTot?'ttl':isNum?'num':'def';
-        var type=isNum?'Number':'String';
-        var v=(val===null||val===undefined)?'':val;
-        html+='<Cell ss:StyleID="'+styleID+'"><Data ss:Type="'+type+'">'+_xlsEsc(String(v))+'</Data></Cell>\n';
-      });
-      html+='</Row>\n';
-    });
-    html+='</Table>\n</Worksheet>\n';
-  });
-
-  html+='</Workbook>';
-
-  // Téléchargement avec BOM UTF-8
-  var bom='\uFEFF';
-  var blob=new Blob([bom+html],{type:'application/vnd.ms-excel;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;
-  a.download='تدبير-'+monthLabel+'-'+curYear+'.xls';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
   if(typeof closeModal==='function')closeModal('backupModal');
-  showToast('📊 جاهز — افتح الملف في Excel');
+  showToast('📊 تم — افتح الملف في Excel');
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
