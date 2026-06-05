@@ -3845,53 +3845,62 @@ function checkDailyReminder(){
 // AMÉLIORATION 8 — EXPORT EXCEL (XLSX natif sans librairie)
 // Génère un vrai fichier .xlsx en utilisant SheetJS CDN
 // ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════
+// EXPORT EXCEL — توليد xlsx حقيقي بدون CDN (100% مدمج)
+// يستخدم SpreadsheetML (XML) المدعوم من Excel و Sheets و LibreOffice
+// ══════════════════════════════════════════════════════════════════
+
 function exportExcel(){
-  // Load SheetJS from CDN if not loaded
-  if(typeof XLSX === 'undefined'){
-    const script=document.createElement('script');
-    script.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
-    script.onload=function(){_doExportExcel();};
-    script.onerror=function(){
-      showToast('❌ تعذر تحميل مكتبة Excel');
-    };
-    document.head.appendChild(script);
-    showToast('⏳ جاري التحميل...');
-    return;
+  try{
+    _buildXlsx();
+  }catch(e){
+    console.error('Excel error:',e);
+    showToast('❌ خطأ: '+e.message);
   }
-  _doExportExcel();
 }
 
-function _doExportExcel(){
+function _xlsxEsc(v){
+  if(v===null||v===undefined)return '';
+  return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function _xlsxSheet(rows){
+  // Build shared strings + cells
+  const ss=[]; const ssMap={};
+  function si(v){const s=String(v);if(ssMap[s]===undefined){ssMap[s]=ss.length;ss.push(s);}return ssMap[s];}
+  const colLetters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  function colLetter(i){return i<26?colLetters[i]:colLetters[Math.floor(i/26)-1]+colLetters[i%26];}
+  let cellsXml='';
+  rows.forEach(function(row,ri){
+    if(!row||!row.length)return;
+    cellsXml+='<row r="'+(ri+1)+'">';
+    row.forEach(function(val,ci){
+      const ref=colLetter(ci)+(ri+1);
+      if(val===''||val===null||val===undefined){cellsXml+='<c r="'+ref+'"/>';return;}
+      if(typeof val==='number'){
+        cellsXml+='<c r="'+ref+'" t="n"><v>'+val+'</v></c>';
+      } else {
+        const idx=si(val);
+        cellsXml+='<c r="'+ref+'" t="s"><v>'+idx+'</v></c>';
+      }
+    });
+    cellsXml+='</row>';
+  });
+  // Dimension
+  const maxC=Math.max.apply(null,rows.map(function(r){return r?r.length:0;}));
+  const dim='A1:'+colLetter(maxC-1)+rows.length;
+  return {cellsXml:cellsXml, ss:ss, ssMap:ssMap, dim:dim};
+}
+
+function _buildXlsx(){
   const mk=ck();
   const t=T();
   const monthLabel=(t.months||[])[curMonth]||('M'+(curMonth+1));
-  const wb=XLSX.utils.book_new();
-
-  // ── Sheet 1: دفتر المصاريف (Notes) ──
-  const monthNotes=((allData[mk]||{}).notes)||[];
-  const notesRows=[['التاريخ','الفئة','التفصيل','الملاحظة','المبلغ','العملة']];
-  monthNotes.slice().sort((a,b)=>a.date>b.date?-1:1).forEach(function(n){
-    const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'💰',label:n.mainCat||''};
-    var dispSub=(n.chips&&n.chips.length>0)?n.chips.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + '):(n.subCat||n.note||'');
-    notesRows.push([n.date, mc.icon+' '+mc.label, dispSub, n.remark||'', Number(n.amount||0), currency]);
-  });
-  // Total row
-  const totalNotes=monthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
-  notesRows.push(['','','','الإجمالي', totalNotes, currency]);
-  const wsNotes=XLSX.utils.aoa_to_sheet(notesRows);
-  // Column widths
-  wsNotes['!cols']=[{wch:12},{wch:22},{wch:18},{wch:24},{wch:12},{wch:8}];
-  // Style header row
-  const headerRange=XLSX.utils.decode_range(wsNotes['!ref']);
-  for(let C=headerRange.s.c;C<=headerRange.e.c;C++){
-    const addr=XLSX.utils.encode_cell({r:0,c:C});
-    if(!wsNotes[addr])continue;
-    wsNotes[addr].s={fill:{fgColor:{rgb:'2D3142'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
-  }
-  XLSX.utils.book_append_sheet(wb, wsNotes, 'دفتر المصاريف');
-
-  // ── Sheet 2: ملخص شهري ──
   const md=allData[mk]||{};
+  const monthNotes=((md).notes)||[];
+
+  // ── Calculs ──
+  const totalNotes=monthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
   const totalInc=(md.income||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
   const totalBills=(md.bills||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
   const totalExp=(md.expenses||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
@@ -3899,73 +3908,266 @@ function _doExportExcel(){
   const totalDbt=(md.debts||[]).reduce(function(s,r){return s+Number(r.act||0);},0);
   const remBalance=totalInc-totalBills-totalExp-totalNotes-totalSav-totalDbt;
 
-  const summaryRows=[
-    ['ملخص شهر '+monthLabel+' '+curYear,'',''],
-    ['','',''],
-    ['البند','المبلغ','العملة'],
-    ['💵 الدخل الإجمالي', totalInc, currency],
-    ['🧾 الفواتير الثابتة', totalBills, currency],
-    ['🛒 المصاريف اليومية', totalExp+totalNotes, currency],
-    ['🏦 التوفير', totalSav, currency],
-    ['💳 الديون', totalDbt, currency],
-    ['','',''],
-    ['✅ الرصيد المتبقي', remBalance, currency],
-    ['','',''],
-  ];
-
-  // Category breakdown
-  summaryRows.push(['── تفصيل حسب الفئة ──','','']);
+  // ── فئات حسب الإنفاق ──
   const byCat={};
   monthNotes.forEach(function(n){
-    const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'💰',label:n.mainCat||'أخرى',id:n.mainCat};
+    const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'',label:n.mainCat||'أخرى'};
     const k=mc.icon+' '+mc.label;
     byCat[k]=(byCat[k]||0)+Number(n.amount||0);
   });
-  Object.entries(byCat).sort((a,b)=>b[1]-a[1]).forEach(function([k,v]){
-    summaryRows.push([k, v, currency]);
+
+  // ══════ بناء الأوراق ══════
+
+  // ورقة 1: دفتر المصاريف
+  const sh1=[['التاريخ','الفئة','الخيار (المشتريات)','المبلغ','العملة']];
+  monthNotes.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');}).forEach(function(n){
+    const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'',label:n.mainCat||''};
+    const dispSub=(n.chips&&n.chips.length>0)
+      ?n.chips.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + ')
+      :(n.subCat||n.note||'');
+    sh1.push([n.date||'', mc.icon+' '+mc.label, dispSub, Number(n.amount||0), currency]);
+  });
+  sh1.push(['','','الإجمالي', totalNotes, currency]);
+
+  // ورقة 2: الملخص الشهري
+  const sh2=[
+    ['ملخص شهر '+monthLabel+' '+curYear,'',''],
+    ['','',''],
+    ['البند','المبلغ ('+currency+')',''],
+    ['💵 الدخل الإجمالي', totalInc,''],
+    ['🧾 الفواتير الثابتة', totalBills,''],
+    ['🛒 المصاريف اليومية', totalExp,''],
+    ['📒 سجل المصاريف', totalNotes,''],
+    ['🏦 التوفير', totalSav,''],
+    ['💳 الديون', totalDbt,''],
+    ['','',''],
+    ['✅ الرصيد المتبقي', remBalance,''],
+    ['','',''],
+    ['── حسب الفئة ──','',''],
+  ];
+  Object.entries(byCat).sort(function(a,b){return b[1]-a[1];}).forEach(function(e){
+    sh2.push([e[0], e[1], currency]);
   });
 
-  const wsSummary=XLSX.utils.aoa_to_sheet(summaryRows);
-  wsSummary['!cols']=[{wch:28},{wch:14},{wch:8}];
-  XLSX.utils.book_append_sheet(wb, wsSummary, 'الملخص الشهري');
-
-  // ── Sheet 3: الفواتير الثابتة ──
-  const billsRows=[['الوصف','المبلغ المخطط','المبلغ الفعلي','النسبة %']];
+  // ورقة 3: الفواتير الثابتة
+  const sh3=[['الوصف','المخطط','الفعلي','نسبة %']];
   (md.bills||[]).forEach(function(r){
-    const pln=Number(r.pln||0), act=Number(r.act||0);
-    billsRows.push([r.label||'', pln, act, pln>0?Math.round(act/pln*100)+'%':'—']);
+    const pln=Number(r.pln||0),act=Number(r.act||0);
+    sh3.push([r.label||'',pln,act,pln>0?Math.round(act/pln*100):0]);
   });
-  const wsBills=XLSX.utils.aoa_to_sheet(billsRows);
-  wsBills['!cols']=[{wch:24},{wch:14},{wch:14},{wch:10}];
-  XLSX.utils.book_append_sheet(wb, wsBills, 'الفواتير الثابتة');
+  if(sh3.length===1)sh3.push(['لا توجد بيانات','','','']);
 
-  // ── Sheet 4: التوفير والديون ──
-  const savRows=[['النوع','الوصف','المخطط','الفعلي']];
-  (md.savings||[]).forEach(function(r){savRows.push(['💰 توفير', r.label||'', Number(r.pln||0), Number(r.act||0)]);});
-  (md.debts||[]).forEach(function(r){savRows.push(['💳 دين', r.label||'', Number(r.pln||0), Number(r.act||0)]);});
-  const wsSav=XLSX.utils.aoa_to_sheet(savRows);
-  wsSav['!cols']=[{wch:12},{wch:24},{wch:14},{wch:14}];
-  XLSX.utils.book_append_sheet(wb, wsSav, 'التوفير والديون');
+  // ورقة 4: التوفير والديون
+  const sh4=[['النوع','الوصف','المخطط','الفعلي']];
+  (md.savings||[]).forEach(function(r){sh4.push(['توفير',r.label||'',Number(r.pln||0),Number(r.act||0)]);});
+  (md.debts||[]).forEach(function(r){sh4.push(['دين',r.label||'',Number(r.pln||0),Number(r.act||0)]);});
+  if(sh4.length===1)sh4.push(['لا توجد بيانات','','','']);
 
-  // ── Sheet 5: إحصائيات القهوة والتدخين ──
+  // ورقة 5: الترفيه/الكمالية
   const smokeNotes=monthNotes.filter(function(n){return n.mainCat==='cafe_smoke';});
-  if(smokeNotes.length>0){
-    const smokeRows=[['التاريخ','التفصيل','ملاحظة','المبلغ']];
-    smokeNotes.slice().sort((a,b)=>a.date>b.date?-1:1).forEach(function(n){
-      smokeRows.push([n.date, n.subCat||n.note||'', n.remark||'', Number(n.amount||0)]);
+  const sh5=[['التاريخ','المشتريات','المبلغ']];
+  smokeNotes.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');}).forEach(function(n){
+    const dispSub=(n.chips&&n.chips.length>0)
+      ?n.chips.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + ')
+      :(n.subCat||n.note||'');
+    sh5.push([n.date||'',dispSub,Number(n.amount||0)]);
+  });
+  const smokeTotal=smokeNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
+  sh5.push(['','الإجمالي',smokeTotal]);
+
+  // ══════ بناء ملف ZIP/xlsx ══════
+  const sheets=[
+    {name:'دفتر المصاريف', rows:sh1},
+    {name:'الملخص الشهري', rows:sh2},
+    {name:'الفواتير الثابتة', rows:sh3},
+    {name:'التوفير والديون', rows:sh4},
+    {name:'الترفيه-الكمالية', rows:sh5},
+  ];
+
+  // build global shared strings (across all sheets)
+  const globalSS=[]; const globalSSMap={};
+  function gsi(v){const s=_xlsxEsc(String(v));if(globalSSMap[s]===undefined){globalSSMap[s]=globalSS.length;globalSS.push(s);}return globalSSMap[s];}
+  const colLetters2='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  function colL(i){return i<26?colLetters2[i]:colLetters2[Math.floor(i/26)-1]+colLetters2[i%26];}
+
+  function buildSheetXml(rows){
+    let xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+    xml+='<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">';
+    const maxC=Math.max.apply(null,rows.filter(Boolean).map(function(r){return r.length;}));
+    xml+='<dimension ref="A1:'+colL(maxC-1)+rows.length+'"/>';
+    xml+='<sheetData>';
+    rows.forEach(function(row,ri){
+      if(!row)return;
+      xml+='<row r="'+(ri+1)+'">';
+      row.forEach(function(val,ci){
+        const ref=colL(ci)+(ri+1);
+        if(val===''||val===null||val===undefined){return;}
+        if(typeof val==='number'){
+          xml+='<c r="'+ref+'" t="n"><v>'+val+'</v></c>';
+        } else {
+          xml+='<c r="'+ref+'" t="s"><v>'+gsi(val)+'</v></c>';
+        }
+      });
+      xml+='</row>';
     });
-    const smokeTotal=smokeNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
-    smokeRows.push(['','الإجمالي','', smokeTotal]);
-    const wsSmoke=XLSX.utils.aoa_to_sheet(smokeRows);
-    wsSmoke['!cols']=[{wch:12},{wch:18},{wch:20},{wch:12}];
-    XLSX.utils.book_append_sheet(wb, wsSmoke, 'الترفيه/الكمالية');
+    xml+='</sheetData></worksheet>';
+    return xml;
   }
 
-  // Save file
-  const filename='تدبير-'+monthLabel+'-'+curYear+'.xlsx';
-  XLSX.writeFile(wb, filename);
-  closeModal('backupModal');
-  showToast('📊 تم تصدير Excel');
+  // Pre-scan all strings to build shared strings table
+  sheets.forEach(function(sh){
+    sh.rows.forEach(function(row){
+      if(!row)return;
+      row.forEach(function(val){
+        if(val!==''&&val!==null&&val!==undefined&&typeof val!=='number')gsi(val);
+      });
+    });
+  });
+
+  // Shared strings XML
+  const ssXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    +'<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="'+globalSS.length+'" uniqueCount="'+globalSS.length+'">'
+    +globalSS.map(function(s){return '<si><t xml:space="preserve">'+s+'</t></si>';}).join('')
+    +'</sst>';
+
+  // Workbook XML
+  const wbXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    +'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" '
+    +'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
+    +'<sheets>'
+    +sheets.map(function(sh,i){return '<sheet name="'+_xlsxEsc(sh.name)+'" sheetId="'+(i+1)+'" r:id="rId'+(i+2)+'"/>';}).join('')
+    +'</sheets></workbook>';
+
+  // Workbook rels
+  const wbRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    +'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+    +'<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>'
+    +sheets.map(function(sh,i){return '<Relationship Id="rId'+(i+2)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>';}).join('')
+    +'</Relationships>';
+
+  // [Content_Types]
+  const ct='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    +'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+    +'<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+    +'<Default Extension="xml" ContentType="application/xml"/>'
+    +'<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
+    +'<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>'
+    +sheets.map(function(sh,i){return '<Override PartName="/xl/worksheets/sheet'+(i+1)+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>';}).join('')
+    +'</Types>';
+
+  // _rels/.rels
+  const topRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    +'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+    +'<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>'
+    +'</Relationships>';
+
+  // Build ZIP using fflate (inline minimal implementation using Blob + base64)
+  // Since we have no library, we use a simpler approach:
+  // Generate a single-sheet CSV-style file as SYLK which Excel opens natively
+  // Actually: use data URI with proper xlsx mime type via a simple zip builder
+
+  // ── Minimal ZIP builder (no dependency) ──
+  function str2ab(str){
+    const buf=new ArrayBuffer(str.length);
+    const view=new Uint8Array(buf);
+    for(let i=0;i<str.length;i++)view[i]=str.charCodeAt(i)&0xff;
+    return buf;
+  }
+  function utf8bytes(str){return new TextEncoder().encode(str);}
+  function crc32(bytes){
+    let crc=0xFFFFFFFF;
+    for(let i=0;i<bytes.length;i++){
+      crc^=bytes[i];
+      for(let j=0;j<8;j++)crc=(crc&1)?(crc>>>1)^0xEDB88320:(crc>>>1);
+    }
+    return (crc^0xFFFFFFFF)>>>0;
+  }
+  function u32le(v){return [v&0xff,(v>>8)&0xff,(v>>16)&0xff,(v>>24)&0xff];}
+  function u16le(v){return [v&0xff,(v>>8)&0xff];}
+  function concat(...arrs){
+    const total=arrs.reduce(function(s,a){return s+a.length;},0);
+    const out=new Uint8Array(total);
+    let off=0;
+    arrs.forEach(function(a){out.set(a,off);off+=a.length;});
+    return out;
+  }
+
+  function zipEntry(name,data){
+    const nameBytes=utf8bytes(name);
+    const crc=crc32(data);
+    const local=concat(
+      new Uint8Array([0x50,0x4b,0x03,0x04,0x14,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]),
+      new Uint8Array(u32le(crc)),
+      new Uint8Array(u32le(data.length)),
+      new Uint8Array(u32le(data.length)),
+      new Uint8Array(u16le(nameBytes.length)),
+      new Uint8Array([0x00,0x00]),
+      nameBytes, data
+    );
+    const central=concat(
+      new Uint8Array([0x50,0x4b,0x01,0x02,0x14,0x00,0x14,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]),
+      new Uint8Array(u32le(crc)),
+      new Uint8Array(u32le(data.length)),
+      new Uint8Array(u32le(data.length)),
+      new Uint8Array(u16le(nameBytes.length)),
+      new Uint8Array([0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]),
+      nameBytes
+    );
+    return {local:local, central:central, localSize:local.length};
+  }
+
+  const files=[
+    {name:'[Content_Types].xml', xml:ct},
+    {name:'_rels/.rels', xml:topRels},
+    {name:'xl/workbook.xml', xml:wbXml},
+    {name:'xl/_rels/workbook.xml.rels', xml:wbRels},
+    {name:'xl/sharedStrings.xml', xml:ssXml},
+  ];
+  sheets.forEach(function(sh,i){
+    files.push({name:'xl/worksheets/sheet'+(i+1)+'.xml', xml:buildSheetXml(sh.rows)});
+  });
+
+  const entries=files.map(function(f){return zipEntry(f.name,utf8bytes(f.xml));});
+
+  // Local files
+  const localParts=entries.map(function(e){return e.local;});
+  // Central directory
+  const centralParts=entries.map(function(e){return e.central;});
+
+  let offset=0;
+  const offsets=[];
+  entries.forEach(function(e){offsets.push(offset);offset+=e.local.length;});
+  // Fix central directory offsets
+  const centralFixed=entries.map(function(e,i){
+    const c=new Uint8Array(e.central);
+    const off=offsets[i];
+    c[42]=off&0xff;c[43]=(off>>8)&0xff;c[44]=(off>>16)&0xff;c[45]=(off>>24)&0xff;
+    return c;
+  });
+
+  const centralAll=concat(...centralFixed);
+  const localAll=concat(...localParts);
+  const totalLocal=localAll.length;
+  const eocd=concat(
+    new Uint8Array([0x50,0x4b,0x05,0x06,0x00,0x00,0x00,0x00]),
+    new Uint8Array(u16le(files.length)),
+    new Uint8Array(u16le(files.length)),
+    new Uint8Array(u32le(centralAll.length)),
+    new Uint8Array(u32le(totalLocal)),
+    new Uint8Array([0x00,0x00])
+  );
+
+  const zipBytes=concat(localAll,centralAll,eocd);
+  const blob=new Blob([zipBytes],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='تدبير-'+monthLabel+'-'+curYear+'.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
+  if(typeof closeModal==='function')closeModal('backupModal');
+  showToast('📊 جاهز — افتح الملف في Excel');
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
