@@ -252,7 +252,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .notes-pill:hover{border-color:var(--mint);color:var(--dark);}
 .notes-pill.active{background:var(--mint);border-color:var(--mint);color:var(--dark);}
 .notes-add-form{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg);}
-.notes-form-row{display:grid;grid-template-columns:130px 1fr 1fr auto;gap:8px;align-items:end;}
+.notes-form-row{display:grid;grid-template-columns:140px 1fr auto;gap:8px;align-items:end;}
 .nf-group{display:flex;flex-direction:column;gap:4px;}
 .nf-label{font-size:10px;font-weight:600;color:var(--light);}
 .nf-input{height:34px;border:1px solid var(--border);border-radius:9px;padding:0 10px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);background:#fff;outline:none;width:100%;transition:border-color .2s;}
@@ -322,14 +322,17 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 /* ── OFFLINE ── */
 .offline-banner{display:none;position:fixed;top:56px;left:0;right:0;z-index:190;background:#E8A598;color:#fff;font-size:12px;font-weight:700;text-align:center;padding:8px;font-family:'Tajawal',sans-serif;}
 .offline-banner.show{display:block;}
-@media(max-width:700px){.weekly-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:700px){.weekly-grid{grid-template-columns:repeat(2,1fr);}
+  .notes-filter-bar{flex-direction:column;align-items:flex-start !important;}
+  #nf-day-filter{min-width:80px !important;}
+}
 
-.nf-remark-wrap{display:flex;align-items:center;gap:6px;margin-top:6px;padding:0 2px;}
+.nf-remark-wrap{display:none !important;}
 .nf-remark-input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'Tajawal',sans-serif;font-size:12px;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
 .nf-remark-input:focus{border-color:var(--mint);background:#fff;}
 .nf-remark-input::placeholder{color:var(--light);}
 .nf-remark-label{font-size:10px;color:var(--light);font-weight:600;white-space:nowrap;flex-shrink:0;}
-.nf-chips-section{padding:10px 16px 4px;border-bottom:1px solid var(--border);}
+.nf-chips-section{padding:12px 16px 10px;border-bottom:1px solid var(--border);background:var(--bg);}
 .nf-chips-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
 .nf-chips-label{font-size:10px;font-weight:700;color:var(--light);}
 .nf-chips-clear{font-size:10px;color:var(--mint);cursor:pointer;border:none;background:none;font-family:'Tajawal',sans-serif;padding:0;}
@@ -358,6 +361,8 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 @media(max-width:700px){
   .notes-form-row{grid-template-columns:1fr 1fr;gap:6px;}
   .notes-form-row .nf-add-btn{grid-column:1/-1;}
+  .nf-chips-grid{gap:4px;}
+  .nf-chip{font-size:10px;padding:3px 8px;}
   .nf-chips-grid{gap:4px;}
   .nf-chip{font-size:10px;padding:3px 8px;}
   .notes-charts-row{grid-template-columns:1fr;}
@@ -908,7 +913,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     <!-- CATEGORY PILLS -->
     <div class="notes-pills-wrap" id="notes-pills-wrap"></div>
 
-    <!-- SUB CATEGORY + FORM -->
+    <!-- FORM — بدون select, الخيار عبر chips -->
     <div class="notes-add-form">
       <div class="notes-form-row">
         <div class="nf-group">
@@ -916,36 +921,36 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
           <input type="date" class="nf-input" id="nf-date">
         </div>
         <div class="nf-group">
-          <span class="nf-label" id="nf-lbl-sub">الخيار</span>
-          <select class="nf-select" id="nf-sub"></select>
-        </div>
-        <div class="nf-group">
           <span class="nf-label" id="nf-lbl-amount">المبلغ</span>
           <input type="number" class="nf-input" id="nf-amount" placeholder="0" min="0">
         </div>
-        <button class="nf-add-btn" onclick="addNoteNew()">＋ <span id="nf-add-lbl">إضافة</span></button>
+        <button class="nf-add-btn" id="nf-add-main-btn" onclick="addNoteNew()">＋ <span id="nf-add-lbl">إضافة</span></button>
       </div>
-      <!-- MULTI-SELECT CHIPS -->
+      <!-- CHIPS: الخيار الوحيد بدلاً من select -->
       <div class="nf-chips-section" id="nf-chips-section">
         <div class="nf-chips-header">
-          <span class="nf-chips-label" id="nf-chips-lbl">📦 اختر ما اشتريته (يُضاف في الملاحظة)</span>
-          <button class="nf-chips-clear" onclick="clearNoteChips()" id="nf-chips-clear-btn">مسح الكل</button>
+          <span class="nf-chips-label" id="nf-chips-lbl">اختر المشتريات</span>
+          <button class="nf-chips-clear" onclick="clearNoteChips()" id="nf-chips-clear-btn">مسح الكل ✕</button>
         </div>
         <div class="nf-chips-grid" id="nf-chips-grid"></div>
         <div class="nf-chips-preview" id="nf-chips-preview"></div>
       </div>
-      <!-- REMARK (manual override) -->
-      <div class="nf-remark-wrap">
-        <span class="nf-remark-label" id="nf-lbl-remark">💬 ملاحظة إضافية</span>
-        <input type="text" class="nf-remark-input" id="nf-remark" placeholder="تفصيل إضافي اختياري..." maxlength="80">
-      </div>
+      <!-- nf-remark hidden — chips are the only choice -->
+      <input type="hidden" id="nf-remark" value="">
     </div>
 
+    <!-- hidden nf-sub kept for backward compat -->
+    <select id="nf-sub" style="display:none;"></select>
     <!-- FILTER BAR -->
-    <div class="notes-filter-bar">
-      <div style="display:flex;align-items:center;gap:8px;">
+    <div class="notes-filter-bar" style="flex-wrap:wrap;gap:6px;">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
         <span style="font-size:11px;color:var(--light);" id="nf-month-lbl2">الشهر:</span>
-        <select class="nf-month-select" id="nf-month-filter" onchange="renderNotesList()"></select>
+        <select class="nf-month-select" id="nf-month-filter" onchange="onMonthFilterChange()"></select>
+        <span style="font-size:11px;color:var(--light);" id="nf-day-lbl">اليوم:</span>
+        <select class="nf-month-select" id="nf-day-filter" onchange="renderNotesList()" style="min-width:90px;">
+          <option value="">الكل</option>
+        </select>
+        <button onclick="clearDayFilter()" id="nf-day-clear" style="display:none;font-size:10px;color:var(--mint);background:none;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;padding:2px 6px;border-radius:6px;border:1px solid var(--mint);">✕ مسح</button>
       </div>
       <div class="nf-total-badge">
         <span id="nf-filter-lbl">إجمالي:</span> <span id="nf-filter-total">0</span> <span id="nf-filter-cur">درهم</span>
@@ -1065,8 +1070,8 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
       <input type="number" class="edit-field-input" id="edit-note-amount" min="0">
     </div>
     <div class="edit-field-group">
-      <label class="edit-field-label" id="el-remark">الملاحظة</label>
-      <input type="text" class="edit-field-input" id="edit-note-remark" maxlength="80" placeholder="اختياري...">
+      <label class="edit-field-label" id="el-remark">تفصيل إضافي</label>
+      <input type="text" class="edit-field-input" id="edit-note-remark" maxlength="80" placeholder="محل، ماركة... (اختياري)">
     </div>
     <div class="edit-actions">
       <button class="edit-cancel-btn" onclick="closeEditNoteModal()">إلغاء</button>
@@ -1133,8 +1138,8 @@ const LANGS={
   },
   dar:{dir:'rtl',
     months:['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
-    cats:['مواد غذائية','السوق','قهوة/تدخين','النقل','أخرى'],
-    expLabel:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','أخرى'],
+    cats:['مواد غذائية','السوق','ترفيه/كمالية','النقل','أخرى'],
+    expLabel:['مواد غذائية','السوق','ترفيه/كمالية','Gasoil','أخرى'],
     pin_enter:'دخل رمز PIN ديالك',pin_create:'درلي PIN جديد (4 أرقام)',pin_confirm:'عاود دخل PIN',
     pin_wrong:'❌ PIN غلط',pin_mismatch:'❌ الأرقام ما خرجوش بحال',pin_note:'هاد الرمز كيحمي التطبيق ديالك',pin_forgot:'نسيتي PIN؟',
     saved:'محفوظ',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'سجل المصاريف',tab3:'مقارنة شهرية',
@@ -1166,8 +1171,8 @@ const LANGS={
   },
   fr:{dir:'ltr',
     months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-    cats:['Alimentation','Marché','Café/Tabac','Transport','Autre'],
-    expLabel:['Alimentation','Marché','Café/Tabac','Gasoil','Autre'],
+    cats:['Alimentation','Marché','Loisirs','Transport','Autre'],
+    expLabel:['Alimentation','Marché','Loisirs','Gasoil','Autre'],
     pin_enter:'Entrez votre code PIN',pin_create:'Créer un code PIN (4 chiffres)',pin_confirm:'Confirmez le PIN',
     pin_wrong:'❌ Code PIN incorrect',pin_mismatch:'❌ Les codes ne correspondent pas',pin_note:'Ce code protège votre application',pin_forgot:'PIN oublié ?',
     saved:'Sauvegardé automatiquement',new_btn:'✦ Nouveau mois',tab1:'Tableau de bord',tab2:'Carnet de notes',tab3:'Comparaison mensuelle',
@@ -1199,8 +1204,8 @@ const LANGS={
   },
   en:{dir:'ltr',
     months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-    cats:['Food','Market','Coffee/Tobacco','Transport','Other'],
-    expLabel:['Food','Market','Coffee/Tobacco','Gasoil','Other'],
+    cats:['Food','Market','Leisure','Transport','Other'],
+    expLabel:['Food','Market','Leisure','Gasoil','Other'],
     pin_enter:'Enter your PIN',pin_create:'Create a PIN (4 digits)',pin_confirm:'Confirm your PIN',
     pin_wrong:'❌ Incorrect PIN',pin_mismatch:'❌ PINs do not match',pin_note:'This PIN protects your app',pin_forgot:'Forgot PIN?',
     saved:'Auto-saved',new_btn:'✦ New Month',tab1:'Dashboard',tab2:'Notes',tab3:'Monthly Overview',
@@ -1232,8 +1237,8 @@ const LANGS={
   },
   es:{dir:'ltr',
     months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    cats:['Alimentación','Mercado','Café/Tabaco','Transporte','Otro'],
-    expLabel:['Alimentación','Mercado','Café/Tabaco','Gasoil','Otro'],
+    cats:['Alimentación','Mercado','Ocio','Transporte','Otro'],
+    expLabel:['Alimentación','Mercado','Ocio','Gasoil','Otro'],
     pin_enter:'Introduce tu PIN',pin_create:'Crear PIN (4 dígitos)',pin_confirm:'Confirma el PIN',
     pin_wrong:'❌ PIN incorrecto',pin_mismatch:'❌ Los PINs no coinciden',pin_note:'Este PIN protege tu aplicación',pin_forgot:'¿Olvidaste el PIN?',
     saved:'Guardado automáticamente',new_btn:'✦ Nuevo mes',tab1:'Panel de control',tab2:'Cuaderno de notas',tab3:'Comparativa mensual',
@@ -1295,7 +1300,7 @@ const MAIN_CATS = {
   ar: [
     {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['إيجار','كهرباء/ماء','غاز/بوطة','انترنت','تأمين','مسحوق غسيل','جافيل/مبيض','سائل الأواني','منظف أرضيات','معطر جو','ورق حمام','ورق مطبخ','أكياس زبل','ألومينيوم']},
     {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','خضر وفواكه','لحوم وأسماك','خبز وفطور','حليب وألبان','بقالة/إبيسري','مطعم','عصير طري','بيض','زيت وتوابل','أرز وكسكس','معكرونة','طون/مصبرات','قطاني']},
-    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة كحلة','كابوتشينو','نسكافي','أتاي','كرواصة','مسمن','بغرير','فطور كومبلي','عصير طري','سيجارة','علبة تبغ','ولاعة','شيشة','تفكيكة']},
+    {id:'cafe_smoke',icon:'☕', label:'الترفيه/الكمالية',      subs:['قهوة كحلة','كابوتشينو','نسكافي','أتاي','كرواصة','مسمن','بغرير','فطور كومبلي','عصير طري','سيجارة','علبة تبغ','ولاعة','شيشة','تفكيكة']},
     {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','نقل عام','صيانة سيارة']},
     {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','صيدلية','دوليبران/مسكن','فيتامينات','سيروم/قطن','ضمادات/بلاصط','حفاضات/كوش','حليب رضع','لانجيت','سيريلاك','شامبو','صابون','معجون أسنان','مضاد عرق','جيل حلاقة','شفرات','كوتون تيج']},
     {id:'clothes', icon:'👕', label:'الملابس والمظهر',      subs:['ملابس','حلاقة/عناية']},
@@ -1306,7 +1311,7 @@ const MAIN_CATS = {
   dar: [
     {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['الكراء','الكهرباء/الماء','البوطة/غاز','الانترنت','التأمين','تيد/مسحوق غسيل','جافيل','سائل الطاسة','سانيكروا','معطر الجو','بابيي توالات','بابيي كوزين','ميكات د الزبل','ألومينيوم']},
     {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','الخضرة والفاكهة','لحم وحوت','الخبز والفطور','الحليب والبان','البيضة','الروز/الكسكس','المقرونية','الطون/المصبرات','القطاني','ريستو','عصير طري','الزيت والتوابل']},
-    {id:'cafe_smoke',icon:'☕', label:'القهوة والتدخين',      subs:['قهوة كحلة','كابوتشينو','نسكافي','أتاي','كرواصة','مسمن','بغرير','فطور كومبلي','عصير طري','سيجارة','علبة تبغ','ولاعة','تفكيكة','شيشة']},
+    {id:'cafe_smoke',icon:'☕', label:'الترفيه/الكمالية',      subs:['قهوة كحلة','كابوتشينو','نسكافي','أتاي','كرواصة','مسمن','بغرير','فطور كومبلي','عصير طري','سيجارة','علبة تبغ','ولاعة','تفكيكة','شيشة']},
     {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','النقل العام','صيانة طوموبيل']},
     {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','الصيدلية','دوليبران','فيتامينات','سيروم/قطن','بلاصط','كوش/حفاضات','حليب رضع','لانجيت','سيريلاك','شامبوان','صابون','سينيال','ديدوران','جيل حلاقة','شفرات','كوتون تيج']},
     {id:'clothes', icon:'👕', label:'الحوايج والمظهر',      subs:['الحوايج','الحلاقة/العناية']},
@@ -1317,7 +1322,7 @@ const MAIN_CATS = {
   fr: [
     {id:'fixed',   icon:'🏠', label:'Charges fixes',        subs:['Loyer','Électricité/Eau','Gaz/Bonbonne','Internet','Assurance','Lessive/Tide','Javel','Liquide vaisselle','Désinfectant','Désodorisant','Papier toilette','Essuie-tout','Sacs poubelle','Aluminium']},
     {id:'daily',   icon:'🛒', label:'Vie quotidienne',      subs:['Alimentation','Marché','Légumes/Fruits','Viandes/Poissons','Pain/Viennoiseries','Lait/Produits laitiers','Oeufs','Riz/Couscous','Pâtes','Thon/Conserves','Légumineuses','Restaurant','Jus frais','Huile/Épices']},
-    {id:'cafe_smoke',icon:'☕', label:'Café & Tabac',           subs:['Café noir','Cappuccino','Nescafé','Thé','Croissant','Msemen','Beghrir','Petit-déj complet','Jus frais','Cigarettes','Paquet tabac','Briquet','Chicha','Tabac à pipe']},
+    {id:'cafe_smoke',icon:'☕', label:'Loisirs/Extras',           subs:['Café noir','Cappuccino','Nescafé','Thé','Croissant','Msemen','Beghrir','Petit-déj complet','Jus frais','Cigarettes','Paquet tabac','Briquet','Chicha','Tabac à pipe']},
     {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Transport public','Entretien voiture']},
     {id:'health',  icon:'🏥', label:'Santé',                subs:['Médicaments','Médecin','Pharmacie','Doliprane','Vitamines','Sérum/Coton','Pansements','Couches','Lait bébé','Lingettes','Céréales bébé','Shampoing','Savon','Dentifrice','Déodorant','Gel rasage','Lames rasoir','Coton-tige']},
     {id:'clothes', icon:'👕', label:'Vêtements et apparence',subs:['Vêtements','Coiffeur/Soins']},
@@ -1328,7 +1333,7 @@ const MAIN_CATS = {
   en: [
     {id:'fixed',   icon:'🏠', label:'Fixed expenses',       subs:['Rent','Electricity/Water','Gas','Internet','Insurance']},
     {id:'daily',   icon:'🛒', label:'Daily living',         subs:['Groceries','Market','Vegetables/Fruits','Meat/Fish','Bread/Pastries','Milk/Dairy','Eggs','Rice/Couscous','Pasta','Tuna/Canned','Legumes','Restaurant','Fresh juice','Oil/Spices']},
-    {id:'cafe_smoke',icon:'☕', label:'Coffee & Tobacco',      subs:['Black coffee','Cappuccino','Nescafé','Tea','Croissant','Msemen','Beghrir','Full breakfast','Fresh juice','Cigarettes','Tobacco pack','Lighter','Hookah','Pipe tobacco']},
+    {id:'cafe_smoke',icon:'☕', label:'Leisure/Extras',      subs:['Black coffee','Cappuccino','Nescafé','Tea','Croissant','Msemen','Beghrir','Full breakfast','Fresh juice','Cigarettes','Tobacco pack','Lighter','Hookah','Pipe tobacco']},
     {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Public transport','Car maintenance']},
     {id:'health',  icon:'🏥', label:'Health',               subs:['Medicine','Doctor','Pharmacy','Painkiller','Vitamins','Cotton/Serum','Bandages','Diapers','Baby milk','Baby wipes','Baby cereal','Shampoo','Soap','Toothpaste','Deodorant','Shaving gel','Razor blades','Cotton swabs']},
     {id:'clothes', icon:'👕', label:'Clothes & appearance', subs:['Clothes','Haircut/Care']},
@@ -1339,7 +1344,7 @@ const MAIN_CATS = {
   es: [
     {id:'fixed',   icon:'🏠', label:'Gastos fijos',         subs:['Alquiler','Electricidad/Agua','Gas','Internet','Seguro']},
     {id:'daily',   icon:'🛒', label:'Vida diaria',          subs:['Alimentación','Mercado','Verduras/Frutas','Carnes/Pescados','Pan/Bollería','Leche/Lácteos','Huevos','Arroz/Cuscús','Pasta','Atún/Conservas','Legumbres','Restaurante','Zumo fresco','Aceite/Especias']},
-    {id:'cafe_smoke',icon:'☕', label:'Café y Tabaco',         subs:['Café solo','Capuchino','Nescafé','Té','Croissant','Msemen','Beghrir','Desayuno completo','Zumo fresco','Cigarrillos','Paquete tabaco','Mechero','Cachimba','Tabaco']},
+    {id:'cafe_smoke',icon:'☕', label:'Ocio/Extras',         subs:['Café solo','Capuchino','Nescafé','Té','Croissant','Msemen','Beghrir','Desayuno completo','Zumo fresco','Cigarrillos','Paquete tabaco','Mechero','Cachimba','Tabaco']},
     {id:'transport',icon:'🚗',label:'Transporte',            subs:['Gasoil','Transporte público','Mantenimiento coche']},
     {id:'health',  icon:'🏥', label:'Salud',                subs:['Medicamentos','Médico','Farmacia']},
     {id:'clothes', icon:'👕', label:'Ropa y apariencia',    subs:['Ropa','Peluquería/Cuidados']},
@@ -1363,35 +1368,35 @@ function getMainLabel(mainId){
 const DEF_LABELS={
   ar:{
     bills:['الضو','الماء','Wi-fi','التليفون','الإيجار','التأمين','نتفليكس','الغاز'],
-    expenses:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','الترفيه','ملابس','صيدلية','مطعم','الحلاقة','متنوع'],
+    expenses:['مواد غذائية','السوق','ترفيه/كمالية','Gasoil','الترفيه','ملابس','صيدلية','مطعم','الحلاقة','متنوع'],
     savings:['المشروع','السفر','طوارئ','تعليم'],
     debts:['Credit Dacia','البنك','كريدي شخصي'],
     income:['الراتب','عمل ثاني','إيجار مستلم']
   },
   dar:{
     bills:['الضو','الماء','Wi-fi','التليفون','الكراء','التأمين','نتفليكس','الغاز'],
-    expenses:['مواد غذائية','السوق','قهوة/تدخين','Gasoil','الترفيه','الحوايج','الصيدلية','ريستو','الحلاقة','متنوع'],
+    expenses:['مواد غذائية','السوق','ترفيه/كمالية','Gasoil','الترفيه','الحوايج','الصيدلية','ريستو','الحلاقة','متنوع'],
     savings:['المشروع','السفر','الطوارئ','التعليم'],
     debts:['Credit Dacia','البنك','كريدي شخصي'],
     income:['الراتب','خدمة ثانية','كراء مستلم']
   },
   fr:{
     bills:['Électricité','Eau','Wi-fi','Téléphone','Loyer','Assurance','Netflix','Gaz'],
-    expenses:['Alimentation','Marché','Café/Tabac','Gasoil','Loisirs','Vêtements','Pharmacie','Restaurant','Coiffeur','Divers'],
+    expenses:['Alimentation','Marché','Loisirs','Gasoil','Loisirs','Vêtements','Pharmacie','Restaurant','Coiffeur','Divers'],
     savings:['Projet','Voyage','Urgences','Éducation'],
     debts:['Crédit voiture','Banque','Crédit perso'],
     income:['Salaire','2ème emploi','Loyer reçu']
   },
   en:{
     bills:['Electricity','Water','Wi-fi','Phone','Rent','Insurance','Netflix','Gas'],
-    expenses:['Food','Market','Coffee/Tobacco','Gasoil','Entertainment','Clothes','Pharmacy','Restaurant','Haircut','Misc'],
+    expenses:['Food','Market','Leisure','Gasoil','Entertainment','Clothes','Pharmacy','Restaurant','Haircut','Misc'],
     savings:['Project','Travel','Emergency','Education'],
     debts:['Car credit','Bank','Personal loan'],
     income:['Salary','2nd job','Rent received']
   },
   es:{
     bills:['Electricidad','Agua','Wi-fi','Teléfono','Alquiler','Seguro','Netflix','Gas'],
-    expenses:['Alimentación','Mercado','Café/Tabaco','Gasoil','Ocio','Ropa','Farmacia','Restaurante','Peluquería','Varios'],
+    expenses:['Alimentación','Mercado','Ocio','Gasoil','Ocio','Ropa','Farmacia','Restaurante','Peluquería','Varios'],
     savings:['Proyecto','Viaje','Emergencias','Educación'],
     debts:['Crédito coche','Banco','Préstamo personal'],
     income:['Salario','2º trabajo','Alquiler recibido']
@@ -2980,34 +2985,9 @@ function initNotesPills(){
 }
 
 function updateNoteSubSelect(){
-  var sel=document.getElementById('nf-sub');
-  if(!sel)return;
-  sel.innerHTML='';
-  // refresh chips for active cat
+  // select est caché — on rafraîchit uniquement les chips
   var chipCat=_noteActiveCat||'daily';
   if(typeof initNoteChips==='function')initNoteChips(chipCat);
-  if(_noteActiveCat===null){
-    // Show all subs from all cats
-    getMainCats().forEach(function(mc){
-      var grp=document.createElement('optgroup');
-      grp.label=mc.icon+' '+mc.label;
-      mc.subs.forEach(function(s){
-        var opt=document.createElement('option');
-        opt.value=mc.id+'|'+s;opt.textContent=s;
-        grp.appendChild(opt);
-      });
-      sel.appendChild(grp);
-    });
-  } else {
-    var mc=getMainCats().find(function(c){return c.id===_noteActiveCat;});
-    if(mc){
-      mc.subs.forEach(function(s){
-        var opt=document.createElement('option');
-        opt.value=mc.id+'|'+s;opt.textContent=s;
-        sel.appendChild(opt);
-      });
-    }
-  }
 }
 
 function initNotesMonthFilter(){
@@ -3088,7 +3068,8 @@ const NOTE_CHIPS = {
     '☕ قهوة كحلة','☕ كابوتشينو','🫖 نسكافي','🍵 أتاي',
     '🥐 كرواصة','🫓 مسمن','🧇 بغرير','🍳 فطور كومبلي',
     '🥤 عصير طري','🚬 سيجارة','📦 علبة تبغ',
-    '🔥 ولاعة','💨 شيشة/تفكيكة'
+    '🔥 ولاعة','💨 شيشة/تفكيكة','🎮 ترفيه','🎬 سينما','🛍️ تسوق كمالي',
+    '💆 عناية/سبا','🎁 هدية','🍰 حلويات/مقهى'
   ],
   'transport': [
     '⛽ Gasoil','🚌 نقل عام/طاكسي','🔧 صيانة سيارة',
@@ -3116,8 +3097,12 @@ function initNoteChips(catId){
   _selectedChips=[];
   var grid=document.getElementById('nf-chips-grid');
   var section=document.getElementById('nf-chips-section');
+  var lbl=document.getElementById('nf-chips-lbl');
   if(!grid)return;
   grid.innerHTML='';
+  var mc=getMainCats().find(function(m){return m.id===catId;});
+  if(lbl&&mc)lbl.textContent=mc.icon+' '+mc.label;
+  else if(lbl)lbl.textContent='اختر المشتريات';
   var items=NOTE_CHIPS[catId]||NOTE_CHIPS['daily'];
   items.forEach(function(item){
     var chip=document.createElement('button');
@@ -3147,15 +3132,16 @@ function clearNoteChips(){
 
 function updateChipsPreview(){
   var preview=document.getElementById('nf-chips-preview');
+  var addBtn=document.getElementById('nf-add-main-btn');
   if(!preview)return;
   if(_selectedChips.length===0){
-    preview.innerHTML='<span style="font-size:10px;color:var(--light);">اضغط على ما اشتريته لإضافته في الملاحظة</span>';
+    preview.innerHTML='<span style="font-size:10px;color:var(--light);">— اضغط على ما اشتريته —</span>';
   } else {
     var tags=_selectedChips.map(function(s){
       var label=s.replace(/^[^ ]+ /,'');
-      return '<span class="nfc-tag">'+label+'</span>';
+      return '<span class="nfc-tag">'+s.split(' ')[0]+' '+label+'</span>';
     }).join('');
-    preview.innerHTML='<span style="font-size:10px;color:var(--light);margin-left:4px;">ستُحفظ:</span>'+tags;
+    preview.innerHTML='<span style="font-size:10px;color:var(--mint);margin-left:4px;font-weight:700;">✓ الخيار:</span>'+tags;
   }
 }
 
@@ -3166,34 +3152,39 @@ function getChipsAutoRemark(){
 
 function addNoteNew(){
   var dateEl=document.getElementById('nf-date');
-  var subEl=document.getElementById('nf-sub');
   var amountEl=document.getElementById('nf-amount');
-  var remarkEl=document.getElementById('nf-remark');
-  if(!dateEl||!subEl||!amountEl)return;
+  if(!dateEl||!amountEl)return;
   var date=dateEl.value;
   var amount=Number(amountEl.value)||0;
-  var subVal=subEl.value; // 'catId|subLabel'
-  // Merge chips selection + manual remark
-  var chipsRemark=getChipsAutoRemark();
-  var manualRemark=(remarkEl?remarkEl.value.trim():'');
-  var remark=chipsRemark+(chipsRemark&&manualRemark?' — ':'')+manualRemark;
+  // Chips = subCat (the only choice)
+  var chipsSelected=_selectedChips.slice();
+  var mainCat=_noteActiveCat||'daily';
+  var subCat=chipsSelected.length>0
+    ? chipsSelected.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + ')
+    : (getMainCats().find(function(m){return m.id===mainCat;})||{label:mainCat}).label;
+  var remark='';
   if(!date||amount<=0){showToast('❌ '+(T().drive_fill||'أكمل الحقول'));return;}
-  var parts=subVal.split('|');
-  var mainCat=parts[0]||(_noteActiveCat||'daily');
-  var subCat=parts[1]||'';
-  // Save to allData key matching note's date year/month
   var dp=date.split('-');
   var mk=dp[0]+'-'+dp[1];
   if(!allData[mk])allData[mk]=defMonth();
   if(!allData[mk].notes)allData[mk].notes=[];
-  allData[mk].notes.push({date:date,note:subCat,mainCat:mainCat,subCat:subCat,amount:amount,cat:subCat,remark:remark});
+  allData[mk].notes.push({
+    date:date,
+    mainCat:mainCat,
+    subCat:subCat,
+    note:subCat,
+    cat:subCat,
+    chips:chipsSelected,
+    amount:amount,
+    remark:remark
+  });
   amountEl.value='';
-  if(remarkEl)remarkEl.value='';
   clearNoteChips();
   persistData();
   renderNotesTab();
   renderNotesInExpenses();
   recalc();
+  setTimeout(populateDayFilter,100);
   showToast(T().toast_add||'✓');
 }
 
@@ -3207,6 +3198,62 @@ function deleteNoteNew(idx){
   recalc();
 }
 
+
+// ══════════════════════════════════════════════════════════════════
+// فلتر الأيام — يتحدث عند تغيير الشهر
+// ══════════════════════════════════════════════════════════════════
+function onMonthFilterChange(){
+  populateDayFilter();
+  renderNotesList();
+}
+
+function populateDayFilter(){
+  var monthSel=document.getElementById('nf-month-filter');
+  var daySel=document.getElementById('nf-day-filter');
+  if(!monthSel||!daySel)return;
+  var mk=monthSel.value;
+  // Collect all unique days that have entries in this month
+  var days=new Set();
+  Object.keys(allData).forEach(function(k){
+    ((allData[k]||{}).notes||[]).forEach(function(n){
+      if(n.date&&n.date.startsWith(mk))days.add(n.date);
+    });
+  });
+  // Build day options sorted desc
+  var dayArr=Array.from(days).sort().reverse();
+  var prevDay=daySel.value;
+  daySel.innerHTML='<option value="">— '+(_dayFilterLabels[lang]||'كل الأيام')+' —</option>';
+  dayArr.forEach(function(d){
+    var opt=document.createElement('option');
+    opt.value=d;
+    // Format: يوم + رقم
+    var parts=d.split('-');
+    var dayNum=parseInt(parts[2]);
+    var dayNames=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+    var dayNamesFr=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+    var dayNamesEn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    var dt=new Date(d);
+    var dow=dt.getDay();
+    var dayName=lang==='fr'?dayNamesFr[dow]:lang==='en'?dayNamesEn[dow]:dayNames[dow];
+    opt.textContent=dayName+' '+dayNum;
+    if(d===prevDay)opt.selected=true;
+    daySel.appendChild(opt);
+  });
+  // Show/hide clear button
+  var clearBtn=document.getElementById('nf-day-clear');
+  if(clearBtn)clearBtn.style.display=daySel.value?'inline-block':'none';
+}
+
+const _dayFilterLabels={ar:'كل الأيام',dar:'كل الأيام',fr:'Tous',en:'All days',es:'Todos'};
+
+function clearDayFilter(){
+  var daySel=document.getElementById('nf-day-filter');
+  if(daySel)daySel.value='';
+  var clearBtn=document.getElementById('nf-day-clear');
+  if(clearBtn)clearBtn.style.display='none';
+  renderNotesList();
+}
+
 function renderNotesList(){
   var listEl=document.getElementById('notes-entries-list');
   var footerVal=document.getElementById('nf-footer-val');
@@ -3215,15 +3262,23 @@ function renderNotesList(){
   var filterCur=document.getElementById('nf-filter-cur');
   if(!listEl)return;
 
-  // Get selected filter month
+  // Get selected filter month + day
   var fSel=document.getElementById('nf-month-filter');
   _noteFilterMonth=fSel?fSel.value:ck();
+  var daySel=document.getElementById('nf-day-filter');
+  var filterDay=daySel?daySel.value:'';
+  // Show/hide clear day btn
+  var clearDayBtn=document.getElementById('nf-day-clear');
+  if(clearDayBtn)clearDayBtn.style.display=filterDay?'inline-block':'none';
 
-  // Collect notes from ALL allData - match by note.date (not allData key)
+  // Collect notes — filter by month then optionally by exact day
   var allNotes=[];
   Object.keys(allData).forEach(function(mk2){
     ((allData[mk2]||{}).notes||[]).forEach(function(n,i){
-      if(n.date&&_noteFilterMonth&&n.date.startsWith(_noteFilterMonth)){
+      if(!n.date)return;
+      var monthMatch=_noteFilterMonth&&n.date.startsWith(_noteFilterMonth);
+      var dayMatch=!filterDay||(n.date===filterDay);
+      if(monthMatch&&dayMatch){
         allNotes.push({n:n,mk:mk2,i:i});
       }
     });
@@ -3274,11 +3329,32 @@ function renderNotesList(){
     info.className='ne-info';
     var title=document.createElement('div');
     title.className='ne-title';
-    title.textContent=n.subCat||n.note||n.cat||mc.label;
+    var titleTxt=(n.chips&&n.chips.length>0)?mc.label:(n.subCat||n.note||n.cat||mc.label);
+    title.textContent=titleTxt;
     var sub=document.createElement('div');
     sub.className='ne-sub';
     sub.textContent=mc.label+' • '+n.date;
     info.appendChild(title);info.appendChild(sub);
+    // Afficher les chips (choix) sous forme de mini-tags
+    if(n.chips&&n.chips.length>0){
+      var chipsRow=document.createElement('div');
+      chipsRow.style.cssText='display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;';
+      n.chips.forEach(function(ch){
+        var t=document.createElement('span');
+        var lbl=ch.replace(/^[^ ]+ /,'');
+        var ico=ch.split(' ')[0];
+        t.style.cssText='display:inline-flex;align-items:center;gap:2px;background:#EAF7F3;color:#085041;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:600;';
+        t.textContent=ico+' '+lbl;
+        chipsRow.appendChild(t);
+      });
+      info.appendChild(chipsRow);
+    } else if(n.subCat&&n.subCat!==n.note){
+      // Legacy: show subCat as single tag
+      var legTag=document.createElement('span');
+      legTag.style.cssText='display:inline-block;background:#EAF7F3;color:#085041;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:600;margin-top:3px;';
+      legTag.textContent=n.subCat;
+      info.appendChild(legTag);
+    }
     if(n.remark){
       var rem=document.createElement('div');
       rem.className='ne-remark';
@@ -3371,6 +3447,8 @@ function renderNotesTab(){
   }
   // Init sub select + chips
   updateNoteSubSelect();
+  // Populate day filter
+  setTimeout(populateDayFilter, 50);
   // Render list
   renderNotesList();
 }
@@ -3451,7 +3529,7 @@ function saveEditNote(){
     if(!allData[newMk].notes)allData[newMk].notes=[];
     allData[newMk].notes.push({date:newDate,mainCat:newCat,subCat:newSub,note:newSub,cat:newSub,amount:newAmt,remark:newRem});
   }else{
-    n.date=newDate; n.amount=newAmt; n.mainCat=newCat; n.subCat=newSub; n.note=newSub; n.cat=newSub; n.remark=newRem;
+    n.date=newDate; n.amount=newAmt; n.mainCat=newCat; n.subCat=newSub; n.note=newSub; n.cat=newSub; n.remark=newRem; n.chips=n.chips||[];
   }
   closeEditNoteModal();
   persistData(); renderNotesTab(); renderNotesInExpenses(); recalc();
@@ -3685,7 +3763,8 @@ function exportPDF(){
   Object.keys(byDate).sort().reverse().forEach(function(date){
     byDate[date].forEach(function(n){
       const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'💰',label:n.mainCat||''};
-      rows+='<tr><td>'+date+'</td><td>'+mc.icon+' '+mc.label+'</td><td>'+(n.subCat||n.note||'')+'</td><td>'+(n.remark||'—')+'</td><td style="text-align:left;font-weight:700;">'+fmt(n.amount)+' '+currency+'</td></tr>';
+      var pdfSub=(n.chips&&n.chips.length>0)?n.chips.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + '):(n.subCat||n.note||'');
+      rows+='<tr><td>'+date+'</td><td>'+mc.icon+' '+mc.label+'</td><td>'+pdfSub+'</td><td>'+(n.remark||'—')+'</td><td style="text-align:left;font-weight:700;">'+fmt(n.amount)+' '+currency+'</td></tr>';
     });
   });
 
@@ -3793,7 +3872,8 @@ function _doExportExcel(){
   const notesRows=[['التاريخ','الفئة','التفصيل','الملاحظة','المبلغ','العملة']];
   monthNotes.slice().sort((a,b)=>a.date>b.date?-1:1).forEach(function(n){
     const mc=getMainCats().find(function(x){return x.id===n.mainCat;})||{icon:'💰',label:n.mainCat||''};
-    notesRows.push([n.date, mc.icon+' '+mc.label, n.subCat||n.note||'', n.remark||'', Number(n.amount||0), currency]);
+    var dispSub=(n.chips&&n.chips.length>0)?n.chips.map(function(s){return s.replace(/^[^ ]+ /,'');}).join(' + '):(n.subCat||n.note||'');
+    notesRows.push([n.date, mc.icon+' '+mc.label, dispSub, n.remark||'', Number(n.amount||0), currency]);
   });
   // Total row
   const totalNotes=monthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
@@ -3878,7 +3958,7 @@ function _doExportExcel(){
     smokeRows.push(['','الإجمالي','', smokeTotal]);
     const wsSmoke=XLSX.utils.aoa_to_sheet(smokeRows);
     wsSmoke['!cols']=[{wch:12},{wch:18},{wch:20},{wch:12}];
-    XLSX.utils.book_append_sheet(wb, wsSmoke, 'القهوة والتدخين');
+    XLSX.utils.book_append_sheet(wb, wsSmoke, 'الترفيه/الكمالية');
   }
 
   // Save file
