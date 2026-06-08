@@ -177,12 +177,18 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .mini-table tr:hover td{background:var(--bg);}
 .mini-table .lc{font-weight:500;text-align:right;}
 .mini-table .ac,.mini-table .pc{text-align:left;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);}
-.mini-table .pc{color:var(--light);}
+.mini-table .pc{color:var(--mid);}
 /* note-row: rows coming from notes — shown in expenses table */
 .mini-table .note-row td{background:#f0faf6;color:var(--mid);font-style:italic;}
+.mini-table .row-over .ac input[type=number]{color:var(--peach)!important;font-weight:700;}
+.mini-table .row-ok .ac input[type=number]{color:var(--mint)!important;}
 .mini-table .note-row td:first-child::before{content:'📝 ';font-style:normal;}
 .mini-table input[type=number]{background:transparent;border:none;font-family:'DM Mono',monospace;font-size:10px;width:62px;text-align:left;color:var(--dark);padding:2px;border-radius:3px;outline:none;}
 .mini-table input[type=number]:focus{background:var(--mint-ll);}
+.mini-table .pc input[type=number]{color:var(--mid);border-bottom:1px dashed var(--border);cursor:text;}
+.mini-table .pc input[type=number]:hover{background:rgba(0,0,0,.04);border-bottom:1px dashed var(--mint);}
+.mini-table .pc input[type=number]:focus{background:var(--mint-ll);border-bottom:1px solid var(--mint);color:var(--dark);}
+.mini-table .ac input[type=number]:focus{background:var(--mint-ll);}
 .mini-table input[type=text]{background:transparent;border:none;font-family:'Tajawal',sans-serif;font-size:11px;width:100%;text-align:right;color:var(--dark);padding:2px;border-radius:3px;outline:none;}
 .mini-table input[type=text]:focus{background:var(--bg);}
 .add-btn{display:flex;align-items:center;gap:4px;padding:7px 10px;font-size:10px;font-weight:600;color:var(--mint);background:none;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;border-top:1px solid var(--border);width:100%;transition:background .15s;}
@@ -1703,12 +1709,14 @@ function renderSection(sec){
   const isRTL=T().dir==='rtl';
   data.forEach((item,idx)=>{
     const tr=document.createElement('tr');
-    tr.className='data-row';
+    const _over=(item.act||0)>(item.pln||0)&&(item.pln||0)>0;
+    const _under=(item.act||0)<=(item.pln||0)&&(item.pln||0)>0&&(item.act||0)>0;
+    tr.className='data-row'+(_over?' row-over':_under?' row-ok':'');
     const lv=(item.label||'').replace(/"/g,'&quot;');
     tr.innerHTML=`
       <td class="lc"><input type="text" value="${lv}" placeholder="..." style="text-align:${isRTL?'right':'left'}" oninput="onInput('${sec}',${idx},'label',this.value)"></td>
-      <td class="ac"><input type="number" value="${item.act||0}" oninput="onInput('${sec}',${idx},'act',this.value)"></td>
-      <td class="pc"><input type="number" value="${item.pln||0}" oninput="onInput('${sec}',${idx},'pln',this.value)">
+      <td class="ac"><input type="number" value="${item.act||0}" min="0" placeholder="0" title="${T().col_act||'الفعلي'}" oninput="onInput('${sec}',${idx},'act',this.value)"></td>
+      <td class="pc"><input type="number" value="${item.pln||0}" min="0" placeholder="0" title="${T().col_pln||'المخطط'}" oninput="onInput('${sec}',${idx},'pln',this.value)">
         <button onclick="deleteRow('${sec}',${idx})" style="background:none;border:none;color:#ddd;cursor:pointer;font-size:11px;vertical-align:middle;margin-right:2px;">✕</button>
       </td>`;
     tb.appendChild(tr);
@@ -1723,6 +1731,17 @@ function onInput(sec,idx,field,val){
   allData[mk][sec][idx][field]=(field==='label')?val:(Number(val)||0);
   persistData();
   recalc();
+  // Met à jour la classe over/ok sur la ligne sans re-render tout le tableau
+  const tbody=document.getElementById(sec+'-body');
+  if(tbody){
+    const rows=tbody.querySelectorAll('tr.data-row');
+    if(rows[idx]){
+      const item=allData[mk][sec][idx];
+      const _over=(item.act||0)>(item.pln||0)&&(item.pln||0)>0;
+      const _under=(item.act||0)<=(item.pln||0)&&(item.pln||0)>0&&(item.act||0)>0;
+      rows[idx].className='data-row'+(_over?' row-over':_under?' row-ok':'');
+    }
+  }
 }
 
 function deleteRow(sec,idx){
