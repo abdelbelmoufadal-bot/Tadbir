@@ -182,6 +182,17 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .mini-table .note-row td{background:#f0faf6;color:var(--mid);font-style:italic;}
 .mini-table .row-over .ac input[type=number]{color:var(--peach)!important;font-weight:700;}
 .mini-table .row-ok .ac input[type=number]{color:var(--mint)!important;}
+.mini-table .cat-row td{padding:7px 10px;font-size:11px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.mini-table .cat-row .lc{font-weight:600;font-size:11px;display:flex;align-items:center;gap:5px;}
+.mini-table .cat-row .ac{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--dark);}
+.mini-table .cat-row .ac.zero{color:var(--light);font-weight:400;}
+.mini-table .cat-row .pc input[type=number]{background:transparent;border:none;border-bottom:1px dashed var(--border);font-family:'DM Mono',monospace;font-size:10px;width:58px;text-align:left;color:var(--mid);padding:1px 2px;border-radius:0;outline:none;cursor:text;}
+.mini-table .cat-row .pc input[type=number]:hover{border-bottom-color:var(--mint);background:rgba(126,200,176,.06);}
+.mini-table .cat-row .pc input[type=number]:focus{background:var(--mint-ll);border-bottom:1px solid var(--mint);color:var(--dark);}
+.mini-table .cat-row.cat-over .ac{color:var(--peach)!important;}
+.mini-table .cat-row.cat-ok .ac{color:var(--mint)!important;}
+.exp-auto-note{font-size:9px;color:var(--light);padding:4px 10px 6px;text-align:center;font-style:italic;}
+
 .mini-table .note-row td:first-child::before{content:'📝 ';font-style:normal;}
 .mini-table input[type=number]{background:transparent;border:none;font-family:'DM Mono',monospace;font-size:10px;width:62px;text-align:left;color:var(--dark);padding:2px;border-radius:3px;outline:none;}
 .mini-table input[type=number]:focus{background:var(--mint-ll);}
@@ -882,7 +893,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
   <div class="tables-grid">
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="tl-bills"></span></div><div class="card-total" style="color:var(--peach)" id="th-bills">0</div></div><table class="mini-table"><thead><tr><th id="tc-b1"></th><th id="tc-b2"></th><th id="tc-b3"></th></tr></thead><tbody id="bills-body"></tbody></table><button class="add-btn" id="add-bills-btn" onclick="addRow('bills')">＋</button></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="tl-expenses"></span></div><div class="card-total" style="color:var(--lav)" id="th-expenses">0</div></div><table class="mini-table"><thead><tr><th id="tc-e1"></th><th id="tc-e2"></th><th id="tc-e3"></th></tr></thead><tbody id="expenses-body"></tbody></table><button class="add-btn" id="add-exp-btn" onclick="addRow('expenses')">＋</button></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="tl-expenses"></span></div><div class="card-total" style="color:var(--lav)" id="th-expenses">0</div></div><table class="mini-table"><thead><tr><th id="tc-e1"></th><th id="tc-e2"></th><th id="tc-e3"></th></tr></thead><tbody id="expenses-body"></tbody></table><div class="exp-auto-note" id="exp-auto-note">📝 المبالغ من دفتر الملاحظات — المخطط قابل للتعديل</div></div>
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--blue)"></span><span id="tl-savings"></span></div><div class="card-total" style="color:var(--blue)" id="th-savings">0</div></div><table class="mini-table"><thead><tr><th id="tc-s1"></th><th id="tc-s2"></th><th id="tc-s3"></th></tr></thead><tbody id="savings-body"></tbody></table><button class="add-btn" id="add-sav-btn" onclick="addRow('savings')">＋</button></div>
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--gold)"></span><span id="tl-debts"></span></div><div class="card-total" style="color:var(--gold)" id="th-debts">0</div></div><table class="mini-table"><thead><tr><th id="tc-d1"></th><th id="tc-d2"></th><th id="tc-d3"></th></tr></thead><tbody id="debts-body"></tbody></table><button class="add-btn" id="add-dbt-btn" onclick="addRow('debts')">＋</button></div>
   </div>
@@ -1424,7 +1435,8 @@ function defMonth(){
     savings: lbl.savings.map((l,i)=>({label:l,act:0,pln:pln.savings[i]||0})),
     debts:   lbl.debts.map((l,i)=>({label:l,act:0,pln:pln.debts[i]||0})),
     income:  lbl.income.map((l,i)=>({label:l,act:0,pln:pln.income[i]||0})),
-    notes:[]
+    notes:[],
+    expCatPln:{}
   };
 }
 
@@ -1473,6 +1485,8 @@ function setLang(l){
   set('t-week-chart',t.week_chart||'مصاريف الأسبوع');
   set('t-excel-btn',t.excel_btn||'تصدير Excel');
   set('t-pdf-btn',t.pdf_btn||'تصدير PDF');
+  const expNote=document.getElementById('exp-auto-note');
+  if(expNote)expNote.textContent='📝 '+(T().exp_auto_note||'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل');
   set('nf-lbl-remark',t.nt_remark||'💬 ملاحظة (اختياري)');
   const remEl=document.getElementById('nf-remark');if(remEl)remEl.placeholder=t.nt_remark_ph||'مثال: ماركة، محل...';
   const fabEl=document.getElementById('fab-btn');if(fabEl)fabEl.innerHTML='＋ '+(t.add_note_fab||'تسجيل مصروف');
@@ -1633,6 +1647,10 @@ function loadData(){
 
   // Met à jour la version sans effacer
   localStorage.setItem('sf_version',CURRENT_VER);
+  // Migration: si expCatPln absent, créer depuis zéro
+  Object.keys(allData).forEach(function(mk2){
+    if(!allData[mk2].expCatPln)allData[mk2].expCatPln={};
+  });
 
   // Applique les défauts uniquement si le mois courant est vraiment vide
   const mk=ck();
@@ -1722,7 +1740,7 @@ function renderSection(sec){
     tb.appendChild(tr);
   });
   // Also render notes contribution rows in expenses
-  if(sec==='expenses'){renderNotesInExpenses();}
+  if(sec==='expenses'){renderExpensesCats();}
 }
 
 function onInput(sec,idx,field,val){
@@ -1790,7 +1808,8 @@ function getNotesTotalsByExpLabel(){
   return totals;
 }
 
-function renderNotesInExpenses(){
+function renderExpensesCats(){return;// désactivé — remplacé par renderExpensesCats
+
   const totals=getNotesTotalsByExpLabel();
   const tb=$('expenses-body');
   if(!tb)return;
@@ -1848,8 +1867,80 @@ function renderNotesInExpenses(){
   });
 }
 
+
+// ══════════════════════════════════════════════════════════════
+// EXPENSES AUTO — affiche les 9 catégories avec totaux des notes
+// ══════════════════════════════════════════════════════════════
+function renderExpensesCats(){
+  const tb=document.getElementById('expenses-body');
+  if(!tb)return;
+  tb.innerHTML='';
+
+  const mk=ck();
+  const notes=getCurrentMonthNotes();
+  const cats=getMainCats();
+
+  // Totaux par catégorie depuis les notes
+  const catTotals={};
+  notes.forEach(function(n){
+    const id=n.mainCat||'daily';
+    catTotals[id]=(catTotals[id]||0)+Number(n.amount||0);
+  });
+
+  // Budget pln stocké dans allData[mk].expCatPln  (nouveau champ)
+  if(!allData[mk])allData[mk]=defMonth();
+  if(!allData[mk].expCatPln)allData[mk].expCatPln={};
+  const plnMap=allData[mk].expCatPln;
+
+  let grandAct=0, grandPln=0;
+
+  cats.forEach(function(cat){
+    const act=catTotals[cat.id]||0;
+    const pln=plnMap[cat.id]||0;
+    grandAct+=act; grandPln+=pln;
+
+    const tr=document.createElement('tr');
+    const overClass=act>pln&&pln>0?' cat-over':act>0&&pln>0&&act<=pln?' cat-ok':'';
+    tr.className='cat-row'+overClass;
+
+    const tdL=document.createElement('td');
+    tdL.className='lc';
+    tdL.innerHTML='<span style="font-size:14px;">'+cat.icon+'</span><span>'+cat.label+'</span>';
+
+    const tdA=document.createElement('td');
+    tdA.className='ac'+(act===0?' zero':'');
+    tdA.textContent=act>0?fmt(act):'—';
+    tdA.title=act>0?(fmt(act)+' '+currency+' من دفتر الملاحظات'):'لا يوجد إدخال هذا الشهر';
+
+    const tdP=document.createElement('td');
+    tdP.className='pc';
+    const inp=document.createElement('input');
+    inp.type='number'; inp.min='0'; inp.value=pln||''; inp.placeholder='0';
+    inp.title='المخطط لـ '+cat.label;
+    inp.dataset.catId=cat.id;
+    inp.oninput=function(){
+      const mk2=ck();
+      if(!allData[mk2].expCatPln)allData[mk2].expCatPln={};
+      allData[mk2].expCatPln[cat.id]=Number(this.value)||0;
+      persistData();
+      // Refresh class on row
+      const newAct=catTotals[cat.id]||0;
+      const newPln=Number(this.value)||0;
+      const newOver=newAct>newPln&&newPln>0;
+      const newOk=newAct>0&&newPln>0&&newAct<=newPln;
+      tr.className='cat-row'+(newOver?' cat-over':newOk?' cat-ok':'');
+      recalc();
+    };
+    tdP.appendChild(inp);
+
+    tr.appendChild(tdL); tr.appendChild(tdA); tr.appendChild(tdP);
+    tb.appendChild(tr);
+  });
+}
+
 function renderAll(){
-  ['bills','expenses','savings','debts','income'].forEach(renderSection);
+  ['bills','savings','debts','income'].forEach(renderSection);
+  renderExpensesCats();
   updateMonthLabel();
   recalc();
   renderCalendar();
@@ -1890,21 +1981,15 @@ function sumFromData(sec){
   return data.reduce((s,r)=>({act:s.act+Number(r.act||0),pln:s.pln+Number(r.pln||0)}),{act:0,pln:0});
 }
 
-// Sum expenses including notes contributions per label
+// Sum expenses — act from notes by category, pln from expCatPln
 function sumExpensesWithNotes(){
-  const data=(allData[ck()]||{}).expenses||[];
-  const notesTotals=getNotesTotalsByExpLabel();
-  let act=0,pln=0;
-  data.forEach(r=>{
-    const notesAmt=notesTotals[r.label.trim()]||0;
-    act+=Number(r.act||0)+notesAmt;
-    pln+=Number(r.pln||0);
-  });
-  // Add orphan notes (categories not in expenses table)
-  const existingLabels=new Set(data.map(r=>r.label.trim()));
-  Object.entries(notesTotals).forEach(([lbl,amt])=>{
-    if(!existingLabels.has(lbl))act+=amt;
-  });
+  const mk=ck();
+  const notes=getCurrentMonthNotes();
+  let act=0;
+  notes.forEach(function(n){ act+=Number(n.amount||0); });
+  const plnMap=(allData[mk]||{}).expCatPln||{};
+  let pln=0;
+  Object.values(plnMap).forEach(function(v){ pln+=Number(v||0); });
   return{act,pln};
 }
 
@@ -1938,6 +2023,8 @@ function recalc(){
   const wPanel=document.getElementById('tab-weekly');
   if(wPanel&&wPanel.classList.contains('active'))renderWeeklyTab();
   if(typeof checkDailyReminder==='function')checkDailyReminder();
+  // Refresh expenses cats display (act comes from notes)
+  if(typeof renderExpensesCats==='function')renderExpensesCats();
 }
 
 // ══════════════════════════════════════════════
@@ -2164,7 +2251,7 @@ function renderNotes(){
   });
   updateNotesSummary();
   updateNotesChart();
-  renderNotesInExpenses();
+  renderExpensesCats();
   recalc();
 }
 
@@ -2172,7 +2259,7 @@ function noteField(i,f,v){
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
   allData[mk].notes[i][f]=v;
   persistData();
-  if(f==='amount'){updateNotesSummary();updateNotesChart();renderNotesInExpenses();recalc();}
+  if(f==='amount'){updateNotesSummary();updateNotesChart();renderExpensesCats();recalc();}
 }
 function noteMainCat(i,mainId){
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
@@ -2186,7 +2273,7 @@ function noteSubCat(i,sub){
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
   allData[mk].notes[i].subCat=sub;
   persistData();
-  updateNotesSummary();updateNotesChart();renderNotesInExpenses();recalc();
+  updateNotesSummary();updateNotesChart();renderExpensesCats();recalc();
 }
 
 
@@ -3201,7 +3288,7 @@ function addNoteNew(){
   clearNoteChips();
   persistData();
   renderNotesTab();
-  renderNotesInExpenses();
+  renderExpensesCats();
   recalc();
   setTimeout(populateDayFilter,100);
   showToast(T().toast_add||'✓');
@@ -3213,7 +3300,7 @@ function deleteNoteNew(idx){
   allData[mk].notes.splice(idx,1);
   persistData();
   renderNotesTab();
-  renderNotesInExpenses();
+  renderExpensesCats();
   recalc();
 }
 
@@ -3396,7 +3483,7 @@ function renderNotesList(){
     del.onclick=(function(mk2,idx2){return function(){
       if(!allData[mk2]||!allData[mk2].notes)return;
       allData[mk2].notes.splice(idx2,1);
-      persistData();renderNotesTab();renderNotesInExpenses();recalc();
+      persistData();renderNotesTab();renderExpensesCats();recalc();
     };})(realMk,realIdx);
 
     var editBtn=document.createElement('button');
@@ -3551,7 +3638,7 @@ function saveEditNote(){
     n.date=newDate; n.amount=newAmt; n.mainCat=newCat; n.subCat=newSub; n.note=newSub; n.cat=newSub; n.remark=newRem; n.chips=n.chips||[];
   }
   closeEditNoteModal();
-  persistData(); renderNotesTab(); renderNotesInExpenses(); recalc();
+  persistData(); renderNotesTab(); renderExpensesCats(); recalc();
   showToast('✅ '+(T().toast_add||'تم الحفظ'));
 }
 
