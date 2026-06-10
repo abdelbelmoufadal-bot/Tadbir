@@ -323,14 +323,14 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 /* ── WEEKLY STATS ── */
 .weekly-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 .weekly-stat{background:var(--card);border-radius:12px;padding:13px 10px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;}
-.weekly-stat-val{font-size:18px;font-weight:800;font-family:'DM Mono',monospace;color:var(--dark);}
-.weekly-stat-lbl{font-size:9px;color:var(--light);margin-top:4px;font-weight:600;}
-.weekly-bars-wrap{background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
-.weekly-bars{display:flex;align-items:flex-end;gap:6px;height:100px;margin-top:12px;}
-.wbar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.wbar-fill{width:100%;border-radius:6px 6px 0 0;min-height:4px;transition:height .5s;}
-.wbar-lbl{font-size:9px;color:var(--light);font-weight:600;}
-.wbar-val{font-size:8px;color:var(--mid);font-family:'DM Mono',monospace;}
+.weekly-stat-val{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--dark);}
+.weekly-stat-lbl{font-size:11px;color:var(--light);margin-top:5px;font-weight:700;}
+.weekly-bars-wrap{background:var(--card);border-radius:14px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
+.weekly-bars{display:flex;align-items:flex-end;gap:10px;height:160px;margin-top:16px;}
+.wbar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.wbar-fill{width:100%;border-radius:8px 8px 0 0;min-height:4px;transition:height .5s;}
+.wbar-lbl{font-size:13px;color:var(--mid);font-weight:700;}
+.wbar-val{font-size:12px;color:var(--dark);font-family:'DM Mono',monospace;font-weight:700;}
 .wbar-item.today .wbar-lbl{color:var(--mint);font-weight:800;}
 .wbar-item.today .wbar-fill{background:var(--mint) !important;}
 /* ── PDF ── */
@@ -703,7 +703,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.3</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.4</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -1041,7 +1041,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 <div id="tab-weekly" class="tab-panel"><div class="main">
   <div class="weekly-grid" id="weekly-stats-grid"></div>
   <div class="weekly-bars-wrap">
-    <div class="card-title" style="font-size:12px;font-weight:800;"><span class="dot" style="background:var(--mint);display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:6px;"></span><span id="t-week-chart">مصاريف الأسبوع الحالي</span></div>
+    <div class="card-title" style="font-size:15px;font-weight:800;"><span class="dot" style="background:var(--mint);display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:8px;"></span><span id="t-week-chart">مصاريف الأسبوع الحالي</span></div>
     <div class="weekly-bars" id="weekly-bars-chart"></div>
   </div>
   <div class="card" style="margin-bottom:14px;">
@@ -1108,7 +1108,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.3</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.4</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -1607,7 +1607,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-   const CURRENT_VER='v34';
+   const CURRENT_VER='v35';
   const ALL_KNOWN_KEYS=['sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -3906,7 +3906,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.3 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.4 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
