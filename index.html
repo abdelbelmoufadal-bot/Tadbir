@@ -49,8 +49,10 @@ onAuthStateChanged(auth, user=>{
 });
 </script>
 <style>
-:root{--mint:#7EC8B0;--mint-l:#C8EAE0;--mint-ll:#EAF7F3;--sage:#A8C5A0;--peach:#E8A598;--peach-l:#F5D5CF;--lav:#B5A8D4;--lav-l:#E8E2F5;--blue:#8DB4CF;--blue-l:#D0E6F5;--gold:#D4A853;--gold-l:#F5E8C8;--dark:#2D3142;--mid:#5A6070;--light:#9AA0B0;--bg:#F8F9FB;--card:#FFFFFF;--border:#E8EAEF;--shadow:0 2px 16px rgba(45,49,66,.07);--shadow-h:0 8px 32px rgba(45,49,66,.14);--r:16px;}
+:root{--mint:#7EC8B0;--mint-l:#C8EAE0;--mint-ll:#EAF7F3;--sage:#A8C5A0;--peach:#E8A598;--peach-l:#F5D5CF;--lav:#B5A8D4;--lav-l:#E8E2F5;--blue:#8DB4CF;--blue-l:#D0E6F5;--gold:#D4A853;--gold-l:#F5E8C8;--dark:#2D3142;--mid:#5A6070;--light:#9AA0B0;--bg:#F8F9FB;--card:#FFFFFF;--border:#E8EAEF;--shadow:0 2px 16px rgba(45,49,66,.07);--shadow-h:0 8px 32px rgba(45,49,66,.14);--r:16px;--hdr-bg:#2D3142;}
+[data-theme="dark"]{--bg:#121420;--card:#1A1D2E;--border:#2A2E45;--dark:#ECEDF2;--mid:#A5A9B8;--light:#797E93;--shadow:0 4px 20px rgba(0,0,0,.35);--shadow-h:0 8px 32px rgba(0,0,0,.5);--hdr-bg:#161824;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body, .kpi-card, .card, .header, .nav-tabs, .pin-btn, input, select, table, td, th, button { transition: background-color .3s, color .3s, border-color .3s, box-shadow .3s; }
 body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;}
 #pin-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2D3142,#1a1f30);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 #pin-screen.hidden{display:none;}
@@ -73,7 +75,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .pin-error-msg{color:#E8A598;font-size:12px;margin-top:10px;min-height:18px;font-weight:600;text-align:center;}
 .pin-setup-note{color:rgba(255,255,255,.3);font-size:11px;margin-top:8px;text-align:center;max-width:240px;line-height:1.6;}
 .pin-forgot{color:var(--mint);font-size:12px;margin-top:8px;cursor:pointer;text-decoration:underline;}
-.header{background:var(--dark);padding:0 18px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.18);}
+.header{background:var(--hdr-bg);padding:0 18px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.18);}
 .brand{display:flex;align-items:center;gap:8px;}
 .brand-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--mint),var(--sage));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
 .brand-name{font-size:16px;font-weight:800;color:#fff;}
@@ -136,13 +138,14 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .main{padding:14px 16px;max-width:1440px;margin:0 auto;}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
-.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:14px;}
-.kpi-card{background:var(--card);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;}
+.kpi-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:9px;margin-bottom:14px;}
+.kpi-card{background:var(--card);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
 .kpi-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-h);}
 .kpi-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;border-radius:0 12px 12px 0;}
 .kpi-card.income::before{background:var(--sage);}.kpi-card.bills::before{background:var(--peach);}
 .kpi-card.expenses::before{background:var(--lav);}.kpi-card.savings::before{background:var(--blue);}
 .kpi-card.debts::before{background:var(--gold);}.kpi-card.remaining::before{background:var(--mint);}
+.kpi-card.emergency::before{background:var(--blue-l);}
 .kpi-icon{font-size:16px;margin-bottom:5px;}
 .kpi-label{font-size:11px;color:var(--light);font-weight:500;margin-bottom:3px;}
 .kpi-value{font-size:18px;font-weight:800;color:var(--dark);letter-spacing:-.5px;line-height:1;}
@@ -152,6 +155,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .kpi-card.income .kpi-bar{background:var(--sage);}.kpi-card.bills .kpi-bar{background:var(--peach);}
 .kpi-card.expenses .kpi-bar{background:var(--lav);}.kpi-card.savings .kpi-bar{background:var(--blue);}
 .kpi-card.debts .kpi-bar{background:var(--gold);}.kpi-card.remaining .kpi-bar{background:var(--mint);}
+.kpi-card.emergency .kpi-bar{background:var(--blue);}
 .kpi-pct{font-size:11px;color:var(--light);margin-top:2px;}
 .charts-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
 .remaining-hero{background:linear-gradient(135deg,#2D3142,#3D4260);border-radius:var(--r);padding:18px;color:#fff;box-shadow:var(--shadow-h);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
@@ -162,7 +166,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .rh-cur{font-size:12px;color:rgba(255,255,255,.3);margin-right:3px;}
 .rh-sub{font-size:11px;color:rgba(255,255,255,.25);margin-top:4px;}
 .rh-donut{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:85px;height:85px;}
-.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s;}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
 .card:hover{box-shadow:var(--shadow-h);}
 .card-header{padding:10px 14px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .card-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;}
@@ -171,6 +175,13 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .chart-wrap{padding:12px;}
 .chart-wrap canvas{max-height:180px;}
 .tables-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
+.theme-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:4px 7px;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;line-height:1;margin-left:4px;transition:all .2s;}
+.theme-btn:hover{background:rgba(255,255,255,.2);}
+[dir=ltr] .theme-btn{margin-left:0;margin-right:4px;}
+.alerts-banner{margin-bottom:14px;}
+.alert-item{background:rgba(232,165,152,.1);border:1px solid rgba(232,165,152,.2);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:12px;display:flex;align-items:center;gap:8px;color:#C0392B;font-weight:600;}
+.alert-item.warn{background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.2);color:#B58900;}
+.alert-item.ok{display:none;}
 .mini-table{width:100%;border-collapse:collapse;}
 .mini-table th{font-size:13px;font-weight:600;color:var(--light);padding:5px 10px;text-align:right;background:var(--bg);border-bottom:1px solid var(--border);}
 .mini-table td{padding:6px 10px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle;}
@@ -714,10 +725,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 <div id="pin-screen">
   <div class="pin-lang-row" style="direction:rtl;">
     <button class="plb" onclick="setLang('ar')">عربي</button>
-    <button class="plb" onclick="setLang('dar')">دارجة</button>
     <button class="plb" onclick="setLang('fr')">FR</button>
-    <button class="plb" onclick="setLang('en')">EN</button>
-    <button class="plb" onclick="setLang('es')">ES</button>
   </div>
   <div class="pin-logo">💰</div>
   <div class="pin-title">تدبير</div>
@@ -808,10 +816,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     <div class="modal-title"><span id="t-lang-title"></span> 🌍<button class="modal-close" onclick="closeModal('langModal')">✕</button></div>
     <div class="lang-grid">
       <div class="lang-opt" id="lo-ar" onclick="setLang('ar');closeModal('langModal')"><div class="lang-flag">🇲🇦</div><div><div class="lang-name">عربية</div><div class="lang-native">Arabic</div></div></div>
-      <div class="lang-opt" id="lo-dar" onclick="setLang('dar');closeModal('langModal')"><div class="lang-flag">🇲🇦</div><div><div class="lang-name">دارجة</div><div class="lang-native">Darija</div></div></div>
       <div class="lang-opt" id="lo-fr" onclick="setLang('fr');closeModal('langModal')"><div class="lang-flag">🇫🇷</div><div><div class="lang-name">Français</div><div class="lang-native">French</div></div></div>
-      <div class="lang-opt" id="lo-en" onclick="setLang('en');closeModal('langModal')"><div class="lang-flag">🇬🇧</div><div><div class="lang-name">English</div><div class="lang-native">English</div></div></div>
-      <div class="lang-opt" id="lo-es" onclick="setLang('es');closeModal('langModal')"><div class="lang-flag">🇪🇸</div><div><div class="lang-name">Español</div><div class="lang-native">Spanish</div></div></div>
     </div>
   </div>
 </div>
@@ -825,6 +830,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
       <button onclick="navigateMonth(1)">›</button>
     </div>
     <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦</button>
+    <button class="theme-btn" onclick="toggleTheme()" title="🌓">🌓</button>
     <button class="icon-btn hdr-icon-desktop" onclick="openModal('langModal')">🌍</button>
     <button class="icon-btn hdr-icon-desktop" onclick="openModal('backupModal');updateBackupUI()">💾</button>
     <!-- AUTH UI -->
@@ -871,6 +877,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </nav>
 
 <div id="tab-dashboard" class="tab-panel active" style="display:none;"><div class="main">
+  <div class="alerts-banner" id="budget-alerts-banner"></div>
   <div class="kpi-grid">
     <div class="kpi-card income"><div class="kpi-icon">💵</div><div class="kpi-label" id="kl-income"></div><div class="kpi-value"><span class="kpi-cur" id="c1">درهم</span><span id="v-income">0</span></div><div class="kpi-progress"><div class="kpi-bar" style="width:100%"></div></div><div class="kpi-pct" id="p-income">100%</div></div>
     <div class="kpi-card bills"><div class="kpi-icon">🧾</div><div class="kpi-label" id="kl-bills"></div><div class="kpi-value"><span class="kpi-cur" id="c2">درهم</span><span id="v-bills">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-bills" style="width:0%"></div></div><div class="kpi-pct" id="p-bills">0%</div></div>
@@ -878,6 +885,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     <div class="kpi-card savings"><div class="kpi-icon">🏦</div><div class="kpi-label" id="kl-savings"></div><div class="kpi-value"><span class="kpi-cur" id="c4">درهم</span><span id="v-savings">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-savings" style="width:0%"></div></div><div class="kpi-pct" id="p-savings">0%</div></div>
     <div class="kpi-card debts"><div class="kpi-icon">💳</div><div class="kpi-label" id="kl-debts"></div><div class="kpi-value"><span class="kpi-cur" id="c5">درهم</span><span id="v-debts">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-debts" style="width:0%"></div></div><div class="kpi-pct" id="p-debts">0%</div></div>
     <div class="kpi-card remaining"><div class="kpi-icon">✅</div><div class="kpi-label" id="kl-remaining"></div><div class="kpi-value"><span class="kpi-cur" id="c6">درهم</span><span id="v-remaining">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-remaining" style="width:0%"></div></div><div class="kpi-pct" id="p-remaining">0%</div></div>
+    <div class="kpi-card emergency" style="cursor:pointer;" onclick="promptEmergencyTarget()"><div class="kpi-icon">🛡️</div><div class="kpi-label" id="kl-emergency"></div><div class="kpi-value"><span class="kpi-cur" id="c7">درهم</span><span id="v-emergency">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-emergency" style="width:0%"></div></div><div class="kpi-pct" id="p-emergency">0%</div></div>
   </div>
   <div class="charts-row">
     <div class="remaining-hero">
@@ -1065,6 +1073,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 <button class="fab" id="fab-btn" onclick="fabQuickAdd()">＋ تسجيل مصروف</button>
 
 <!-- ── EDIT NOTE MODAL ── -->
+<!-- ── EDIT NOTE MODAL ── -->
 <div class="edit-modal-overlay" id="editNoteModal">
   <div class="edit-modal-box">
     <div class="edit-modal-title">
@@ -1121,9 +1130,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 const LANGS={
   ar:{dir:'rtl',
     months:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
-    // cat[0..4]: مواد غذائية, السوق, قهوة, النقل→Gasoil, أخرى
     cats:['مواد غذائية','السوق','قهوة','النقل','أخرى'],
-    // label used in expenses table for each cat index
     expLabel:['مواد غذائية','السوق','قهوة','Gasoil','أخرى'],
     pin_enter:'أدخل رمز PIN',pin_create:'إنشاء رمز PIN (4 أرقام)',pin_confirm:'أكد رمز PIN',
     pin_wrong:'❌ رمز PIN غلط',pin_mismatch:'❌ الأرقام ما تطابقوش',pin_note:'هاد الرمز يحمي تطبيقك',pin_forgot:'نسيت PIN؟',
@@ -1137,7 +1144,7 @@ const LANGS={
     s3:'＋ ← رفع ← اختار الملف',s4:'خلاص! بياناتك في السحاب ☁️',
     pin_h:'🔐 إعدادات PIN',pin_lbl:'قفل بـ PIN',pin_s:'حماية التطبيق عند الفتح',
     pin_ch:'تغيير رمز PIN',pin_chs:'إنشاء رمز جديد',last_save:'آخر حفظ',lang_title:'اختار اللغة',
-    k_income:'الدخل ديالي',k_bills:'الفواتير',k_expenses:'المصاريف',k_savings:'التوفير',k_debts:'الديون',k_remaining:'الفلوس لي بقاو',
+    k_income:'الدخل ديالي',k_bills:'الفواتير',k_expenses:'المصاريف',k_savings:'التوفير',k_debts:'الديون',k_remaining:'الفلوس لي بقاو',k_emergency:'صندوق الطوارئ',emergency_target_prompt:'أدخل قيمة هدف صندوق الطوارئ الجديد:',
     hero_lbl:'الفلوس لي بقاو دابا',hero_ok:'💚 الوضع كاين',hero_zero:'🟡 بالضبط',hero_neg:'🔴 تجاوزت الميزانية',
     ch1:'فين كتمشي الفلوس',ch2:'لي مخطط له / لي تصرف',
     col_item:'البيان',col_act:'تصرفت',col_pln:'مخطط',col_goal:'الهدف',col_src:'المصدر',col_ent:'الجهة',
@@ -1156,41 +1163,6 @@ const LANGS={
     cal_total:'الإجمالي:',cal_leg1:'عادي',cal_leg2:'متوسط',cal_leg3:'مرتفع',cal_source:'📋 المصدر: سجل المصاريف',exp_auto_note:'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل',
     drv_today:'اليوم',drv_week:'الأسبوع',drv_month:'الشهر',drv_avg:'معدل/رحلة',drv_trips:'رحلة',drv_add_title:'تسجيل يوم جديد',drv_lbl_date:'التاريخ',drv_lbl_trips:'عدد الرحلات',drv_lbl_total:'المجموع',drv_submit:'تسجيل اليوم',drv_heatmap:'أفضل أيام الأسبوع',drv_list:'سجل الرحلات',drive_fill:'أكمل كل الحقول'
   },
-  dar:{dir:'rtl',
-    months:['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
-    cats:['مواد غذائية','السوق','ترفيه/كمالية','النقل','أخرى'],
-    expLabel:['مواد غذائية','السوق','ترفيه/كمالية','Gasoil','أخرى'],
-    pin_enter:'دخل رمز PIN ديالك',pin_create:'درلي PIN جديد (4 أرقام)',pin_confirm:'عاود دخل PIN',
-    pin_wrong:'❌ PIN غلط',pin_mismatch:'❌ الأرقام ما خرجوش بحال',pin_note:'هاد الرمز كيحمي التطبيق ديالك',pin_forgot:'نسيتي PIN؟',
-    saved:'محفوظ',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'سجل المصاريف',tab3:'مقارنة شهرية',
-    pick:'اختار الشهر',nm:'شهر جديد',nm_sub:'كيفاش تبغي تبدا؟',
-    nm1:'كوبيا المخطط غير',nm1s:'تبقى الأرقام المخططة وتبدا من صفر',
-    nm2:'شهر فاضي',nm2s:'صفحة بيضاء',nm3:'كوبيا كل شي',nm3s:'نفس الشهر لي فات',nm_btn:'إنشاء ✓',
-    bk:'الحفظ والحماية',exp_h:'📤 تصدير',exp_btn:'حمل ملف الحفظ',exp_s:'كل البيانات ديالك في ملف JSON',
-    imp_h:'📥 استيراد',imp_btn:'جيب ملف حفظ قديم',imp_s:'ملف JSON باش ترجع البيانات',
-    drv_h:'☁️ Google Drive',s1:'كليك على حمل ملف الحفظ',s2:'حل Google Drive فتليفونك',
-    s3:'＋ ← رفع ← اختار الملف',s4:'خلاص! البيانات ديالك فالسحاب ☁️',
-    pin_h:'🔐 إعدادات PIN',pin_lbl:'قفل بـ PIN',pin_s:'حماية التطبيق منين تفتحو',
-    pin_ch:'بدل رمز PIN',pin_chs:'درلي رمز جديد',last_save:'آخر حفظ',lang_title:'اختار اللغة',
-    k_income:'الدخل ديالي',k_bills:'الفاكتورات',k_expenses:'المصاريف',k_savings:'التوفير',k_debts:'الديون',k_remaining:'الفلوس لي بقاو',
-    hero_lbl:'الفلوس لي بقاو دابا',hero_ok:'💚 الوضع مزيان',hero_zero:'🟡 بالضبط',hero_neg:'🔴 تجاوزتي الميزانية',
-    ch1:'فين كتمشي الفلوس',ch2:'المخطط / الفعلي',
-    col_item:'البيان',col_act:'تصرفت',col_pln:'مخطط',col_goal:'الهدف',col_src:'المصدر',col_ent:'الجهة',
-    add_bills:'＋ زيد فاكتورة',add_exp:'＋ زيد مصروف',add_sav:'＋ زيد هدف',add_dbt:'＋ زيد دين',add_inc:'＋ زيد مصدر دخل',
-    notes_title:'سجل المصاريف',notes_info:'كل لي تزيد هنا كيتجمع تلقائياً مع المصاريف فلوحة الميزانية',
-    notes_sub:'سجل المصاريف',notes_edit:'قابل للتعديل',notes_chart:'توزيع المصاريف',notes_sum:'الملخص',
-    nt_date:'التاريخ',nt_note:'الملاحظة',nt_subcat:'الخيارات',nt_cat:'الفئة',nt_amount:'المبلغ',nt_cur:'العملة',add_note:'＋ زيد ملاحظة',nt_remark:'💬 ملاحظة (اختياري)',nt_remark_ph:'مثلاً: ماركة، حانوت، علاش...',tab_weekly:'📊 إحصاءات',week_chart:'مصاريف هاد الأسبوع',add_note_fab:'سجل مصروف',pdf_btn:'تصدير PDF',excel_btn:'تصدير Excel',
-    monthly_title:'مقارنة شهرية',monthly_chart:'تطور الدخل والمصاريف',monthly_total:'المجموع',monthly_remain:'الباقي',
-    footer:'دبّر فلوسك بذكاء — تدبير 💚',
-    import_confirm:'هاد العملية غادي تبدل البيانات. واش متأكد؟',
-    toast_add:'تزاد ✓',toast_save:'✅ تحمل ملف الحفظ',toast_import:'✅ استوردات البيانات',
-    toast_pin_on:'🔐 PIN فعّال',toast_pin_off:'🔓 PIN مش فعّال',toast_pin_created:'تخلق رمز PIN ✓',from_of:'من',
-    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',toast_signout:'👋 خرجتي',toast_loaded:'تحملات البيانات من السحاب',signin:'دخول',signout:'خروج',
-    custom_cat:'✏️ فئة جديدة...',
-    reset_h:'🔄 إعادة تعيين',reset_btn:'زيد البيانات الافتراضية اللي ناقصة',reset_sub:'كيزيد غير اللي ناقص — ما يمسحش شي',toast_reset:'✅ تزادو البيانات الافتراضية',
-    cal_total:'الإجمالي:',cal_leg1:'عادي',cal_leg2:'متوسط',cal_leg3:'مرتفع',cal_source:'📋 المصدر: سجل المصاريف',exp_auto_note:'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل',
-    drv_today:'اليوم',drv_week:'الأسبوع',drv_month:'الشهر',drv_avg:'معدل/رحلة',drv_trips:'رحلة',drv_add_title:'تسجيل يوم',drv_lbl_date:'التاريخ',drv_lbl_trips:'عدد الرحلات',drv_lbl_total:'المجموع',drv_submit:'تسجيل',drv_heatmap:'أحسن أيام',drv_list:'سجل الرحلات',drive_fill:'كمل الحقول'
-  },
   fr:{dir:'ltr',
     months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     cats:['Alimentation','Marché','Loisirs','Transport','Autre'],
@@ -1207,7 +1179,7 @@ const LANGS={
     s3:'＋ → Importer → Sélectionner le fichier',s4:'Terminé ! Vos données sont dans le cloud ☁️',
     pin_h:'🔐 Paramètres PIN',pin_lbl:'Verrouillage PIN',pin_s:"Protection à l'ouverture",
     pin_ch:'Changer le code PIN',pin_chs:'Créer un nouveau code',last_save:'Dernière sauvegarde',lang_title:'Choisir la langue',
-    k_income:'Revenus',k_bills:'Factures',k_expenses:'Dépenses',k_savings:'Épargne',k_debts:'Dettes',k_remaining:'Solde restant',
+    k_income:'Revenus',k_bills:'Factures',k_expenses:'Dépenses',k_savings:'Épargne',k_debts:'Dettes',k_remaining:'Solde restant',k_emergency:"Fonds d'urgence",emergency_target_prompt:"Saisissez le montant cible du fonds d'urgence:",
     hero_lbl:'Solde disponible',hero_ok:'💚 Bonne situation',hero_zero:'🟡 Équilibré',hero_neg:'🔴 Budget dépassé',
     ch1:'Répartition des dépenses',ch2:'Prévu vs Réalisé',
     col_item:'Désignation',col_act:'Réalisé',col_pln:'Prévu',col_goal:'Objectif',col_src:'Source',col_ent:'Créancier',
@@ -1225,76 +1197,6 @@ const LANGS={
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées',
     cal_total:'Total :',cal_leg1:'Normal',cal_leg2:'Modéré',cal_leg3:'Élevé',cal_source:'📋 Source : Carnet de notes',exp_auto_note:'Montants issus du carnet — le prévu est modifiable',
     drv_today:"Aujourd'hui",drv_week:'Semaine',drv_month:'Mois',drv_avg:'Moy./trajet',drv_trips:'trajet',drv_add_title:'Ajouter une journée',drv_lbl_date:'Date',drv_lbl_trips:'Nb trajets',drv_lbl_total:'Total',drv_submit:'Enregistrer',drv_heatmap:'Meilleurs jours',drv_list:'Historique',drive_fill:'Remplissez tous les champs'
-  },
-  en:{dir:'ltr',
-    months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-    cats:['Food','Market','Leisure','Transport','Other'],
-    expLabel:['Food','Market','Leisure','Gasoil','Other'],
-    pin_enter:'Enter your PIN',pin_create:'Create a PIN (4 digits)',pin_confirm:'Confirm your PIN',
-    pin_wrong:'❌ Incorrect PIN',pin_mismatch:'❌ PINs do not match',pin_note:'This PIN protects your app',pin_forgot:'Forgot PIN?',
-    saved:'Auto-saved',new_btn:'✦ New Month',tab1:'Dashboard',tab2:'Notes',tab3:'Monthly Overview',
-    pick:'Choose month',nm:'New Month',nm_sub:'How do you want to start?',
-    nm1:'Copy planned budget',nm1s:'Keep planned amounts, reset actual',
-    nm2:'Empty month',nm2s:'Blank page',nm3:'Copy everything',nm3s:'Same as last month',nm_btn:'Create ✓',
-    bk:'Backup & Security',exp_h:'📤 Export',exp_btn:'Download backup file',exp_s:'All your data in JSON',
-    imp_h:'📥 Import',imp_btn:'Load a backup file',imp_s:'JSON file to restore your data',
-    drv_h:'☁️ Google Drive',s1:'Click Download backup file',s2:'Open Google Drive on your phone',
-    s3:'＋ → Upload → Select file',s4:'Done! Your data is in the cloud ☁️',
-    pin_h:'🔐 PIN Settings',pin_lbl:'PIN Lock',pin_s:'Protect app on open',
-    pin_ch:'Change PIN',pin_chs:'Create a new code',last_save:'Last saved',lang_title:'Choose language',
-    k_income:'Income',k_bills:'Bills',k_expenses:'Expenses',k_savings:'Savings',k_debts:'Debts',k_remaining:'Remaining',
-    hero_lbl:'Available balance',hero_ok:'💚 Good situation',hero_zero:'🟡 Balanced',hero_neg:'🔴 Budget exceeded',
-    ch1:'Where money goes',ch2:'Planned vs Actual',
-    col_item:'Item',col_act:'Actual',col_pln:'Planned',col_goal:'Goal',col_src:'Source',col_ent:'Creditor',
-    add_bills:'＋ Add bill',add_exp:'＋ Add expense',add_sav:'＋ Add goal',add_dbt:'＋ Add debt',add_inc:'＋ Add income source',
-    notes_title:'Notes',notes_info:'Everything you add here is automatically counted in your expenses',
-    notes_sub:'Expense log',notes_edit:'Editable',notes_chart:'Breakdown',notes_sum:'Summary',
-    nt_date:'Date',nt_note:'Note',nt_cat:'Category',nt_amount:'Amount',nt_cur:'Currency',add_note:'＋ Add note',nt_remark:'💬 Remark (optional)',nt_remark_ph:'E.g.: brand, store, reason...',tab_weekly:'📊 Stats',week_chart:'This week',add_note_fab:'Add expense',pdf_btn:'Export PDF',excel_btn:'Export Excel',
-    monthly_title:'Monthly comparison',monthly_chart:'Income vs Expenses trend',monthly_total:'Total',monthly_remain:'Balance',
-    footer:'Manage your budget smartly — Tadbir 💚',
-    import_confirm:'This will replace your data. Are you sure?',
-    toast_add:'Added ✓',toast_save:'✅ File downloaded',toast_import:'✅ Data imported',
-    toast_pin_on:'🔐 PIN enabled',toast_pin_off:'🔓 PIN disabled',toast_pin_created:'PIN created ✓',from_of:'of',
-    sync_off:'Offline',sync_ok:'Synced ☁️',sync_ing:'Syncing...',toast_signout:'👋 Signed out',toast_loaded:'Data loaded from cloud',signin:'Sign in',signout:'Sign out',
-    custom_cat:'✏️ New category...',
-    reset_h:'🔄 Reset',reset_btn:'Add missing default data',reset_sub:'Only adds what is missing — keeps your data',toast_reset:'✅ Default data added',
-    cal_total:'Total:',cal_leg1:'Normal',cal_leg2:'Moderate',cal_leg3:'High',cal_source:'📋 Source: Notes',exp_auto_note:'Amounts from notes — planned is editable',
-    drv_today:'Today',drv_week:'Week',drv_month:'Month',drv_avg:'Avg/trip',drv_trips:'trip',drv_add_title:'Add new day',drv_lbl_date:'Date',drv_lbl_trips:'Trips',drv_lbl_total:'Total',drv_submit:'Save day',drv_heatmap:'Best days',drv_list:'Trip log',drive_fill:'Fill all fields'
-  },
-  es:{dir:'ltr',
-    months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    cats:['Alimentación','Mercado','Ocio','Transporte','Otro'],
-    expLabel:['Alimentación','Mercado','Ocio','Gasoil','Otro'],
-    pin_enter:'Introduce tu PIN',pin_create:'Crear PIN (4 dígitos)',pin_confirm:'Confirma el PIN',
-    pin_wrong:'❌ PIN incorrecto',pin_mismatch:'❌ Los PINs no coinciden',pin_note:'Este PIN protege tu aplicación',pin_forgot:'¿Olvidaste el PIN?',
-    saved:'Guardado automáticamente',new_btn:'✦ Nuevo mes',tab1:'Panel de control',tab2:'Cuaderno de notas',tab3:'Comparativa mensual',
-    pick:'Elegir mes',nm:'Nuevo mes',nm_sub:'¿Cómo quieres empezar?',
-    nm1:'Copiar presupuesto previsto',nm1s:'Mantener montos previstos, reiniciar real',
-    nm2:'Mes en blanco',nm2s:'Página en blanco',nm3:'Copiar todo',nm3s:'Igual que el mes anterior',nm_btn:'Crear ✓',
-    bk:'Copia de seguridad',exp_h:'📤 Exportar',exp_btn:'Descargar archivo de respaldo',exp_s:'Todos tus datos en JSON',
-    imp_h:'📥 Importar',imp_btn:'Cargar archivo de respaldo',imp_s:'Archivo JSON para restaurar datos',
-    drv_h:'☁️ Google Drive',s1:'Clic en Descargar archivo',s2:'Abre Google Drive en tu móvil',
-    s3:'＋ → Subir → Seleccionar archivo',s4:'¡Listo! Tus datos están en la nube ☁️',
-    pin_h:'🔐 Configuración PIN',pin_lbl:'Bloqueo PIN',pin_s:'Protección al abrir la app',
-    pin_ch:'Cambiar PIN',pin_chs:'Crear nuevo código',last_save:'Último guardado',lang_title:'Elegir idioma',
-    k_income:'Ingresos',k_bills:'Facturas',k_expenses:'Gastos',k_savings:'Ahorros',k_debts:'Deudas',k_remaining:'Saldo restante',
-    hero_lbl:'Saldo disponible',hero_ok:'💚 Buena situación',hero_zero:'🟡 Equilibrado',hero_neg:'🔴 Presupuesto superado',
-    ch1:'Distribución de gastos',ch2:'Previsto vs Real',
-    col_item:'Concepto',col_act:'Real',col_pln:'Previsto',col_goal:'Objetivo',col_src:'Fuente',col_ent:'Acreedor',
-    add_bills:'＋ Añadir factura',add_exp:'＋ Añadir gasto',add_sav:'＋ Añadir objetivo',add_dbt:'＋ Añadir deuda',add_inc:'＋ Añadir ingreso',
-    notes_title:'Cuaderno de notas',notes_info:'Todo lo que añadas aquí se suma automáticamente a tus gastos en el panel',
-    notes_sub:'Registro de gastos',notes_edit:'Editable',notes_chart:'Distribución',notes_sum:'Resumen',
-    nt_date:'Fecha',nt_note:'Nota',nt_subcat:'Opciones',nt_cat:'Categoría',nt_amount:'Importe',nt_cur:'Moneda',add_note:'＋ Añadir nota',nt_remark:'💬 Observación (opcional)',nt_remark_ph:'Ej: marca, tienda, motivo...',tab_weekly:'📊 Estadísticas',week_chart:'Esta semana',add_note_fab:'Agregar',pdf_btn:'PDF',excel_btn:'Excel',
-    monthly_title:'Comparativa mensual',monthly_chart:'Evolución ingresos/gastos',monthly_total:'Total',monthly_remain:'Saldo',
-    footer:'Gestiona tu presupuesto — Tadbir 💚',
-    import_confirm:'Esto reemplazará tus datos. ¿Estás seguro?',
-    toast_add:'Añadido ✓',toast_save:'✅ Archivo descargado',toast_import:'✅ Datos importados',
-    toast_pin_on:'🔐 PIN activado',toast_pin_off:'🔓 PIN desactivado',toast_pin_created:'PIN creado ✓',from_of:'de',
-    sync_off:'Sin conexión',sync_ok:'Sincronizado ☁️',sync_ing:'Sincronizando...',toast_signout:'👋 Sesión cerrada',toast_loaded:'Datos cargados desde la nube',signin:'Iniciar sesión',signout:'Cerrar sesión',
-    custom_cat:'✏️ Nueva categoría...',
-    reset_h:'🔄 Restablecer',reset_btn:'Añadir datos por defecto faltantes',reset_sub:'Solo añade lo que falta — no borra nada',toast_reset:'✅ Datos por defecto añadidos',
-    cal_total:'Total:',cal_leg1:'Normal',cal_leg2:'Moderado',cal_leg3:'Alto',cal_source:'📋 Fuente: Cuaderno',exp_auto_note:'Importes del cuaderno — el previsto es editable',
-    drv_today:'Hoy',drv_week:'Semana',drv_month:'Mes',drv_avg:'Prom./viaje',drv_trips:'viaje',drv_add_title:'Agregar día',drv_lbl_date:'Fecha',drv_lbl_trips:'Viajes',drv_lbl_total:'Total',drv_submit:'Guardar',drv_heatmap:'Mejores días',drv_list:'Registro',drive_fill:'Complete todos los campos'
   }
 };
 
@@ -1308,7 +1210,7 @@ let curYear=2025, curMonth=4, currency='درهم', pickerYear=2025, nmOpt='copy'
 let _appReady=false;      // prevent multiple initializations
 let _authReady=false;     // true only after cloud load completes
 let _saveQueue=false;     // pending save after cloud load
-let allData={}, lang='dar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
+let allData={}, lang='ar', pinBuffer='', pinMode='verify', pinTemp='', pinEnabled=false;
 
 const mkey=(y,m)=>`${y}-${String(m+1).padStart(2,'0')}`;
 const ck=()=>mkey(curYear,curMonth);
@@ -1336,17 +1238,6 @@ const MAIN_CATS = {
     {id:'fun',     icon:'🎭', label:'الترفيه والاجتماعي',   subs:['ترفيه','هدايا','سفر']},
     {id:'invest',  icon:'💰', label:'الاستثمار والطوارئ',   subs:['توفير','طوارئ','سداد ديون']}
   ],
-  dar: [
-    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['الكراء','الكهرباء/الماء','البوطة/غاز','الانترنت','التأمين','تيد/مسحوق غسيل','جافيل','سائل الطاسة','سانيكروا','معطر الجو','بابيي توالات','بابيي كوزين','ميكات د الزبل','ألومينيوم']},
-    {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','الخضرة والفاكهة','لحم وحوت','الخبز والفطور','الحليب والبان','البيضة','الروز/الكسكس','المقرونية','الطون/المصبرات','القطاني','ريستو','عصير طري','الزيت والتوابل']},
-    {id:'cafe_smoke',icon:'☕', label:'الترفيه/الكمالية',      subs:['قهوة كحلة','كابوتشينو','نسكافي','أتاي','كرواصة','مسمن','بغرير','فطور كومبلي','عصير طري','سيجارة','علبة تبغ','ولاعة','تفكيكة','شيشة','سندويش','زعزع','دانون']},
-    {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','النقل العام','صيانة طوموبيل','غسيل الطوموبيل']},
-    {id:'health',  icon:'🏥', label:'الصحة',                subs:['دواء','طبيب/عيادة','الصيدلية','دوليبران','فيتامينات','سيروم/قطن','بلاصط','كوش/حفاضات','حليب رضع','لانجيت','سيريلاك','شامبوان','صابون','سينيال','ديدوران','جيل حلاقة','شفرات','كوتون تيج']},
-    {id:'clothes', icon:'👕', label:'الحوايج والمظهر',      subs:['الحوايج','الحلاقة/العناية']},
-    {id:'learning',icon:'📚', label:'التطوير الشخصي',       subs:['تعليم/دورات','كتب']},
-    {id:'fun',     icon:'🎭', label:'الترفيه والاجتماعي',   subs:['ترفيه','هدايا','سفر']},
-    {id:'invest',  icon:'💰', label:'الاستثمار والطوارئ',   subs:['توفير','طوارئ','سداد ديون']}
-  ],
   fr: [
     {id:'fixed',   icon:'🏠', label:'Charges fixes',        subs:['Loyer','Électricité/Eau','Gaz/Bonbonne','Internet','Assurance','Lessive/Tide','Javel','Liquide vaisselle','Désinfectant','Désodorisant','Papier toilette','Essuie-tout','Sacs poubelle','Aluminium']},
     {id:'daily',   icon:'🛒', label:'Vie quotidienne',      subs:['Alimentation','Marché','Légumes/Fruits','Viandes/Poissons','Pain/Viennoiseries','Lait/Produits laitiers','Oeufs','Riz/Couscous','Pâtes','Thon/Conserves','Légumineuses','Restaurant','Jus frais','Huile/Épices']},
@@ -1357,28 +1248,6 @@ const MAIN_CATS = {
     {id:'learning',icon:'📚', label:'Développement personnel',subs:['Formation/Cours','Livres']},
     {id:'fun',     icon:'🎭', label:'Loisirs et social',    subs:['Loisirs','Cadeaux','Voyage']},
     {id:'invest',  icon:'💰', label:'Épargne et urgences',  subs:['Épargne','Urgences','Remboursement dettes']}
-  ],
-  en: [
-    {id:'fixed',   icon:'🏠', label:'Fixed expenses',       subs:['Rent','Electricity/Water','Gas','Internet','Insurance']},
-    {id:'daily',   icon:'🛒', label:'Daily living',         subs:['Groceries','Market','Vegetables/Fruits','Meat/Fish','Bread/Pastries','Milk/Dairy','Eggs','Rice/Couscous','Pasta','Tuna/Canned','Legumes','Restaurant','Fresh juice','Oil/Spices']},
-    {id:'cafe_smoke',icon:'☕', label:'Leisure/Extras',      subs:['Black coffee','Cappuccino','Nescafé','Tea','Croissant','Msemen','Beghrir','Full breakfast','Fresh juice','Cigarettes','Tobacco pack','Lighter','Hookah','Pipe tobacco','Sandwich','Zaazoua','Danone']},
-    {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Public transport','Car maintenance','Car wash']},
-    {id:'health',  icon:'🏥', label:'Health',               subs:['Medicine','Doctor','Pharmacy','Painkiller','Vitamins','Cotton/Serum','Bandages','Diapers','Baby milk','Baby wipes','Baby cereal','Shampoo','Soap','Toothpaste','Deodorant','Shaving gel','Razor blades','Cotton swabs']},
-    {id:'clothes', icon:'👕', label:'Clothes & appearance', subs:['Clothes','Haircut/Care']},
-    {id:'learning',icon:'📚', label:'Personal development', subs:['Courses/Training','Books']},
-    {id:'fun',     icon:'🎭', label:'Entertainment & social',subs:['Entertainment','Gifts','Travel']},
-    {id:'invest',  icon:'💰', label:'Savings & emergency',  subs:['Savings','Emergency','Debt payment']}
-  ],
-  es: [
-    {id:'fixed',   icon:'🏠', label:'Gastos fijos',         subs:['Alquiler','Electricidad/Agua','Gas','Internet','Seguro']},
-    {id:'daily',   icon:'🛒', label:'Vida diaria',          subs:['Alimentación','Mercado','Verduras/Frutas','Carnes/Pescados','Pan/Bollería','Leche/Lácteos','Huevos','Arroz/Cuscús','Pasta','Atún/Conservas','Legumbres','Restaurante','Zumo fresco','Aceite/Especias']},
-    {id:'cafe_smoke',icon:'☕', label:'Ocio/Extras',         subs:['Café solo','Capuchino','Nescafé','Té','Croissant','Msemen','Beghrir','Desayuno completo','Zumo fresco','Cigarrillos','Paquete tabaco','Mechero','Cachimba','Tabaco','Sandwich','Zaazoua','Danone']},
-    {id:'transport',icon:'🚗',label:'Transporte',            subs:['Gasoil','Transporte público','Mantenimiento coche','Lavado de coche']},
-    {id:'health',  icon:'🏥', label:'Salud',                subs:['Medicamentos','Médico','Farmacia']},
-    {id:'clothes', icon:'👕', label:'Ropa y apariencia',    subs:['Ropa','Peluquería/Cuidados']},
-    {id:'learning',icon:'📚', label:'Desarrollo personal',  subs:['Formación/Cursos','Libros']},
-    {id:'fun',     icon:'🎭', label:'Ocio y social',        subs:['Ocio','Regalos','Viaje']},
-    {id:'invest',  icon:'💰', label:'Ahorro y emergencias', subs:['Ahorro','Emergencias','Pago de deudas']}
   ]
 };
 
@@ -1401,33 +1270,12 @@ const DEF_LABELS={
     debts:['Credit Dacia','البنك','كريدي شخصي'],
     income:['الراتب','عمل ثاني','إيجار مستلم']
   },
-  dar:{
-    bills:['الضو','الماء','Wi-fi','التليفون','الكراء','التأمين','نتفليكس','الغاز'],
-    expenses:['مواد غذائية','السوق','ترفيه/كمالية','Gasoil','الترفيه','الحوايج','الصيدلية','ريستو','الحلاقة','متنوع'],
-    savings:['المشروع','السفر','الطوارئ','التعليم'],
-    debts:['Credit Dacia','البنك','كريدي شخصي'],
-    income:['الراتب','خدمة ثانية','كراء مستلم']
-  },
   fr:{
     bills:['Électricité','Eau','Wi-fi','Téléphone','Loyer','Assurance','Netflix','Gaz'],
     expenses:['Alimentation','Marché','Loisirs','Gasoil','Loisirs','Vêtements','Pharmacie','Restaurant','Coiffeur','Divers'],
     savings:['Projet','Voyage','Urgences','Éducation'],
     debts:['Crédit voiture','Banque','Crédit perso'],
     income:['Salaire','2ème emploi','Loyer reçu']
-  },
-  en:{
-    bills:['Electricity','Water','Wi-fi','Phone','Rent','Insurance','Netflix','Gas'],
-    expenses:['Food','Market','Leisure','Gasoil','Entertainment','Clothes','Pharmacy','Restaurant','Haircut','Misc'],
-    savings:['Project','Travel','Emergency','Education'],
-    debts:['Car credit','Bank','Personal loan'],
-    income:['Salary','2nd job','Rent received']
-  },
-  es:{
-    bills:['Electricidad','Agua','Wi-fi','Teléfono','Alquiler','Seguro','Netflix','Gas'],
-    expenses:['Alimentación','Mercado','Ocio','Gasoil','Ocio','Ropa','Farmacia','Restaurante','Peluquería','Varios'],
-    savings:['Proyecto','Viaje','Emergencias','Educación'],
-    debts:['Crédito coche','Banco','Préstamo personal'],
-    income:['Salario','2º trabajo','Alquiler recibido']
   }
 };
 
@@ -1459,9 +1307,9 @@ function setLang(l){
   const t=T(), isRTL=t.dir==='rtl';
   $('html-root').setAttribute('dir',t.dir);
   $('html-root').setAttribute('lang',isRTL?'ar':l);
-  const lblMap={ar:'عربي',dar:'دارجة',fr:'FR',en:'EN',es:'ES'};
+  const lblMap={ar:'عربي',fr:'FR'};
   document.querySelectorAll('.plb').forEach(b=>b.classList.toggle('active',b.textContent.trim()===lblMap[l]));
-  ['ar','dar','fr','en','es'].forEach(k=>$('lo-'+k)?.classList.toggle('active',k===l));
+  ['ar','fr'].forEach(k=>$('lo-'+k)?.classList.toggle('active',k===l));
   set('pin-sub', pinMode==='setup1'?t.pin_create:pinMode==='setup2'?t.pin_confirm:t.pin_enter);
   set('pin-note',''); set('pin-forgot',t.pin_forgot);
   set('t-saved',t.saved); set('t-new-btn',t.new_btn);
@@ -1476,6 +1324,7 @@ function setLang(l){
   set('t-pin-ch',t.pin_ch); set('t-pin-chs',t.pin_chs); set('t-lang-title',t.lang_title);
   set('kl-income',t.k_income); set('kl-bills',t.k_bills); set('kl-expenses',t.k_expenses);
   set('kl-savings',t.k_savings); set('kl-debts',t.k_debts); set('kl-remaining',t.k_remaining);
+  set('kl-emergency',t.k_emergency||"صندوق الطوارئ");
   set('t-hero-lbl',t.hero_lbl); set('t-ch1',t.ch1); set('t-ch2',t.ch2);
   set('tl-bills',t.k_bills); set('tl-expenses',t.k_expenses); set('tl-savings',t.k_savings);
   set('tl-debts',t.k_debts); set('tl-income',t.k_income);
@@ -1544,7 +1393,7 @@ function setLang(l){
 function initPIN(){
   const saved=localStorage.getItem(PIN_KEY);
   pinEnabled=localStorage.getItem(PINON_KEY)==='1';
-  lang=localStorage.getItem('sf_lang')||'dar';
+  lang=localStorage.getItem('sf_lang')||'ar';
   setLang(lang);
   if(!saved){pinMode='setup1';set('pin-sub',T().pin_create);set('pin-note',T().pin_note);}
   else if(pinEnabled){pinMode='verify';$('pin-forgot').style.display='block';set('pin-sub',T().pin_enter);}
@@ -2042,6 +1891,19 @@ function recalc(){
     set('p-'+x.k,pct(x.v)+'%');
   });
   set('p-income','100%');
+
+  // Emergency Fund Card Update
+  const emAct = getEmergencyFundTotal();
+  const emTarget = getEmergencyFundTarget();
+  const emPct = emTarget > 0 ? Math.min(100, Math.round(emAct / emTarget * 100)) : 0;
+  set('v-emergency', fmt(emAct));
+  const emBar = $('bar-emergency');
+  if (emBar) emBar.style.width = emPct + '%';
+  set('p-emergency', `${emPct}% (${t.from_of || 'من أصل'} ${fmt(emTarget)} ${currency})`);
+
+  // Active Warnings check
+  if (typeof checkBudgetAlerts === 'function') checkBudgetAlerts();
+
   set('th-income',fmt(inc.act));set('th-bills',fmt(bill.act));set('th-expenses',fmt(exp.act));
   set('th-savings',fmt(sav.act));set('th-debts',fmt(dbt.act));
   set('hero-val',fmt(rem));
@@ -2289,8 +2151,36 @@ function renderNotes(){
 function noteField(i,f,v){
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
   allData[mk].notes[i][f]=v;
+  if(f==='note'){
+    const text = (v || '').toLowerCase().trim();
+    let matchedMain = null, matchedSub = null;
+    const rules = [
+      { keywords: ['سجائر', 'تبغ', 'smoke', 'cigarettes', 'cig', 'marboro', 'winston', 'casa', 'marquise', 'دخان'], main: 'cafe_smoke', sub: 'Cigarettes' },
+      { keywords: ['طبيب', 'عيادة', 'سبيطار', 'clinique', 'médecin', 'doctor', 'médico'], main: 'health', sub: 'Médecin' },
+      { keywords: ['دواء', 'أدوية', 'صيدلية', 'pharmacie', 'pharmacy', 'doliprane', 'fever', 'aspirin', 'سيرو'], main: 'health', sub: 'Pharmacie' },
+      { keywords: ['مازوط', 'كازوال', 'مازوت', 'gasoil', 'essence', 'fuel', 'petrol', 'carburant'], main: 'transport', sub: 'Gasoil' },
+      { keywords: ['قهوة', 'مقهى', 'كافي', 'café', 'coffee', 'nescafé', 'زعزع', 'zaazoua', 'سناك'], main: 'cafe_smoke', sub: 'Café noir' },
+      { keywords: ['مطعم', 'ريستو', 'عشاء', 'غذاء', 'restaurant', 'resto', 'dinner', 'lunch'], main: 'daily', sub: 'Restaurant' }
+    ];
+    for(const rule of rules) {
+      if(rule.keywords.some(kw => text.includes(kw))) {
+        matchedMain = rule.main;
+        const mainCatInfo = getMainCats().find(c => c.id === rule.main);
+        if (mainCatInfo) {
+          const translatedSub = mainCatInfo.subs.find(s => s.toLowerCase().includes(rule.sub.toLowerCase()) || rule.sub.toLowerCase().includes(s.toLowerCase()));
+          matchedSub = translatedSub || mainCatInfo.subs[0];
+        }
+        break;
+      }
+    }
+    if(matchedMain && matchedSub) {
+      allData[mk].notes[i].mainCat = matchedMain;
+      allData[mk].notes[i].subCat = matchedSub;
+      renderNotes();
+    }
+  }
   persistData();
-  if(f==='amount'){updateNotesSummary();updateNotesChart();renderExpensesCats();recalc();}
+  if(f==='amount' || f==='note'){updateNotesSummary();updateNotesChart();renderExpensesCats();recalc();}
 }
 function noteMainCat(i,mainId){
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
@@ -2495,7 +2385,7 @@ function showTab(name,el){
   updateFabVisibility();
 }
 function changeCurrency(val){currency=val;syncCur();persistData();}
-function syncCur(){['c1','c2','c3','c4','c5','c6'].forEach(id=>{const e=$(id);if(e)e.textContent=currency;});const h=$('hero-cur');if(h)h.textContent=currency;}
+function syncCur(){['c1','c2','c3','c4','c5','c6','c7'].forEach(id=>{const e=$(id);if(e)e.textContent=currency;});const h=$('hero-cur');if(h)h.textContent=currency;}
 function openModal(id){$(id).classList.add('open');}
 function closeModal(id){$(id).classList.remove('open');}
 function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
@@ -4361,7 +4251,134 @@ function _buildXLSX(){
   showToast('📊 تم تصدير Excel — '+fname);
 }
 
+// ══════════════════════════════════════════════════════════════════
+// THEME SWITCHER
+// ══════════════════════════════════════════════════════════════════
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('sf_theme', newTheme);
+  updateChartThemes(newTheme);
+}
+
+function initTheme() {
+  const savedTheme = localStorage.getItem('sf_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  // Give charts a moment to initialize
+  setTimeout(() => updateChartThemes(savedTheme), 100);
+}
+
+function updateChartThemes(theme) {
+  const isDark = theme === 'dark';
+  const textColor = isDark ? '#ECEDF2' : '#2D3142';
+  const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)';
+  
+  Chart.defaults.color = textColor;
+  
+  [chartDonut, chartBar, chartHero, chartNotes, chartLine].forEach(c => {
+    if (c) {
+      if (c.options.scales) {
+        Object.keys(c.options.scales).forEach(s => {
+          if (c.options.scales[s].grid) c.options.scales[s].grid.color = gridColor;
+          if (c.options.scales[s].ticks) c.options.scales[s].ticks.color = textColor;
+        });
+      }
+      if (c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels) {
+        c.options.plugins.legend.labels.color = textColor;
+      }
+      c.update('none');
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
+// EMERGENCY FUND LOGIC
+// ══════════════════════════════════════════════════════════════════
+function getEmergencyFundTotal() {
+  let total = 0;
+  Object.keys(allData).forEach(function(mk) {
+    const savings = allData[mk].savings || [];
+    savings.forEach(function(s) {
+      const lbl = (s.label || '').trim().toLowerCase();
+      if (lbl === 'طوارئ' || lbl === 'الطوارئ' || lbl === 'urgences' || lbl === 'emergency' || lbl === 'emergencias') {
+        total += Number(s.act || 0);
+      }
+    });
+  });
+  return total;
+}
+
+function getEmergencyFundTarget() {
+  return Number(localStorage.getItem('sf_emergency_target')) || 15000;
+}
+
+function promptEmergencyTarget() {
+  const t = T();
+  const current = getEmergencyFundTarget();
+  const msg = t.emergency_target_prompt || "أدخل قيمة هدف صندوق الطوارئ الجديد:";
+  const val = prompt(msg, current);
+  if (val !== null) {
+    const target = Number(val) || 0;
+    if (target > 0) {
+      localStorage.setItem('sf_emergency_target', target);
+      recalc();
+      showToast(t.saved || "محفوظ");
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// BUDGET ALERT BANNER LOGIC
+// ══════════════════════════════════════════════════════════════════
+function checkBudgetAlerts() {
+  const banner = document.getElementById('budget-alerts-banner');
+  if (!banner) return;
+  banner.innerHTML = '';
+  
+  const limits = getBudgetLimits();
+  const t = T();
+  
+  getMainCats().forEach(function(mc) {
+    const lim = limits[mc.id];
+    if (!lim) return;
+    const spent = getCatSpentThisMonth(mc.id);
+    const ratio = spent / lim;
+    
+    if (ratio >= 0.8) {
+      const isOver = ratio >= 1.0;
+      const pct = Math.round(ratio * 100);
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'alert-item' + (isOver ? '' : ' warn');
+      
+      let msg = '';
+      if (lang === 'fr') {
+        msg = isOver 
+          ? `🔴 <strong>Dépassement de budget !</strong> Vous avez dépensé ${fmt(spent)} ${currency} sur ${fmt(lim)} ${currency} dans la catégorie ${mc.icon} ${mc.label} (${pct}%).`
+          : `⚠️ <strong>Attention !</strong> Vous approchez de la limite du budget pour ${mc.icon} ${mc.label} (${pct}% consommé).`;
+      } else if (lang === 'en') {
+        msg = isOver 
+          ? `🔴 <strong>Budget exceeded!</strong> You spent ${fmt(spent)} ${currency} out of ${fmt(lim)} ${currency} in ${mc.icon} ${mc.label} (${pct}%).`
+          : `⚠️ <strong>Warning!</strong> Close to budget limit for ${mc.icon} ${mc.label} (${pct}% spent).`;
+      } else if (lang === 'es') {
+        msg = isOver 
+          ? `🔴 <strong>¡Presupuesto superado!</strong> Gastó ${fmt(spent)} ${currency} de ${fmt(lim)} ${currency} en ${mc.icon} ${mc.label} (${pct}%).`
+          : `⚠️ <strong>¡Atención!</strong> Cerca del límite de presupuesto para ${mc.icon} ${mc.label} (${pct}% gastado).`;
+      } else {
+        // Arabic / Darija
+        msg = isOver 
+          ? `🔴 <strong>تجاوز الميزانية!</strong> صرفت ${fmt(spent)} ${currency} من أصل ${fmt(lim)} ${currency} في فئة ${mc.icon} ${mc.label} (${pct}%).`
+          : `⚠️ <strong>انتبه!</strong> اقتربت من السقف المحدد لفئة ${mc.icon} ${mc.label} (${pct}% مستهلكة).`;
+      }
+      
+      alertDiv.innerHTML = msg;
+      banner.appendChild(alertDiv);
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
+  initTheme();
   // ALWAYS show landing page on startup — no PIN screen here
   $('landing-page').style.display='block';
   $('pin-screen').classList.add('hidden'); // never show PIN on startup
