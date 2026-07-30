@@ -1616,7 +1616,8 @@ function initCharts(){
   });
 
   // ── Donut: where does money go ──
-  const donutColors=['#f97316','#6366f1','#f43f5e','#06b6d4'];
+  // Colors match screenshot: bills=indigo, expenses=orange, savings=cyan, debts=pink-red
+  const donutColors=['#6366f1','#f97316','#06b6d4','#f43f5e'];
   chartDonut=new Chart($('donutChart'),{
     type:'doughnut',
     data:{labels:['','','',''],
@@ -1645,31 +1646,31 @@ function initCharts(){
       responsive:true,maintainAspectRatio:true}
   });
 
-  // ── Bar chart: planned vs actual (vertical) ──
-  const barActualColors=[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts];
+  // ── Bar chart: planned vs actual (vertical, uniform color per dataset) ──
+  // Actual = pink #f472b6 | Planned = indigo #818cf8 (matches screenshot)
   chartBar=new Chart($('barChart'),{
     type:'bar',
     data:{labels:['','','',''],
       datasets:[
         {label:'تصرفت',data:[0,0,0,0],
-          backgroundColor:barActualColors,
+          backgroundColor:'#f472b6',
           borderRadius:6,borderSkipped:false,
-          borderWidth:0,maxBarThickness:28},
+          borderWidth:0,maxBarThickness:26},
         {label:'مخطط',data:[0,0,0,0],
-          backgroundColor:isDark()?'rgba(255,255,255,.12)':'rgba(0,0,0,.1)',
+          backgroundColor:'#818cf8',
           borderRadius:6,borderSkipped:false,
-          borderWidth:0,maxBarThickness:28}
+          borderWidth:0,maxBarThickness:26}
       ]},
     options:{
       plugins:{legend:{position:'top',
-        labels:{font:{size:11,weight:'600'},
-          color:legendColor(),usePointStyle:true,pointStyleWidth:8,padding:12}}},
+        labels:{font:{size:11,weight:'700'},
+          color:legendColor(),usePointStyle:true,pointStyleWidth:10,padding:14}}},
       scales:{
         x:{grid:{display:false},
           border:{display:false},
-          ticks:{font:{size:11},color:tickColor()}},
+          ticks:{font:{size:11,weight:'500'},color:tickColor()}},
         y:{grid:{color:gridColor(),drawBorder:false},
-          border:{display:false,dash:[4,4]},
+          border:{display:false},
           ticks:{font:{size:10},color:tickColor()}}},
       responsive:true,maintainAspectRatio:true}
   });
