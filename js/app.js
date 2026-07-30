@@ -239,6 +239,8 @@ function setLang(l){
   set('t-wa-analyze-btn', l==='fr'?'🔍 Analyser et extraire les produits':'🔍 تحليل واستخراج المنتجات');
   set('t-wa-total-lbl', l==='fr'?'Total des courses :':'إجمالي المشتريات:');
   set('t-wa-save-btn', l==='fr'?'🚀 Tout enregistrer dans le budget':'🚀 حفظ الكل في الميزانية');
+  set('fab-btn', '＋ ' + (t.add_note_fab || (l==='fr'?'Ajouter':'تسجيل مصروف')));
+  set('fab-wa-btn', '💬 WhatsApp');
   set('tl-bills',t.k_bills); set('tl-expenses',t.k_expenses); set('tl-savings',t.k_savings);
   set('tl-debts',t.k_debts); set('tl-income',t.k_income);
   set('tc-b1',t.col_item); set('tc-b2',t.col_act); set('tc-b3',t.col_pln);
@@ -2109,6 +2111,7 @@ function showAppAfterAuth(user){
   if(firstTab)firstTab.classList.add('active');
 
   setSyncStatus('sync');
+  updateFabVisibility();
   fbLoadFromCloud(user.uid);
   showToast('👋 '+(user.displayName||user.email));
 }
@@ -2143,7 +2146,7 @@ window.onFbAuthChange = function(user){
     }
   } else {
     // USER SIGNED OUT — show landing WITHOUT reload
-    const fabEl2=document.getElementById('fab-btn');if(fabEl2)fabEl2.classList.remove('visible');
+    const fabDock=document.getElementById('fab-dock');if(fabDock)fabDock.style.display='none';
     // On sauvegarde d'abord avant de vider la memoire
     try{if(Object.keys(allData).length>0){const payload=JSON.stringify({allData,currency,curYear,curMonth,lang});localStorage.setItem(SK,payload);localStorage.setItem('sf_backup',payload);}}catch(e){}
     _fbUid=null; allData={}; _appReady=false;
@@ -3185,11 +3188,11 @@ function fabQuickAdd(){
 }
 
 function updateFabVisibility(){
-  const fab=document.getElementById('fab-btn');
-  if(!fab)return;
-  const activePanel=document.querySelector('.tab-panel.active');
-  const isNotes=activePanel&&activePanel.id==='tab-notes';
-  fab.classList.toggle('visible', !isNotes && !!_fbUid);
+  const dock=document.getElementById('fab-dock');
+  if(!dock)return;
+  const landing=document.getElementById('landing-page');
+  const isLandingVisible=landing && landing.style.display!=='none';
+  dock.style.display=isLandingVisible?'none':'flex';
 }
 
 // ══════════════════════════════════════════════════════════════════

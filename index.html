@@ -655,8 +655,11 @@ onAuthStateChanged(auth, user=>{
 <!-- ── OFFLINE BANNER ── -->
 <div class="offline-banner" id="offline-banner">📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً</div>
 
-<!-- ── FAB (Floating Action Button) ── -->
-<button class="fab" id="fab-btn" onclick="fabQuickAdd()">＋ تسجيل مصروف</button>
+<!-- ── FAB FLOATING DOCK (Floating Action Bar) ── -->
+<div class="fab-dock" id="fab-dock">
+  <button class="fab-btn fab-add-btn" id="fab-btn" onclick="fabQuickAdd()">＋ تسجيل مصروف</button>
+  <button class="fab-btn fab-wa-btn" id="fab-wa-btn" onclick="openWaExpressModal()">💬 WhatsApp</button>
+</div>
 
 <!-- ── EDIT NOTE MODAL ── -->
 <!-- ── EDIT NOTE MODAL ── -->
