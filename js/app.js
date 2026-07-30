@@ -4048,7 +4048,7 @@ const DARIJA_DICTIONARY = [
   // Vegetables / Marché 🥦
   { keywords: ['mtixa', 'maticha', 'matixa', 'مطيشة', 'tomate', 'tomates'], nameAr: 'مطيشة', nameFr: 'Tomates', icon: '🍅', catId: 'Marché' },
   { keywords: ['lkhyar', 'khyar', 'خيار', 'concombre'], nameAr: 'خيار', nameFr: 'Concombre', icon: '🥒', catId: 'Marché' },
-  { keywords: ['batata', 'btata', 'بطاطس', 'بطاطا', 'pomme de terre'], nameAr: 'بطاطس', nameFr: 'Pommes de terre', icon: '🥔', catId: 'Marché' },
+  { keywords: ['batata', 'btata', 'btat', 'بطاطس', 'بطاطا', 'pomme de terre'], nameAr: 'بطاطس', nameFr: 'Pommes de terre', icon: '🥔', catId: 'Marché' },
   { keywords: ['bssl', 'bssla', 'بصل', 'بصلة', 'oignon'], nameAr: 'بصل', nameFr: 'Oignons', icon: '🧅', catId: 'Marché' },
   { keywords: ['khizou', 'khizo', 'خيزو', 'جزر', 'carotte', 'carottes'], nameAr: 'خيزو', nameFr: 'Carottes', icon: '🥕', catId: 'Marché' },
   { keywords: ['dngal', 'danjan', 'دنجال', 'باذنجان', 'aubergine'], nameAr: 'دنجال', nameFr: 'Aubergine', icon: '🍆', catId: 'Marché' },
@@ -4084,9 +4084,11 @@ const DARIJA_DICTIONARY = [
   { keywords: ['kfta', 'kefta', 'كفتة', 'viande hachée'], nameAr: 'كفتة', nameFr: 'Kefta', icon: '🧆', catId: 'Alimentation' },
   { keywords: ['hwt', 'hout', 'حوت', 'سمك', 'poisson'], nameAr: 'سمك', nameFr: 'Poisson', icon: '🐟', catId: 'Alimentation' },
 
-  // Cleaning & Hygiene / Autre 🧹
+  // Cleaning, Hygiene & Extras / Autre 🧹
+  { keywords: ['lingit', 'lingette', 'lingettes', 'linget', 'مناديل'], nameAr: 'مناديل مبللة', nameFr: 'Lingettes', icon: '🧻', catId: 'Autre' },
+  { keywords: ['garo', 'garro', 'garet', 'cigarette', 'cigarettes', 'سجائر'], nameAr: 'سجائر', nameFr: 'Cigarettes', icon: '🚬', catId: 'Autre' },
   { keywords: ['olwyz', 'always', 'اولويز', 'serviettes'], nameAr: 'Always', nameFr: 'Always', icon: '🌸', catId: 'Autre' },
-  { keywords: ['jvil', 'javel', 'جافيل', 'eau de javel'], nameAr: 'جافيل', nameFr: 'Javel', icon: '🧴', catId: 'Autre' },
+  { keywords: ['jvil', 'javil', 'javel', 'جافيل', 'eau de javel'], nameAr: 'جافيل', nameFr: 'Javel', icon: '🧴', catId: 'Autre' },
   { keywords: ['snkrwa', 'sanicross', 'croix', 'ساني كروا'], nameAr: 'ساني كروا', nameFr: 'Sanicross', icon: '🧹', catId: 'Autre' },
   { keywords: ['ommo', 'tid', 'omo', 'تيد', 'أومو', 'lessive'], nameAr: 'أومو / مسحوق الغسيل', nameFr: 'Lessive', icon: '🧺', catId: 'Autre' },
   { keywords: ['papiye', 'papier', 'بابيي', 'ورق حمام'], nameAr: 'ورق صحي', nameFr: 'Papier hygiénique', icon: '🧻', catId: 'Autre' },
