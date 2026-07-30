@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/تدبير-v3.6.0-7EC8B0?style=for-the-badge)
+![Version](https://img.shields.io/badge/تدبير-v3.6.1-7EC8B0?style=for-the-badge)
 ![Firebase](https://img.shields.io/badge/Firebase-Sync-FFCA28?style=for-the-badge&logo=firebase)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-2E75B6?style=for-the-badge&logo=github)
 ![Languages](https://img.shields.io/badge/Languages-5-A8C5A0?style=for-the-badge)
@@ -63,6 +63,9 @@
 
 - **تجميع تلقائي** — ما تضيفه يظهر مباشرة في المصاريف باللون الأحمر
 - رسم بياني على الفئة الرئيسية
+- recherche instantanée dans les dépenses, remarques et choix
+- tri par date ou montant
+- duplication rapide d'une dépense
 
 ### 📅 مقارنة شهرية
 - جدول كامل للـ 12 شهر مع إجمالي سنوي
@@ -156,6 +159,6 @@ tadbir/
 
 **Créé par BELMOUFADAL Abderrahim**
 
-دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.6.0** 🇲🇦
+دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.6.1** 🇲🇦
 
 </div>
