@@ -69,62 +69,62 @@ onAuthStateChanged(auth, user=>{
   <nav class="lnd-nav">
     <div class="lnd-logo">
       <div class="lnd-logo-icon">💰</div>
-      <div><div class="lnd-logo-name" id="t-lnd-logo-name">تدبير</div><div class="lnd-logo-sub" id="t-lnd-logo-sub">دبّر ميزانيتك بذكاء</div></div>
+      <div><div class="lnd-logo-name">تدبير</div><div class="lnd-logo-sub">دبّر ميزانيتك بذكاء</div></div>
     </div>
-    <button class="lnd-cta-nav" onclick="fbSignIn()" id="t-lnd-nav-btn">🔑 تسجيل الدخول بـ Google</button>
+    <button class="lnd-cta-nav" onclick="fbSignIn()">🔑 تسجيل الدخول بـ Google</button>
   </nav>
 
   <!-- HERO -->
   <div class="lnd-hero">
-    <div class="lnd-badge" id="t-lnd-badge">✦ مجاني 100% • مزامنة سحابية</div>
-    <h1 class="lnd-h1"><span id="t-lnd-h1-1">دبّر فلوسك بذكاء</span><br><span id="t-lnd-h1-2">وفبلاصة وحدة</span></h1>
-    <p class="lnd-sub" id="t-lnd-sub">تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم</p>
-    <button class="lnd-cta-hero" onclick="fbSignIn()" id="t-lnd-start-btn">🚀 ابدأ مجاناً مع Google</button>
-    <button class="lnd-cta-hero" id="install-app-btn" onclick="installTadbir()" style="display:none;margin-top:10px;background:#D4A853;"><span id="t-lnd-install">📲 تثبيت التطبيق</span></button>
-    <p class="lnd-cta-note" id="t-lnd-no-card">لا حاجة لبطاقة بنكية • مجاني للأبد</p>
+    <div class="lnd-badge">✦ مجاني 100% • مزامنة سحابية</div>
+    <h1 class="lnd-h1">دبّر فلوسك بذكاء<br><span>وفبلاصة وحدة</span></h1>
+    <p class="lnd-sub">تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم</p>
+    <button class="lnd-cta-hero" onclick="fbSignIn()">🚀 ابدأ مجاناً مع Google</button>
+    <button class="lnd-cta-hero" id="install-app-btn" onclick="installTadbir()" style="display:none;margin-top:10px;background:#D4A853;">📲 تثبيت التطبيق</button>
+    <p class="lnd-cta-note">لا حاجة لبطاقة بنكية • مجاني للأبد</p>
   </div>
 
   <!-- DEMO DASHBOARD -->
   <div class="lnd-demo">
-    <div class="lnd-demo-title" id="t-lnd-demo-title">معاينة التطبيق</div>
+    <div class="lnd-demo-title">معاينة التطبيق</div>
     <div class="lnd-demo-box">
       <div class="demo-kpi-row">
         <div class="demo-kpi">
-          <div class="demo-kpi-label" id="t-lnd-demo-inc">💵 الدخل</div>
+          <div class="demo-kpi-label">💵 الدخل</div>
           <div class="demo-kpi-val" style="color:#A8C5A0;">7,680</div>
           <div class="demo-kpi-bar" style="background:#A8C5A0;width:100%;"></div>
         </div>
         <div class="demo-kpi">
-          <div class="demo-kpi-label" id="t-lnd-demo-exp">🛒 المصاريف</div>
+          <div class="demo-kpi-label">🛒 المصاريف</div>
           <div class="demo-kpi-val" style="color:#B5A8D4;">3,459</div>
           <div class="demo-kpi-bar" style="background:#B5A8D4;width:45%;"></div>
         </div>
         <div class="demo-kpi">
-          <div class="demo-kpi-label" id="t-lnd-demo-rem">✅ الباقي</div>
+          <div class="demo-kpi-label">✅ الباقي</div>
           <div class="demo-kpi-val" style="color:#7EC8B0;">2,961</div>
           <div class="demo-kpi-bar" style="background:#7EC8B0;width:39%;"></div>
         </div>
       </div>
       <div class="demo-charts-row">
         <div class="demo-chart-box">
-          <div class="demo-chart-label" id="t-lnd-demo-ch1">فين كتمشي الفلوس</div>
+          <div class="demo-chart-label">فين كتمشي الفلوس</div>
           <canvas id="lnd-donut" height="160"></canvas>
         </div>
         <div class="demo-chart-box">
-          <div class="demo-chart-label" id="t-lnd-demo-ch2">المخطط / الفعلي</div>
+          <div class="demo-chart-label">المخطط / الفعلي</div>
           <canvas id="lnd-bar" height="160"></canvas>
         </div>
       </div>
       <!-- Mini expense table -->
       <div style="background:rgba(255,255,255,.03);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06);">
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:8px 14px;font-size:9px;color:rgba(255,255,255,.3);font-weight:600;letter-spacing:.5px;border-bottom:1px solid rgba(255,255,255,.06);">
-          <span id="t-lnd-demo-l1">البيان</span><span style="text-align:left;margin-left:40px;" id="t-lnd-demo-l2">تصرفت</span><span style="text-align:left;margin-left:20px;" id="t-lnd-demo-l3">مخطط</span>
+          <span>البيان</span><span style="text-align:left;margin-left:40px;">تصرفت</span><span style="text-align:left;margin-left:20px;">مخطط</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:9px 14px;font-size:11px;border-bottom:1px solid rgba(255,255,255,.04);">
-          <span style="color:rgba(255,255,255,.7);"> id="t-lnd-demo-food">مواد غذائية</span><span style="font-family:'DM Mono',monospace;color:#7EC8B0;margin-left:40px;">1,200</span><span style="font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);margin-left:20px;">1,500</span>
+          <span style="color:rgba(255,255,255,.7);">مواد غذائية</span><span style="font-family:'DM Mono',monospace;color:#7EC8B0;margin-left:40px;">1,200</span><span style="font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);margin-left:20px;">1,500</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:9px 14px;font-size:11px;border-bottom:1px solid rgba(255,255,255,.04);">
-          <span style="color:rgba(255,255,255,.7);" id="t-lnd-demo-market">السوق</span><span style="font-family:'DM Mono',monospace;color:#7EC8B0;margin-left:40px;">459</span><span style="font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);margin-left:20px;">500</span>
+          <span style="color:rgba(255,255,255,.7);">السوق</span><span style="font-family:'DM Mono',monospace;color:#7EC8B0;margin-left:40px;">459</span><span style="font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);margin-left:20px;">500</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:9px 14px;font-size:11px;">
           <span style="color:rgba(255,255,255,.7);">Gasoil</span><span style="font-family:'DM Mono',monospace;color:#7EC8B0;margin-left:40px;">600</span><span style="font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);margin-left:20px;">600</span>
@@ -136,39 +136,39 @@ onAuthStateChanged(auth, user=>{
   <!-- FEATURES -->
   <div class="lnd-features">
     <div class="lnd-section-title">
-      <h2><span id="t-lnd-feat-h2-1">كل شيء تحتاجه</span> <span style="color:#7EC8B0;" id="t-lnd-feat-h2-2">في مكان واحد</span></h2>
-      <p id="t-lnd-feat-p">تطبيق مصمم خصيصاً لتنظيم ميزانيتك بسهولة وبدون تعقيد</p>
+      <h2>كل شيء تحتاجه <span style="color:#7EC8B0;">في مكان واحد</span></h2>
+      <p>تطبيق مصمم خصيصاً لتنظيم ميزانيتك بسهولة وبدون تعقيد</p>
     </div>
     <div class="features-grid">
       <div class="feature-card c1">
         <div class="feature-icon">📊</div>
-        <div class="feature-title" id="t-lnd-f1-t">لوحة الميزانية</div>
-        <div class="feature-desc" id="t-lnd-f1-d">تتبع الدخل والفواتير والمصاريف والتوفير والديون في لوحة واحدة واضحة مع رسوم بيانية ذكية</div>
+        <div class="feature-title">لوحة الميزانية</div>
+        <div class="feature-desc">تتبع الدخل والفواتير والمصاريف والتوفير والديون في لوحة واحدة واضحة مع رسوم بيانية ذكية</div>
       </div>
       <div class="feature-card c2">
         <div class="feature-icon">☁️</div>
-        <div class="feature-title" id="t-lnd-f2-t">مزامنة تلقائية</div>
-        <div class="feature-desc" id="t-lnd-f2-d">بياناتك محفوظة في السحاب وتتزامن بين الهاتف والكمبيوتر في الوقت الفعلي — لا تفقد أي شيء</div>
+        <div class="feature-title">مزامنة تلقائية</div>
+        <div class="feature-desc">بياناتك محفوظة في السحاب وتتزامن بين الهاتف والكمبيوتر في الوقت الفعلي — لا تفقد أي شيء</div>
       </div>
       <div class="feature-card c3">
         <div class="feature-icon">📝</div>
-        <div class="feature-title" id="t-lnd-f3-t">دفتر الملاحظات</div>
-        <div class="feature-desc" id="t-lnd-f3-d">سجّل أي مصروف يومي بفئته ويتجمع تلقائياً مع المصاريف الشهرية بدون إدخال يدوي مكرر</div>
+        <div class="feature-title">دفتر الملاحظات</div>
+        <div class="feature-desc">سجّل أي مصروف يومي بفئته ويتجمع تلقائياً مع المصاريف الشهرية بدون إدخال يدوي مكرر</div>
       </div>
       <div class="feature-card c4">
         <div class="feature-icon">📅</div>
-        <div class="feature-title" id="t-lnd-f4-t">مقارنة شهرية</div>
-        <div class="feature-desc" id="t-lnd-f4-d">تابع تطور ميزانيتك عبر 12 شهر مع رسم بياني يبين الفرق بين المخطط والفعلي</div>
+        <div class="feature-title">مقارنة شهرية</div>
+        <div class="feature-desc">تابع تطور ميزانيتك عبر 12 شهر مع رسم بياني يبين الفرق بين المخطط والفعلي</div>
       </div>
       <div class="feature-card c5">
         <div class="feature-icon">🌍</div>
-        <div class="feature-title" id="t-lnd-f5-t">لغتان مكتملتان</div>
-        <div class="feature-desc" id="t-lnd-f5-d">العربية • Français — تغيير اللغة يغيّر اتجاه الصفحة والمكونات تلقائياً</div>
+        <div class="feature-title">لغتان مكتملتان</div>
+        <div class="feature-desc">العربية • Français — تغيير اللغة يغيّر اتجاه الصفحة والمكونات تلقائياً</div>
       </div>
       <div class="feature-card c6">
         <div class="feature-icon">🔐</div>
-        <div class="feature-title" id="t-lnd-f6-t">حماية وأمان</div>
-        <div class="feature-desc" id="t-lnd-f6-d">تسجيل دخول آمن بـ Google + رمز PIN لحماية التطبيق على جهازك — بياناتك لك وحدك</div>
+        <div class="feature-title">حماية وأمان</div>
+        <div class="feature-desc">تسجيل دخول آمن بـ Google + رمز PIN لحماية التطبيق على جهازك — بياناتك لك وحدك</div>
       </div>
     </div>
   </div>
@@ -176,39 +176,39 @@ onAuthStateChanged(auth, user=>{
   <!-- STATS -->
   <div class="lnd-stats">
     <div class="stats-grid">
-      <div class="stat-box"><div class="stat-val">100%</div><div class="stat-label" id="t-lnd-stat-1">مجاني</div></div>
-      <div class="stat-box"><div class="stat-val">2</div><div class="stat-label" id="t-lnd-stat-2">لغتان</div></div>
-      <div class="stat-box"><div class="stat-val">☁️</div><div class="stat-label" id="t-lnd-stat-3">سحاب آمن</div></div>
-      <div class="stat-box"><div class="stat-val">📱</div><div class="stat-label" id="t-lnd-stat-4">كل الأجهزة</div></div>
+      <div class="stat-box"><div class="stat-val">100%</div><div class="stat-label">مجاني</div></div>
+      <div class="stat-box"><div class="stat-val">2</div><div class="stat-label">لغتان</div></div>
+      <div class="stat-box"><div class="stat-val">☁️</div><div class="stat-label">سحاب آمن</div></div>
+      <div class="stat-box"><div class="stat-val">📱</div><div class="stat-label">كل الأجهزة</div></div>
     </div>
   </div>
 
   <!-- HOW IT WORKS -->
   <div class="lnd-steps">
     <div class="lnd-section-title">
-      <h2 id="t-lnd-step-h2">كيف يشتغل؟</h2>
-      <p id="t-lnd-step-p">3 خطوات بسيطة تنظم فيها ميزانيتك</p>
+      <h2>كيف يشتغل؟</h2>
+      <p>3 خطوات بسيطة تنظم فيها ميزانيتك</p>
     </div>
     <div class="steps-list">
       <div class="step-item">
         <div class="step-num">1</div>
         <div class="step-text">
-          <h3 id="t-lnd-s1-t">سجّل دخولك بـ Google</h3>
-          <p id="t-lnd-s1-d">اضغط على "ابدأ مجاناً" وسجّل بحساب Google ديالك — لا تسجيل، لا كلمة مرور</p>
+          <h3>سجّل دخولك بـ Google</h3>
+          <p>اضغط على "ابدأ مجاناً" وسجّل بحساب Google ديالك — لا تسجيل، لا كلمة مرور</p>
         </div>
       </div>
       <div class="step-item">
         <div class="step-num">2</div>
         <div class="step-text">
-          <h3 id="t-lnd-s2-t">أدخل ميزانيتك</h3>
-          <p id="t-lnd-s2-d">عندك بيانات افتراضية جاهزة — فقط أدخل الأرقام الحقيقية ديالك في الخانات المناسبة</p>
+          <h3>أدخل ميزانيتك</h3>
+          <p>عندك بيانات افتراضية جاهزة — فقط أدخل الأرقام الحقيقية ديالك في الخانات المناسبة</p>
         </div>
       </div>
       <div class="step-item">
         <div class="step-num">3</div>
         <div class="step-text">
-          <h3 id="t-lnd-s3-t">تابع وتحكم في فلوسك</h3>
-          <p id="t-lnd-s3-d">البيانات تتزامن تلقائياً — افتح التطبيق من الهاتف أو الكمبيوتر وتلقى كل شيء في مكانه</p>
+          <h3>تابع وتحكم في فلوسك</h3>
+          <p>البيانات تتزامن تلقائياً — افتح التطبيق من الهاتف أو الكمبيوتر وتلقى كل شيء في مكانه</p>
         </div>
       </div>
     </div>
@@ -216,16 +216,16 @@ onAuthStateChanged(auth, user=>{
 
   <!-- FINAL CTA -->
   <div class="lnd-final">
-    <h2 id="t-lnd-final-h2">جاهز تنظم فلوسك؟ 💚</h2>
-    <p id="t-lnd-final-p">ابدأ دابا — مجاني 100% ولا تحتاج لأي إعداد معقد</p>
-    <button class="lnd-cta-hero" onclick="fbSignIn()" id="t-lnd-start-btn">🚀 ابدأ مجاناً مع Google</button>
-    <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:12px;" id="t-lnd-final-note">لا حاجة لبطاقة بنكية</p>
+    <h2>جاهز تنظم فلوسك؟ 💚</h2>
+    <p>ابدأ دابا — مجاني 100% ولا تحتاج لأي إعداد معقد</p>
+    <button class="lnd-cta-hero" onclick="fbSignIn()">🚀 ابدأ مجاناً مع Google</button>
+    <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:12px;">لا حاجة لبطاقة بنكية</p>
   </div>
 
   <!-- FOOTER -->
   <div class="lnd-footer">
     <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.2.0</div>
-    <div id="t-lnd-footer-c">دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
+    <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
 </div>
@@ -309,7 +309,7 @@ onAuthStateChanged(auth, user=>{
         <div><div style="font-size:13px;font-weight:600;" id="t-pin-lbl"></div><div style="font-size:9px;color:var(--light);" id="t-pin-s"></div></div>
         <button class="toggle" id="pin-toggle" onclick="togglePIN()"></button>
       </div>
-      <button class="backup-btn" onclick="closeModal('backupModal');openBudgetModal()" style="border-color:var(--blue);"><span class="bicon">🎯</span><div class="btxt"><span id="t-bud-h">إعداد ميزانية الفئات</span><span id="t-bud-s">تحديد حد أقصى لكل قسم</span></div></button>
+      <button class="backup-btn" onclick="closeModal('backupModal');openBudgetModal()" style="border-color:var(--blue);"><span class="bicon">🎯</span><div class="btxt"><span>إعداد ميزانية الفئات</span><span>تحديد حد أقصى لكل قسم</span></div></button>
       <button class="backup-btn" onclick="startChangePIN()" style="margin-top:9px;"><span class="bicon">🔑</span><div class="btxt"><span id="t-pin-ch"></span><span id="t-pin-chs"></span></div></button>
     </div>
     <div class="last-backup" id="last-backup-info"></div>
