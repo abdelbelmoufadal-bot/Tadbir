@@ -458,6 +458,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .sync-dot.ok{background:var(--mint);}
 .sync-dot.sync{background:var(--gold);animation:pulse 1s infinite;}
 .sync-dot.off{background:var(--light);}
+.sync-dot.error{background:#E85D5D;}
 #sync-status{font-size:9px;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:3px;}
 /* USER DROPDOWN */
 .user-dropdown{position:absolute;top:62px;left:12px;background:#1e2333;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:8px;min-width:200px;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:500;display:none;}
@@ -715,7 +716,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.4</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.0</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -1118,7 +1119,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.4</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.0</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -1203,10 +1204,11 @@ const LANGS={
 // ══════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════
-const SK='sf_v33', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
+const SK='sf_v35', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
 const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0'};
 const CAT_COLORS=['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#9AA0B0'];
-let curYear=2025, curMonth=4, currency='درهم', pickerYear=2025, nmOpt='copy';
+const now=new Date();
+let curYear=now.getFullYear(), curMonth=now.getMonth(), currency='درهم', pickerYear=now.getFullYear(), nmOpt='copy';
 let _appReady=false;      // prevent multiple initializations
 let _authReady=false;     // true only after cloud load completes
 let _saveQueue=false;     // pending save after cloud load
@@ -1487,8 +1489,8 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-   const CURRENT_VER='v35';
-  const ALL_KNOWN_KEYS=['sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
+  const CURRENT_VER='3.5.0';
+  const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
   let recovered=null;
@@ -1687,66 +1689,6 @@ function getNotesTotalsByExpLabel(){
   });
   return totals;
 }
-
-function renderExpensesCats(){return;// désactivé — remplacé par renderExpensesCats
-
-  const totals=getNotesTotalsByExpLabel();
-  const tb=$('expenses-body');
-  if(!tb)return;
-
-  // Remove old badges and note-rows
-  tb.querySelectorAll('.notes-contrib').forEach(b=>b.remove());
-  tb.querySelectorAll('tr.note-row').forEach(r=>r.remove());
-
-  const existingLabels=new Set();
-
-  // For each expense row — if notes match, show combined total in RED in act column
-  tb.querySelectorAll('tr.data-row').forEach(tr=>{
-    const inputs=tr.querySelectorAll('input');
-    if(inputs.length<2)return;
-    const rowLabel=inputs[0].value.trim();
-    existingLabels.add(rowLabel);
-    const rowAct=Number(inputs[1].value)||0;
-
-    let notesAmt=0;
-    Object.entries(totals).forEach(([lbl,amt])=>{
-      if(lbl.trim()===rowLabel)notesAmt+=amt;
-    });
-
-    const actInput=inputs[1];
-    // Remove old display span
-    const oldSpan=actInput.parentNode.querySelector('.notes-total-display');
-    if(oldSpan)oldSpan.remove();
-
-    if(notesAmt>0){
-      const combined=rowAct+notesAmt;
-      // Hide the input, show a red combined total
-      actInput.style.display='none';
-      const span=document.createElement('span');
-      span.className='notes-total-display';
-      span.style.cssText='font-family:"DM Mono",monospace;font-size:12px;font-weight:800;color:#E8A598;cursor:default;';
-      span.title='يشمل '+fmt(notesAmt)+' من دفتر الملاحظات';
-      span.textContent=fmt(combined);
-      actInput.parentNode.insertBefore(span, actInput);
-    } else {
-      // No notes — show input normally
-      actInput.style.display='';
-    }
-  });
-
-  // Orphan notes (category not in expenses table) → add as red read-only row
-  Object.entries(totals).forEach(([lbl,total])=>{
-    if(total===0||existingLabels.has(lbl))return;
-    const tr=document.createElement('tr');
-    tr.className='note-row';
-    tr.innerHTML=`
-      <td class="lc" style="font-size:11px;">📝 ${lbl}</td>
-      <td class="ac" style="color:#E8A598;font-weight:800;font-family:'DM Mono',monospace;font-size:12px;">${fmt(total)}</td>
-      <td class="pc" style="color:var(--light);">—</td>`;
-    tb.appendChild(tr);
-  });
-}
-
 
 // ══════════════════════════════════════════════════════════════
 // EXPENSES AUTO — affiche les 9 catégories avec totaux des notes
@@ -2398,11 +2340,12 @@ let _unsubscribe = null;
 let _isSyncing = false;
 
 function setSyncStatus(status){
-  // status: 'off' | 'ok' | 'sync'
+  // status: 'off' | 'ok' | 'sync' | 'error'
   const dot=$('sync-dot'), txt=$('sync-txt');
   if(!dot)return;
   dot.className='sync-dot '+status;
-  const labels={off:T().sync_off||'غير متصل', ok:T().sync_ok||'متزامن ☁️', sync:T().sync_ing||'جاري المزامنة...'};
+  const errorLabels={fr:'Erreur de synchronisation',en:'Sync error',es:'Error de sincronización',ar:'خطأ في المزامنة',dar:'خطأ فالمزامنة'};
+  const labels={off:T().sync_off||'غير متصل',ok:T().sync_ok||'متزامن ☁️',sync:T().sync_ing||'جاري المزامنة...',error:errorLabels[lang]||errorLabels.ar};
   if(txt)txt.textContent=labels[status]||'';
 }
 
@@ -2452,7 +2395,7 @@ async function fbSaveToCloud(){
     setSyncStatus('ok');
   }catch(e){
     console.error('Firestore save error:',e);
-    setSyncStatus('ok');
+    setSyncStatus('error');
   }
   _isSyncing=false;
 }
@@ -2519,7 +2462,9 @@ async function fbLoadFromCloud(uid){
     }
   }catch(e){
     console.error('Firestore load error:',e);
-    setSyncStatus('ok');
+    _isLoadingFromCloud=false;
+    _authReady=false;
+    setSyncStatus('error');
   }
 }
 
@@ -3829,7 +3774,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.4 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.5.0 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -3978,7 +3923,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.4';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.5.0';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري
