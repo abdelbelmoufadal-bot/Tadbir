@@ -172,6 +172,18 @@ const DEF_LABELS={
   }
 };
 
+function trLbl(lbl) {
+  if (!lbl) return '';
+  const keys = Object.keys(DEF_LABELS.ar);
+  for (let k of keys) {
+    let idxAr = DEF_LABELS.ar[k].indexOf(lbl);
+    if (idxAr !== -1 && lang === 'fr') return DEF_LABELS.fr[k][idxAr];
+    let idxFr = DEF_LABELS.fr[k].indexOf(lbl);
+    if (idxFr !== -1 && lang === 'ar') return DEF_LABELS.ar[k][idxFr];
+  }
+  return lbl;
+}
+
 function defMonth(){
   const lbl=DEF_LABELS[lang]||DEF_LABELS.ar;
   const pln={
@@ -628,7 +640,7 @@ function renderSection(sec){
       ?`<button class="row-detail-btn" onclick="openRowDetails('${sec}',${idx})" title="${T().details||'Détails'}">⚙️</button><span class="goal-progress">${_progress}%${item.meta&&item.meta.dueDate?' • '+item.meta.dueDate:''}</span>`
       :'';
     tr.className='data-row'+(_over?' row-over':_under?' row-ok':'');
-    const lv=(item.label||'').replace(/"/g,'&quot;');
+    const lv=trLbl(item.label||'').replace(/"/g,'&quot;');
     tr.innerHTML=`
       <td class="lc"><input type="text" value="${lv}" placeholder="..." style="text-align:${isRTL?'right':'left'}" ${closed?'disabled':''} oninput="onInput('${sec}',${idx},'label',this.value)"></td>
       <td class="ac"><input type="number" value="${item.act||0}" min="0" placeholder="0" title="${T().col_act||'الفعلي'}" ${closed?'disabled':''} oninput="onInput('${sec}',${idx},'act',this.value)"></td>
