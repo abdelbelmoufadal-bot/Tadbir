@@ -1634,10 +1634,12 @@ function initCharts(){
           generateLabels:function(c){
             const d=c.data;
             const lbls=[T().k_bills,T().k_expenses,T().k_savings,T().k_debts];
+            const col=legendColor();
             return lbls.map((l,i)=>({
               text:' '+l,
               fillStyle:d.datasets[0].backgroundColor[i],
               strokeStyle:'transparent',
+              color:col,fontColor:col,
               hidden:false,index:i}));
           }}},
         tooltip:{callbacks:{label:function(ctx){
