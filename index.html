@@ -162,8 +162,8 @@ onAuthStateChanged(auth, user=>{
       </div>
       <div class="feature-card c5">
         <div class="feature-icon">🌍</div>
-        <div class="feature-title">5 لغات</div>
-        <div class="feature-desc">عربي • دارجة مغربية • Français • English • Español — تغيير اللغة يغير اتجاه الصفحة تلقائياً</div>
+        <div class="feature-title">لغتان مكتملتان</div>
+        <div class="feature-desc">العربية • Français — تغيير اللغة يغيّر اتجاه الصفحة والمكونات تلقائياً</div>
       </div>
       <div class="feature-card c6">
         <div class="feature-icon">🔐</div>
@@ -177,7 +177,7 @@ onAuthStateChanged(auth, user=>{
   <div class="lnd-stats">
     <div class="stats-grid">
       <div class="stat-box"><div class="stat-val">100%</div><div class="stat-label">مجاني</div></div>
-      <div class="stat-box"><div class="stat-val">5</div><div class="stat-label">لغات</div></div>
+      <div class="stat-box"><div class="stat-val">2</div><div class="stat-label">لغتان</div></div>
       <div class="stat-box"><div class="stat-val">☁️</div><div class="stat-label">سحاب آمن</div></div>
       <div class="stat-box"><div class="stat-val">📱</div><div class="stat-label">كل الأجهزة</div></div>
     </div>
@@ -224,7 +224,7 @@ onAuthStateChanged(auth, user=>{
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.0.0</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.1.0</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -535,7 +535,7 @@ onAuthStateChanged(auth, user=>{
         <div style="font-size:18px;font-weight:800;color:#fff;">🚗 In Drive</div>
         <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:2px;" id="drv-month-lbl">مايو 2025</div>
       </div>
-      <div class="drive-sync-badge">⚡ يتزامن مع الدخل</div>
+      <div class="drive-sync-badge" id="drv-sync-badge">⚡ يتزامن مع الدخل</div>
     </div>
     <div class="drive-stats-grid">
       <div class="drive-stat"><div class="drive-stat-val" id="drv-today">0</div><div class="drive-stat-lbl" id="drv-today-lbl">اليوم</div></div>
@@ -573,13 +573,25 @@ onAuthStateChanged(auth, user=>{
 </div></div>
 
 <div id="tab-weekly" class="tab-panel"><div class="main">
+  <div class="stats-toolbar card">
+    <div>
+      <div class="section-title" id="stats-title">Analyse des dépenses</div>
+      <div class="stats-subtitle" id="stats-subtitle">Repérez les fuites, les habitudes coûteuses et les économies possibles.</div>
+    </div>
+    <label class="stats-filter"><span id="stats-month-label">Mois analysé</span><select id="stats-month-filter" onchange="renderWeeklyTab()"></select></label>
+  </div>
   <div class="weekly-grid" id="weekly-stats-grid"></div>
+  <div class="stats-insights-grid">
+    <div class="card stats-insight danger"><div class="stats-insight-title" id="stats-leak-title">🚨 Fuites probables</div><div id="stats-leaks"></div></div>
+    <div class="card stats-insight"><div class="stats-insight-title" id="stats-products-title">🧾 Produits les plus coûteux</div><div id="stats-products"></div></div>
+    <div class="card stats-insight good"><div class="stats-insight-title" id="stats-actions-title">💡 Actions recommandées</div><div id="stats-actions"></div></div>
+  </div>
   <div class="weekly-bars-wrap">
     <div class="card-title" style="font-size:15px;font-weight:800;"><span class="dot" style="background:var(--mint);display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:8px;"></span><span id="t-week-chart">مصاريف الأسبوع الحالي</span></div>
     <div class="weekly-bars" id="weekly-bars-chart"></div>
   </div>
   <div class="card" style="margin-bottom:14px;">
-    <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span>توزيع المصاريف حسب الفئة — هذا الشهر</span></div></div>
+    <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="stats-category-title">Répartition par catégorie</span></div></div>
     <div id="weekly-cat-bars" style="padding:14px;"></div>
   </div>
 </div></div>
@@ -674,7 +686,7 @@ onAuthStateChanged(auth, user=>{
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.0.0</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.1.0</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>

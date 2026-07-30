@@ -102,3 +102,16 @@ test('PWA manifest and offline cache are complete', () => {
     assert.ok(serviceWorker.includes(`'${asset}'`), `service worker does not cache ${asset}`);
   }
 });
+
+test('statistics page supports month filtering and leak analysis', () => {
+  assert.match(html, /id="stats-month-filter"/);
+  assert.match(app, /function populateStatsMonthFilter/);
+  assert.match(app, /function normalizedProductName/);
+  assert.match(app, /productCounts\[p\]>=6/);
+});
+
+test('French catalog includes newly identified products', () => {
+  for (const label of ['Raisins', 'Graines de tournesol', 'Olives', 'Pastilla', 'Serviettes hygiéniques', 'Vinaigre']) {
+    assert.ok(app.includes(label), `${label} is missing`);
+  }
+});

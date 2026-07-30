@@ -35,7 +35,8 @@ const LANGS={
     custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية',
     cal_total:'الإجمالي:',cal_leg1:'عادي',cal_leg2:'متوسط',cal_leg3:'مرتفع',cal_source:'📋 المصدر: سجل المصاريف',exp_auto_note:'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل',
-    drv_today:'اليوم',drv_week:'الأسبوع',drv_month:'الشهر',drv_avg:'معدل/رحلة',drv_trips:'رحلة',drv_add_title:'تسجيل يوم جديد',drv_lbl_date:'التاريخ',drv_lbl_trips:'عدد الرحلات',drv_lbl_total:'المجموع',drv_submit:'تسجيل اليوم',drv_heatmap:'أفضل أيام الأسبوع',drv_list:'سجل الرحلات',drive_fill:'أكمل كل الحقول'
+    drv_today:'اليوم',drv_week:'الأسبوع',drv_month:'الشهر',drv_avg:'معدل/رحلة',drv_trips:'رحلة',drv_add_title:'تسجيل يوم جديد',drv_lbl_date:'التاريخ',drv_lbl_trips:'عدد الرحلات',drv_lbl_total:'المجموع',drv_submit:'تسجيل اليوم',drv_heatmap:'أفضل أيام الأسبوع',drv_list:'سجل الرحلات',drive_fill:'أكمل كل الحقول',
+    stats_title:'تحليل المصاريف',stats_subtitle:'اكتشف التسربات والعادات المكلفة وفرص التوفير.',stats_month:'الشهر المحلل',stats_leaks:'🚨 تسربات محتملة',stats_products:'🧾 المنتجات الأكثر كلفة',stats_actions:'💡 إجراءات مقترحة',stats_category:'توزيع المصاريف حسب الفئة',stats_entries:'عملية',stats_discretionary:'الكماليات',stats_no_data:'لا توجد بيانات لهذا الشهر',stats_reduce:'قلّص أكبر مصروف كمالي بنسبة 25٪',stats_repeat:'راجع المشتريات المتكررة يومياً',stats_budget:'حدد سقفاً شهرياً لكل فئة',form_choose:'اختر المشتريات',form_clear:'مسح الكل ✕',filter_month:'الشهر:',filter_day:'اليوم:',filter_total:'الإجمالي:',month_total:'إجمالي الشهر',drive_sync:'⚡ يتزامن مع الدخل',offline:'📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً'
   },
   fr:{dir:'ltr',
     months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -70,7 +71,8 @@ const LANGS={
     custom_cat:'✏️ Nouvelle catégorie...',
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées',
     cal_total:'Total :',cal_leg1:'Normal',cal_leg2:'Modéré',cal_leg3:'Élevé',cal_source:'📋 Source : Carnet de notes',exp_auto_note:'Montants issus du carnet — le prévu est modifiable',
-    drv_today:"Aujourd'hui",drv_week:'Semaine',drv_month:'Mois',drv_avg:'Moy./trajet',drv_trips:'trajet',drv_add_title:'Ajouter une journée',drv_lbl_date:'Date',drv_lbl_trips:'Nb trajets',drv_lbl_total:'Total',drv_submit:'Enregistrer',drv_heatmap:'Meilleurs jours',drv_list:'Historique',drive_fill:'Remplissez tous les champs'
+    drv_today:"Aujourd'hui",drv_week:'Semaine',drv_month:'Mois',drv_avg:'Moy./trajet',drv_trips:'trajet',drv_add_title:'Ajouter une journée',drv_lbl_date:'Date',drv_lbl_trips:'Nombre de trajets',drv_lbl_total:'Montant total',drv_submit:'Enregistrer la journée',drv_heatmap:'Dépenses par jour de la semaine',drv_list:'Historique des trajets',drive_fill:'Veuillez remplir tous les champs',
+    stats_title:'Analyse des dépenses',stats_subtitle:'Repérez les fuites, les habitudes coûteuses et les économies possibles.',stats_month:'Mois analysé',stats_leaks:'🚨 Fuites probables',stats_products:'🧾 Produits les plus coûteux',stats_actions:'💡 Actions recommandées',stats_category:'Répartition par catégorie',stats_entries:'opérations',stats_discretionary:'Loisirs et extras',stats_no_data:'Aucune donnée pour ce mois',stats_reduce:'Réduire de 25 % le premier poste non essentiel',stats_repeat:'Vérifier les achats répétés presque chaque jour',stats_budget:'Fixer un plafond mensuel par catégorie',form_choose:'Sélectionnez les achats',form_clear:'Tout effacer ✕',filter_month:'Mois :',filter_day:'Jour :',filter_total:'Total :',month_total:'Total du mois',drive_sync:'⚡ Synchronisé avec les revenus',offline:'📡 Vous êtes hors ligne — les données restent enregistrées sur cet appareil'
   }
 };
 
@@ -218,6 +220,11 @@ function setLang(l){
   set('nt-amount',t.nt_amount); set('nt-cur',t.nt_cur); set('add-note-btn',t.add_note);
   set('t-tab6',t.tab_weekly||'📊 إحصائيات');
   set('t-week-chart',t.week_chart||'مصاريف الأسبوع');
+  set('stats-title',t.stats_title);set('stats-subtitle',t.stats_subtitle);set('stats-month-label',t.stats_month);
+  set('stats-leak-title',t.stats_leaks);set('stats-products-title',t.stats_products);set('stats-actions-title',t.stats_actions);set('stats-category-title',t.stats_category);
+  set('nf-lbl-date',t.nt_date);set('nf-lbl-amount',t.nt_amount);set('nf-add-lbl',t.save);
+  set('nf-chips-lbl',t.form_choose);set('nf-chips-clear-btn',t.form_clear);set('nf-month-lbl2',t.filter_month);set('nf-day-lbl',t.filter_day);
+  set('nf-filter-lbl',t.filter_total);set('nf-footer-lbl',t.month_total);set('drv-sync-badge',t.drive_sync);set('offline-banner',t.offline);
   set('t-excel-btn',t.excel_btn||'تصدير Excel');
   set('t-pdf-btn',t.pdf_btn||'تصدير PDF');
   const expNote=document.getElementById('exp-auto-note');
@@ -447,7 +454,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='4.0.0';
+  const CURRENT_VER='4.1.0';
   const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -1476,7 +1483,7 @@ function restoreLocalSnapshot(id){
 
 function exportJSON(){
   saveData();
-  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'4.0.0',owner:'BELMOUFADAL Abderrahim'};
+  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'4.1.0',owner:'BELMOUFADAL Abderrahim'};
   const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
@@ -2388,12 +2395,12 @@ const NOTE_CHIPS = {
     '🍝 معكرونة','🫙 كسكس','🫘 قطاني','🍗 دجاج','🥩 لحم بقر/غنم',
     '🐟 سمك طري','🥫 طون/سردين','🍅 طماطم/مطيشة','🥔 بطاطس',
     '🧅 بصل','🥦 خضر متنوعة','🍎 فواكه','🍋 ليمون','🍌 بنان',
-    '🍉 دلاح','🧃 عصير','🥗 سلطة','🫙 مصبرات','🧂 توابل/ملح','🍯 عسل/مربى'
+    '🍉 دلاح','🍇 عنب','🌻 زريعة عباد الشمس','🫒 زيتون','🧃 عصير','🥤 مشروب غازي','🥨 مقرمشات','🥗 سلطة','🥟 بسطيلة','🫙 مصبرات','🧂 توابل/ملح','🍯 عسل/مربى','🍬 حلويات/بولو'
   ],
   'fixed': [
     '🧺 مسحوق غسيل/تيد','💧 جافيل/مبيض','🫧 سائل أواني',
     '🧹 منظف أرضيات/سانيكروا','🌸 معطر جو','🧻 ورق حمام',
-    '🍃 ورق مطبخ','🗑️ أكياس زبل','🥄 ألومينيوم/سلوفان',
+    '🍃 ورق مطبخ','🗑️ أكياس زبل','🥄 ألومينيوم/سلوفان','🍶 خل',
     '🔥 بوطة غاز صغيرة','🔥 بوطة غاز كبيرة','🧽 إسفنجة/ليف',
     '🫙 سائل جافيل كبير','🪣 مطهر أرضيات'
   ],
@@ -2402,7 +2409,7 @@ const NOTE_CHIPS = {
     '🩹 بلاصط/ضمادات','🧴 سيروم/قطن','🩺 طبيب/عيادة',
     '👶 كوش/حفاضات','🍼 حليب رضع','🧻 لانجيت',
     '🥣 سيريلاك','🧴 شامبو','🧼 صابون استحمام',
-    '🪥 معجون أسنان/سينيال','💈 مضاد عرق/ديدوران',
+    '🪥 معجون أسنان/سينيال','🩸 فوط صحية/Always','💈 مضاد عرق/ديدوران',
     '🪒 جيل حلاقة','🪒 شفرات حلاقة','🩺 كوتون تيج'
   ],
   'cafe_smoke': [
@@ -2436,6 +2443,20 @@ const NOTE_CHIPS = {
   ]
 };
 
+const NOTE_CHIPS_FR = {
+  'بيض':'Œufs','حليب':'Lait','خبز':'Pain','زبدة':'Beurre','فرماج':'Fromage','زيت زيتون':"Huile d'olive",'زيت مائدة':'Huile de table','دقيق':'Farine','أرز':'Riz','معكرونة':'Pâtes','كسكس':'Couscous','قطاني':'Légumineuses','دجاج':'Poulet','لحم بقر/غنم':'Viande bœuf/agneau','سمك طري':'Poisson frais','طون/سردين':'Thon/Sardines','طماطم/مطيشة':'Tomates','بطاطس':'Pommes de terre','بصل':'Oignons','خضر متنوعة':'Légumes variés','فواكه':'Fruits','ليمون':'Citron','بنان':'Bananes','دلاح':'Pastèque','عنب':'Raisins','زريعة عباد الشمس':'Graines de tournesol','زيتون':'Olives','عصير':'Jus','مشروب غازي':'Soda/Limonade','مقرمشات':'Snacks salés','سلطة':'Salade','بسطيلة':'Pastilla','مصبرات':'Conserves','توابل/ملح':'Épices/Sel','عسل/مربى':'Miel/Confiture','حلويات/بولو':'Bonbons/Polo',
+  'مسحوق غسيل/تيد':'Lessive','جافيل/مبيض':'Javel','سائل أواني':'Liquide vaisselle','منظف أرضيات/سانيكروا':'Nettoyant sol','معطر جو':"Désodorisant",'ورق حمام':'Papier toilette','ورق مطبخ':'Essuie-tout','أكياس زبل':'Sacs poubelle','ألومينيوم/سلوفان':'Aluminium/Film','خل':'Vinaigre','بوطة غاز صغيرة':'Petite bonbonne de gaz','بوطة غاز كبيرة':'Grande bonbonne de gaz','إسفنجة/ليف':'Éponge','سائل جافيل كبير':'Grand bidon de javel','مطهر أرضيات':'Désinfectant sol',
+  'دواء روتيني':'Médicament','دوليبران/مسكن':'Doliprane/Antalgique','فيتامينات':'Vitamines','بلاصط/ضمادات':'Pansements','سيروم/قطن':'Sérum/Coton','طبيب/عيادة':'Médecin/Clinique','كوش/حفاضات':'Couches','حليب رضع':'Lait infantile','لانجيت':'Lingettes','سيريلاك':'Céréales bébé','شامبو':'Shampoing','صابون استحمام':'Savon','معجون أسنان/سينيال':'Dentifrice','فوط صحية/Always':'Serviettes hygiéniques','مضاد عرق/ديدوران':'Déodorant','جيل حلاقة':'Gel à raser','شفرات حلاقة':'Lames de rasoir','كوتون تيج':'Cotons-tiges',
+  'قهوة كحلة':'Café noir','كابوتشينو':'Cappuccino','نسكافي':'Nescafé','أتاي':'Thé','كرواصة':'Croissant','مسمن':'Msemen','بغرير':'Beghrir','فطور كومبلي':'Petit-déjeuner complet','عصير طري':'Jus frais','سيجارة':'Cigarette','علبة تبغ':'Paquet de tabac','ولاعة':'Briquet','شيشة/تفكيكة':'Chicha/Tabac','ترفيه':'Loisirs','سينما':'Cinéma','تسوق كمالي':'Achat non essentiel','عناية/سبا':'Soins/Spa','هدية':'Cadeau','حلويات/مقهى':'Pâtisserie/Café','سندويش':'Sandwich','زعزع':'Zaazaa','دانون':'Yaourt'
+};
+
+function localizeChip(item){
+  if(lang!=='fr')return item;
+  const match=item.match(/^(\S+)\s+(.*)$/);
+  if(!match)return item;
+  return match[1]+' '+(NOTE_CHIPS_FR[match[2]]||match[2]);
+}
+
 function initNoteChips(catId){
   _selectedChips=[];
   var grid=document.getElementById('nf-chips-grid');
@@ -2451,7 +2472,7 @@ function initNoteChips(catId){
     var chip=document.createElement('button');
     chip.type='button';
     chip.className='nf-chip';
-    chip.textContent=item;
+    chip.textContent=localizeChip(item);
     chip.dataset.val=item;
     chip.onclick=function(){toggleNoteChip(chip,item);};
     grid.appendChild(chip);
@@ -2478,13 +2499,12 @@ function updateChipsPreview(){
   var addBtn=document.getElementById('nf-add-main-btn');
   if(!preview)return;
   if(_selectedChips.length===0){
-    preview.innerHTML='<span style="font-size:10px;color:var(--light);">— اضغط على ما اشتريته —</span>';
+    preview.innerHTML='<span style="font-size:10px;color:var(--light);">— '+(lang==='fr'?'Sélectionnez vos achats':'اضغط على ما اشتريته')+' —</span>';
   } else {
     var tags=_selectedChips.map(function(s){
-      var label=s.replace(/^[^ ]+ /,'');
-      return '<span class="nfc-tag">'+s.split(' ')[0]+' '+label+'</span>';
+      return '<span class="nfc-tag">'+localizeChip(s)+'</span>';
     }).join('');
-    preview.innerHTML='<span style="font-size:10px;color:var(--mint);margin-left:4px;font-weight:700;">✓ الخيار:</span>'+tags;
+    preview.innerHTML='<span style="font-size:10px;color:var(--mint);margin-left:4px;font-weight:700;">✓ '+(lang==='fr'?'Sélection :':'الخيار:')+'</span>'+tags;
   }
 }
 
@@ -3010,11 +3030,42 @@ function renderBudgetWarnings(){
 // ══════════════════════════════════════════════════════════════════
 // AMÉLIORATION 4 — STATISTIQUES HEBDOMADAIRES
 // ══════════════════════════════════════════════════════════════════
+function populateStatsMonthFilter(){
+  const sel=document.getElementById('stats-month-filter');if(!sel)return ck();
+  const previous=sel.value;
+  const keys=new Set([ck()]);
+  Object.keys(allData).forEach(function(k){if(/^\d{4}-\d{2}$/.test(k))keys.add(k);});
+  sel.innerHTML='';
+  Array.from(keys).sort().reverse().forEach(function(k){
+    const p=k.split('-'),opt=document.createElement('option');
+    opt.value=k;opt.textContent=(T().months[Number(p[1])-1]||p[1])+' '+p[0];sel.appendChild(opt);
+  });
+  sel.value=keys.has(previous)?previous:ck();
+  return sel.value;
+}
+
+function normalizedProductName(note){
+  let value=((note.chips&&note.chips.length)?note.chips.join(' + '):(note.subCat||note.note||'')).trim();
+  value=value.replace(/^[^ ]+ /,'');
+  const aliases=[
+    [/\b(garo|gارو|كارو)\b|علبة تبغ/i,'علبة تبغ'],[/\b(cafe|café)\b|قهوة/i,'قهوة كحلة'],
+    [/\b(ftor|petit.?d[eé]j)\b|فطور/i,'فطور كومبلي'],[/\b(khobz|pain)\b|خبز/i,'خبز'],
+    [/\b(danon|yaourt)\b|دانون/i,'دانون'],[/\b(hlib|lait)\b|حليب/i,'حليب'],
+    [/\b(savon vaisselle|liquide vaisselle)\b|سائل أواني/i,'سائل أواني'],
+    [/\b(oulways|always)\b|فوط صحية/i,'فوط صحية/Always'],
+    [/\b(monada|limonade|soda)\b|مشروب غازي/i,'مشروب غازي'],
+    [/\b(polo|bonbons?)\b|حلويات/i,'حلويات/بولو'],[/\b(zbib|raisins?)\b|عنب/i,'عنب'],
+    [/\b(noravit|vitamines?)\b|فيتامينات/i,'فيتامينات']
+  ];
+  aliases.some(function(rule){if(rule[0].test(value)){value=rule[1];return true;}return false;});
+  return value||T().stats_no_data;
+}
+
 function renderWeeklyTab(){
   const panel=document.getElementById('tab-weekly');
   if(!panel||!panel.classList.contains('active'))return;
 
-  const mk=ck();
+  const mk=populateStatsMonthFilter();
   const notes=[];
   Object.keys(allData).forEach(function(k){
     ((allData[k]||{}).notes||[]).forEach(function(n){notes.push(n);});
@@ -3022,7 +3073,8 @@ function renderWeeklyTab(){
   const monthNotes=((allData[mk]||{}).notes)||[];
 
   // Current week bounds
-  const now=new Date();
+  const parts=mk.split('-');
+  const now=(mk===ck()?new Date():new Date(Number(parts[0]),Number(parts[1]),0));
   const dow=now.getDay();
   const weekStart=new Date(now);weekStart.setDate(now.getDate()-dow);weekStart.setHours(0,0,0,0);
   const weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);weekEnd.setHours(23,59,59,999);
@@ -3035,8 +3087,9 @@ function renderWeeklyTab(){
   const weekTotal=weekNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
   const todayTotal=todayNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
   const monthTotal=monthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0);
-  const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-  const daysPassed=Math.max(1,now.getDate());
+  const daysInMonth=new Date(Number(parts[0]),Number(parts[1]),0).getDate();
+  const activeDays=new Set(monthNotes.map(function(n){return n.date;})).size;
+  const daysPassed=Math.max(1,activeDays);
   const dailyAvg=Math.round(monthTotal/daysPassed);
   const weekAvg=Math.round(weekTotal/Math.max(1,weekNotes.length?7:1));
 
@@ -3044,15 +3097,41 @@ function renderWeeklyTab(){
   const grid=document.getElementById('weekly-stats-grid');
   if(grid){
     const _wdn=lang==='fr'?['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']:lang==='en'?['Sun','Mon','Tue','Wed','Thu','Fri','Sat']:lang==='es'?['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']:['أح','اث','ثل','أر','خم','جم','سب'];
-    const _wlbls=lang==='fr'?['Aujourd\'hui','Cette semaine','Moy. journalière','Total du mois']:lang==='en'?['Today','This week','Daily avg','Month total']:lang==='es'?['Hoy','Esta semana','Prom. diario','Total mes']:['اليوم','هذا الأسبوع','متوسط يومي','إجمالي الشهر'];
+    const discretionary=monthNotes.filter(function(n){return ['cafe_smoke','fun'].includes(n.mainCat);}).reduce(function(s,n){return s+Number(n.amount||0);},0);
+    const _wlbls=lang==='fr'?['Dépenses saisies','Jours suivis','Moy. par jour','Loisirs / extras']:['المصاريف المسجلة','أيام مسجلة','متوسط يومي','الكماليات'];
     grid.innerHTML=[
-      {val:fmt(todayTotal),lbl:_wlbls[0]+' '+_wdn[dow]},
-      {val:fmt(weekTotal), lbl:_wlbls[1]},
+      {val:fmt(monthTotal),lbl:_wlbls[0]},
+      {val:activeDays, lbl:_wlbls[1]},
       {val:fmt(dailyAvg),  lbl:_wlbls[2]},
-      {val:fmt(monthTotal),lbl:_wlbls[3]}
+      {val:fmt(discretionary),lbl:_wlbls[3]}
     ].map(function(s){
       return '<div class="weekly-stat"><div class="weekly-stat-val">'+s.val+'</div><div class="weekly-stat-lbl">'+s.lbl+'</div><div style="font-size:9px;color:var(--light);">'+currency+'</div></div>';
     }).join('');
+  }
+
+  const productTotals={},productCounts={};
+  monthNotes.forEach(function(n){
+    const product=normalizedProductName(n);
+    productTotals[product]=(productTotals[product]||0)+Number(n.amount||0);
+    productCounts[product]=(productCounts[product]||0)+1;
+  });
+  const ranked=Object.keys(productTotals).sort(function(a,b){return productTotals[b]-productTotals[a];});
+  const productsEl=document.getElementById('stats-products');
+  if(productsEl)productsEl.innerHTML=ranked.slice(0,5).map(function(p){
+    return '<div class="stats-row"><span>'+(lang==='fr'?(NOTE_CHIPS_FR[p]||p):p)+' · '+productCounts[p]+' '+T().stats_entries+'</span><strong>'+fmt(productTotals[p])+' '+currency+'</strong></div>';
+  }).join('')||'<div class="stats-empty">'+T().stats_no_data+'</div>';
+  const leaks=ranked.filter(function(p){
+    return monthNotes.some(function(n){return normalizedProductName(n)===p&&['cafe_smoke','fun'].includes(n.mainCat);})||productCounts[p]>=6;
+  }).slice(0,4);
+  const leaksEl=document.getElementById('stats-leaks');
+  if(leaksEl)leaksEl.innerHTML=leaks.map(function(p){
+    return '<div class="stats-row"><span>'+(lang==='fr'?(NOTE_CHIPS_FR[p]||p):p)+' · '+productCounts[p]+'×</span><strong>'+fmt(productTotals[p])+' '+currency+'</strong></div>';
+  }).join('')||'<div class="stats-empty">'+T().stats_no_data+'</div>';
+  const actionsEl=document.getElementById('stats-actions');
+  if(actionsEl){
+    const saving=leaks.length?Math.round(productTotals[leaks[0]]*.25):0;
+    actionsEl.innerHTML='<div class="stats-action">1. '+T().stats_reduce+(saving?' — ≈ '+fmt(saving)+' '+currency:'')+'</div>'
+      +'<div class="stats-action">2. '+T().stats_repeat+'</div><div class="stats-action">3. '+T().stats_budget+'</div>';
   }
 
   // Weekly bar chart (7 days)
@@ -3096,7 +3175,7 @@ function renderWeeklyTab(){
       const lim=limits[v.id];
       const limPct=lim?Math.min(100,Math.round(v.total/lim*100)):null;
       const warnCls=lim?(limPct>=100?'over':limPct>=80?'warn':'ok'):null;
-      const warnTxt=lim?(limPct>=100?'⚠️ تجاوز الحد':limPct>=80?'⚠️ قريب من الحد':'✅ ضمن الميزانية'):'';
+      const warnTxt=lim?(lang==='fr'?(limPct>=100?'⚠️ Plafond dépassé':limPct>=80?'⚠️ Proche du plafond':'✅ Dans le budget'):(limPct>=100?'⚠️ تجاوز الحد':limPct>=80?'⚠️ قريب من الحد':'✅ ضمن الميزانية')):'';
       const row=document.createElement('div');
       row.style.cssText='margin-bottom:10px;';
       row.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
@@ -3166,7 +3245,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v4.0.0 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v4.1.0 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -3315,7 +3394,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v4.0.0';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v4.1.0';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري

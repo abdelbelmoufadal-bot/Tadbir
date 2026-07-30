@@ -298,6 +298,21 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .budget-warn-badge.over{background:#FCEBEB;color:#A32D2D;}
 /* ── WEEKLY STATS ── */
 .weekly-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+.stats-toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px;margin-bottom:14px;}
+.stats-toolbar .section-title{margin:0 0 4px;}
+.stats-subtitle{font-size:12px;color:var(--light);}
+.stats-filter{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--light);min-width:180px;}
+.stats-filter select{border:1px solid var(--border);background:var(--bg);color:var(--dark);border-radius:9px;padding:9px;font-family:inherit;}
+.stats-insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
+.stats-insight{padding:16px;border-top:3px solid var(--lav);}
+.stats-insight.danger{border-top-color:var(--peach);}
+.stats-insight.good{border-top-color:var(--mint);}
+.stats-insight-title{font-weight:800;font-size:14px;margin-bottom:10px;}
+.stats-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.stats-row:last-child{border-bottom:0;}
+.stats-row strong{font-family:'DM Mono',monospace;white-space:nowrap;}
+.stats-empty{font-size:12px;color:var(--light);padding:8px 0;}
+.stats-action{font-size:12px;line-height:1.55;padding:6px 0;}
 .weekly-stat{background:var(--card);border-radius:12px;padding:13px 10px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;}
 .weekly-stat-val{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--dark);}
 .weekly-stat-lbl{font-size:13px;color:var(--light);margin-top:5px;font-weight:700;}
@@ -315,7 +330,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 /* ── OFFLINE ── */
 .offline-banner{display:none;position:fixed;top:56px;left:0;right:0;z-index:190;background:#E8A598;color:#fff;font-size:12px;font-weight:700;text-align:center;padding:8px;font-family:'Tajawal',sans-serif;}
 .offline-banner.show{display:block;}
-@media(max-width:700px){.weekly-grid{grid-template-columns:repeat(2,1fr);}
+@media(max-width:700px){.weekly-grid{grid-template-columns:repeat(2,1fr);}.stats-insights-grid{grid-template-columns:1fr;}.stats-toolbar{align-items:stretch;flex-direction:column;}.stats-filter{min-width:0;}
   .notes-filter-bar{flex-direction:column;align-items:flex-start !important;}
   #nf-day-filter{min-width:80px !important;}
 }
