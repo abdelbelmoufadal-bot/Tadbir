@@ -4133,7 +4133,7 @@ const DARIJA_DICTIONARY = [
   { keywords: ['papier', 'kaghit twlit', 'papier toilette', 'بابيي', 'ورق حمام'], nameAr: 'ورق صحي', nameFr: 'Papier toilette', icon: '🧻', catId: 'fixed' },
   { keywords: ['khghit dyl ydin', 'papiye kwozine', 'essuie-tout'], nameAr: 'ورق تنشيف / مطبخ', nameFr: 'Essuie-tout', icon: '🧻', catId: 'fixed' },
   { keywords: ['jvil', 'javil', 'javel', 'جافيل'], nameAr: 'جافيل', nameFr: 'Eau de Javel', icon: '🧴', catId: 'fixed' },
-  { keywords: ['sanecroi', 'snkrwa', 'sanicross', 'ساني كروا'], nameAr: 'سانيكروا', nameFr: 'Désinfectant sol', icon: '🧹', catId: 'fixed' },
+  { keywords: ['sanecroi', 'snkrwa', 'sanicross', 'sanikerwa', 'sanikroua', 'sanikroa', 'sanikrwa', 'saniكروا', 'ساني كروا'], nameAr: 'سانيكروا', nameFr: 'Désinfectant sol', icon: '🧹', catId: 'fixed' },
   { keywords: ['hlfa dslk', 'إسفنجة'], nameAr: 'حلفة السلك / إسفنجة', nameFr: 'Éponge / Paille de fer', icon: '🧽', catId: 'fixed' },
   { keywords: ['mika d zbal', 'mikat d zbal', 'sacs poubelle'], nameAr: 'أكياس النفايات', nameFr: 'Sacs poubelle', icon: '🗑️', catId: 'fixed' },
   { keywords: ['bota', 'بوطة', 'غاز'], nameAr: 'بوطة غاز', nameFr: 'Bonbonne de gaz', icon: '🔥', catId: 'fixed' },
@@ -4211,9 +4211,23 @@ function processWaInput(){
 
       if(!namePart && !extractedPrice) return;
 
-      let match = DARIJA_DICTIONARY.find(entry =>
-        entry.keywords.some(kw => namePart.includes(kw) || kw.includes(namePart))
-      );
+      // Découpe la phrase en mots (gère "o"/"و" comme séparateur darija) et
+      // prend le PREMIER mot du texte qui matche un mot-clé — pas le premier
+      // mot-clé du dictionnaire. Évite qu'un mot secondaire (ex: "hlib" au
+      // milieu de "Javil o hlib sanecroi khal") ne prenne le pas sur le
+      // produit principal cité en premier ("Javil").
+      const words = namePart.split(/\s+/).filter(w => w && w !== 'o' && w !== 'و');
+      let match = null;
+      for(const word of words){
+        match = DARIJA_DICTIONARY.find(entry => entry.keywords.some(kw => kw === word || word.includes(kw) || kw.includes(word)));
+        if(match) break;
+      }
+      if(!match){
+        // Repli : ancienne méthode par sous-chaîne sur la phrase entière
+        match = DARIJA_DICTIONARY.find(entry =>
+          entry.keywords.some(kw => namePart.includes(kw) || kw.includes(namePart))
+        );
+      }
 
       if(match){
         _waExtractedItems.push({
