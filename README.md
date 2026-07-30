@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/تدبير-v3.7.0-7EC8B0?style=for-the-badge)
+![Version](https://img.shields.io/badge/تدبير-v3.8.0-7EC8B0?style=for-the-badge)
 ![Firebase](https://img.shields.io/badge/Firebase-Sync-FFCA28?style=for-the-badge&logo=firebase)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-2E75B6?style=for-the-badge&logo=github)
 ![Languages](https://img.shields.io/badge/Languages-5-A8C5A0?style=for-the-badge)
@@ -130,7 +130,7 @@
 ## 🛠️ التقنيات
 
 ```
-HTML5 + CSS3 + Vanilla JavaScript   (ملف واحد)
+HTML5 + CSS3 + Vanilla JavaScript   (ملفات منظمة)
 Firebase v10   (Auth + Firestore)
 Chart.js 4.4   (الرسوم البيانية)
 Google Fonts   (Tajawal + DM Mono)
@@ -143,8 +143,12 @@ GitHub Pages   (الاستضافة المجانية)
 
 ```
 tadbir/
-├── index.html    ← التطبيق كاملاً (2100+ سطر)
-└── README.md     ← هذا الملف
+├── index.html
+├── css/style.css
+├── js/app.js
+├── firestore.rules
+├── tools/split-index.js
+└── README.md
 ```
 
 ---
@@ -165,6 +169,6 @@ tadbir/
 
 **Créé par BELMOUFADAL Abderrahim**
 
-دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.7.0** 🇲🇦
+دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.8.0** 🇲🇦
 
 </div>
