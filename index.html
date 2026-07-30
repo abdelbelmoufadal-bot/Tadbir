@@ -231,7 +231,7 @@ onAuthStateChanged(auth, user=>{
 </div>
 </div>
 
-<div id="pin-screen">
+<div id="pin-screen" style="display:none !important;">
   <div class="pin-lang-row" style="direction:rtl;">
     <button class="plb" onclick="setLang('ar')">عربي</button>
     <button class="plb" onclick="setLang('fr')">FR</button>
@@ -304,7 +304,7 @@ onAuthStateChanged(auth, user=>{
         <div class="drive-step"><div class="step-num">4</div><div id="t-s4"></div></div>
       </div>
     </div>
-    <div class="backup-section"><h3 id="t-pin-h"></h3>
+    <div class="backup-section" style="display:none;"><h3 id="t-pin-h"></h3>
       <div class="pin-setting-row">
         <div><div style="font-size:13px;font-weight:600;" id="t-pin-lbl"></div><div style="font-size:9px;color:var(--light);" id="t-pin-s"></div></div>
         <button class="toggle" id="pin-toggle" onclick="togglePIN()"></button>

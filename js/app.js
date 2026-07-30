@@ -2076,7 +2076,7 @@ window.onFbAuthChange = function(user){
     // Check PIN
     pinEnabled=localStorage.getItem(PINON_KEY)==='1';
     const savedPin=localStorage.getItem(PIN_KEY);
-    if(pinEnabled && savedPin && !_appReady){
+    if(false /* PIN system disabled by user request */){
       lang=localStorage.getItem('sf_lang')||lang;
       setLang(lang);
       pinMode='verify'; pinBuffer=''; updateDots();
