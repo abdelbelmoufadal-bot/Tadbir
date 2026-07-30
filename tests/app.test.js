@@ -115,3 +115,14 @@ test('French catalog includes newly identified products', () => {
     assert.ok(app.includes(label), `${label} is missing`);
   }
 });
+
+test('expenses can be attributed and filtered by family member', () => {
+  for (const id of ['self', 'noufissa', 'iyad', 'owayss', 'family']) {
+    assert.match(app, new RegExp(`id:'${id}'`));
+  }
+  assert.match(html, /id="nf-person"/);
+  assert.match(html, /id="nf-person-filter"/);
+  assert.match(html, /id="stats-person-filter"/);
+  assert.match(app, /person:\(personEl&&personEl\.value\)\|\|'self'/);
+  assert.match(app, /familyTotals/);
+});

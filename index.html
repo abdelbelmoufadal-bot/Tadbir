@@ -224,7 +224,7 @@ onAuthStateChanged(auth, user=>{
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.1.0</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.2.0</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -468,6 +468,10 @@ onAuthStateChanged(auth, user=>{
           <span class="nf-label" id="nf-lbl-amount">المبلغ</span>
           <input type="number" class="nf-input" id="nf-amount" placeholder="0" min="0">
         </div>
+        <div class="nf-group">
+          <span class="nf-label" id="nf-lbl-person">المستفيد</span>
+          <select class="nf-input" id="nf-person"></select>
+        </div>
         <button class="nf-add-btn" id="nf-add-main-btn" onclick="addNoteNew()">＋ <span id="nf-add-lbl">إضافة</span></button>
       </div>
       <!-- CHIPS: الخيار الوحيد بدلاً من select -->
@@ -494,6 +498,7 @@ onAuthStateChanged(auth, user=>{
         <select class="nf-month-select" id="nf-day-filter" onchange="renderNotesList()" style="min-width:90px;">
           <option value="">الكل</option>
         </select>
+        <select class="nf-month-select" id="nf-person-filter" onchange="renderNotesList()"></select>
         <input class="nf-month-select" id="nf-search" type="search" placeholder="بحث..." oninput="renderNotesList()" style="min-width:130px;">
         <select class="nf-month-select" id="nf-sort" onchange="renderNotesList()" style="min-width:120px;">
           <option value="date_desc">الأحدث أولاً</option>
@@ -578,13 +583,17 @@ onAuthStateChanged(auth, user=>{
       <div class="section-title" id="stats-title">Analyse des dépenses</div>
       <div class="stats-subtitle" id="stats-subtitle">Repérez les fuites, les habitudes coûteuses et les économies possibles.</div>
     </div>
-    <label class="stats-filter"><span id="stats-month-label">Mois analysé</span><select id="stats-month-filter" onchange="renderWeeklyTab()"></select></label>
+    <div class="stats-filter-group">
+      <label class="stats-filter"><span id="stats-month-label">Mois analysé</span><select id="stats-month-filter" onchange="renderWeeklyTab()"></select></label>
+      <label class="stats-filter"><span id="stats-person-label">Personne</span><select id="stats-person-filter" onchange="renderWeeklyTab()"></select></label>
+    </div>
   </div>
   <div class="weekly-grid" id="weekly-stats-grid"></div>
   <div class="stats-insights-grid">
     <div class="card stats-insight danger"><div class="stats-insight-title" id="stats-leak-title">🚨 Fuites probables</div><div id="stats-leaks"></div></div>
     <div class="card stats-insight"><div class="stats-insight-title" id="stats-products-title">🧾 Produits les plus coûteux</div><div id="stats-products"></div></div>
     <div class="card stats-insight good"><div class="stats-insight-title" id="stats-actions-title">💡 Actions recommandées</div><div id="stats-actions"></div></div>
+    <div class="card stats-insight family"><div class="stats-insight-title" id="stats-family-title">👨‍👩‍👦‍👦 Consommation familiale</div><div id="stats-family"></div></div>
   </div>
   <div class="weekly-bars-wrap">
     <div class="card-title" style="font-size:15px;font-weight:800;"><span class="dot" style="background:var(--mint);display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:8px;"></span><span id="t-week-chart">مصاريف الأسبوع الحالي</span></div>
@@ -632,6 +641,10 @@ onAuthStateChanged(auth, user=>{
     <div class="edit-field-group">
       <label class="edit-field-label" id="el-amount">المبلغ</label>
       <input type="number" class="edit-field-input" id="edit-note-amount" min="0">
+    </div>
+    <div class="edit-field-group">
+      <label class="edit-field-label" id="el-person">المستفيد</label>
+      <select class="edit-field-select" id="edit-note-person"></select>
     </div>
     <div class="edit-field-group">
       <label class="edit-field-label" id="el-remark">تفصيل إضافي</label>
@@ -686,7 +699,7 @@ onAuthStateChanged(auth, user=>{
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.1.0</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v4.2.0</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>

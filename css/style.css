@@ -302,11 +302,13 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .stats-toolbar .section-title{margin:0 0 4px;}
 .stats-subtitle{font-size:12px;color:var(--light);}
 .stats-filter{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--light);min-width:180px;}
+.stats-filter-group{display:flex;gap:8px;flex-wrap:wrap;}
 .stats-filter select{border:1px solid var(--border);background:var(--bg);color:var(--dark);border-radius:9px;padding:9px;font-family:inherit;}
-.stats-insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
+.stats-insights-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px;}
 .stats-insight{padding:16px;border-top:3px solid var(--lav);}
 .stats-insight.danger{border-top-color:var(--peach);}
 .stats-insight.good{border-top-color:var(--mint);}
+.stats-insight.family{border-top-color:var(--blue);}
 .stats-insight-title{font-weight:800;font-size:14px;margin-bottom:10px;}
 .stats-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;}
 .stats-row:last-child{border-bottom:0;}

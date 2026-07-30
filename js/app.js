@@ -36,7 +36,7 @@ const LANGS={
     reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية',
     cal_total:'الإجمالي:',cal_leg1:'عادي',cal_leg2:'متوسط',cal_leg3:'مرتفع',cal_source:'📋 المصدر: سجل المصاريف',exp_auto_note:'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل',
     drv_today:'اليوم',drv_week:'الأسبوع',drv_month:'الشهر',drv_avg:'معدل/رحلة',drv_trips:'رحلة',drv_add_title:'تسجيل يوم جديد',drv_lbl_date:'التاريخ',drv_lbl_trips:'عدد الرحلات',drv_lbl_total:'المجموع',drv_submit:'تسجيل اليوم',drv_heatmap:'أفضل أيام الأسبوع',drv_list:'سجل الرحلات',drive_fill:'أكمل كل الحقول',
-    stats_title:'تحليل المصاريف',stats_subtitle:'اكتشف التسربات والعادات المكلفة وفرص التوفير.',stats_month:'الشهر المحلل',stats_leaks:'🚨 تسربات محتملة',stats_products:'🧾 المنتجات الأكثر كلفة',stats_actions:'💡 إجراءات مقترحة',stats_category:'توزيع المصاريف حسب الفئة',stats_entries:'عملية',stats_discretionary:'الكماليات',stats_no_data:'لا توجد بيانات لهذا الشهر',stats_reduce:'قلّص أكبر مصروف كمالي بنسبة 25٪',stats_repeat:'راجع المشتريات المتكررة يومياً',stats_budget:'حدد سقفاً شهرياً لكل فئة',form_choose:'اختر المشتريات',form_clear:'مسح الكل ✕',filter_month:'الشهر:',filter_day:'اليوم:',filter_total:'الإجمالي:',month_total:'إجمالي الشهر',drive_sync:'⚡ يتزامن مع الدخل',offline:'📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً'
+    stats_title:'تحليل المصاريف',stats_subtitle:'اكتشف التسربات والعادات المكلفة وفرص التوفير.',stats_month:'الشهر المحلل',stats_leaks:'🚨 تسربات محتملة',stats_products:'🧾 المنتجات الأكثر كلفة',stats_actions:'💡 إجراءات مقترحة',stats_category:'توزيع المصاريف حسب الفئة',stats_entries:'عملية',stats_discretionary:'الكماليات',stats_no_data:'لا توجد بيانات لهذا الشهر',stats_reduce:'قلّص أكبر مصروف كمالي بنسبة 25٪',stats_repeat:'راجع المشتريات المتكررة يومياً',stats_budget:'حدد سقفاً شهرياً لكل فئة',form_choose:'اختر المشتريات',form_clear:'مسح الكل ✕',filter_month:'الشهر:',filter_day:'اليوم:',filter_total:'الإجمالي:',month_total:'إجمالي الشهر',drive_sync:'⚡ يتزامن مع الدخل',offline:'📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً',person:'المستفيد',all_people:'كل العائلة',family_stats:'👨‍👩‍👦‍👦 استهلاك العائلة'
   },
   fr:{dir:'ltr',
     months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -72,7 +72,7 @@ const LANGS={
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées',
     cal_total:'Total :',cal_leg1:'Normal',cal_leg2:'Modéré',cal_leg3:'Élevé',cal_source:'📋 Source : Carnet de notes',exp_auto_note:'Montants issus du carnet — le prévu est modifiable',
     drv_today:"Aujourd'hui",drv_week:'Semaine',drv_month:'Mois',drv_avg:'Moy./trajet',drv_trips:'trajet',drv_add_title:'Ajouter une journée',drv_lbl_date:'Date',drv_lbl_trips:'Nombre de trajets',drv_lbl_total:'Montant total',drv_submit:'Enregistrer la journée',drv_heatmap:'Dépenses par jour de la semaine',drv_list:'Historique des trajets',drive_fill:'Veuillez remplir tous les champs',
-    stats_title:'Analyse des dépenses',stats_subtitle:'Repérez les fuites, les habitudes coûteuses et les économies possibles.',stats_month:'Mois analysé',stats_leaks:'🚨 Fuites probables',stats_products:'🧾 Produits les plus coûteux',stats_actions:'💡 Actions recommandées',stats_category:'Répartition par catégorie',stats_entries:'opérations',stats_discretionary:'Loisirs et extras',stats_no_data:'Aucune donnée pour ce mois',stats_reduce:'Réduire de 25 % le premier poste non essentiel',stats_repeat:'Vérifier les achats répétés presque chaque jour',stats_budget:'Fixer un plafond mensuel par catégorie',form_choose:'Sélectionnez les achats',form_clear:'Tout effacer ✕',filter_month:'Mois :',filter_day:'Jour :',filter_total:'Total :',month_total:'Total du mois',drive_sync:'⚡ Synchronisé avec les revenus',offline:'📡 Vous êtes hors ligne — les données restent enregistrées sur cet appareil'
+    stats_title:'Analyse des dépenses',stats_subtitle:'Repérez les fuites, les habitudes coûteuses et les économies possibles.',stats_month:'Mois analysé',stats_leaks:'🚨 Fuites probables',stats_products:'🧾 Produits les plus coûteux',stats_actions:'💡 Actions recommandées',stats_category:'Répartition par catégorie',stats_entries:'opérations',stats_discretionary:'Loisirs et extras',stats_no_data:'Aucune donnée pour ce mois',stats_reduce:'Réduire de 25 % le premier poste non essentiel',stats_repeat:'Vérifier les achats répétés presque chaque jour',stats_budget:'Fixer un plafond mensuel par catégorie',form_choose:'Sélectionnez les achats',form_clear:'Tout effacer ✕',filter_month:'Mois :',filter_day:'Jour :',filter_total:'Total :',month_total:'Total du mois',drive_sync:'⚡ Synchronisé avec les revenus',offline:'📡 Vous êtes hors ligne — les données restent enregistrées sur cet appareil',person:'Bénéficiaire',all_people:'Toute la famille',family_stats:'👨‍👩‍👦‍👦 Consommation familiale'
   }
 };
 
@@ -93,6 +93,22 @@ const mkey=(y,m)=>`${y}-${String(m+1).padStart(2,'0')}`;
 const ck=()=>mkey(curYear,curMonth);
 const fmt=n=>Number(n||0).toLocaleString('ar-MA');
 const T=()=>LANGS[lang];
+const FAMILY_MEMBERS=[
+  {id:'self',ar:'أنا',fr:'Moi'},
+  {id:'noufissa',ar:'نوفيسة',fr:'Noufissa'},
+  {id:'iyad',ar:'إياد',fr:'Iyad'},
+  {id:'owayss',ar:'أويس',fr:'Owayss'},
+  {id:'family',ar:'العائلة/مشترك',fr:'Famille / commun'}
+];
+function personLabel(id){const p=FAMILY_MEMBERS.find(function(x){return x.id===id;});return p?(p[lang]||p.fr):T().all_people;}
+function populatePersonSelects(){
+  [['nf-person',false],['nf-person-filter',true],['stats-person-filter',true]].forEach(function(cfg){
+    const el=$(cfg[0]);if(!el)return;const old=el.value;el.innerHTML='';
+    if(cfg[1]){const all=document.createElement('option');all.value='';all.textContent=T().all_people;el.appendChild(all);}
+    FAMILY_MEMBERS.forEach(function(p){const o=document.createElement('option');o.value=p.id;o.textContent=personLabel(p.id);el.appendChild(o);});
+    el.value=Array.from(el.options).some(function(o){return o.value===old;})?old:(cfg[1]?'':'self');
+  });
+}
 const $ =id=>document.getElementById(id);
 const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 
@@ -222,9 +238,11 @@ function setLang(l){
   set('t-week-chart',t.week_chart||'مصاريف الأسبوع');
   set('stats-title',t.stats_title);set('stats-subtitle',t.stats_subtitle);set('stats-month-label',t.stats_month);
   set('stats-leak-title',t.stats_leaks);set('stats-products-title',t.stats_products);set('stats-actions-title',t.stats_actions);set('stats-category-title',t.stats_category);
+  set('stats-person-label',t.person);set('stats-family-title',t.family_stats);set('nf-lbl-person',t.person);
   set('nf-lbl-date',t.nt_date);set('nf-lbl-amount',t.nt_amount);set('nf-add-lbl',t.save);
   set('nf-chips-lbl',t.form_choose);set('nf-chips-clear-btn',t.form_clear);set('nf-month-lbl2',t.filter_month);set('nf-day-lbl',t.filter_day);
   set('nf-filter-lbl',t.filter_total);set('nf-footer-lbl',t.month_total);set('drv-sync-badge',t.drive_sync);set('offline-banner',t.offline);
+  populatePersonSelects();
   set('t-excel-btn',t.excel_btn||'تصدير Excel');
   set('t-pdf-btn',t.pdf_btn||'تصدير PDF');
   const expNote=document.getElementById('exp-auto-note');
@@ -454,7 +472,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='4.1.0';
+  const CURRENT_VER='4.2.0';
   const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -1483,7 +1501,7 @@ function restoreLocalSnapshot(id){
 
 function exportJSON(){
   saveData();
-  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'4.1.0',owner:'BELMOUFADAL Abderrahim'};
+  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'4.2.0',owner:'BELMOUFADAL Abderrahim'};
   const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
@@ -2517,6 +2535,7 @@ function addNoteNew(){
   if(!ensureMonthEditable())return;
   var dateEl=document.getElementById('nf-date');
   var amountEl=document.getElementById('nf-amount');
+  var personEl=document.getElementById('nf-person');
   if(!dateEl||!amountEl)return;
   var date=dateEl.value;
   var amount=Number(amountEl.value)||0;
@@ -2540,6 +2559,7 @@ function addNoteNew(){
     cat:subCat,
     chips:chipsSelected,
     amount:amount,
+    person:(personEl&&personEl.value)||'self',
     remark:remark
   });
   amountEl.value='';
@@ -2643,6 +2663,8 @@ function renderNotesList(){
   _noteFilterMonth=fSel?fSel.value:ck();
   var daySel=document.getElementById('nf-day-filter');
   var filterDay=daySel?daySel.value:'';
+  var personFilter=document.getElementById('nf-person-filter');
+  var filterPerson=personFilter?personFilter.value:'';
   // Show/hide clear day btn
   var clearDayBtn=document.getElementById('nf-day-clear');
   if(clearDayBtn)clearDayBtn.style.display=filterDay?'inline-block':'none';
@@ -2654,7 +2676,8 @@ function renderNotesList(){
       if(!n.date)return;
       var monthMatch=_noteFilterMonth&&n.date.startsWith(_noteFilterMonth);
       var dayMatch=!filterDay||(n.date===filterDay);
-      if(monthMatch&&dayMatch){
+      var personMatch=!filterPerson||((n.person||'family')===filterPerson);
+      if(monthMatch&&dayMatch&&personMatch){
         allNotes.push({n:n,mk:mk2,i:i});
       }
     });
@@ -2728,7 +2751,7 @@ function renderNotesList(){
     title.textContent=titleTxt;
     var sub=document.createElement('div');
     sub.className='ne-sub';
-    sub.textContent=mc.label+' • '+n.date;
+    sub.textContent=mc.label+' • '+n.date+' • 👤 '+personLabel(n.person||'family');
     info.appendChild(title);info.appendChild(sub);
     // Afficher les chips (choix) sous forme de mini-tags
     if(n.chips&&n.chips.length>0){
@@ -2867,6 +2890,7 @@ function openEditNoteModal(mk, idx){
   const elc=document.getElementById('el-cat');if(elc)elc.textContent=t.nt_cat||'الفئة';
   const els=document.getElementById('el-sub');if(els)els.textContent=t.nt_subcat||'الخيار';
   const ela=document.getElementById('el-amount');if(ela)ela.textContent=t.nt_amount||'المبلغ';
+  const elp=document.getElementById('el-person');if(elp)elp.textContent=t.person;
   const elr=document.getElementById('el-remark');if(elr)elr.textContent=t.nt_remark||'الملاحظة';
   // Values
   const dateEl=document.getElementById('edit-note-date');
@@ -2875,6 +2899,8 @@ function openEditNoteModal(mk, idx){
   if(amtEl)amtEl.value=n.amount||0;
   const remEl=document.getElementById('edit-note-remark');
   if(remEl)remEl.value=n.remark||'';
+  const personEl=document.getElementById('edit-note-person');
+  if(personEl){personEl.innerHTML='';FAMILY_MEMBERS.forEach(function(p){const o=document.createElement('option');o.value=p.id;o.textContent=personLabel(p.id);personEl.appendChild(o);});personEl.value=n.person||'family';}
   // Category select
   const catSel=document.getElementById('edit-note-cat');
   if(catSel){
@@ -2920,6 +2946,7 @@ function saveEditNote(){
   const newCat=document.getElementById('edit-note-cat').value;
   const newSub=document.getElementById('edit-note-sub').value;
   const newRem=document.getElementById('edit-note-remark').value.trim();
+  const newPerson=document.getElementById('edit-note-person').value||'family';
   if(!newDate||newAmt<=0){showToast('❌ تحقق من القيم');return;}
   // If date changed → move to new month key
   const newMk=newDate.slice(0,7);
@@ -2927,9 +2954,9 @@ function saveEditNote(){
     allData[_editNoteMk].notes.splice(_editNoteIdx,1);
     if(!allData[newMk])allData[newMk]=defMonth();
     if(!allData[newMk].notes)allData[newMk].notes=[];
-    allData[newMk].notes.push({date:newDate,mainCat:newCat,subCat:newSub,note:newSub,cat:newSub,amount:newAmt,remark:newRem});
+    allData[newMk].notes.push({date:newDate,mainCat:newCat,subCat:newSub,note:newSub,cat:newSub,amount:newAmt,remark:newRem,person:newPerson});
   }else{
-    n.date=newDate; n.amount=newAmt; n.mainCat=newCat; n.subCat=newSub; n.note=newSub; n.cat=newSub; n.remark=newRem; n.chips=n.chips||[];
+    n.date=newDate; n.amount=newAmt; n.mainCat=newCat; n.subCat=newSub; n.note=newSub; n.cat=newSub; n.remark=newRem; n.person=newPerson; n.chips=n.chips||[];
   }
   closeEditNoteModal();
   persistData(); renderNotesTab(); renderExpensesCats(); recalc();
@@ -3070,7 +3097,10 @@ function renderWeeklyTab(){
   Object.keys(allData).forEach(function(k){
     ((allData[k]||{}).notes||[]).forEach(function(n){notes.push(n);});
   });
-  const monthNotes=((allData[mk]||{}).notes)||[];
+  const allMonthNotes=((allData[mk]||{}).notes)||[];
+  const statsPersonEl=document.getElementById('stats-person-filter');
+  const statsPerson=statsPersonEl?statsPersonEl.value:'';
+  const monthNotes=statsPerson?allMonthNotes.filter(function(n){return (n.person||'family')===statsPerson;}):allMonthNotes;
 
   // Current week bounds
   const parts=mk.split('-');
@@ -3133,6 +3163,13 @@ function renderWeeklyTab(){
     actionsEl.innerHTML='<div class="stats-action">1. '+T().stats_reduce+(saving?' — ≈ '+fmt(saving)+' '+currency:'')+'</div>'
       +'<div class="stats-action">2. '+T().stats_repeat+'</div><div class="stats-action">3. '+T().stats_budget+'</div>';
   }
+  const familyTotals={};
+  allMonthNotes.forEach(function(n){const id=n.person||'family';familyTotals[id]=(familyTotals[id]||0)+Number(n.amount||0);});
+  const familyEl=document.getElementById('stats-family');
+  if(familyEl)familyEl.innerHTML=FAMILY_MEMBERS.filter(function(p){return familyTotals[p.id]>0;}).sort(function(a,b){return familyTotals[b.id]-familyTotals[a.id];}).map(function(p){
+    const pct=monthTotal?Math.round(familyTotals[p.id]/allMonthNotes.reduce(function(s,n){return s+Number(n.amount||0);},0)*100):0;
+    return '<div class="stats-row"><span>👤 '+personLabel(p.id)+' · '+pct+'%</span><strong>'+fmt(familyTotals[p.id])+' '+currency+'</strong></div>';
+  }).join('')||'<div class="stats-empty">'+T().stats_no_data+'</div>';
 
   // Weekly bar chart (7 days)
   const bars=document.getElementById('weekly-bars-chart');
@@ -3245,7 +3282,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v4.1.0 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v4.2.0 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -3394,7 +3431,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v4.1.0';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v4.2.0';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري
