@@ -1,0 +1,31 @@
+{
+  "id": "./",
+  "name": "تدبير | Tadbir",
+  "short_name": "Tadbir",
+  "description": "Gestion de budget personnel sécurisée et multilingue",
+  "lang": "ar",
+  "dir": "auto",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#151923",
+  "theme_color": "#7EC8B0",
+  "categories": ["finance", "productivity"],
+  "icons": [
+    {
+      "src": "icons/tadbir.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ouvrir Tadbir",
+      "short_name": "Tadbir",
+      "url": "./",
+      "icons": [{"src": "icons/tadbir.svg", "sizes": "any", "type": "image/svg+xml"}]
+    }
+  ]
+}

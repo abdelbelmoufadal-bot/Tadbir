@@ -8,6 +8,9 @@ const app = fs.readFileSync('js/app.js', 'utf8');
 const css = fs.readFileSync('css/style.css', 'utf8');
 const readme = fs.readFileSync('README.md', 'utf8');
 const rules = fs.readFileSync('firestore.rules', 'utf8');
+const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
+const serviceWorker = fs.readFileSync('service-worker.js', 'utf8');
+const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 test('application JavaScript parses successfully', () => {
   assert.doesNotThrow(() => new vm.Script(app, { filename: 'js/app.js' }));
@@ -21,10 +24,11 @@ test('external assets are linked and non-empty', () => {
 });
 
 test('release version is consistent', () => {
-  assert.match(html, /Tadbir v3\.9\.0/);
-  assert.match(app, /CURRENT_VER='3\.9\.0'/);
-  assert.match(app, /version:'3\.9\.0'/);
-  assert.match(readme, /v3\.9\.0/);
+  const version = packageJson.version.replaceAll('.', '\\.');
+  assert.match(html, new RegExp(`Tadbir v${version}`));
+  assert.match(app, new RegExp(`CURRENT_VER='${version}'`));
+  assert.match(app, new RegExp(`version:'${version}'`));
+  assert.match(readme, new RegExp(`v${version}`));
 });
 
 test('Firestore rules isolate each user document', () => {
@@ -86,4 +90,15 @@ test('local history keeps a maximum of five snapshots', () => {
   assert.match(app, /MAX_LOCAL_SNAPSHOTS=5/);
   assert.match(app, /before_import/);
   assert.match(app, /before_cloud_load/);
+});
+
+test('PWA manifest and offline cache are complete', () => {
+  assert.equal(manifest.display, 'standalone');
+  assert.equal(manifest.start_url, './');
+  assert.ok(manifest.icons.some(icon => icon.purpose.includes('maskable')));
+  assert.match(html, /rel="manifest" href="manifest\.json"/);
+  assert.match(app, /navigator\.serviceWorker\.register/);
+  for (const asset of ['./index.html', './css/style.css', './js/app.js', './offline.html', './icons/tadbir.svg']) {
+    assert.ok(serviceWorker.includes(`'${asset}'`), `service worker does not cache ${asset}`);
+  }
 });

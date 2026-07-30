@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/تدبير-v3.9.0-7EC8B0?style=for-the-badge)
+![Version](https://img.shields.io/badge/تدبير-v4.0.0-7EC8B0?style=for-the-badge)
 ![Firebase](https://img.shields.io/badge/Firebase-Sync-FFCA28?style=for-the-badge&logo=firebase)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-2E75B6?style=for-the-badge&logo=github)
 ![Languages](https://img.shields.io/badge/Languages-5-A8C5A0?style=for-the-badge)
@@ -112,6 +112,8 @@
 
 **iOS:** Safari → ⬆️ → إضافة إلى الشاشة الرئيسية
 
+La version 4.0 fonctionne comme une PWA installable, avec cache hors ligne et notification lorsqu'une nouvelle version est disponible.
+
 ---
 
 ## 🔧 إعداد Firebase
@@ -147,6 +149,10 @@ tadbir/
 ├── index.html
 ├── css/style.css
 ├── js/app.js
+├── manifest.json
+├── service-worker.js
+├── offline.html
+├── icons/tadbir.svg
 ├── firestore.rules
 ├── tests/app.test.js
 ├── .github/workflows/test.yml
@@ -172,6 +178,6 @@ tadbir/
 
 **Créé par BELMOUFADAL Abderrahim**
 
-دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.9.0** 🇲🇦
+دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v4.0.0** 🇲🇦
 
 </div>
