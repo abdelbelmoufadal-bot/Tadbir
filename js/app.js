@@ -108,15 +108,11 @@ const $ =id=>document.getElementById(id);
 const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 
 // ══════════════════════════════════════════════
-// DEFAULT DATA
-// ══════════════════════════════════════════════
-
-// ══════════════════════════════════════════════
 // HIERARCHICAL CATEGORIES FOR NOTES
 // ══════════════════════════════════════════════
 const MAIN_CATS = {
   ar: [
-    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['إيجار','كهرباء/ماء','غاز/بوطة','انترنت','تأمين','مسحوق غسيل','جافيل/مبيض','سائل الأواني','منظف أرضيات','معطر جو','ورق حمام','ورق مطبخ','أكياس زبل','ألومينيوم']},
+    {id:'fixed',   icon:'🏠', label:'الضروريات الثابتة',   subs:['إيجار','كهرباء/ماء','غاز/بوطة','انترنت','تأمين','مسحوق غسيل','جافيل/مبيض','سائل الأواني','منظف أرضيات','معطر جو','ورق حمام','ورق مطبخ','أكياس زبل','ألومينيوم','حجر السخان/بطاريات']},
     {id:'daily',   icon:'🛒', label:'المعيشة اليومية',      subs:['مواد غذائية','السوق','خضر وفواكه','لحوم وأسماك','خبز وفطور','حليب وألبان','بقالة/إبيسري','مطعم','عصير طري','بيض','زيت وتوابل','أرز وكسكس','معكرونة','طون/مصبرات','قطاني']},
     {id:'cafe_smoke',icon:'☕', label:'الترفيه/الكمالية',      subs:['قهوة كحلة','كابوتشينو','نسكافي','أتاي','كرواصة','مسمن','بغرير','فطور كومبلي','عصير طري','سيجارة','علبة تبغ','ولاعة','شيشة','تفكيكة','سندويش','زعزع','دانون']},
     {id:'transport',icon:'🚗',label:'التنقل',               subs:['Gasoil','نقل عام','صيانة سيارة','غسل السيارة']},
@@ -127,7 +123,7 @@ const MAIN_CATS = {
     {id:'invest',  icon:'💰', label:'الاستثمار والطوارئ',   subs:['توفير','طوارئ','سداد ديون']}
   ],
   fr: [
-    {id:'fixed',   icon:'🏠', label:'Charges fixes',        subs:['Loyer','Électricité/Eau','Gaz/Bonbonne','Internet','Assurance','Lessive/Tide','Javel','Liquide vaisselle','Désinfectant','Désodorisant','Papier toilette','Essuie-tout','Sacs poubelle','Aluminium']},
+    {id:'fixed',   icon:'🏠', label:'Charges fixes',        subs:['Loyer','Électricité/Eau','Gaz/Bonbonne','Internet','Assurance','Lessive/Tide','Javel','Liquide vaisselle','Désinfectant','Désodorisant','Papier toilette','Essuie-tout','Sacs poubelle','Aluminium','Piles chauffe-eau']},
     {id:'daily',   icon:'🛒', label:'Vie quotidienne',      subs:['Alimentation','Marché','Légumes/Fruits','Viandes/Poissons','Pain/Viennoiseries','Lait/Produits laitiers','Oeufs','Riz/Couscous','Pâtes','Thon/Conserves','Légumineuses','Restaurant','Jus frais','Huile/Épices']},
     {id:'cafe_smoke',icon:'☕', label:'Loisirs/Extras',           subs:['Café noir','Cappuccino','Nescafé','Thé','Croissant','Msemen','Beghrir','Petit-déj complet','Jus frais','Cigarettes','Paquet tabac','Briquet','Chicha','Tabac à pipe','Sandwich','Zaazoua','Danone']},
     {id:'transport',icon:'🚗',label:'Transport',             subs:['Gasoil','Transport public','Entretien voiture','Lavage voiture']},
