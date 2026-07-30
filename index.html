@@ -723,7 +723,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.3</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.6.0</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -773,6 +773,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     <div class="nm-option selected" id="nm-copy" onclick="selNM('copy')"><div class="nm-icon">📋</div><div class="nm-text"><strong id="t-nm1"></strong><span id="t-nm1s"></span></div></div>
     <div class="nm-option" id="nm-blank" onclick="selNM('blank')"><div class="nm-icon">✨</div><div class="nm-text"><strong id="t-nm2"></strong><span id="t-nm2s"></span></div></div>
     <div class="nm-option" id="nm-same" onclick="selNM('same')"><div class="nm-icon">🔄</div><div class="nm-text"><strong id="t-nm3"></strong><span id="t-nm3s"></span></div></div>
+    <label class="pin-setting-row" style="margin:10px 0;cursor:pointer;"><span id="t-carry-balance">ترحيل رصيد الشهر</span><input type="checkbox" id="nm-carry" checked></label>
     <button class="modal-btn" id="t-nm-btn" onclick="confirmNewMonth()"></button>
   </div>
 </div>
@@ -842,6 +843,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
       <div class="month-label" id="monthLabel" onclick="openModal('monthModal');renderPicker()">---</div>
       <button onclick="navigateMonth(1)">›</button>
     </div>
+    <button class="theme-btn" id="month-lock-btn" onclick="toggleMonthClosed()" title="Clôturer le mois">🔓</button>
     <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦</button>
     <button class="theme-btn" onclick="toggleTheme()" title="🌓">🌓</button>
     <button class="icon-btn hdr-icon-desktop" onclick="openModal('langModal')">🌍</button>
@@ -908,6 +910,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
         <div class="rh-title" id="hero-status">💚</div>
         <div class="rh-amount"><span class="rh-cur" id="hero-cur">درهم</span><span id="hero-val">0</span></div>
         <div class="rh-sub" id="hero-sub"></div>
+        <div class="rh-sub" id="month-compare"></div>
       </div>
       <div class="rh-donut"><canvas id="heroDonut"></canvas></div>
     </div>
@@ -1132,7 +1135,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.3</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.6.0</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -1171,7 +1174,7 @@ const LANGS={
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
     toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
-    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',sync_now:'مزامنة الآن',history_h:'🕘 النسخ المحلية',history_btn:'إنشاء نسخة الآن',history_sub:'الاحتفاظ بآخر 5 نسخ على هذا الجهاز',history_empty:'لا توجد نسخة بعد',history_restore:'استرجاع',history_confirm:'استرجاع هذه النسخة؟ سيتم حفظ الوضع الحالي أولاً.',history_saved:'تم إنشاء نسخة محلية ✓',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
+    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',sync_now:'مزامنة الآن',history_h:'🕘 النسخ المحلية',history_btn:'إنشاء نسخة الآن',history_sub:'الاحتفاظ بآخر 5 نسخ على هذا الجهاز',history_empty:'لا توجد نسخة بعد',history_restore:'استرجاع',history_confirm:'استرجاع هذه النسخة؟ سيتم حفظ الوضع الحالي أولاً.',history_saved:'تم إنشاء نسخة محلية ✓',month_closed:'هذا الشهر مغلق',month_close:'إغلاق الشهر',month_reopen:'إعادة فتح الشهر',carry_balance:'ترحيل رصيد الشهر',month_exists:'الشهر التالي يحتوي على بيانات. هل تريد استبدالها؟',vs_previous:'مقارنة بالشهر السابق',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
     custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية',
     cal_total:'الإجمالي:',cal_leg1:'عادي',cal_leg2:'متوسط',cal_leg3:'مرتفع',cal_source:'📋 المصدر: سجل المصاريف',exp_auto_note:'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل',
@@ -1206,7 +1209,7 @@ const LANGS={
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
     toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
-    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',sync_now:'Synchroniser maintenant',history_h:'🕘 Sauvegardes locales',history_btn:'Créer une sauvegarde',history_sub:'Conserve les 5 dernières versions sur cet appareil',history_empty:'Aucune sauvegarde locale',history_restore:'Restaurer',history_confirm:"Restaurer cette version ? L'état actuel sera sauvegardé d'abord.",history_saved:'Sauvegarde locale créée ✓',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
+    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',sync_now:'Synchroniser maintenant',history_h:'🕘 Sauvegardes locales',history_btn:'Créer une sauvegarde',history_sub:'Conserve les 5 dernières versions sur cet appareil',history_empty:'Aucune sauvegarde locale',history_restore:'Restaurer',history_confirm:"Restaurer cette version ? L'état actuel sera sauvegardé d'abord.",history_saved:'Sauvegarde locale créée ✓',month_closed:'Ce mois est clôturé',month_close:'Clôturer le mois',month_reopen:'Rouvrir le mois',carry_balance:'Reporter le solde du mois',month_exists:'Le mois suivant contient déjà des données. Les remplacer ?',vs_previous:'Par rapport au mois précédent',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
     custom_cat:'✏️ Nouvelle catégorie...',
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées',
     cal_total:'Total :',cal_leg1:'Normal',cal_leg2:'Modéré',cal_leg3:'Élevé',cal_source:'📋 Source : Carnet de notes',exp_auto_note:'Montants issus du carnet — le prévu est modifiable',
@@ -1396,6 +1399,7 @@ function setLang(l){
   set('t-history-h',t.history_h||'🕘 Sauvegardes locales');
   set('t-history-btn',t.history_btn||'Créer une sauvegarde');
   set('t-history-sub',t.history_sub||'Conserve les 5 dernières versions');
+  set('t-carry-balance',t.carry_balance||'Reporter le solde du mois');
   renderSnapshotList();
   setSyncStatus(_fbUid?'ok':'off');
   if(t.reset_h){set('t-reset-h',t.reset_h);set('t-reset-btn',t.reset_btn);set('t-reset-sub',t.reset_sub);}
@@ -1572,7 +1576,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='3.5.3';
+  const CURRENT_VER='3.6.0';
   const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -1690,6 +1694,7 @@ function renderSection(sec){
   if(!tb)return;
   tb.innerHTML='';
   const isRTL=T().dir==='rtl';
+  const closed=isMonthClosed();
   data.forEach((item,idx)=>{
     const tr=document.createElement('tr');
     const _over=(item.act||0)>(item.pln||0)&&(item.pln||0)>0;
@@ -1697,10 +1702,10 @@ function renderSection(sec){
     tr.className='data-row'+(_over?' row-over':_under?' row-ok':'');
     const lv=(item.label||'').replace(/"/g,'&quot;');
     tr.innerHTML=`
-      <td class="lc"><input type="text" value="${lv}" placeholder="..." style="text-align:${isRTL?'right':'left'}" oninput="onInput('${sec}',${idx},'label',this.value)"></td>
-      <td class="ac"><input type="number" value="${item.act||0}" min="0" placeholder="0" title="${T().col_act||'الفعلي'}" oninput="onInput('${sec}',${idx},'act',this.value)"></td>
-      <td class="pc"><input type="number" value="${item.pln||0}" min="0" placeholder="0" title="${T().col_pln||'المخطط'}" oninput="onInput('${sec}',${idx},'pln',this.value)">
-        <button onclick="deleteRow('${sec}',${idx})" style="background:none;border:none;color:#ddd;cursor:pointer;font-size:11px;vertical-align:middle;margin-right:2px;">✕</button>
+      <td class="lc"><input type="text" value="${lv}" placeholder="..." style="text-align:${isRTL?'right':'left'}" ${closed?'disabled':''} oninput="onInput('${sec}',${idx},'label',this.value)"></td>
+      <td class="ac"><input type="number" value="${item.act||0}" min="0" placeholder="0" title="${T().col_act||'الفعلي'}" ${closed?'disabled':''} oninput="onInput('${sec}',${idx},'act',this.value)"></td>
+      <td class="pc"><input type="number" value="${item.pln||0}" min="0" placeholder="0" title="${T().col_pln||'المخطط'}" ${closed?'disabled':''} oninput="onInput('${sec}',${idx},'pln',this.value)">
+        <button onclick="deleteRow('${sec}',${idx})" style="display:${closed?'none':'inline'};background:none;border:none;color:#ddd;cursor:pointer;font-size:11px;vertical-align:middle;margin-right:2px;">✕</button>
       </td>`;
     tb.appendChild(tr);
   });
@@ -1709,6 +1714,7 @@ function renderSection(sec){
 }
 
 function onInput(sec,idx,field,val){
+  if(!ensureMonthEditable())return;
   const mk=ck();
   if(!allData[mk]||!allData[mk][sec]||!allData[mk][sec][idx])return;
   allData[mk][sec][idx][field]=(field==='label')?val:(Number(val)||0);
@@ -1728,6 +1734,7 @@ function onInput(sec,idx,field,val){
 }
 
 function deleteRow(sec,idx){
+  if(!ensureMonthEditable())return;
   const mk=ck();
   if(!allData[mk]||!allData[mk][sec])return;
   allData[mk][sec].splice(idx,1);
@@ -1821,9 +1828,11 @@ function renderExpensesCats(){
     tdP.className='pc';
     const inp=document.createElement('input');
     inp.type='number'; inp.min='0'; inp.value=pln||''; inp.placeholder='0';
+    inp.disabled=isMonthClosed();
     inp.title='المخطط لـ '+cat.label;
     inp.dataset.catId=cat.id;
     inp.oninput=function(){
+      if(!ensureMonthEditable())return;
       const mk2=ck();
       if(!allData[mk2].expCatPln)allData[mk2].expCatPln={};
       allData[mk2].expCatPln[cat.id]=Number(this.value)||0;
@@ -1858,6 +1867,7 @@ function renderAll(){
 // ADD ROW — saves DOM first, then appends
 // ══════════════════════════════════════════════
 function addRow(sec){
+  if(!ensureMonthEditable())return;
   const mk=ck();
   if(!allData[mk])allData[mk]=defMonth();
   // Save current DOM state first (preserve existing rows)
@@ -1948,9 +1958,59 @@ function recalc(){
 // ══════════════════════════════════════════════
 // MONTH NAV
 // ══════════════════════════════════════════════
+function isMonthClosed(mk=ck()){
+  return !!(allData[mk]&&allData[mk]._closed);
+}
+
+function ensureMonthEditable(mk=ck()){
+  if(!isMonthClosed(mk))return true;
+  showToast('🔒 '+(T().month_closed||'Ce mois est clôturé'));
+  return false;
+}
+
+function getMonthBalanceByKey(mk){
+  const d=allData[mk];if(!d)return 0;
+  const sum=section=>(d[section]||[]).reduce((total,row)=>total+Number(row.act||0),0);
+  let notes=0;
+  Object.keys(allData).forEach(key=>{
+    ((allData[key]||{}).notes||[]).forEach(note=>{
+      if(note.date&&note.date.startsWith(mk))notes+=Number(note.amount||0);
+    });
+  });
+  return sum('income')-sum('bills')-notes-sum('savings')-sum('debts');
+}
+
+function previousMonthKey(){
+  let month=curMonth-1,year=curYear;
+  if(month<0){month=11;year--;}
+  return mkey(year,month);
+}
+
+function toggleMonthClosed(){
+  const mk=ck();if(!allData[mk])allData[mk]=defMonth();
+  createLocalSnapshot(allData[mk]._closed?'before_reopen_month':'before_close_month');
+  allData[mk]._closed=!allData[mk]._closed;
+  persistData();renderAll();
+  showToast(allData[mk]._closed?'🔒 '+(T().month_closed||'Mois clôturé'):'🔓 '+(T().month_reopen||'Mois rouvert'));
+}
+
 function updateMonthLabel(){
   const t=T(),lbl=`${t.months[curMonth]} ${curYear}`;
   set('monthLabel',lbl);set('notes-month-lbl',lbl);set('monthly-yr-lbl',`${curYear}`);
+  const lock=$('month-lock-btn');
+  if(lock){
+    lock.textContent=isMonthClosed()?'🔒':'🔓';
+    lock.title=isMonthClosed()?(t.month_reopen||'Rouvrir le mois'):(t.month_close||'Clôturer le mois');
+  }
+  const previousKey=previousMonthKey();
+  const comparison=$('month-compare');
+  if(comparison){
+    if(allData[previousKey]){
+      const diff=getMonthBalanceByKey(ck())-getMonthBalanceByKey(previousKey);
+      comparison.textContent=`${t.vs_previous||'Par rapport au mois précédent'}: ${diff>=0?'+':''}${fmt(diff)} ${currency}`;
+      comparison.style.color=diff>=0?'#A8C5A0':'#E8A598';
+    }else comparison.textContent='';
+  }
 }
 function navigateMonth(dir){
   // Persist current state before switching (no DOM read needed)
@@ -1996,12 +2056,17 @@ function confirmNewMonth(){
   let nm=curMonth+1,ny=curYear;
   if(nm>11){nm=0;ny++;}
   const nk=mkey(ny,nm),prev=allData[ck()];
+  if(monthHasRealData(nk)&&!confirm(T().month_exists||'Le mois suivant contient déjà des données. Les remplacer ?'))return;
+  const carryBalance=$('nm-carry')&&$('nm-carry').checked?getMonthBalanceByKey(ck()):0;
   if(nmOpt==='blank'||!prev){allData[nk]=defMonth();}
   else if(nmOpt==='copy'){
     const c=JSON.parse(JSON.stringify(prev));
     ['bills','expenses','savings','debts','income'].forEach(s=>{c[s]=(c[s]||[]).map(x=>({label:x.label,act:0,pln:x.pln}));});
     c.notes=[];allData[nk]=c;
   }else{allData[nk]=JSON.parse(JSON.stringify(prev));allData[nk].notes=[];}
+  allData[nk]._closed=false;
+  if(carryBalance>0)allData[nk].income.push({label:T().dir==='rtl'?'رصيد مرحل':'Solde reporté',act:carryBalance,pln:0});
+  if(carryBalance<0)allData[nk].debts.push({label:T().dir==='rtl'?'عجز مرحل':'Déficit reporté',act:Math.abs(carryBalance),pln:0});
   curMonth=nm;curYear=ny;
   closeModal('newMonthModal');updateMonthLabel();renderAll();buildMonthlyTable();
   showToast('✦ '+T().months[nm]+' '+ny+' 🎉');
@@ -2175,6 +2240,7 @@ function renderNotes(){
 }
 
 function noteField(i,f,v){
+  if(!ensureMonthEditable())return;
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
   allData[mk].notes[i][f]=v;
   if(f==='note'){
@@ -2209,6 +2275,7 @@ function noteField(i,f,v){
   if(f==='amount' || f==='note'){updateNotesSummary();updateNotesChart();renderExpensesCats();recalc();}
 }
 function noteMainCat(i,mainId){
+  if(!ensureMonthEditable())return;
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
   const subs=getSubCats(mainId);
   allData[mk].notes[i].mainCat=mainId;
@@ -2217,6 +2284,7 @@ function noteMainCat(i,mainId){
   renderNotes();
 }
 function noteSubCat(i,sub){
+  if(!ensureMonthEditable())return;
   const mk=ck();if(!allData[mk]||!allData[mk].notes||!allData[mk].notes[i])return;
   allData[mk].notes[i].subCat=sub;
   persistData();
@@ -2225,12 +2293,14 @@ function noteSubCat(i,sub){
 
 
 function delNote(i){
+  if(!ensureMonthEditable())return;
   const mk=ck();if(!allData[mk]||!allData[mk].notes)return;
   allData[mk].notes.splice(i,1);
   persistData();
   renderNotes();
 }
 function addNote(){
+  if(!ensureMonthEditable())return;
   // Save note to allData key matching current display year/month
   const mk=curYear+'-'+String(curMonth+1).padStart(2,'0');
   if(!allData[mk])allData[mk]=defMonth();
@@ -2407,8 +2477,8 @@ function createManualSnapshot(){
 }
 
 function snapshotReasonLabel(reason){
-  const fr={manual:'Manuelle',before_import:'Avant import',before_restore:'Avant restauration',before_new_month:'Avant nouveau mois',before_cloud_load:'Avant chargement cloud'};
-  const ar={manual:'يدوية',before_import:'قبل الاستيراد',before_restore:'قبل الاسترجاع',before_new_month:'قبل شهر جديد',before_cloud_load:'قبل تحميل السحابة'};
+  const fr={manual:'Manuelle',before_import:'Avant import',before_restore:'Avant restauration',before_new_month:'Avant nouveau mois',before_cloud_load:'Avant chargement cloud',before_close_month:'Avant clôture du mois',before_reopen_month:'Avant réouverture du mois'};
+  const ar={manual:'يدوية',before_import:'قبل الاستيراد',before_restore:'قبل الاسترجاع',before_new_month:'قبل شهر جديد',before_cloud_load:'قبل تحميل السحابة',before_close_month:'قبل إغلاق الشهر',before_reopen_month:'قبل إعادة فتح الشهر'};
   return (T().dir==='rtl'?ar:fr)[reason]||reason||'—';
 }
 
@@ -2456,7 +2526,7 @@ function restoreLocalSnapshot(id){
 
 function exportJSON(){
   saveData();
-  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.5.3',owner:'BELMOUFADAL Abderrahim'};
+  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.6.0',owner:'BELMOUFADAL Abderrahim'};
   const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
@@ -3066,6 +3136,7 @@ function getDriveData(){
 }
 
 function addDriveEntry(){
+  if(!ensureMonthEditable())return;
   const date=document.getElementById('drive-date').value;
   const trips=Number(document.getElementById('drive-trips').value)||0;
   const total=Number(document.getElementById('drive-total').value)||0;
@@ -3101,6 +3172,7 @@ function syncDriveToIncome(){
 }
 
 function deleteDriveEntry(idx){
+  if(!ensureMonthEditable())return;
   const mk=ck();
   if(!allData[mk]||!allData[mk].driveEntries)return;
   allData[mk].driveEntries.splice(idx,1);
@@ -3430,6 +3502,7 @@ function getChipsAutoRemark(){
 }
 
 function addNoteNew(){
+  if(!ensureMonthEditable())return;
   var dateEl=document.getElementById('nf-date');
   var amountEl=document.getElementById('nf-amount');
   if(!dateEl||!amountEl)return;
@@ -3468,6 +3541,7 @@ function addNoteNew(){
 }
 
 function deleteNoteNew(idx){
+  if(!ensureMonthEditable())return;
   var mk=ck();
   if(!allData[mk]||!allData[mk].notes)return;
   allData[mk].notes.splice(idx,1);
@@ -3792,6 +3866,7 @@ function closeEditNoteModal(){
 }
 
 function saveEditNote(){
+  if(!ensureMonthEditable(_editNoteMk||ck()))return;
   if(_editNoteMk===null||_editNoteIdx===null)return;
   const n=allData[_editNoteMk].notes[_editNoteIdx];
   const newDate=document.getElementById('edit-note-date').value;
@@ -3846,6 +3921,7 @@ function getBudgetLimits(){
 }
 
 function saveBudgetLimits(){
+  if(!ensureMonthEditable())return;
   const limits={};
   document.querySelectorAll('.bl-input').forEach(function(inp){
     const cat=inp.dataset.cat;
@@ -4078,7 +4154,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.5.3 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.6.0 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -4227,7 +4303,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.5.3';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.6.0';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري

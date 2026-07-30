@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/تدبير-v3.5.3-7EC8B0?style=for-the-badge)
+![Version](https://img.shields.io/badge/تدبير-v3.6.0-7EC8B0?style=for-the-badge)
 ![Firebase](https://img.shields.io/badge/Firebase-Sync-FFCA28?style=for-the-badge&logo=firebase)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-2E75B6?style=for-the-badge&logo=github)
 ![Languages](https://img.shields.io/badge/Languages-5-A8C5A0?style=for-the-badge)
@@ -67,6 +67,9 @@
 ### 📅 مقارنة شهرية
 - جدول كامل للـ 12 شهر مع إجمالي سنوي
 - رسم بياني خطي لتطور الدخل والمصاريف
+- مقارنة immédiate du solde avec le mois précédent
+- clôture et réouverture d'un mois pour éviter les modifications accidentelles
+- report facultatif du solde ou du déficit vers le mois suivant
 
 ### 💾 نسخ احتياطي
 - تحميل ملف JSON → رفعه على Google Drive
@@ -153,6 +156,6 @@ tadbir/
 
 **Créé par BELMOUFADAL Abderrahim**
 
-دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.5.3** 🇲🇦
+دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.6.0** 🇲🇦
 
 </div>
