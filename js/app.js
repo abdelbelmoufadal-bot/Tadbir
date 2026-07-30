@@ -4198,11 +4198,22 @@ function processWaInput(){
       }
     }
 
-    // Plusieurs articles sur la même ligne, séparés par virgule/point-virgule
-    const subItems = cleanLine.split(/[,;]/);
+    // Plusieurs articles sur la même ligne.
+    // - Si la ligne contient un prix (un chiffre), on ne découpe que sur
+    //   virgule/point-virgule, pour ne pas casser un nom de produit à
+    //   plusieurs mots suivi d'un seul prix (ex: "Sabon d 9xo3 15").
+    // - Si la ligne NE contient AUCUN chiffre (juste des noms de produits,
+    //   sans prix), on découpe aussi sur l'espace et le point, pour
+    //   supporter les 4 façons d'écrire une liste :
+    //     1) "Javil  hlib sanecroi khal"      (espaces)
+    //     2) une ligne par produit            (déjà géré, une ligne = un item)
+    //     3) "Javil .hlib .sanecroi .khal"    (points)
+    //     4) "Javil,hlib ,sanecroi ,khal"     (virgules)
+    const hasPrice = /\d/.test(cleanLine);
+    const subItems = hasPrice ? cleanLine.split(/[,;]/) : cleanLine.split(/[,;.\s]+/);
 
     subItems.forEach(subItem => {
-      let itemStr = subItem.trim();
+      let itemStr = subItem.trim().replace(/^\.+|\.+$/g,'');
       if(!itemStr) return;
 
       const priceMatch = itemStr.match(/(\d+[\.,]?\d*)/);
