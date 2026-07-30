@@ -317,8 +317,19 @@ function setLang(l){
   setSyncStatus(_fbUid?'ok':'off');
   if(t.reset_h){set('t-reset-h',t.reset_h);set('t-reset-btn',t.reset_btn);set('t-reset-sub',t.reset_sub);}
   document.querySelectorAll('.mini-table input[type=text]').forEach(i=>i.style.textAlign=isRTL?'right':'left');
+
+  // Auto-switch currency display
+  if(l === 'fr' && currency === 'درهم') currency = 'DH';
+  if(l === 'ar' && currency === 'DH') currency = 'درهم';
+  const curSel = document.getElementById('currencySelect');
+  if(curSel) curSel.value = currency;
+  
+  // Update document title
+  document.title = (t.lnd_logo_name || 'تدبير') + ' Pro - ' + (t.lnd_logo_sub || 'إدارة الميزانية والمصاريف الشخصية');
+
   updateMonthLabel();
   buildMonthlyHead();
+  if(typeof renderCalendar === 'function') renderCalendar();
   renderNotes();
   recalc();
 }
@@ -3411,7 +3422,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v4.2.0 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — Tadbir v4.2.0 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});

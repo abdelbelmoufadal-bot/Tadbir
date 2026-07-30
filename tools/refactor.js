@@ -22,9 +22,9 @@ fs.writeFileSync(appJsPath, appJs);
 
 let html = fs.readFileSync(indexHtmlPath, 'utf8');
 if (!html.includes('js/locales.js')) {
-    html = html.replace('<script src="js/app.js"></script>', '<script src="js/locales.js"></script>\n<script src="js/app.js"></script>');
-    fs.writeFileSync(indexHtmlPath, html);
-    console.log('Updated index.html to include locales.js');
+  html = html.replace('<script src="js/app.js"></script>', '<script src="js/locales.js"></script>\n<script src="js/app.js"></script>');
+  fs.writeFileSync(indexHtmlPath, html);
+  console.log('Updated index.html to include locales.js');
 }
 
 console.log('Done.');
