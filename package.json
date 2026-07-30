@@ -1,0 +1,11 @@
+{
+  "name": "smart-flousi",
+  "version": "3.9.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/app.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

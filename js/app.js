@@ -447,7 +447,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='3.8.0';
+  const CURRENT_VER='3.9.0';
   const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -1476,7 +1476,7 @@ function restoreLocalSnapshot(id){
 
 function exportJSON(){
   saveData();
-  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.8.0',owner:'BELMOUFADAL Abderrahim'};
+  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.9.0',owner:'BELMOUFADAL Abderrahim'};
   const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
@@ -3124,7 +3124,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.8.0 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.9.0 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -3273,7 +3273,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.8.0';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.9.0';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري
