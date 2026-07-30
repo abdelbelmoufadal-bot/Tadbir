@@ -119,6 +119,8 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .snapshot-reason{font-size:9px;color:var(--light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .snapshot-restore{flex-shrink:0;border:1px solid var(--mint);border-radius:7px;background:var(--mint-ll);color:var(--mint);padding:5px 8px;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
 .snapshot-empty{padding:8px;text-align:center;color:var(--light);font-size:10px;}
+.goal-progress{display:block;margin-top:3px;font-size:9px;font-weight:700;color:var(--mint);white-space:nowrap;}
+.row-detail-btn{background:none;border:none;color:var(--mid);cursor:pointer;font-size:12px;vertical-align:middle;padding:2px;}
 .bicon{font-size:18px;flex-shrink:0;}
 .btxt span{display:block;font-size:11px;color:var(--light);font-weight:400;}
 .drive-steps{background:var(--bg);border-radius:10px;padding:11px;margin-top:7px;}
@@ -723,7 +725,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.6.1</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.6.2</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -1131,6 +1133,30 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
 </div>
 
+<!-- ── SAVINGS / DEBT DETAILS MODAL ── -->
+<div class="modal-overlay" id="rowDetailModal" onclick="if(event.target===this)closeModal('rowDetailModal')">
+  <div class="modal-box">
+    <div class="modal-title"><span id="row-detail-title">Détails</span><button class="modal-close" onclick="closeModal('rowDetailModal')">✕</button></div>
+    <div class="edit-field">
+      <label class="edit-field-label" id="row-detail-date-label">Échéance</label>
+      <input type="date" class="edit-field-input" id="row-detail-date">
+    </div>
+    <div class="edit-field" id="row-detail-interest-wrap">
+      <label class="edit-field-label" id="row-detail-interest-label">Taux d'intérêt (%)</label>
+      <input type="number" class="edit-field-input" id="row-detail-interest" min="0" max="100" step="0.01">
+    </div>
+    <div class="edit-field" id="row-detail-monthly-wrap">
+      <label class="edit-field-label" id="row-detail-monthly-label">Mensualité</label>
+      <input type="number" class="edit-field-input" id="row-detail-monthly" min="0">
+    </div>
+    <div id="row-detail-summary" style="font-size:11px;color:var(--mid);margin:10px 0;"></div>
+    <div class="edit-actions">
+      <button class="edit-cancel-btn" id="row-detail-cancel" onclick="closeModal('rowDetailModal')">Annuler</button>
+      <button class="edit-save-btn" id="row-detail-save" onclick="saveRowDetails()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── BUDGET LIMITS MODAL ── -->
 <div class="modal-overlay" id="budgetModal" onclick="if(event.target===this)closeModal('budgetModal')">
   <div class="modal-box">
@@ -1142,7 +1168,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.6.1</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.6.2</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -1181,7 +1207,7 @@ const LANGS={
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
     toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
-    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',sync_now:'مزامنة الآن',history_h:'🕘 النسخ المحلية',history_btn:'إنشاء نسخة الآن',history_sub:'الاحتفاظ بآخر 5 نسخ على هذا الجهاز',history_empty:'لا توجد نسخة بعد',history_restore:'استرجاع',history_confirm:'استرجاع هذه النسخة؟ سيتم حفظ الوضع الحالي أولاً.',history_saved:'تم إنشاء نسخة محلية ✓',month_closed:'هذا الشهر مغلق',month_close:'إغلاق الشهر',month_reopen:'إعادة فتح الشهر',carry_balance:'ترحيل رصيد الشهر',month_exists:'الشهر التالي يحتوي على بيانات. هل تريد استبدالها؟',vs_previous:'مقارنة بالشهر السابق',expense_search:'بحث...',sort_newest:'الأحدث أولاً',sort_oldest:'الأقدم أولاً',sort_highest:'المبلغ: الأكبر',sort_lowest:'المبلغ: الأصغر',duplicate_expense:'تكرار المصروف',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
+    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',sync_now:'مزامنة الآن',history_h:'🕘 النسخ المحلية',history_btn:'إنشاء نسخة الآن',history_sub:'الاحتفاظ بآخر 5 نسخ على هذا الجهاز',history_empty:'لا توجد نسخة بعد',history_restore:'استرجاع',history_confirm:'استرجاع هذه النسخة؟ سيتم حفظ الوضع الحالي أولاً.',history_saved:'تم إنشاء نسخة محلية ✓',month_closed:'هذا الشهر مغلق',month_close:'إغلاق الشهر',month_reopen:'إعادة فتح الشهر',carry_balance:'ترحيل رصيد الشهر',month_exists:'الشهر التالي يحتوي على بيانات. هل تريد استبدالها؟',vs_previous:'مقارنة بالشهر السابق',expense_search:'بحث...',sort_newest:'الأحدث أولاً',sort_oldest:'الأقدم أولاً',sort_highest:'المبلغ: الأكبر',sort_lowest:'المبلغ: الأصغر',duplicate_expense:'تكرار المصروف',details:'التفاصيل',deadline:'تاريخ الهدف',interest_rate:'نسبة الفائدة (%)',monthly_payment:'القسط الشهري',remaining_amount:'المتبقي',progress:'التقدم',cancel:'إلغاء',save:'حفظ',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
     custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية',
     cal_total:'الإجمالي:',cal_leg1:'عادي',cal_leg2:'متوسط',cal_leg3:'مرتفع',cal_source:'📋 المصدر: سجل المصاريف',exp_auto_note:'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل',
@@ -1216,7 +1242,7 @@ const LANGS={
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
     toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
-    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',sync_now:'Synchroniser maintenant',history_h:'🕘 Sauvegardes locales',history_btn:'Créer une sauvegarde',history_sub:'Conserve les 5 dernières versions sur cet appareil',history_empty:'Aucune sauvegarde locale',history_restore:'Restaurer',history_confirm:"Restaurer cette version ? L'état actuel sera sauvegardé d'abord.",history_saved:'Sauvegarde locale créée ✓',month_closed:'Ce mois est clôturé',month_close:'Clôturer le mois',month_reopen:'Rouvrir le mois',carry_balance:'Reporter le solde du mois',month_exists:'Le mois suivant contient déjà des données. Les remplacer ?',vs_previous:'Par rapport au mois précédent',expense_search:'Rechercher...',sort_newest:'Plus récentes',sort_oldest:'Plus anciennes',sort_highest:'Montant décroissant',sort_lowest:'Montant croissant',duplicate_expense:'Dupliquer la dépense',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
+    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',sync_now:'Synchroniser maintenant',history_h:'🕘 Sauvegardes locales',history_btn:'Créer une sauvegarde',history_sub:'Conserve les 5 dernières versions sur cet appareil',history_empty:'Aucune sauvegarde locale',history_restore:'Restaurer',history_confirm:"Restaurer cette version ? L'état actuel sera sauvegardé d'abord.",history_saved:'Sauvegarde locale créée ✓',month_closed:'Ce mois est clôturé',month_close:'Clôturer le mois',month_reopen:'Rouvrir le mois',carry_balance:'Reporter le solde du mois',month_exists:'Le mois suivant contient déjà des données. Les remplacer ?',vs_previous:'Par rapport au mois précédent',expense_search:'Rechercher...',sort_newest:'Plus récentes',sort_oldest:'Plus anciennes',sort_highest:'Montant décroissant',sort_lowest:'Montant croissant',duplicate_expense:'Dupliquer la dépense',details:'Détails',deadline:'Échéance',interest_rate:"Taux d'intérêt (%)",monthly_payment:'Mensualité',remaining_amount:'Montant restant',progress:'Progression',cancel:'Annuler',save:'Enregistrer',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
     custom_cat:'✏️ Nouvelle catégorie...',
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées',
     cal_total:'Total :',cal_leg1:'Normal',cal_leg2:'Modéré',cal_leg3:'Élevé',cal_source:'📋 Source : Carnet de notes',exp_auto_note:'Montants issus du carnet — le prévu est modifiable',
@@ -1591,7 +1617,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='3.6.1';
+  const CURRENT_VER='3.6.2';
   const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -1714,6 +1740,10 @@ function renderSection(sec){
     const tr=document.createElement('tr');
     const _over=(item.act||0)>(item.pln||0)&&(item.pln||0)>0;
     const _under=(item.act||0)<=(item.pln||0)&&(item.pln||0)>0&&(item.act||0)>0;
+    const _progress=(item.pln||0)>0?Math.min(100,Math.round(Number(item.act||0)/Number(item.pln||1)*100)):0;
+    const _detail=['savings','debts'].includes(sec)
+      ?`<button class="row-detail-btn" onclick="openRowDetails('${sec}',${idx})" title="${T().details||'Détails'}">⚙️</button><span class="goal-progress">${_progress}%${item.meta&&item.meta.dueDate?' • '+item.meta.dueDate:''}</span>`
+      :'';
     tr.className='data-row'+(_over?' row-over':_under?' row-ok':'');
     const lv=(item.label||'').replace(/"/g,'&quot;');
     tr.innerHTML=`
@@ -1721,6 +1751,7 @@ function renderSection(sec){
       <td class="ac"><input type="number" value="${item.act||0}" min="0" placeholder="0" title="${T().col_act||'الفعلي'}" ${closed?'disabled':''} oninput="onInput('${sec}',${idx},'act',this.value)"></td>
       <td class="pc"><input type="number" value="${item.pln||0}" min="0" placeholder="0" title="${T().col_pln||'المخطط'}" ${closed?'disabled':''} oninput="onInput('${sec}',${idx},'pln',this.value)">
         <button onclick="deleteRow('${sec}',${idx})" style="display:${closed?'none':'inline'};background:none;border:none;color:#ddd;cursor:pointer;font-size:11px;vertical-align:middle;margin-right:2px;">✕</button>
+        ${_detail}
       </td>`;
     tb.appendChild(tr);
   });
@@ -1744,6 +1775,11 @@ function onInput(sec,idx,field,val){
       const _over=(item.act||0)>(item.pln||0)&&(item.pln||0)>0;
       const _under=(item.act||0)<=(item.pln||0)&&(item.pln||0)>0&&(item.act||0)>0;
       rows[idx].className='data-row'+(_over?' row-over':_under?' row-ok':'');
+      const progress=rows[idx].querySelector('.goal-progress');
+      if(progress){
+        const pct=Number(item.pln||0)>0?Math.min(100,Math.round(Number(item.act||0)/Number(item.pln||1)*100)):0;
+        progress.textContent=pct+'%'+(item.meta&&item.meta.dueDate?' • '+item.meta.dueDate:'');
+      }
     }
   }
 }
@@ -1901,6 +1937,47 @@ function addRow(sec){
     if(inp)setTimeout(()=>inp.focus(),50);
   }
   showToast(T().toast_add);
+}
+
+let _rowDetailSection=null;
+let _rowDetailIndex=null;
+
+function openRowDetails(section,index){
+  if(!['savings','debts'].includes(section))return;
+  const row=((allData[ck()]||{})[section]||[])[index];if(!row)return;
+  _rowDetailSection=section;_rowDetailIndex=index;
+  const meta=row.meta||{};
+  const isDebt=section==='debts',t=T();
+  set('row-detail-title',(t.details||'Détails')+' — '+(row.label||''));
+  set('row-detail-date-label',t.deadline||'Échéance');
+  set('row-detail-interest-label',t.interest_rate||"Taux d'intérêt (%)");
+  set('row-detail-monthly-label',t.monthly_payment||'Mensualité');
+  set('row-detail-cancel',t.cancel||'Annuler');
+  set('row-detail-save','💾 '+(t.save||'Enregistrer'));
+  $('row-detail-date').value=meta.dueDate||'';
+  $('row-detail-interest').value=meta.interest||'';
+  $('row-detail-monthly').value=meta.monthlyPayment||'';
+  $('row-detail-interest-wrap').style.display=isDebt?'':'none';
+  $('row-detail-monthly-wrap').style.display=isDebt?'':'none';
+  const remaining=Math.max(0,Number(row.pln||0)-Number(row.act||0));
+  const progress=Number(row.pln||0)>0?Math.min(100,Math.round(Number(row.act||0)/Number(row.pln||1)*100)):0;
+  set('row-detail-summary',`${t.remaining_amount||'Montant restant'}: ${fmt(remaining)} ${currency} • ${t.progress||'Progression'}: ${progress}%`);
+  openModal('rowDetailModal');
+}
+
+function saveRowDetails(){
+  if(!ensureMonthEditable())return;
+  const rows=((allData[ck()]||{})[_rowDetailSection]||[]);
+  const row=rows[_rowDetailIndex];if(!row)return;
+  const interest=Math.max(0,Math.min(100,Number($('row-detail-interest').value)||0));
+  const monthlyPayment=Math.max(0,Number($('row-detail-monthly').value)||0);
+  row.meta={
+    dueDate:$('row-detail-date').value||'',
+    interest:_rowDetailSection==='debts'?interest:0,
+    monthlyPayment:_rowDetailSection==='debts'?monthlyPayment:0
+  };
+  persistData();renderSection(_rowDetailSection);closeModal('rowDetailModal');
+  showToast(T().saved||'✓');
 }
 
 // ══════════════════════════════════════════════
@@ -2541,7 +2618,7 @@ function restoreLocalSnapshot(id){
 
 function exportJSON(){
   saveData();
-  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.6.1',owner:'BELMOUFADAL Abderrahim'};
+  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.6.2',owner:'BELMOUFADAL Abderrahim'};
   const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
@@ -4203,7 +4280,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.6.1 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.6.2 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -4352,7 +4429,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.6.1';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.6.2';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري
