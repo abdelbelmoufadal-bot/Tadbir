@@ -338,6 +338,14 @@ onAuthStateChanged(auth, user=>{
 
 <header class="header" style="display:none;">
   <div class="brand"><div class="brand-icon">💰</div><div><div class="brand-name">تدبير</div><div class="brand-sub"><span class="save-dot"></span><span id="t-saved"></span></div></div></div>
+  <!-- ═══ NAV TABS inlined in header ═══ -->
+  <nav class="nav-tabs-inline" id="main-nav-inline">
+    <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
+    <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
+    <div class="nav-tab" onclick="showTab('drive',this)">🚗 <span id="t-tab5">In Drive</span></div>
+    <div class="nav-tab" onclick="showTab('weekly',this)">📊 <span id="t-tab6">إحصائيات</span></div>
+    <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
+  </nav>
   <div class="header-right">
     <div class="month-nav">
       <button onclick="navigateMonth(-1)">‹</button>
@@ -384,14 +392,8 @@ onAuthStateChanged(auth, user=>{
   </div>
 </header>
 
-<nav class="nav-tabs" style="display:none;">
-  <div class="nav-tab active" onclick="showTab('dashboard',this)">📊 <span id="t-tab1"></span></div>
-  <div class="nav-tab" onclick="showTab('notes',this)">📝 <span id="t-tab2"></span></div>
-  <div class="nav-tab" onclick="showTab('drive',this)">🚗 <span id="t-tab5">In Drive</span></div>
-  <div class="nav-tab" onclick="showTab('weekly',this)">📊 <span id="t-tab6">إحصائيات</span></div>
-  <div class="nav-tab" onclick="showTab('monthly',this)">📅 <span id="t-tab3"></span></div>
 
-</nav>
+
 
 <div id="tab-dashboard" class="tab-panel active" style="display:none;"><div class="main">
   <div class="alerts-banner" id="budget-alerts-banner"></div>
