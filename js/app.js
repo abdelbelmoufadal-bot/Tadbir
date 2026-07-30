@@ -80,7 +80,7 @@ const LANGS={
 // STATE
 // ══════════════════════════════════════════════
 const SK='sf_v35', PIN_KEY='sf_pin', PINON_KEY='sf_pin_on';
-const COLORS={bills:'#E8A598',expenses:'#B5A8D4',savings:'#8DB4CF',debts:'#D4A853',income:'#A8C5A0'};
+const COLORS={bills:'#818cf8',expenses:'#f87171',savings:'#38bdf8',debts:'#fbbf24',income:'#10b981',remaining:'#2dd4bf',emergency:'#c084fc'};
 const CAT_COLORS=['#7EC8B0','#B5A8D4','#E8A598','#D4A853','#9AA0B0'];
 const now=new Date();
 let curYear=now.getFullYear(), curMonth=now.getMonth(), currency='درهم', pickerYear=now.getFullYear(), nmOpt='copy';
@@ -1597,11 +1597,120 @@ function importJSON(input){
 let chartDonut,chartBar,chartHero,chartNotes,chartLine;
 function initCharts(){
   Chart.defaults.font.family='Tajawal';
-  chartHero=new Chart($('heroDonut'),{type:'doughnut',data:{labels:['',''],datasets:[{data:[1,0],backgroundColor:['#7EC8B0','rgba(255,255,255,.15)'],borderWidth:0}]},options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:true,maintainAspectRatio:true}});
-  chartDonut=new Chart($('donutChart'),{type:'doughnut',data:{labels:['','','',''],datasets:[{data:[0,0,0,0],backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:12,family:'Tajawal',weight:'600'},padding:16,usePointStyle:true,generateLabels:function(c){const d=c.data;const lbls=[T().k_bills,T().k_expenses,T().k_savings,T().k_debts];return lbls.map((l,i)=>({text:' '+l,fillStyle:d.datasets[0].backgroundColor[i],strokeStyle:d.datasets[0].backgroundColor[i],hidden:false,index:i}));}}}},responsive:true,maintainAspectRatio:true}});
-  chartBar=new Chart($('barChart'),{type:'bar',data:{labels:['','','',''],datasets:[{label:'Actual',data:[0,0,0,0],backgroundColor:[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts],borderRadius:4,borderSkipped:false},{label:'Planned',data:[0,0,0,0],backgroundColor:'rgba(0,0,0,.06)',borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}},responsive:true,maintainAspectRatio:true}});
-  chartNotes=new Chart($('notesDonut'),{type:'doughnut',data:{labels:[''],datasets:[{data:[1],backgroundColor:CAT_COLORS,borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'50%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true}}},responsive:true,maintainAspectRatio:true}});
-  chartLine=new Chart($('monthlyLine'),{type:'line',data:{labels:T().months,datasets:[{label:'Income',data:Array(12).fill(0),borderColor:COLORS.income,backgroundColor:'rgba(168,197,160,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.income},{label:'Expenses',data:Array(12).fill(0),borderColor:COLORS.expenses,backgroundColor:'rgba(181,168,212,.15)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.expenses}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:10}}}},responsive:true,maintainAspectRatio:false}});
+  // ── helper: get computed CSS var ──
+  function cv(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()||'#888';}
+  function isDark(){return document.documentElement.getAttribute('data-theme')==='dark';}
+  function gridColor(){return isDark()?'rgba(255,255,255,.06)':'rgba(0,0,0,.06)';}
+  function tickColor(){return isDark()?'#7d8ba5':'#5A6070';}
+  function legendColor(){return isDark()?'#a8b3c8':'#5A6070';}
+
+  // ── Hero donut (remaining ratio) ──
+  chartHero=new Chart($('heroDonut'),{
+    type:'doughnut',
+    data:{labels:['',''],datasets:[{data:[1,0],
+      backgroundColor:['#2dd4bf','rgba(255,255,255,.08)'],
+      borderWidth:0,borderRadius:4}]},
+    options:{cutout:'78%',
+      plugins:{legend:{display:false},tooltip:{enabled:false}},
+      responsive:true,maintainAspectRatio:true}
+  });
+
+  // ── Donut: where does money go ──
+  const donutColors=['#f97316','#6366f1','#f43f5e','#06b6d4'];
+  chartDonut=new Chart($('donutChart'),{
+    type:'doughnut',
+    data:{labels:['','','',''],
+      datasets:[{data:[0,0,0,0],
+        backgroundColor:donutColors,
+        borderWidth:3,
+        borderColor:isDark()?'#151c2c':'#ffffff',
+        hoverOffset:14,
+        hoverBorderWidth:0}]},
+    options:{cutout:'62%',
+      plugins:{legend:{position:'bottom',
+        labels:{font:{size:12,family:'Tajawal',weight:'700'},
+          padding:14,color:legendColor(),usePointStyle:true,pointStyleWidth:10,
+          generateLabels:function(c){
+            const d=c.data;
+            const lbls=[T().k_bills,T().k_expenses,T().k_savings,T().k_debts];
+            return lbls.map((l,i)=>({
+              text:' '+l,
+              fillStyle:d.datasets[0].backgroundColor[i],
+              strokeStyle:'transparent',
+              hidden:false,index:i}));
+          }}},
+        tooltip:{callbacks:{label:function(ctx){
+          return ' '+ctx.label+': '+ctx.parsed.toLocaleString()+' '+($('currencySelect')?$('currencySelect').value:'');
+        }}}},
+      responsive:true,maintainAspectRatio:true}
+  });
+
+  // ── Bar chart: planned vs actual (vertical) ──
+  const barActualColors=[COLORS.bills,COLORS.expenses,COLORS.savings,COLORS.debts];
+  chartBar=new Chart($('barChart'),{
+    type:'bar',
+    data:{labels:['','','',''],
+      datasets:[
+        {label:'تصرفت',data:[0,0,0,0],
+          backgroundColor:barActualColors,
+          borderRadius:6,borderSkipped:false,
+          borderWidth:0,maxBarThickness:28},
+        {label:'مخطط',data:[0,0,0,0],
+          backgroundColor:isDark()?'rgba(255,255,255,.12)':'rgba(0,0,0,.1)',
+          borderRadius:6,borderSkipped:false,
+          borderWidth:0,maxBarThickness:28}
+      ]},
+    options:{
+      plugins:{legend:{position:'top',
+        labels:{font:{size:11,weight:'600'},
+          color:legendColor(),usePointStyle:true,pointStyleWidth:8,padding:12}}},
+      scales:{
+        x:{grid:{display:false},
+          border:{display:false},
+          ticks:{font:{size:11},color:tickColor()}},
+        y:{grid:{color:gridColor(),drawBorder:false},
+          border:{display:false,dash:[4,4]},
+          ticks:{font:{size:10},color:tickColor()}}},
+      responsive:true,maintainAspectRatio:true}
+  });
+
+  // ── Notes donut ──
+  chartNotes=new Chart($('notesDonut'),{
+    type:'doughnut',
+    data:{labels:[''],datasets:[{data:[1],
+      backgroundColor:CAT_COLORS,
+      borderWidth:3,
+      borderColor:isDark()?'#151c2c':'#ffffff',
+      hoverOffset:10}]},
+    options:{cutout:'55%',
+      plugins:{legend:{position:'bottom',
+        labels:{font:{size:10},color:legendColor(),padding:8,usePointStyle:true}}},
+      responsive:true,maintainAspectRatio:true}
+  });
+
+  // ── Monthly line chart ──
+  chartLine=new Chart($('monthlyLine'),{
+    type:'line',
+    data:{labels:T().months,datasets:[
+      {label:'Income',data:Array(12).fill(0),
+        borderColor:COLORS.income,backgroundColor:'rgba(16,185,129,.1)',
+        fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.income,
+        pointBorderColor:'transparent',borderWidth:2},
+      {label:'Expenses',data:Array(12).fill(0),
+        borderColor:COLORS.expenses,backgroundColor:'rgba(248,113,113,.1)',
+        fill:true,tension:.4,pointRadius:4,pointBackgroundColor:COLORS.expenses,
+        pointBorderColor:'transparent',borderWidth:2}
+    ]},
+    options:{
+      plugins:{legend:{position:'bottom',
+        labels:{font:{size:10},color:legendColor(),usePointStyle:true}}},
+      scales:{
+        x:{grid:{display:false},border:{display:false},ticks:{font:{size:10},color:tickColor()}},
+        y:{grid:{color:gridColor(),drawBorder:false},
+          border:{display:false},
+          ticks:{font:{size:10},color:tickColor()}}},
+      responsive:true,maintainAspectRatio:false}
+  });
 }
 
 // ══════════════════════════════════════════════
