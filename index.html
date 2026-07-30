@@ -408,14 +408,34 @@ onAuthStateChanged(auth, user=>{
   </div>
   <div class="charts-row">
     <div class="remaining-hero">
-      <div style="position:relative;z-index:1;">
-        <div class="rh-label" id="t-hero-lbl"></div>
-        <div class="rh-title" id="hero-status">💚</div>
-        <div class="rh-amount"><span class="rh-cur" id="hero-cur">درهم</span><span id="hero-val">0</span></div>
-        <div class="rh-sub" id="hero-sub"></div>
-        <div class="rh-sub" id="month-compare"></div>
+      <div class="rh-header">
+        <span class="rh-header-title" id="t-hero-main-title">💓 الوضع الإجمالي</span>
+        <div class="rh-badge" id="hero-status">الوضع كاين 💚</div>
       </div>
-      <div class="rh-donut"><canvas id="heroDonut"></canvas></div>
+      <div class="rh-center">
+        <div class="rh-chart-container">
+          <canvas id="heroDonut"></canvas>
+          <div class="rh-chart-overlay">
+            <div class="rh-overlay-val" id="hero-val">0</div>
+            <div class="rh-overlay-lbl" id="hero-cur-lbl">درهم متبقية</div>
+          </div>
+        </div>
+        <div class="rh-income-sub" id="hero-sub">من أصل 0 درهم مدخول</div>
+      </div>
+      <div class="rh-metrics-card">
+        <div class="rh-metric-row">
+          <span class="rh-metric-lbl" id="t-rh-vs">مقارنة بالشهر السابق:</span>
+          <span class="rh-metric-val green" id="hero-diff">—</span>
+        </div>
+        <div class="rh-metric-row">
+          <span class="rh-metric-lbl" id="t-rh-daily">معدل الصرف اليومي:</span>
+          <span class="rh-metric-val" id="hero-daily-val">0 د.م/يوم</span>
+        </div>
+      </div>
+      <div class="rh-tip-row">
+        <span class="rh-tip-lbl" id="t-rh-tip-title">💡 نصيحة:</span>
+        <span class="rh-tip-txt" id="hero-tip-txt">حافظ على التوفير أول الشهر!</span>
+      </div>
     </div>
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-ch1"></span></div></div><div class="chart-wrap"><canvas id="donutChart"></canvas></div><div id="donutLegend" class="donut-custom-legend"></div></div>
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="t-ch2"></span></div></div><div class="chart-wrap"><canvas id="barChart"></canvas></div></div>

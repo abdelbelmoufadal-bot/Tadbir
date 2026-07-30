@@ -924,8 +924,20 @@ function recalc(){
   set('th-income',fmt(inc.act));set('th-bills',fmt(bill.act));set('th-expenses',fmt(exp.act));
   set('th-savings',fmt(sav.act));set('th-debts',fmt(dbt.act));
   set('hero-val',fmt(rem));
-  set('hero-sub',`${t.from_of} ${fmt(inc.act)} ${currency}`);
-  set('hero-status',rem>0?t.hero_ok:rem===0?t.hero_zero:t.hero_neg);
+  set('t-hero-main-title', t.hero_title || (lang==='fr'?'💓 Aperçu global':'💓 الوضع الإجمالي'));
+  set('hero-cur-lbl', t.rem_lbl || (lang==='fr'?'Solde disponible':'درهم متبقية'));
+  set('t-rh-vs', t.vs_previous_short || (lang==='fr'?'Par rapport au mois précédent :':'مقارنة بالشهر السابق:'));
+  set('t-rh-daily', t.daily_avg_short || (lang==='fr'?'Moyenne quotidienne :':'معدل الصرف اليومي:'));
+  set('t-rh-tip-title', t.tip_title || (lang==='fr'?'💡 Conseil :':'💡 نصيحة:'));
+  const hs=$('hero-status');
+  if(hs){
+    hs.textContent=rem>0?(t.hero_ok||'الوضع كاين 💚'):rem===0?(t.hero_zero||'متوازن ⚖️'):(t.hero_neg||'تجاوز الميزانية 🚨');
+    hs.className='rh-badge '+(rem>0?'':rem===0?'zero':'neg');
+  }
+  const hsub=$('hero-sub');
+  if(hsub){
+    hsub.innerHTML=`${t.from_of||'من أصل'} <strong>${fmt(inc.act)} ${currency}</strong> ${t.inc_sub||'مدخول'}`;
+  }
   updateAdvancedMetrics({inc,bill,exp,sav,dbt,rem});
   if(chartDonut){
     chartDonut.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];
@@ -976,6 +988,19 @@ function updateAdvancedMetrics(values){
   const dailyBudget=remainingDays>0?Math.max(0,values.rem)/remainingDays:0;
   const projection=shownIndex===currentIndex?dailyAverage*daysInMonth:outflow;
   const savingsRate=values.inc.act>0?Math.round(values.sav.act/values.inc.act*100):0;
+
+  const heroDaily=$('hero-daily-val');
+  if(heroDaily) heroDaily.textContent=`${fmt(Math.round(dailyAverage))} ${currency}/${t.per_day||'يوم'}`;
+
+  const heroTip=$('hero-tip-txt');
+  if(heroTip){
+    if(values.rem>0){
+      heroTip.textContent=t.tip_save_first||'حافظ على التوفير أول الشهر!';
+    } else {
+      heroTip.textContent=t.tip_cut_extras||'قلّص المصاريف الكمالية لتوازن الميزانية!';
+    }
+  }
+
   set('am-daily',fmt(Math.round(dailyAverage))+' '+currency);
   set('am-daily-sub',elapsed+' '+(t.days_elapsed||'jours pris en compte'));
   set('am-budget',fmt(Math.round(dailyBudget))+' '+currency);
@@ -1033,13 +1058,16 @@ function updateMonthLabel(){
     lock.title=isMonthClosed()?(t.month_reopen||'Rouvrir le mois'):(t.month_close||'Clôturer le mois');
   }
   const previousKey=previousMonthKey();
-  const comparison=$('month-compare');
-  if(comparison){
+  const diffEl=$('hero-diff');
+  if(diffEl){
     if(allData[previousKey]){
       const diff=getMonthBalanceByKey(ck())-getMonthBalanceByKey(previousKey);
-      comparison.textContent=`${t.vs_previous||'Par rapport au mois précédent'}: ${diff>=0?'+':''}${fmt(diff)} ${currency}`;
-      comparison.style.color=diff>=0?'#A8C5A0':'#E8A598';
-    }else comparison.textContent='';
+      diffEl.textContent=`${diff>=0?'↗ +':'↘ '}${fmt(diff)} ${currency}`;
+      diffEl.className='rh-metric-val '+(diff>=0?'green':'red');
+    }else{
+      diffEl.textContent='—';
+      diffEl.className='rh-metric-val';
+    }
   }
 }
 function navigateMonth(dir){
