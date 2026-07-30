@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/تدبير-v3.5.0-7EC8B0?style=for-the-badge)
+![Version](https://img.shields.io/badge/تدبير-v3.5.1-7EC8B0?style=for-the-badge)
 ![Firebase](https://img.shields.io/badge/Firebase-Sync-FFCA28?style=for-the-badge&logo=firebase)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-2E75B6?style=for-the-badge&logo=github)
 ![Languages](https://img.shields.io/badge/Languages-5-A8C5A0?style=for-the-badge)
@@ -102,10 +102,11 @@
 
 ```
 1. firebase.google.com → Create project
-2. Firestore → Create → europe-west1 → Test mode
+2. Firestore → Create → europe-west1 → Production mode
 3. Authentication → Google → Enable
 4. Auth Settings → Authorized domains → Add: your-username.github.io
 5. Project Settings → Web app → Copy firebaseConfig → Paste in index.html
+6. Firestore Rules → Copy the contents of `firestore.rules` → Publish
 ```
 
 ---
@@ -148,6 +149,6 @@ tadbir/
 
 **Créé par BELMOUFADAL Abderrahim**
 
-دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.5.0** 🇲🇦
+دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.5.1** 🇲🇦
 
 </div>

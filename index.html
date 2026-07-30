@@ -716,7 +716,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.0</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.1</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -855,6 +855,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
             <span class="sync-dot off" id="sync-dot"></span>
             <span id="sync-txt">غير متصل</span>
           </div>
+          <button class="ud-btn" onclick="fbManualSync()">↻ <span id="t-sync-now">مزامنة الآن</span></button>
           <button class="ud-btn" onclick="closeUserDropdown();openModal('backupModal');updateBackupUI()">💾 <span id="t-ud-backup">الحفظ والحماية</span></button>
           <button class="ud-btn" onclick="closeUserDropdown();openModal('langModal')">🌍 <span id="t-ud-lang">اللغة</span></button>
           <button class="ud-btn danger" onclick="closeUserDropdown();fbSignOut()">🚪 <span id="t-signout">تسجيل الخروج</span></button>
@@ -1119,7 +1120,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.0</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.1</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -1158,7 +1159,7 @@ const LANGS={
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
     toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
-    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
+    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',sync_now:'مزامنة الآن',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
     custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية',
     cal_total:'الإجمالي:',cal_leg1:'عادي',cal_leg2:'متوسط',cal_leg3:'مرتفع',cal_source:'📋 المصدر: سجل المصاريف',exp_auto_note:'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل',
@@ -1193,7 +1194,7 @@ const LANGS={
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
     toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
-    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
+    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',sync_now:'Synchroniser maintenant',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
     custom_cat:'✏️ Nouvelle catégorie...',
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées',
     cal_total:'Total :',cal_leg1:'Normal',cal_leg2:'Modéré',cal_leg3:'Élevé',cal_source:'📋 Source : Carnet de notes',exp_auto_note:'Montants issus du carnet — le prévu est modifiable',
@@ -1376,7 +1377,7 @@ function setLang(l){
   set('t-monthly-title',t.monthly_title); set('t-monthly-chart',t.monthly_chart);
   set('t-footer',t.footer);
   if(t.signin){
-    set('t-signin',t.signin);set('t-signout',t.signout);
+    set('t-signin',t.signin);set('t-signout',t.signout);set('t-sync-now',t.sync_now||'Synchroniser maintenant');
     set('t-ud-backup',t.bk||'الحفظ والحماية');
     set('t-ud-lang',t.lang_title||'اللغة');
   }
@@ -1489,7 +1490,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='3.5.0';
+  const CURRENT_VER='3.5.1';
   const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -1579,8 +1580,8 @@ function persistData(){
     localStorage.setItem('sf_last_save',new Date().toLocaleString());
   }catch(e){}
   // Sauvegarde Firestore uniquement quand l'auth est prete
-  if(!_isLoadingFromCloud && _authReady && typeof _fbUid !== 'undefined' && _fbUid && typeof fbSaveToCloud === 'function'){
-    fbSaveToCloud();
+  if(!_isLoadingFromCloud && _authReady && typeof _fbUid !== 'undefined' && _fbUid && typeof fbScheduleSave === 'function'){
+    fbScheduleSave();
   }
 }
 
@@ -2338,6 +2339,10 @@ function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('sh
 let _fbUid = null;
 let _unsubscribe = null;
 let _isSyncing = false;
+let _saveTimer = null;
+let _saveRetryCount = 0;
+const FB_SAVE_DELAY = 800;
+const FB_RETRY_DELAYS = [2000,5000,15000];
 
 function setSyncStatus(status){
   // status: 'off' | 'ok' | 'sync' | 'error'
@@ -2361,6 +2366,8 @@ async function fbSignIn(){
 
 async function fbSignOut(){
   if(_unsubscribe){_unsubscribe();_unsubscribe=null;}
+  if(_saveTimer){clearTimeout(_saveTimer);_saveTimer=null;}
+  _saveQueue=false;_saveRetryCount=0;
   // Sauvegarde locale avant deconnexion
   try{if(Object.keys(allData).length>0){const payload=JSON.stringify({allData,currency,curYear,curMonth,lang});localStorage.setItem(SK,payload);localStorage.setItem('sf_backup',payload);}}catch(e){}
   _fbUid=null; _appReady=false; allData={};
@@ -2382,8 +2389,30 @@ async function fbSignOut(){
   showToast(T().toast_signout||'👋');
 }
 
+function fbScheduleSave(delay=FB_SAVE_DELAY){
+  if(!_fbUid||!window._fbDb||!_authReady||_isLoadingFromCloud)return;
+  if(_saveTimer)clearTimeout(_saveTimer);
+  setSyncStatus('sync');
+  _saveTimer=setTimeout(()=>{
+    _saveTimer=null;
+    fbSaveToCloud();
+  },delay);
+}
+
+async function fbManualSync(){
+  closeUserDropdown();
+  if(!_fbUid||!window._fbDb){
+    setSyncStatus('off');
+    return false;
+  }
+  if(_saveTimer){clearTimeout(_saveTimer);_saveTimer=null;}
+  _saveRetryCount=0;
+  return fbSaveToCloud();
+}
+
 async function fbSaveToCloud(){
-  if(!_fbUid||!window._fbDb)return;
+  if(!_fbUid||!window._fbDb)return false;
+  if(_isSyncing){_saveQueue=true;return false;}
   _isSyncing=true; setSyncStatus('sync');
   try{
     const ref=window._fbDoc(window._fbDb,'users',_fbUid);
@@ -2392,12 +2421,25 @@ async function fbSaveToCloud(){
       currency, curYear, curMonth, lang,
       updatedAt: new Date().toISOString()
     });
+    localStorage.setItem('sf_last_cloud_sync',new Date().toISOString());
+    _saveRetryCount=0;
     setSyncStatus('ok');
+    return true;
   }catch(e){
     console.error('Firestore save error:',e);
     setSyncStatus('error');
+    if(_saveRetryCount<FB_RETRY_DELAYS.length){
+      const delay=FB_RETRY_DELAYS[_saveRetryCount++];
+      fbScheduleSave(delay);
+    }
+    return false;
+  }finally{
+    _isSyncing=false;
+    if(_saveQueue){
+      _saveQueue=false;
+      fbScheduleSave(250);
+    }
   }
-  _isSyncing=false;
 }
 
 let _isLoadingFromCloud=false;
@@ -2452,12 +2494,19 @@ async function fbLoadFromCloud(uid){
       _isLoadingFromCloud=false;
       _authReady=true;
       // If any save was queued during load, execute now
-      if(_saveQueue){_saveQueue=false;fbSaveToCloud();}
+      if(_saveQueue){_saveQueue=false;fbScheduleSave(250);}
       showToast('☁️ '+(T().toast_loaded||'تم تحميل بياناتك من السحاب'));
     }else{
       _isLoadingFromCloud=false;
       _authReady=true;
-      // No cloud data yet — upload local data
+      // Premier compte : créer un mois valide avant le premier envoi cloud.
+      if(!Object.keys(allData).length){
+        allData[ck()]=defMonth();
+        renderAll();
+        buildMonthlyTable();
+        syncCur();
+      }
+      // No cloud data yet — upload initialized data
       await fbSaveToCloud();
     }
   }catch(e){
@@ -3774,7 +3823,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.5.0 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.5.1 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -3923,7 +3972,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.5.0';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.5.1';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري
