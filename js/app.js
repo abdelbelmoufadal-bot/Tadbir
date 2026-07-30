@@ -230,6 +230,15 @@ function setLang(l){
   set('t-ch2-sub', l==='fr'?'Comparaison du budget prévu avec les dépenses réelles':'مقارنة التخطيط الشهري مع المصاريف الفعلية');
   set('bcl-act-lbl', t.col_act || (l==='fr'?'Réalisé':'تصرفت'));
   set('bcl-pln-lbl', t.col_pln || (l==='fr'?'Prévu':'مخطط'));
+  set('t-wa-pill', l==='fr'?'Saisie Rapide':'إدخال سريع');
+  set('t-wa-title', 'WhatsApp Express');
+  set('t-wa-sub', l==='fr'?'Saisie rapide des courses depuis WhatsApp':'إدخال سريع للمشتريات من الواتساب');
+  set('t-wa-instructions', l==='fr'?'Collez le texte de la discussion WhatsApp (ex: Olwyz mtixa hlib lkhyar lkhal snkrwa jvil)':'الصق نص المحادثة من الواتساب (مثال: Olwyz mtixa hlib lkhyar lkhal snkrwa jvil)');
+  const waInput = $('wa-raw-input');
+  if(waInput) waInput.placeholder = l==='fr'?'Ex: Olwyz mtixa hlib lkhyar lkhal snkrwa jvil...':'مثال: Olwyz mtixa hlib lkhyar lkhal snkrwa jvil...';
+  set('t-wa-analyze-btn', l==='fr'?'🔍 Analyser et extraire les produits':'🔍 تحليل واستخراج المنتجات');
+  set('t-wa-total-lbl', l==='fr'?'Total des courses :':'إجمالي المشتريات:');
+  set('t-wa-save-btn', l==='fr'?'🚀 Tout enregistrer dans le budget':'🚀 حفظ الكل في الميزانية');
   set('tl-bills',t.k_bills); set('tl-expenses',t.k_expenses); set('tl-savings',t.k_savings);
   set('tl-debts',t.k_debts); set('tl-income',t.k_income);
   set('tc-b1',t.col_item); set('tc-b2',t.col_act); set('tc-b3',t.col_pln);
@@ -4027,6 +4036,219 @@ function checkBudgetAlerts() {
       banner.appendChild(alertDiv);
     }
   });
+}
+
+// ══════════════════════════════════════════════
+// WHATSAPP EXPRESS SMART GROCERY PARSER
+// ══════════════════════════════════════════════
+const DARIJA_DICTIONARY = [
+  // Vegetables / Marché 🥦
+  { keywords: ['mtixa', 'maticha', 'matixa', 'مطيشة', 'tomate', 'tomates'], nameAr: 'مطيشة', nameFr: 'Tomates', icon: '🍅', catId: 'Marché' },
+  { keywords: ['lkhyar', 'khyar', 'خيار', 'concombre'], nameAr: 'خيار', nameFr: 'Concombre', icon: '🥒', catId: 'Marché' },
+  { keywords: ['batata', 'btata', 'بطاطس', 'بطاطا', 'pomme de terre'], nameAr: 'بطاطس', nameFr: 'Pommes de terre', icon: '🥔', catId: 'Marché' },
+  { keywords: ['bssl', 'bssla', 'بصل', 'بصلة', 'oignon'], nameAr: 'بصل', nameFr: 'Oignons', icon: '🧅', catId: 'Marché' },
+  { keywords: ['khizou', 'khizo', 'خيزو', 'جزر', 'carotte', 'carottes'], nameAr: 'خيزو', nameFr: 'Carottes', icon: '🥕', catId: 'Marché' },
+  { keywords: ['dngal', 'danjan', 'دنجال', 'باذنجان', 'aubergine'], nameAr: 'دنجال', nameFr: 'Aubergine', icon: '🍆', catId: 'Marché' },
+  { keywords: ['flfla', 'flla', 'فلفلة', 'فلفل', 'poivron'], nameAr: 'فلفلة', nameFr: 'Poivrons', icon: '🫑', catId: 'Marché' },
+  { keywords: ['thoum', 'thouma', 'ثومة', 'ثوم', 'ail'], nameAr: 'ثوم', nameFr: 'Ail', icon: '🧄', catId: 'Marché' },
+  { keywords: ['rbia', 'rbi3', 'ربيع', 'قصبر', 'معدنوس', 'persil'], nameAr: 'ربيع', nameFr: 'Persil / Coriandre', icon: '🌿', catId: 'Marché' },
+  { keywords: ['lmon', 'limon', 'ليمون', 'حامض', 'citron'], nameAr: 'حامض', nameFr: 'Citron', icon: '🍋', catId: 'Marché' },
+  { keywords: ['tffah', 'tfah', 'تفاح', 'pomme'], nameAr: 'تفاح', nameFr: 'Pommes', icon: '🍎', catId: 'Marché' },
+  { keywords: ['banan', 'بنان', 'موز', 'banane'], nameAr: 'بنان', nameFr: 'Bananes', icon: '🍌', catId: 'Marché' },
+
+  // Dairy & Grocery Essentials / Alimentation 🥛
+  { keywords: ['hlib', 'lhlib', 'حليب', 'lait'], nameAr: 'حليب', nameFr: 'Lait', icon: '🥛', catId: 'Alimentation' },
+  { keywords: ['byd', 'biad', 'بيض', 'oeufs', 'oeuf'], nameAr: 'بيض', nameFr: 'Œufs', icon: '🥚', catId: 'Alimentation' },
+  { keywords: ['khobz', 'khbz', 'خبز', 'pain'], nameAr: 'خبز', nameFr: 'Pain', icon: '🍞', catId: 'Alimentation' },
+  { keywords: ['lkhal', 'khal', 'خل', 'vinaigre'], nameAr: 'خل', nameFr: 'Vinaigre', icon: '🏺', catId: 'Alimentation' },
+  { keywords: ['zayt', 'zit', 'زيت', 'huile'], nameAr: 'زيت', nameFr: 'Huile', icon: '🫗', catId: 'Alimentation' },
+  { keywords: ['zitoun', 'ziton', 'زيتون', 'olive', 'olives'], nameAr: 'زيتون', nameFr: 'Olives', icon: '🫒', catId: 'Alimentation' },
+  { keywords: ['atay', 'ataye', 'أتاي', 'شاي', 'thé'], nameAr: 'أتاي', nameFr: 'Thé', icon: '🫖', catId: 'Alimentation' },
+  { keywords: ['skkar', 'skar', 'سكر', 'sucre'], nameAr: 'سكر', nameFr: 'Sucre', icon: '🧊', catId: 'Alimentation' },
+  { keywords: ['qhwa', 'qohwa', 'قهوة', 'café'], nameAr: 'قهوة', nameFr: 'Café', icon: '☕', catId: 'Alimentation' },
+  { keywords: ['formaj', 'frmaj', 'فرماج', 'جبن', 'fromage'], nameAr: 'فرماج', nameFr: 'Fromage', icon: '🧀', catId: 'Alimentation' },
+  { keywords: ['danone', 'danon', 'دانون', 'yaourt'], nameAr: 'دانون', nameFr: 'Yaourt', icon: '🍦', catId: 'Alimentation' },
+  { keywords: ['zobda', 'zbda', 'زبدة', 'beurre'], nameAr: 'زبدة', nameFr: 'Beurre', icon: '🧈', catId: 'Alimentation' },
+  { keywords: ['ton', 'toun', 'تون', 'طون', 'thon'], nameAr: 'طون', nameFr: 'Thon', icon: '🐟', catId: 'Alimentation' },
+  { keywords: ['rozz', 'roz', 'رز', 'أرز', 'riz'], nameAr: 'أرز', nameFr: 'Riz', icon: '🍚', catId: 'Alimentation' },
+  { keywords: ['m9ronya', 'm9ronia', 'مقرونية', 'مكرونة', 'pâtes'], nameAr: 'مقرونية', nameFr: 'Pâtes', icon: '🍝', catId: 'Alimentation' },
+  { keywords: ['t7in', 'thin', 'طحين', 'دقيق', 'farine'], nameAr: 'طحين', nameFr: 'Farine', icon: '🌾', catId: 'Alimentation' },
+  { keywords: ['lma', 'elma', 'ماء', 'eau'], nameAr: 'ماء معدني', nameFr: 'Eau minérale', icon: '💧', catId: 'Alimentation' },
+
+  // Meat & Fish 🍗
+  { keywords: ['djaj', 'dajaj', 'دجاج', 'poulet'], nameAr: 'دجاج', nameFr: 'Poulet', icon: '🍗', catId: 'Alimentation' },
+  { keywords: ['lhm', 'lhmi', 'لحم', 'viande'], nameAr: 'لحم', nameFr: 'Viande', icon: '🥩', catId: 'Alimentation' },
+  { keywords: ['kfta', 'kefta', 'كفتة', 'viande hachée'], nameAr: 'كفتة', nameFr: 'Kefta', icon: '🧆', catId: 'Alimentation' },
+  { keywords: ['hwt', 'hout', 'حوت', 'سمك', 'poisson'], nameAr: 'سمك', nameFr: 'Poisson', icon: '🐟', catId: 'Alimentation' },
+
+  // Cleaning & Hygiene / Autre 🧹
+  { keywords: ['olwyz', 'always', 'اولويز', 'serviettes'], nameAr: 'Always', nameFr: 'Always', icon: '🌸', catId: 'Autre' },
+  { keywords: ['jvil', 'javel', 'جافيل', 'eau de javel'], nameAr: 'جافيل', nameFr: 'Javel', icon: '🧴', catId: 'Autre' },
+  { keywords: ['snkrwa', 'sanicross', 'croix', 'ساني كروا'], nameAr: 'ساني كروا', nameFr: 'Sanicross', icon: '🧹', catId: 'Autre' },
+  { keywords: ['ommo', 'tid', 'omo', 'تيد', 'أومو', 'lessive'], nameAr: 'أومو / مسحوق الغسيل', nameFr: 'Lessive', icon: '🧺', catId: 'Autre' },
+  { keywords: ['papiye', 'papier', 'بابيي', 'ورق حمام'], nameAr: 'ورق صحي', nameFr: 'Papier hygiénique', icon: '🧻', catId: 'Autre' },
+  { keywords: ['champoing', 'champoo', 'شامبوان', 'shampoing'], nameAr: 'شامبو', nameFr: 'Shampoing', icon: '🧴', catId: 'Autre' },
+  { keywords: ['sabon', 'sabonette', 'صابون', 'savon'], nameAr: 'صابون', nameFr: 'Savon', icon: '🧼', catId: 'Autre' }
+];
+
+let _waExtractedItems = [];
+
+function openWaExpressModal(){
+  openModal('waExpressModal');
+  const s1=$('wa-step-1'), s2=$('wa-step-2');
+  if(s1)s1.style.display='block';
+  if(s2)s2.style.display='none';
+  const ta=$('wa-raw-input');
+  if(ta)ta.value='';
+}
+
+function resetWaStep(){
+  const s1=$('wa-step-1'), s2=$('wa-step-2');
+  if(s1)s1.style.display='block';
+  if(s2)s2.style.display='none';
+}
+
+function processWaInput(){
+  const rawText=($('wa-raw-input')?.value||'').trim();
+  if(!rawText){
+    showToast(lang==='fr'?'Veuillez coller le texte de la discussion':'الرجاء إدخال النص من الواتساب');
+    return;
+  }
+
+  let tokens=[];
+  if(rawText.includes('\n')) tokens=rawText.split('\n');
+  else if(rawText.includes(',')) tokens=rawText.split(',');
+  else if(rawText.includes(';')) tokens=rawText.split(';');
+  else tokens=rawText.split(/\s+/);
+
+  _waExtractedItems=[];
+
+  tokens.forEach(tok=>{
+    const cleanTok=tok.trim().toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,'');
+    if(!cleanTok||cleanTok.length<2) return;
+
+    let match=DARIJA_DICTIONARY.find(entry=>
+      entry.keywords.some(kw=>cleanTok===kw||cleanTok.includes(kw)||kw.includes(cleanTok))
+    );
+
+    if(match){
+      _waExtractedItems.push({
+        raw:tok.trim(),
+        name:lang==='fr'?match.nameFr:match.nameAr,
+        icon:match.icon,
+        catId:match.catId,
+        price:''
+      });
+    }else{
+      _waExtractedItems.push({
+        raw:tok.trim(),
+        name:tok.trim(),
+        icon:'🛒',
+        catId:'Autre',
+        price:''
+      });
+    }
+  });
+
+  if(_waExtractedItems.length===0){
+    showToast(lang==='fr'?'Aucun produit détecté':'لم يتم العثور على أي منتج');
+    return;
+  }
+
+  renderWaItemsList();
+  const s1=$('wa-step-1'), s2=$('wa-step-2');
+  if(s1)s1.style.display='none';
+  if(s2)s2.style.display='block';
+}
+
+function renderWaItemsList(){
+  const container=$('wa-items-list');
+  if(!container)return;
+  container.innerHTML='';
+
+  const countLbl=$('wa-items-count-lbl');
+  if(countLbl){
+    countLbl.textContent=`${_waExtractedItems.length} ${lang==='fr'?'articles détectés':'منتجات مستخرجة'}`;
+  }
+
+  _waExtractedItems.forEach((item,idx)=>{
+    const row=document.createElement('div');
+    row.className='wa-item-row';
+    row.innerHTML=`
+      <div class="wa-item-left">
+        <span class="wa-item-icon">${item.icon}</span>
+        <div class="wa-item-info">
+          <span class="wa-item-name">${item.name}</span>
+          <span class="wa-item-cat">${item.catId}</span>
+        </div>
+      </div>
+      <div class="wa-item-right">
+        <input type="number" class="wa-item-price-input" placeholder="0" min="0" value="${item.price}" oninput="updateWaItemPrice(${idx},this.value)">
+        <button class="wa-item-del-btn" onclick="removeWaItem(${idx})" title="Supprimer">✕</button>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+
+  updateWaLiveTotal();
+}
+
+function updateWaItemPrice(idx,val){
+  if(_waExtractedItems[idx]){
+    _waExtractedItems[idx].price=val;
+  }
+  updateWaLiveTotal();
+}
+
+function removeWaItem(idx){
+  _waExtractedItems.splice(idx,1);
+  renderWaItemsList();
+}
+
+function updateWaLiveTotal(){
+  let total=0;
+  _waExtractedItems.forEach(item=>{
+    total+=Number(item.price||0);
+  });
+  const totalEl=$('wa-live-total');
+  if(totalEl) totalEl.textContent=`${fmt(total)} ${currency}`;
+}
+
+function saveWaItemsToBudget(){
+  const validItems=_waExtractedItems.filter(item=>Number(item.price||0)>0);
+  if(validItems.length===0){
+    showToast(lang==='fr'?'Veuillez saisir au moins un prix':'الرجاء إدخال ثمن منتج واحد على الأقل');
+    return;
+  }
+
+  const mk=ck();
+  if(!allData[mk])allData[mk]=defMonth();
+  if(!allData[mk].notes)allData[mk].notes=[];
+
+  const todayStr=new Date().toISOString().slice(0,10);
+  let addedCount=0;
+  let addedSum=0;
+
+  validItems.forEach(item=>{
+    const amount=Number(item.price||0);
+    allData[mk].notes.push({
+      date:todayStr,
+      note:`${item.icon} ${item.name}`,
+      subCat:item.name,
+      mainCat:item.catId,
+      amount:amount,
+      currency:currency,
+      person:'family'
+    });
+    addedCount++;
+    addedSum+=amount;
+  });
+
+  persistData();
+  recalc();
+  renderNotes();
+  closeModal('waExpressModal');
+  showToast(`✅ ${addedCount} ${lang==='fr'?'dépenses enregistrées':'مصاريف تضافات'} (+${fmt(addedSum)} ${currency})`);
 }
 
 document.addEventListener('DOMContentLoaded',()=>{

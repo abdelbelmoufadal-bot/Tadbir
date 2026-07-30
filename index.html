@@ -484,9 +484,12 @@ onAuthStateChanged(auth, user=>{
 
 <div id="tab-notes" class="tab-panel"><div class="main">
 
-  <!-- HEADER -->
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
     <div class="section-title" style="margin-bottom:0;"><span id="t-notes-title">سجل المصاريف</span> — <span id="notes-month-lbl" style="font-weight:400;color:var(--light);font-size:13px;"></span></div>
+    <button class="wa-express-btn" onclick="openWaExpressModal()">
+      <span>💬 WhatsApp Express</span>
+      <span class="wa-badge-pill" id="t-wa-pill">Saisie Rapide</span>
+    </button>
   </div>
 
   <div class="card" style="margin-bottom:12px;">
@@ -732,6 +735,54 @@ onAuthStateChanged(auth, user=>{
     <div style="font-size:10px;color:var(--light);margin-bottom:12px;">حدد مبلغاً أقصى لكل فئة. ستتلقى تحذيراً عند الاقتراب من الحد.</div>
     <div id="budget-limits-list"></div>
     <button class="modal-btn" onclick="saveBudgetLimits()">💾 حفظ الحدود</button>
+  </div>
+</div>
+
+<!-- ── WHATSAPP EXPRESS MODAL ── -->
+<div class="modal-overlay" id="waExpressModal" onclick="if(event.target===this)closeModal('waExpressModal')">
+  <div class="modal-box wa-modal-box">
+    <div class="modal-title">
+      <span style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:22px;">💬</span>
+        <div>
+          <div style="font-size:15px;font-weight:800;" id="t-wa-title">WhatsApp Express</div>
+          <div style="font-size:10px;color:var(--mid);font-weight:400;" id="t-wa-sub">Saisie rapide des courses depuis WhatsApp</div>
+        </div>
+      </span>
+      <button class="modal-close" onclick="closeModal('waExpressModal')">✕</button>
+    </div>
+
+    <!-- Step 1: Textarea paste -->
+    <div id="wa-step-1">
+      <div style="font-size:12px;color:var(--mid);margin-bottom:8px;line-height:1.4;" id="t-wa-instructions">
+        Collez le texte de la discussion WhatsApp (ex: Olwyz mtixa hlib lkhyar lkhal snkrwa jvil)
+      </div>
+      <textarea id="wa-raw-input" class="wa-textarea" placeholder="Ex: Olwyz mtixa hlib lkhyar lkhal snkrwa jvil..."></textarea>
+      <button class="modal-btn wa-analyze-btn" onclick="processWaInput()" id="t-wa-analyze-btn">
+        🔍 Analyser et extraire les produits
+      </button>
+    </div>
+
+    <!-- Step 2: Interactive Fast Price Entry Table -->
+    <div id="wa-step-2" style="display:none;">
+      <div class="wa-items-header">
+        <span id="wa-items-count-lbl" style="font-size:12px;font-weight:700;">Articles détectés</span>
+        <button class="wa-reset-text-btn" onclick="resetWaStep()">↩️ Réanalyser</button>
+      </div>
+
+      <div id="wa-items-list" class="wa-items-list"></div>
+
+      <!-- Live Total Summary -->
+      <div class="wa-total-summary">
+        <div class="wa-total-info">
+          <span style="font-size:12px;color:var(--mid);" id="t-wa-total-lbl">Total des courses :</span>
+          <span class="wa-total-val" id="wa-live-total">0 DH</span>
+        </div>
+        <button class="modal-btn wa-save-btn" onclick="saveWaItemsToBudget()" id="t-wa-save-btn">
+          🚀 Tout enregistrer dans le budget
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
