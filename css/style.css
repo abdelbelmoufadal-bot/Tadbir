@@ -660,3 +660,46 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   .header { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; }
   .nav-tabs-inline { order: 3; width: 100%; justify-content: center; margin-top: 8px; }
 }
+
+.donut-custom-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+.dcl-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+[data-theme="light"] .dcl-item {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.dcl-label-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mid);
+}
+.dcl-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--dark);
+}
+.dcl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+@media(max-width: 500px) {
+  .donut-custom-legend { grid-template-columns: 1fr; }
+}

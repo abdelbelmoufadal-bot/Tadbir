@@ -932,7 +932,27 @@ function recalc(){
   set('hero-sub',`${t.from_of} ${fmt(inc.act)} ${currency}`);
   set('hero-status',rem>0?t.hero_ok:rem===0?t.hero_zero:t.hero_neg);
   updateAdvancedMetrics({inc,bill,exp,sav,dbt,rem});
-  if(chartDonut){chartDonut.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];chartDonut.update('none');}
+  if(chartDonut){
+    chartDonut.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];
+    chartDonut.update('none');
+    const dl=$('donutLegend');
+    if(dl){
+      const cols=['#6366f1','#f97316','#06b6d4','#f43f5e'];
+      const lbls=[t.k_bills||'الفواتير',t.k_expenses||'المصاريف',t.k_savings||'التوفير',t.k_debts||'الديون'];
+      const vals=[bill.act,exp.act,sav.act,dbt.act];
+      let html='';
+      for(let i=0; i<4; i++){
+        html+=`<div class="dcl-item">
+          <div class="dcl-val">${fmt(vals[i])} ${currency}</div>
+          <div class="dcl-label-group">
+            <span>${lbls[i]}</span>
+            <span class="dcl-dot" style="background:${cols[i]}"></span>
+          </div>
+        </div>`;
+      }
+      dl.innerHTML=html;
+    }
+  }
   if(chartBar){chartBar.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];chartBar.data.datasets[1].data=[bill.pln,exp.pln,sav.pln,dbt.pln];chartBar.update('none');}
   if(chartHero){chartHero.data.datasets[0].data=[rem>0?rem:0,bill.act+exp.act+sav.act+dbt.act];chartHero.update('none');}
   // Refresh weekly tab if visible
@@ -1668,20 +1688,7 @@ function initCharts(){
         hoverOffset:14,
         hoverBorderWidth:0}]},
     options:{cutout:'62%',
-      plugins:{legend:{position:'bottom',
-        labels:{font:{size:12,family:'Tajawal',weight:'700'},
-          padding:14,color:legendColor(),usePointStyle:true,pointStyleWidth:10,
-          generateLabels:function(c){
-            const d=c.data;
-            const lbls=[T().k_bills,T().k_expenses,T().k_savings,T().k_debts];
-            const col=legendColor();
-            return lbls.map((l,i)=>({
-              text:' '+l,
-              fillStyle:d.datasets[0].backgroundColor[i],
-              strokeStyle:'transparent',
-              color:col,fontColor:col,
-              hidden:false,index:i}));
-          }}},
+      plugins:{legend:{display:false}},
         tooltip:{callbacks:{label:function(ctx){
           return ' '+ctx.label+': '+ctx.parsed.toLocaleString()+' '+($('currencySelect')?$('currencySelect').value:'');
         }}}},
