@@ -723,7 +723,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.2</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.3</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -1132,7 +1132,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.2</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.3</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -1147,7 +1147,7 @@ const LANGS={
     cats:['مواد غذائية','السوق','قهوة','النقل','أخرى'],
     expLabel:['مواد غذائية','السوق','قهوة','Gasoil','أخرى'],
     pin_enter:'أدخل رمز PIN',pin_create:'إنشاء رمز PIN (4 أرقام)',pin_confirm:'أكد رمز PIN',
-    pin_wrong:'❌ رمز PIN غلط',pin_mismatch:'❌ الأرقام ما تطابقوش',pin_note:'هاد الرمز يحمي تطبيقك',pin_forgot:'نسيت PIN؟',
+    pin_wrong:'❌ رمز PIN غلط',pin_mismatch:'❌ الأرقام ما تطابقوش',pin_note:'هاد الرمز يحمي تطبيقك',pin_forgot:'نسيت PIN؟',pin_locked:'محاولات كثيرة. انتظر 30 ثانية.',pin_forgot_confirm:'حذف رمز PIN فقط؟ بياناتك لن تُحذف.',
     saved:'محفوظ تلقائياً',new_btn:'✦ شهر جديد',tab1:'لوحة الميزانية',tab2:'دفتر الملاحظات',tab3:'مقارنة شهرية',
     pick:'اختار الشهر',nm:'شهر جديد',nm_sub:'كيفاش تبغي تبدا؟',
     nm1:'كوبياو المخطط فقط',nm1s:'تبقى أرقام مخطط له وتبدا من صفر',
@@ -1182,7 +1182,7 @@ const LANGS={
     cats:['Alimentation','Marché','Loisirs','Transport','Autre'],
     expLabel:['Alimentation','Marché','Loisirs','Gasoil','Autre'],
     pin_enter:'Entrez votre code PIN',pin_create:'Créer un code PIN (4 chiffres)',pin_confirm:'Confirmez le PIN',
-    pin_wrong:'❌ Code PIN incorrect',pin_mismatch:'❌ Les codes ne correspondent pas',pin_note:'Ce code protège votre application',pin_forgot:'PIN oublié ?',
+    pin_wrong:'❌ Code PIN incorrect',pin_mismatch:'❌ Les codes ne correspondent pas',pin_note:'Ce code protège votre application',pin_forgot:'PIN oublié ?',pin_locked:'Trop de tentatives. Attendez 30 secondes.',pin_forgot_confirm:'Supprimer uniquement le PIN ? Vos données seront conservées.',
     saved:'Sauvegardé automatiquement',new_btn:'✦ Nouveau mois',tab1:'Tableau de bord',tab2:'Carnet de notes',tab3:'Comparaison mensuelle',
     pick:'Choisir le mois',nm:'Nouveau mois',nm_sub:'Comment démarrer ?',
     nm1:'Copier le budget prévu',nm1s:'Garder les montants prévus, repartir de zéro',
@@ -1409,6 +1409,27 @@ function setLang(l){
 // ══════════════════════════════════════════════
 // PIN
 // ══════════════════════════════════════════════
+let pinFailedAttempts=0;
+let pinLockedUntil=0;
+
+async function hashPIN(pin){
+  if(!window.crypto||!window.crypto.subtle)throw new Error('Secure crypto unavailable');
+  const bytes=new TextEncoder().encode('tadbir-pin-v1:'+pin);
+  const digest=await window.crypto.subtle.digest('SHA-256',bytes);
+  return 'sha256:'+Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+async function verifyStoredPIN(pin){
+  const stored=localStorage.getItem(PIN_KEY)||'';
+  if(stored.startsWith('sha256:'))return stored===await hashPIN(pin);
+  if(stored===pin){
+    // Migration transparente des anciens PIN enregistrés en clair.
+    localStorage.setItem(PIN_KEY,await hashPIN(pin));
+    return true;
+  }
+  return false;
+}
+
 function initPIN(){
   const saved=localStorage.getItem(PIN_KEY);
   pinEnabled=localStorage.getItem(PINON_KEY)==='1';
@@ -1418,18 +1439,49 @@ function initPIN(){
   else if(pinEnabled){pinMode='verify';$('pin-forgot').style.display='block';set('pin-sub',T().pin_enter);}
   else{unlockApp();}
 }
-function pinPress(d){if(pinBuffer.length>=4)return;pinBuffer+=d;updateDots();if(pinBuffer.length===4)setTimeout(handlePin,200);}
+function pinPress(d){
+  if(Date.now()<pinLockedUntil){
+    set('pin-error',T().pin_locked||'Trop de tentatives. Attendez 30 secondes.');
+    return;
+  }
+  if(pinBuffer.length>=4)return;
+  pinBuffer+=d;updateDots();
+  if(pinBuffer.length===4)setTimeout(handlePin,200);
+}
 function pinDel(){pinBuffer=pinBuffer.slice(0,-1);updateDots();set('pin-error','');}
 function updateDots(err=false){for(let i=0;i<4;i++){const d=$('d'+i);d.classList.toggle('filled',i<pinBuffer.length&&!err);d.classList.toggle('error',i<pinBuffer.length&&err);}}
-function handlePin(){
+async function handlePin(){
   const t=T();
+  if(Date.now()<pinLockedUntil){
+    pinBuffer='';updateDots();set('pin-error',t.pin_locked||'Trop de tentatives.');
+    return;
+  }
   if(pinMode==='setup1'){pinTemp=pinBuffer;pinBuffer='';updateDots();set('pin-sub',t.pin_confirm);set('pin-note','');pinMode='setup2';}
   else if(pinMode==='setup2'){
-    if(pinBuffer===pinTemp){localStorage.setItem(PIN_KEY,pinBuffer);localStorage.setItem(PINON_KEY,'1');pinEnabled=true;$('pin-screen').classList.add('hidden');$('pin-toggle').classList.add('on');showToast(t.toast_pin_created);}
+    if(pinBuffer===pinTemp){
+      try{
+        localStorage.setItem(PIN_KEY,await hashPIN(pinBuffer));
+        localStorage.setItem(PINON_KEY,'1');pinEnabled=true;pinFailedAttempts=0;
+        $('pin-screen').classList.add('hidden');$('pin-toggle').classList.add('on');showToast(t.toast_pin_created);
+      }catch(e){
+        pinBuffer='';pinTemp='';pinMode='setup1';updateDots();
+        set('pin-error','❌ Secure PIN unavailable');
+      }
+    }
     else{updateDots(true);set('pin-error',t.pin_mismatch);pinBuffer='';setTimeout(()=>{updateDots();set('pin-error','');pinMode='setup1';pinTemp='';set('pin-sub',t.pin_create);},1400);}
   }else{
-    if(pinBuffer===localStorage.getItem(PIN_KEY)){unlockApp();}
-    else{updateDots(true);set('pin-error',t.pin_wrong);pinBuffer='';setTimeout(()=>{updateDots();set('pin-error','');},1200);}
+    let valid=false;
+    try{valid=await verifyStoredPIN(pinBuffer);}catch(e){}
+    if(valid){pinFailedAttempts=0;pinLockedUntil=0;unlockApp();}
+    else{
+      pinFailedAttempts++;
+      if(pinFailedAttempts>=5){
+        pinFailedAttempts=0;pinLockedUntil=Date.now()+30000;
+        set('pin-error',t.pin_locked||'Trop de tentatives. Attendez 30 secondes.');
+      }else set('pin-error',t.pin_wrong);
+      updateDots(true);pinBuffer='';
+      setTimeout(()=>{updateDots();if(Date.now()>=pinLockedUntil)set('pin-error','');},1200);
+    }
   }
 }
 function unlockApp(){
@@ -1461,7 +1513,16 @@ function unlockApp(){
   buildMonthlyTable();
   syncCur();
 }
-function pinForgot(){if(confirm('Reset all data and PIN?')){localStorage.clear();location.reload();}}
+function pinForgot(){
+  if(!confirm(T().pin_forgot_confirm||'Supprimer uniquement le PIN ?'))return;
+  localStorage.removeItem(PIN_KEY);
+  localStorage.removeItem(PINON_KEY);
+  pinEnabled=false;pinFailedAttempts=0;pinLockedUntil=0;
+  pinBuffer='';pinTemp='';pinMode='setup1';
+  $('pin-screen').classList.add('hidden');
+  unlockApp();
+  showToast(T().toast_pin_off);
+}
 function togglePIN(){
   pinEnabled=!pinEnabled;
   localStorage.setItem(PINON_KEY,pinEnabled?'1':'0');
@@ -1511,7 +1572,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='3.5.2';
+  const CURRENT_VER='3.5.3';
   const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -2395,18 +2456,81 @@ function restoreLocalSnapshot(id){
 
 function exportJSON(){
   saveData();
-  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.5.2',owner:'BELMOUFADAL Abderrahim'};
+  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.5.3',owner:'BELMOUFADAL Abderrahim'};
   const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
   showToast(T().toast_save);
 }
+
+function validateSafeImportTree(value,depth=0,state={count:0}){
+  if(depth>12||++state.count>50000)throw new Error('structure trop complexe');
+  if(value===null||typeof value==='boolean')return;
+  if(typeof value==='number'){
+    if(!Number.isFinite(value)||Math.abs(value)>1e12)throw new Error('montant invalide');
+    return;
+  }
+  if(typeof value==='string'){
+    if(value.length>500||/[<>]/.test(value))throw new Error('texte non autorisé');
+    return;
+  }
+  if(Array.isArray(value)){
+    if(value.length>10000)throw new Error('trop de lignes');
+    value.forEach(v=>validateSafeImportTree(v,depth+1,state));
+    return;
+  }
+  if(typeof value==='object'&&Object.getPrototypeOf(value)===Object.prototype){
+    Object.keys(value).forEach(key=>{
+      if(['__proto__','prototype','constructor'].includes(key))throw new Error('clé non autorisée');
+      validateSafeImportTree(value[key],depth+1,state);
+    });
+    return;
+  }
+  throw new Error('type de donnée invalide');
+}
+
+function validateImportData(raw){
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('format invalide');
+  validateSafeImportTree(raw);
+  if(!raw.allData||typeof raw.allData!=='object'||Array.isArray(raw.allData))throw new Error('données absentes');
+  const monthKeys=Object.keys(raw.allData);
+  if(!monthKeys.length||monthKeys.length>240)throw new Error('nombre de mois invalide');
+  monthKeys.forEach(key=>{
+    if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(key))throw new Error('mois invalide');
+    const month=raw.allData[key];
+    if(!month||typeof month!=='object'||Array.isArray(month))throw new Error('contenu mensuel invalide');
+    ['bills','expenses','savings','debts','income'].forEach(section=>{
+      if(!Array.isArray(month[section])||month[section].length>1000)throw new Error('section '+section+' invalide');
+      month[section].forEach(row=>{
+        if(!row||typeof row!=='object'||typeof row.label!=='string')throw new Error('ligne '+section+' invalide');
+        if(!Number.isFinite(Number(row.act||0))||!Number.isFinite(Number(row.pln||0)))throw new Error('montant invalide');
+      });
+    });
+    if(month.notes!==undefined&&!Array.isArray(month.notes))throw new Error('notes invalides');
+    (month.notes||[]).forEach(note=>{
+      if(!note||typeof note!=='object'||!Number.isFinite(Number(note.amount||0)))throw new Error('note invalide');
+      if(note.date&&!/^\d{4}-\d{2}-\d{2}$/.test(note.date))throw new Error('date invalide');
+    });
+  });
+  const clean=JSON.parse(JSON.stringify(raw));
+  Object.values(clean.allData).forEach(month=>{if(!Array.isArray(month.notes))month.notes=[];});
+  clean.currency=typeof clean.currency==='string'&&clean.currency.length<=20?clean.currency:currency;
+  clean.curYear=Number.isInteger(clean.curYear)&&clean.curYear>=1900&&clean.curYear<=2200?clean.curYear:curYear;
+  clean.curMonth=Number.isInteger(clean.curMonth)&&clean.curMonth>=0&&clean.curMonth<=11?clean.curMonth:curMonth;
+  clean.lang=clean.lang&&LANGS[clean.lang]?clean.lang:lang;
+  return clean;
+}
+
 function importJSON(input){
   const f=input.files[0];if(!f)return;
+  if(f.size>5*1024*1024){
+    alert('❌ '+(T().dir==='rtl'?'الملف كبير جداً':'Fichier trop volumineux (5 Mo maximum)'));
+    input.value='';return;
+  }
   const r=new FileReader();
   r.onload=e=>{
     try{
-      const d=JSON.parse(e.target.result);if(!d.allData)throw 0;
+      const d=validateImportData(JSON.parse(e.target.result));
       if(confirm(T().import_confirm)){
         createLocalSnapshot('before_import');
         allData=d.allData;currency=d.currency||currency;curYear=d.curYear||curYear;
@@ -2414,7 +2538,10 @@ function importJSON(input){
         persistData();$('currencySelect').value=currency;setLang(lang);renderAll();buildMonthlyTable();syncCur();
         closeModal('backupModal');showToast(T().toast_import);
       }
-    }catch(e){alert('❌ Invalid file');}
+    }catch(e){
+      console.error('Import validation error:',e);
+      alert('❌ '+(T().dir==='rtl'?'ملف غير صالح':'Fichier invalide')+': '+e.message);
+    }
   };
   r.readAsText(f);input.value='';
 }
@@ -3951,7 +4078,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.5.2 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.5.3 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -4100,7 +4227,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.5.2';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.5.3';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري

@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/تدبير-v3.5.2-7EC8B0?style=for-the-badge)
+![Version](https://img.shields.io/badge/تدبير-v3.5.3-7EC8B0?style=for-the-badge)
 ![Firebase](https://img.shields.io/badge/Firebase-Sync-FFCA28?style=for-the-badge&logo=firebase)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-2E75B6?style=for-the-badge&logo=github)
 ![Languages](https://img.shields.io/badge/Languages-5-A8C5A0?style=for-the-badge)
@@ -30,7 +30,8 @@
 
 ### 🔐 تسجيل الدخول والأمان
 - **تسجيل دخول بـ Google** — بكليك واحد، لا كلمة مرور
-- **PIN اختياري** — حماية إضافية عند فتح التطبيق
+- **PIN اختياري ومشفّر** — حماية إضافية عند فتح التطبيق
+- **حماية ضد المحاولات المتكررة** — قفل مؤقت بعد 5 محاولات خاطئة
 - **بياناتك خاصة** — كل مستخدم يرى بياناته فقط
 - **صفحة تقديمية** تظهر للزوار غير المسجلين
 
@@ -72,6 +73,7 @@
 - استيراد ملف حفظ سابق
 - الاحتفاظ تلقائياً بآخر 5 نسخ محلية مع إمكانية الاسترجاع
 - إنشاء نسخة أمان قبل الاستيراد، الاسترجاع، الشهر الجديد، وتحميل بيانات السحابة
+- التحقق من بنية وحجم وسلامة ملف JSON قبل الاستيراد
 - **زر "إضافة البيانات الافتراضية"** — يضيف ما ينقص بدون مسح
 
 ---
@@ -151,6 +153,6 @@ tadbir/
 
 **Créé par BELMOUFADAL Abderrahim**
 
-دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.5.2** 🇲🇦
+دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.5.3** 🇲🇦
 
 </div>
