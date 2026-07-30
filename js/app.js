@@ -4045,53 +4045,111 @@ function checkBudgetAlerts() {
 // WHATSAPP EXPRESS SMART GROCERY PARSER
 // ══════════════════════════════════════════════
 const DARIJA_DICTIONARY = [
-  // Vegetables / Marché 🥦
-  { keywords: ['mtixa', 'maticha', 'matixa', 'مطيشة', 'tomate', 'tomates'], nameAr: 'مطيشة', nameFr: 'Tomates', icon: '🍅', catId: 'Marché' },
-  { keywords: ['lkhyar', 'khyar', 'خيار', 'concombre'], nameAr: 'خيار', nameFr: 'Concombre', icon: '🥒', catId: 'Marché' },
-  { keywords: ['batata', 'btata', 'بطاطس', 'بطاطا', 'pomme de terre'], nameAr: 'بطاطس', nameFr: 'Pommes de terre', icon: '🥔', catId: 'Marché' },
-  { keywords: ['bssl', 'bssla', 'بصل', 'بصلة', 'oignon'], nameAr: 'بصل', nameFr: 'Oignons', icon: '🧅', catId: 'Marché' },
-  { keywords: ['khizou', 'khizo', 'خيزو', 'جزر', 'carotte', 'carottes'], nameAr: 'خيزو', nameFr: 'Carottes', icon: '🥕', catId: 'Marché' },
-  { keywords: ['dngal', 'danjan', 'دنجال', 'باذنجان', 'aubergine'], nameAr: 'دنجال', nameFr: 'Aubergine', icon: '🍆', catId: 'Marché' },
-  { keywords: ['flfla', 'flla', 'فلفلة', 'فلفل', 'poivron'], nameAr: 'فلفلة', nameFr: 'Poivrons', icon: '🫑', catId: 'Marché' },
-  { keywords: ['thoum', 'thouma', 'ثومة', 'ثوم', 'ail'], nameAr: 'ثوم', nameFr: 'Ail', icon: '🧄', catId: 'Marché' },
-  { keywords: ['rbia', 'rbi3', 'ربيع', 'قصبر', 'معدنوس', 'persil'], nameAr: 'ربيع', nameFr: 'Persil / Coriandre', icon: '🌿', catId: 'Marché' },
-  { keywords: ['lmon', 'limon', 'ليمون', 'حامض', 'citron'], nameAr: 'حامض', nameFr: 'Citron', icon: '🍋', catId: 'Marché' },
-  { keywords: ['tffah', 'tfah', 'تفاح', 'pomme'], nameAr: 'تفاح', nameFr: 'Pommes', icon: '🍎', catId: 'Marché' },
-  { keywords: ['banan', 'بنان', 'موز', 'banane'], nameAr: 'بنان', nameFr: 'Bananes', icon: '🍌', catId: 'Marché' },
+  // 🛒 المعيشة اليومية / السوق (خضر وفواكه ولحوم)
+  { keywords: ['mtixa', 'maticha', 'matixa', 'مطيشة', 'tomate', 'tomates'], nameAr: 'مطيشة', nameFr: 'Tomates', icon: '🍅', catId: 'daily' },
+  { keywords: ['lkhyar', 'khyar', 'خيار', 'concombre'], nameAr: 'خيار', nameFr: 'Concombre', icon: '🥒', catId: 'daily' },
+  { keywords: ['batata', 'btata', 'btat', 'بطاطس', 'بطاطا', 'pomme de terre'], nameAr: 'بطاطس', nameFr: 'Pommes de terre', icon: '🥔', catId: 'daily' },
+  { keywords: ['btata hlwa', 'بطاطا حلوة', 'patate douce'], nameAr: 'بطاطا حلوة', nameFr: 'Patate douce', icon: '🍠', catId: 'daily' },
+  { keywords: ['bssl', 'bssla', 'بصل', 'بصلة', 'oignon'], nameAr: 'بصل', nameFr: 'Oignons', icon: '🧅', catId: 'daily' },
+  { keywords: ['khizou', 'khizo', 'ja3da', 'جاعدة', 'خيزو', 'جزر', 'carotte', 'carottes'], nameAr: 'جزر / جاعدة', nameFr: 'Carottes', icon: '🥕', catId: 'daily' },
+  { keywords: ['kar3a', 'kar3a khdra', 'قرعة خضرة', 'courgette'], nameAr: 'قرعة خضراء', nameFr: 'Courgettes', icon: '🥒', catId: 'daily' },
+  { keywords: ['dngal', 'danjan', 'دنجال', 'باذنجان', 'aubergine'], nameAr: 'دنجال', nameFr: 'Aubergine', icon: '🍆', catId: 'daily' },
+  { keywords: ['flfla', 'flla', 'فلفلة', 'فلفل', 'poivron'], nameAr: 'فلفلة', nameFr: 'Poivrons', icon: '🫑', catId: 'daily' },
+  { keywords: ['thoum', 'thouma', 'ثومة', 'ثوم', 'ail'], nameAr: 'ثوم', nameFr: 'Ail', icon: '🧄', catId: 'daily' },
+  { keywords: ['rbia', 'rbi3', 'ربيع', 'قصبر', 'معدنوس', 'persil'], nameAr: 'ربيع', nameFr: 'Persil / Coriandre', icon: '🌿', catId: 'daily' },
+  { keywords: ['lkhass', 'خس', 'laitue'], nameAr: 'خس', nameFr: 'Laitue', icon: '🥬', catId: 'daily' },
+  { keywords: ['lmon', 'limon', 'ليمون', 'حامض', 'citron'], nameAr: 'حامض', nameFr: 'Citron', icon: '🍋', catId: 'daily' },
+  { keywords: ['tffah', 'tfah', 'تفاح', 'pomme'], nameAr: 'تفاح', nameFr: 'Pommes', icon: '🍎', catId: 'daily' },
+  { keywords: ['banan', 'بنان', 'موز', 'banane'], nameAr: 'بنان', nameFr: 'Bananes', icon: '🍌', catId: 'daily' },
+  { keywords: ['lingas', 'ijass', 'اجاص', 'إجاص', 'poire'], nameAr: 'إجاص', nameFr: 'Poires', icon: '🍐', catId: 'daily' },
+  { keywords: ['khokh', 'خوخ', 'pêche'], nameAr: 'خوخ', nameFr: 'Pêches', icon: '🍑', catId: 'daily' },
+  { keywords: ['3ineb', '3nb', 'عنب', 'raisin', 'raisins'], nameAr: 'عنب', nameFr: 'Raisins', icon: '🍇', catId: 'daily' },
+  { keywords: ['betikh', 'btikh', 'بطيخ', 'melon'], nameAr: 'بطيخ', nameFr: 'Melon', icon: '🍈', catId: 'daily' },
+  { keywords: ['khodra', 'khodro', 'خضرة', 'خضار', 'légumes'], nameAr: 'خضر متنوعة', nameFr: 'Légumes', icon: '🥦', catId: 'daily' },
+  { keywords: ['sardin', 'sardine', 'سردين', 'حوت', 'poisson'], nameAr: 'سردين / أسماك', nameFr: 'Sardines / Poisson', icon: '🐟', catId: 'daily' },
+  { keywords: ['xton', 'thon', 'طون', '1kg xton'], nameAr: 'سمك الطون', nameFr: 'Thon frais', icon: '🐟', catId: 'daily' },
+  { keywords: ['zbib', 'زبيب', 'raisin sec'], nameAr: 'زبيب', nameFr: 'Raisins secs', icon: '🍇', catId: 'daily' },
+  { keywords: ['zayton', 'zitoun', 'زيتون', 'olives'], nameAr: 'زيتون', nameFr: 'Olives', icon: '🫒', catId: 'daily' },
+  { keywords: ['zeri3a', 'زريعة'], nameAr: 'زريعة / مكسرات', nameFr: 'Graines', icon: '🌻', catId: 'daily' },
 
-  // Dairy & Grocery Essentials / Alimentation 🥛
-  { keywords: ['hlib', 'lhlib', 'حليب', 'lait'], nameAr: 'حليب', nameFr: 'Lait', icon: '🥛', catId: 'Alimentation' },
-  { keywords: ['byd', 'biad', 'بيض', 'oeufs', 'oeuf'], nameAr: 'بيض', nameFr: 'Œufs', icon: '🥚', catId: 'Alimentation' },
-  { keywords: ['khobz', 'khbz', 'خبز', 'pain'], nameAr: 'خبز', nameFr: 'Pain', icon: '🍞', catId: 'Alimentation' },
-  { keywords: ['lkhal', 'khal', 'خل', 'vinaigre'], nameAr: 'خل', nameFr: 'Vinaigre', icon: '🏺', catId: 'Alimentation' },
-  { keywords: ['zayt', 'zit', 'زيت', 'huile'], nameAr: 'زيت', nameFr: 'Huile', icon: '🫗', catId: 'Alimentation' },
-  { keywords: ['zitoun', 'ziton', 'زيتون', 'olive', 'olives'], nameAr: 'زيتون', nameFr: 'Olives', icon: '🫒', catId: 'Alimentation' },
-  { keywords: ['atay', 'ataye', 'أتاي', 'شاي', 'thé'], nameAr: 'أتاي', nameFr: 'Thé', icon: '🫖', catId: 'Alimentation' },
-  { keywords: ['skkar', 'skar', 'سكر', 'sucre'], nameAr: 'سكر', nameFr: 'Sucre', icon: '🧊', catId: 'Alimentation' },
-  { keywords: ['qhwa', 'qohwa', 'قهوة', 'café'], nameAr: 'قهوة', nameFr: 'Café', icon: '☕', catId: 'Alimentation' },
-  { keywords: ['formaj', 'frmaj', 'فرماج', 'جبن', 'fromage'], nameAr: 'فرماج', nameFr: 'Fromage', icon: '🧀', catId: 'Alimentation' },
-  { keywords: ['danone', 'danon', 'دانون', 'yaourt'], nameAr: 'دانون', nameFr: 'Yaourt', icon: '🍦', catId: 'Alimentation' },
-  { keywords: ['zobda', 'zbda', 'زبدة', 'beurre'], nameAr: 'زبدة', nameFr: 'Beurre', icon: '🧈', catId: 'Alimentation' },
-  { keywords: ['ton', 'toun', 'تون', 'طون', 'thon'], nameAr: 'طون', nameFr: 'Thon', icon: '🐟', catId: 'Alimentation' },
-  { keywords: ['rozz', 'roz', 'رز', 'أرز', 'riz'], nameAr: 'أرز', nameFr: 'Riz', icon: '🍚', catId: 'Alimentation' },
-  { keywords: ['m9ronya', 'm9ronia', 'مقرونية', 'مكرونة', 'pâtes'], nameAr: 'مقرونية', nameFr: 'Pâtes', icon: '🍝', catId: 'Alimentation' },
-  { keywords: ['t7in', 'thin', 'طحين', 'دقيق', 'farine'], nameAr: 'طحين', nameFr: 'Farine', icon: '🌾', catId: 'Alimentation' },
-  { keywords: ['lma', 'elma', 'ماء', 'eau'], nameAr: 'ماء معدني', nameFr: 'Eau minérale', icon: '💧', catId: 'Alimentation' },
+  // 🛒 المعيشة اليومية / المواد الغذائية والبقالة
+  { keywords: ['hlib', 'lhlib', 'حليب', 'lait'], nameAr: 'حليب', nameFr: 'Lait', icon: '🥛', catId: 'daily' },
+  { keywords: ['bytat', 'byd', 'biad', 'بيض', 'oeufs'], nameAr: 'بيض', nameFr: 'Œufs', icon: '🥚', catId: 'daily' },
+  { keywords: ['khobz', 'lkhobz', 'خبز', 'pain'], nameAr: 'خبز', nameFr: 'Pain', icon: '🍞', catId: 'daily' },
+  { keywords: ['tost', 'lkhobz tost', 'توست', 'pain de mie'], nameAr: 'خبز التوست', nameFr: 'Pain de mie', icon: '🍞', catId: 'daily' },
+  { keywords: ['madelin', 'madlin', 'مادلين', 'madelaine'], nameAr: 'مادلين', nameFr: 'Madeleines', icon: '🧁', catId: 'daily' },
+  { keywords: ['ptipan', 'petit pain', 'كرواصة'], nameAr: 'بتيبان / مخبوزات', nameFr: 'Petit pain', icon: '🥐', catId: 'daily' },
+  { keywords: ['harxa', 'حريشة', 'حرشة'], nameAr: 'حرشة', nameFr: 'Harcha', icon: '🫓', catId: 'daily' },
+  { keywords: ['khal', 'fkhal', 'خل', 'vinaigre'], nameAr: 'خل', nameFr: 'Vinaigre', icon: '🏺', catId: 'daily' },
+  { keywords: ['zayt', 'zit', 'زيت', 'huile'], nameAr: 'زيت', nameFr: 'Huile', icon: '🫗', catId: 'daily' },
+  { keywords: ['atay', 'ataye', 'أتاي', 'شاي', 'thé'], nameAr: 'أتاي', nameFr: 'Thé', icon: '🫖', catId: 'daily' },
+  { keywords: ['skkar', 'skar', 'سكر', 'sucre'], nameAr: 'سكر', nameFr: 'Sucre', icon: '🧊', catId: 'daily' },
+  { keywords: ['formaj', 'frmaj', 'فرماج', 'جبن', 'fromage'], nameAr: 'فرماج', nameFr: 'Fromage', icon: '🧀', catId: 'daily' },
+  { keywords: ['mortadila', 'كاشير', 'مورتاديلا'], nameAr: 'مورتاديلا / كاشير', nameFr: 'Mortadelle', icon: '🥓', catId: 'daily' },
+  { keywords: ['danp', 'danoop', 'دانب'], nameAr: 'دانون عصير / دانب', nameFr: 'Danoop', icon: '🧃', catId: 'daily' },
+  { keywords: ['dadon', 'danone', 'danon', 'دانون', 'yaourt'], nameAr: 'دانون', nameFr: 'Danone / Yaourt', icon: '🍦', catId: 'daily' },
+  { keywords: ['zobda', 'zbda', 'زبدة', 'beurre'], nameAr: 'زبدة', nameFr: 'Beurre', icon: '🧈', catId: 'daily' },
+  { keywords: ['indomi', 'اندومي', 'إندومي', 'nouilles'], nameAr: 'إندومي', nameFr: 'Nouilles Indomie', icon: '🍜', catId: 'daily' },
+  { keywords: ['4des', '3des', 'عدس', 'lentilles'], nameAr: 'عدس', nameFr: 'Lentilles', icon: '🍲', catId: 'daily' },
+  { keywords: ['lobiya', 'لوبيا', 'haricots'], nameAr: 'لوبيا', nameFr: 'Haricots blancs', icon: '🍲', catId: 'daily' },
+  { keywords: ['flan', 'فلان'], nameAr: 'فلان', nameFr: 'Flan', icon: '🍮', catId: 'daily' },
+  { keywords: ['xklat dyl lkhobz', 'شوكلاتة', 'nutella'], nameAr: 'شكلاط الدهن', nameFr: 'Chocolat à tartiner', icon: '🍫', catId: 'daily' },
+  { keywords: ['ibzar', 'ابزار', 'إبزار', 'poivre'], nameAr: 'إبزار / فلفل أسود', nameFr: 'Poivre noir', icon: '🧂', catId: 'daily' },
+  { keywords: ['khrkom', 'خرقوم', 'curcuma'], nameAr: 'خرقوم', nameFr: 'Curcuma', icon: '🧂', catId: 'daily' },
+  { keywords: ['sknjbir', 'سكنجبير', 'gingembre'], nameAr: 'سكنجبير', nameFr: 'Gingembre', icon: '🧂', catId: 'daily' },
+  { keywords: ['khmira', 'خميرة', 'levure'], nameAr: 'خميرة الخبز', nameFr: 'Levure', icon: '🍞', catId: 'daily' },
+  { keywords: ['thin', 't7in', 'طحين', 'دقيق', 'farine'], nameAr: 'طحين / دقيق', nameFr: 'Farine', icon: '🌾', catId: 'daily' },
+  { keywords: ['xiba', 'شيبة'], nameAr: 'شيبة', nameFr: 'Absinthe', icon: '🌿', catId: 'daily' },
+  { keywords: ['rozz', 'roz', 'رز', 'أرز', 'riz'], nameAr: 'أرز', nameFr: 'Riz', icon: '🍚', catId: 'daily' },
+  { keywords: ['m9ronya', 'm9ronia', 'مقرونية', 'مكرونة', 'pâtes'], nameAr: 'مقرونية', nameFr: 'Pâtes', icon: '🍝', catId: 'daily' },
+  { keywords: ['djaj', 'dajaj', 'دجاج', 'poulet'], nameAr: 'دجاج', nameFr: 'Poulet', icon: '🍗', catId: 'daily' },
+  { keywords: ['lhm', 'lhmi', 'لحم', 'viande'], nameAr: 'لحم', nameFr: 'Viande', icon: '🥩', catId: 'daily' },
+  { keywords: ['kfta', 'kefta', 'كفتة', 'viande hachée'], nameAr: 'كفتة', nameFr: 'Kefta', icon: '🧆', catId: 'daily' },
+  { keywords: ['lma', 'elma', 'ماء', 'eau'], nameAr: 'ماء معدني', nameFr: 'Eau minérale', icon: '💧', catId: 'daily' },
 
-  // Meat & Fish 🍗
-  { keywords: ['djaj', 'dajaj', 'دجاج', 'poulet'], nameAr: 'دجاج', nameFr: 'Poulet', icon: '🍗', catId: 'Alimentation' },
-  { keywords: ['lhm', 'lhmi', 'لحم', 'viande'], nameAr: 'لحم', nameFr: 'Viande', icon: '🥩', catId: 'Alimentation' },
-  { keywords: ['kfta', 'kefta', 'كفتة', 'viande hachée'], nameAr: 'كفتة', nameFr: 'Kefta', icon: '🧆', catId: 'Alimentation' },
-  { keywords: ['hwt', 'hout', 'حوت', 'سمك', 'poisson'], nameAr: 'سمك', nameFr: 'Poisson', icon: '🐟', catId: 'Alimentation' },
+  // ☕ المطعم والمقهى والحلويات والتبغ (cafe_smoke)
+  { keywords: ['garo', 'garro', 'garet', 'سجائر', 'تبغ', 'paquet garo'], nameAr: 'علبة تبغ', nameFr: 'Paquet de cigarettes', icon: '🚬', catId: 'cafe_smoke' },
+  { keywords: ['hajra', 'hajra dakhan', 'حجرة الدخان', 'ولاعة', 'briquet'], nameAr: 'حجر الدخان / ولاعة', nameFr: 'Briquet / Accessoires', icon: '🔥', catId: 'cafe_smoke' },
+  { keywords: ['ftor', 'ftoor', 'فطور', 'petit dejeuner'], nameAr: 'فطور', nameFr: 'Petit-déjeuner', icon: '🍳', catId: 'cafe_smoke' },
+  { keywords: ['ghda', 'غداء', 'dejeuner'], nameAr: 'وجبة غداء', nameFr: 'Déjeuner', icon: '🍲', catId: 'cafe_smoke' },
+  { keywords: ['sandwix', 'sandwich', 'سندويش'], nameAr: 'سندويش', nameFr: 'Sandwich', icon: '🥪', catId: 'cafe_smoke' },
+  { keywords: ['steek', 'steak', 'stikat', 'ستيك'], nameAr: 'ستيك', nameFr: 'Steak', icon: '🥩', catId: 'cafe_smoke' },
+  { keywords: ['tacos', 'طاكوس'], nameAr: 'طاكوس', nameFr: 'Tacos', icon: '🌮', catId: 'cafe_smoke' },
+  { keywords: ['xawarma', 'شوارما'], nameAr: 'شوارما', nameFr: 'Chawarma', icon: '🥙', catId: 'cafe_smoke' },
+  { keywords: ['pitza', 'pitsa', 'pizza', 'بيتزا'], nameAr: 'بيتزا', nameFr: 'Pizza', icon: '🍕', catId: 'cafe_smoke' },
+  { keywords: ['calinti', 'kalinti', 'كالينتي'], nameAr: 'كالينتي', nameFr: 'Caliente', icon: '🥧', catId: 'cafe_smoke' },
+  { keywords: ['za3za3', 'za3za', 'زعزاع'], nameAr: 'زعزاع', nameFr: 'Jus Zaâzaâ', icon: '🥤', catId: 'cafe_smoke' },
+  { keywords: ['polo', 'بولو', 'مثلجات', 'glace'], nameAr: 'بولو / مثلجات', nameFr: 'Glace / Polo', icon: '🍦', catId: 'cafe_smoke' },
+  { keywords: ['monada', 'مونادا', 'مشروب غازي', 'soda'], nameAr: 'مونادا', nameFr: 'Soda / Boisson', icon: '🥤', catId: 'cafe_smoke' },
+  { keywords: ['halwa', 'حلوى', 'حلويات', 'tarta', 'gateau'], nameAr: 'حلوى / طورطة', nameFr: 'Pâtisserie / Tarte', icon: '🍰', catId: 'cafe_smoke' },
+  { keywords: ['malah', 'موالح', 'مملحات'], nameAr: 'مملحات / موالح', nameFr: 'Salés / Biscuits', icon: '🥨', catId: 'cafe_smoke' },
+  { keywords: ['3asir', 'عصير', 'jus'], nameAr: 'عصير', nameFr: 'Jus', icon: '🧃', catId: 'cafe_smoke' },
+  { keywords: ['qhwa', 'qohwa', 'cafe', 'niscafe', 'قهوة'], nameAr: 'قهوة / نسكافي', nameFr: 'Café / Nescafé', icon: '☕', catId: 'cafe_smoke' },
+  { keywords: ['9ax9xa', 'frota', 'قشقشة', 'تسلية', 'kikas', 'btswis', 'ptiswis', 'كيكس', 'بسكويت'], nameAr: 'قشقشة / بسكويت', nameFr: 'Snacks / Biscuits', icon: '🍿', catId: 'cafe_smoke' },
 
-  // Cleaning & Hygiene / Autre 🧹
-  { keywords: ['olwyz', 'always', 'اولويز', 'serviettes'], nameAr: 'Always', nameFr: 'Always', icon: '🌸', catId: 'Autre' },
-  { keywords: ['jvil', 'javel', 'جافيل', 'eau de javel'], nameAr: 'جافيل', nameFr: 'Javel', icon: '🧴', catId: 'Autre' },
-  { keywords: ['snkrwa', 'sanicross', 'croix', 'ساني كروا'], nameAr: 'ساني كروا', nameFr: 'Sanicross', icon: '🧹', catId: 'Autre' },
-  { keywords: ['ommo', 'tid', 'omo', 'تيد', 'أومو', 'lessive'], nameAr: 'أومو / مسحوق الغسيل', nameFr: 'Lessive', icon: '🧺', catId: 'Autre' },
-  { keywords: ['papiye', 'papier', 'بابيي', 'ورق حمام'], nameAr: 'ورق صحي', nameFr: 'Papier hygiénique', icon: '🧻', catId: 'Autre' },
-  { keywords: ['champoing', 'champoo', 'شامبوان', 'shampoing'], nameAr: 'شامبو', nameFr: 'Shampoing', icon: '🧴', catId: 'Autre' },
-  { keywords: ['sabon', 'sabonette', 'صابون', 'savon'], nameAr: 'صابون', nameFr: 'Savon', icon: '🧼', catId: 'Autre' }
+  // 🏠 الضروريات الثابتة ومستلزمات النظافة (fixed)
+  { keywords: ['sabon', 'sbon d 9xo3', 'sbon ydin', 'صابون', 'savon'], nameAr: 'صابون أواني', nameFr: 'Liquide vaisselle', icon: '🫧', catId: 'fixed' },
+  { keywords: ['sbon hjra', 'صابون حجر'], nameAr: 'صابون حجرة', nameFr: 'Savon de Marseille', icon: '🧼', catId: 'fixed' },
+  { keywords: ['papier', 'kaghit twlit', 'papier toilette', 'بابيي', 'ورق حمام'], nameAr: 'ورق صحي', nameFr: 'Papier toilette', icon: '🧻', catId: 'fixed' },
+  { keywords: ['khghit dyl ydin', 'papiye kwozine', 'essuie-tout'], nameAr: 'ورق تنشيف / مطبخ', nameFr: 'Essuie-tout', icon: '🧻', catId: 'fixed' },
+  { keywords: ['jvil', 'javil', 'javel', 'جافيل'], nameAr: 'جافيل', nameFr: 'Eau de Javel', icon: '🧴', catId: 'fixed' },
+  { keywords: ['sanecroi', 'snkrwa', 'sanicross', 'ساني كروا'], nameAr: 'سانيكروا', nameFr: 'Désinfectant sol', icon: '🧹', catId: 'fixed' },
+  { keywords: ['hlfa dslk', 'إسفنجة'], nameAr: 'حلفة السلك / إسفنجة', nameFr: 'Éponge / Paille de fer', icon: '🧽', catId: 'fixed' },
+  { keywords: ['mika d zbal', 'mikat d zbal', 'sacs poubelle'], nameAr: 'أكياس النفايات', nameFr: 'Sacs poubelle', icon: '🗑️', catId: 'fixed' },
+  { keywords: ['bota', 'بوطة', 'غاز'], nameAr: 'بوطة غاز', nameFr: 'Bonbonne de gaz', icon: '🔥', catId: 'fixed' },
+  { keywords: ['lma d sbagha', 'dissolvant'], nameAr: 'ماء الصباغة', nameFr: 'Dissolvant', icon: '💅', catId: 'fixed' },
+  { keywords: ['sokhra', 'sokhra dar', 'سخرة', 'سخرة الدار'], nameAr: 'سخرة الدار', nameFr: 'Sokhra / Courses maison', icon: '🛍️', catId: 'fixed' },
+  { keywords: ['ommo', 'tid', 'omo', 'تيد', 'أومو', 'lessive'], nameAr: 'أومو / مسحوق الغسيل', nameFr: 'Lessive', icon: '🧺', catId: 'fixed' },
+
+  // 🏥 الصحة والعناية الشخصية (health)
+  { keywords: ['likox', 'les couche', 'couche', 'couches', 'molfix', 'حفاضات', 'كوش'], nameAr: 'حفاضات الأطفال', nameFr: 'Couches bébé', icon: '👶', catId: 'health' },
+  { keywords: ['lilingit', 'lilnjit', 'lingette', 'lingettes', 'لانجيت'], nameAr: 'مناديل مبللة', nameFr: 'Lingettes', icon: '🧻', catId: 'health' },
+  { keywords: ['janson', 'johnson', 'جونسون'], nameAr: 'منتجات جونسون', nameFr: 'Soins Johnson', icon: '🧴', catId: 'health' },
+  { keywords: ['porbo', 'poudre johnson', 'بودرة'], nameAr: 'بودرة جونسون', nameFr: 'Talc bébé', icon: '🧴', catId: 'health' },
+  { keywords: ['oulways', 'olwyaz', 'always', 'فوط صحية'], nameAr: 'فوط صحية', nameFr: 'Serviettes hygiéniques', icon: '🌸', catId: 'health' },
+  { keywords: ['champo', 'champoing', 'shampooing', 'شامبوان'], nameAr: 'شامبو', nameFr: 'Shampoing', icon: '🧴', catId: 'health' },
+  { keywords: ['noravit', 'نورافيت'], nameAr: 'نورافيت / مكمل', nameFr: 'Complément Noravit', icon: '💊', catId: 'health' },
+  { keywords: ['pastiya', 'pastili', 'dwa', 'siro', '9wilbat', 'دواء', 'أقراص'], nameAr: 'دواء / أقراص / سيرو', nameFr: 'Médicaments / Sirop', icon: '💊', catId: 'health' }
 ];
 
 let _waExtractedItems = [];
@@ -4111,6 +4169,8 @@ function resetWaStep(){
   if(s2)s2.style.display='none';
 }
 
+// Parser optimisé : gère les discussions WhatsApp collées telles quelles
+// (horodatages, numéros de téléphone, lignes "Nom 15" ou "15 Nom", virgules).
 function processWaInput(){
   const rawText=($('wa-raw-input')?.value||'').trim();
   if(!rawText){
@@ -4118,39 +4178,61 @@ function processWaInput(){
     return;
   }
 
-  let tokens=[];
-  if(rawText.includes('\n')) tokens=rawText.split('\n');
-  else if(rawText.includes(',')) tokens=rawText.split(',');
-  else if(rawText.includes(';')) tokens=rawText.split(';');
-  else tokens=rawText.split(/\s+/);
+  let lines = rawText.split('\n');
+  _waExtractedItems = [];
 
-  _waExtractedItems=[];
+  lines.forEach(line => {
+    let cleanLine = line.trim();
+    if(!cleanLine) return;
 
-  tokens.forEach(tok=>{
-    const cleanTok=tok.trim().toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,'');
-    if(!cleanTok||cleanTok.length<2) return;
+    // Ignore les messages système WhatsApp (chiffrement, médias, liens)
+    if(cleanLine.includes('chiffrés') || cleanLine.includes('http') || cleanLine.includes('<Médias omis>')) return;
 
-    let match=DARIJA_DICTIONARY.find(entry=>
-      entry.keywords.some(kw=>cleanTok===kw||cleanTok.includes(kw)||kw.includes(cleanTok))
-    );
-
-    if(match){
-      _waExtractedItems.push({
-        raw:tok.trim(),
-        name:lang==='fr'?match.nameFr:match.nameAr,
-        icon:match.icon,
-        catId:match.catId,
-        price:''
-      });
-    }else{
-      _waExtractedItems.push({
-        raw:tok.trim(),
-        name:tok.trim(),
-        icon:'🛒',
-        catId:'Autre',
-        price:''
-      });
+    // Retire l'horodatage + l'expéditeur ("15/08/2024, 12:00 - AB: ...")
+    if(cleanLine.includes('-') && cleanLine.includes(':')) {
+      const parts = cleanLine.split(':');
+      if(parts.length > 2) {
+        cleanLine = parts.slice(2).join(':').trim();
+      } else {
+        cleanLine = parts.pop().trim();
+      }
     }
+
+    // Plusieurs articles sur la même ligne, séparés par virgule/point-virgule
+    const subItems = cleanLine.split(/[,;]/);
+
+    subItems.forEach(subItem => {
+      let itemStr = subItem.trim();
+      if(!itemStr) return;
+
+      const priceMatch = itemStr.match(/(\d+[\.,]?\d*)/);
+      let extractedPrice = priceMatch ? priceMatch[1] : '';
+      let namePart = itemStr.replace(/(\d+[\.,]?\d*)|dh|DH/gi, '').trim().toLowerCase();
+
+      if(!namePart && !extractedPrice) return;
+
+      let match = DARIJA_DICTIONARY.find(entry =>
+        entry.keywords.some(kw => namePart.includes(kw) || kw.includes(namePart))
+      );
+
+      if(match){
+        _waExtractedItems.push({
+          raw: itemStr,
+          name: lang==='fr' ? match.nameFr : match.nameAr,
+          icon: match.icon,
+          catId: match.catId,
+          price: extractedPrice
+        });
+      } else if(namePart && namePart.length > 1) {
+        _waExtractedItems.push({
+          raw: itemStr,
+          name: namePart,
+          icon: '🛒',
+          catId: 'daily',
+          price: extractedPrice
+        });
+      }
+    });
   });
 
   if(_waExtractedItems.length===0){
