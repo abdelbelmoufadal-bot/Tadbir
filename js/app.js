@@ -2024,6 +2024,12 @@ function showAppAfterAuth(user){
   _appReady=true;
   window._pendingUser=null;
 
+  // Initialize local data immediately before waiting for cloud sync
+  loadData();
+  const cs=$('currencySelect'); if(cs)cs.value=currency;
+  setLang(lang);
+  renderAll();
+
   // ── Toggle auth UI ──
   const so=$('auth-signed-out'); if(so)so.style.display='none';
   const si=$('auth-signed-in'); if(si)si.style.display='flex';
