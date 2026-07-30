@@ -140,33 +140,58 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 [data-theme="dark"] .kpi-card.debts:hover{box-shadow:0 8px 32px rgba(245,158,11,.15);}
 [data-theme="dark"] .kpi-card.remaining:hover{box-shadow:0 8px 32px rgba(20,184,166,.15);}
 [data-theme="dark"] .kpi-card.emergency:hover{box-shadow:0 8px 32px rgba(168,85,247,.15);}
-.kpi-icon{font-size:16px;margin-bottom:5px;}
-.kpi-label{font-size:11px;color:var(--light);font-weight:500;margin-bottom:3px;}
-.kpi-value{font-size:18px;font-weight:800;color:var(--dark);letter-spacing:-.5px;line-height:1;}
-.kpi-cur{font-size:11px;font-weight:500;color:var(--light);margin-right:2px;}
-.kpi-progress{margin-top:6px;height:3px;background:var(--border);border-radius:3px;overflow:hidden;}
-.kpi-bar{height:100%;border-radius:3px;transition:width .8s ease;}
-.kpi-card.income .kpi-bar{background:#10b981;}.kpi-card.bills .kpi-bar{background:#6366f1;}
-.kpi-card.expenses .kpi-bar{background:#f43f5e;}.kpi-card.savings .kpi-bar{background:#38bdf8;}
-.kpi-card.debts .kpi-bar{background:#f59e0b;}.kpi-card.remaining .kpi-bar{background:#14b8a6;}
-.kpi-card.emergency .kpi-bar{background:#a855f7;}
-.kpi-pct{font-size:11px;color:var(--light);margin-top:2px;}
+.kpi-icon{font-size:18px;margin-bottom:6px;}
+.kpi-label{font-size:10px;color:var(--mid);font-weight:600;margin-bottom:4px;letter-spacing:.3px;text-transform:uppercase;}
+/* KPI value color matches accent border */
+.kpi-value{font-size:22px;font-weight:900;color:var(--dark);letter-spacing:-.8px;line-height:1;}
+.kpi-cur{font-size:11px;font-weight:600;color:var(--mid);margin-right:2px;}
+.kpi-card.income .kpi-value{color:#10b981;}
+.kpi-card.bills .kpi-value{color:#818cf8;}
+.kpi-card.expenses .kpi-value{color:#f87171;}
+.kpi-card.savings .kpi-value{color:#38bdf8;}
+.kpi-card.debts .kpi-value{color:#fbbf24;}
+.kpi-card.remaining .kpi-value{color:#2dd4bf;}
+.kpi-card.emergency .kpi-value{color:#c084fc;}
+.kpi-progress{margin-top:8px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+.kpi-bar{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.kpi-card.income .kpi-bar{background:linear-gradient(90deg,#10b981,#34d399);}
+.kpi-card.bills .kpi-bar{background:linear-gradient(90deg,#6366f1,#818cf8);}
+.kpi-card.expenses .kpi-bar{background:linear-gradient(90deg,#f43f5e,#f87171);}
+.kpi-card.savings .kpi-bar{background:linear-gradient(90deg,#0ea5e9,#38bdf8);}
+.kpi-card.debts .kpi-bar{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+.kpi-card.remaining .kpi-bar{background:linear-gradient(90deg,#14b8a6,#2dd4bf);}
+.kpi-card.emergency .kpi-bar{background:linear-gradient(90deg,#a855f7,#c084fc);}
+/* percentage badge */
+.kpi-pct{font-size:10px;font-weight:700;margin-top:4px;display:inline-block;padding:1px 6px;border-radius:20px;}
+.kpi-card.income .kpi-pct{background:rgba(16,185,129,.15);color:#10b981;}
+.kpi-card.bills .kpi-pct{background:rgba(99,102,241,.15);color:#818cf8;}
+.kpi-card.expenses .kpi-pct{background:rgba(244,63,94,.15);color:#f87171;}
+.kpi-card.savings .kpi-pct{background:rgba(56,189,248,.15);color:#38bdf8;}
+.kpi-card.debts .kpi-pct{background:rgba(245,158,11,.15);color:#fbbf24;}
+.kpi-card.remaining .kpi-pct{background:rgba(20,184,166,.15);color:#2dd4bf;}
+.kpi-card.emergency .kpi-pct{background:rgba(168,85,247,.15);color:#c084fc;}
 .charts-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
-.remaining-hero{background:linear-gradient(135deg,#2D3142,#3D4260);border-radius:var(--r);padding:18px;color:#fff;box-shadow:var(--shadow-h);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
-.remaining-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(126,200,176,.2) 0%,transparent 70%);pointer-events:none;}
-.rh-label{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:2px;}
-.rh-title{font-size:14px;font-weight:700;color:var(--mint);margin-bottom:11px;}
-.rh-amount{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1;color:#fff;}
-.rh-cur{font-size:12px;color:rgba(255,255,255,.3);margin-right:3px;}
-.rh-sub{font-size:11px;color:rgba(255,255,255,.25);margin-top:4px;}
-.rh-donut{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:85px;height:85px;}
+.remaining-hero{background:linear-gradient(135deg,#0f1729 0%,#1a2540 100%);border-radius:var(--r);padding:18px 20px;color:#fff;box-shadow:var(--shadow-h);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border:1px solid rgba(126,200,176,.15);}
+.remaining-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(45,212,191,.15) 0%,transparent 70%);pointer-events:none;}
+.rh-label{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:2px;letter-spacing:.5px;text-transform:uppercase;}
+.rh-title{font-size:14px;font-weight:800;color:#2dd4bf;margin-bottom:11px;}
+.rh-amount{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;color:#fff;}
+.rh-cur{font-size:13px;color:rgba(255,255,255,.4);margin-right:3px;}
+.rh-sub{font-size:11px;color:rgba(255,255,255,.25);margin-top:5px;}
+.rh-donut{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:90px;height:90px;}
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;transition:box-shadow .25s,border-color .25s;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
 .card:hover{box-shadow:var(--shadow-h);}
-[data-theme="dark"] .card:hover{border-color:rgba(126,200,176,.25);}
-.card-header{padding:10px 14px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.card-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;}
+[data-theme="dark"] .card:hover{border-color:rgba(126,200,176,.2);}
+.card-header{padding:10px 16px 9px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.06);}
+[data-theme="dark"] .card-header{background:rgba(0,0,0,.2);}
+.card-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;color:var(--dark);}
 .card-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* Card total colored by card type */
 .card-total{font-size:16px;font-weight:800;font-family:'DM Mono',monospace;letter-spacing:-.3px;}
+.card.bills-card .card-total{color:#818cf8;}
+.card.expenses-card .card-total{color:#f87171;}
+.card.savings-card .card-total{color:#38bdf8;}
+.card.debts-card .card-total{color:#fbbf24;}
 .chart-wrap{padding:12px;}
 .chart-wrap canvas{max-height:180px;}
 .tables-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
@@ -178,11 +203,13 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .alert-item.warn{background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.2);color:#B58900;}
 .alert-item.ok{display:none;}
 .mini-table{width:100%;border-collapse:collapse;}
-.mini-table th{font-size:11px;font-weight:600;color:var(--light);padding:5px 10px;text-align:right;background:var(--bg);border-bottom:1px solid var(--border);}
-.mini-table td{padding:6px 10px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--dark);}
+.mini-table th{font-size:10px;font-weight:700;color:var(--mid);padding:6px 10px;text-align:right;background:rgba(0,0,0,.06);border-bottom:1px solid var(--border);letter-spacing:.3px;text-transform:uppercase;}
+[data-theme="dark"] .mini-table th{background:rgba(0,0,0,.25);}
+.mini-table td{padding:7px 10px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--dark);}
 .mini-table tr:last-child td{border-bottom:none;}
-.mini-table tr:hover td{background:rgba(126,200,176,.06);}
-.mini-table .lc{font-weight:500;text-align:right;}
+.mini-table tr:hover td{background:rgba(126,200,176,.05);}
+[data-theme="dark"] .mini-table tr:hover td{background:rgba(255,255,255,.04);}
+.mini-table .lc{font-weight:600;text-align:right;}
 .mini-table .ac,.mini-table .pc{text-align:left;font-family:'DM Mono',monospace;font-size:12px;color:var(--mid);}
 .mini-table .pc{color:var(--mid);}
 /* note-row: rows coming from notes — shown in expenses table */
