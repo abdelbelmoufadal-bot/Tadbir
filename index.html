@@ -112,6 +112,13 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .backup-section h3{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);}
 .backup-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 11px;border-radius:10px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px;transition:all .18s;}
 .backup-btn:hover{border-color:var(--mint);background:var(--mint-ll);}
+.snapshot-list{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.snapshot-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:9px;background:var(--bg);}
+.snapshot-meta{min-width:0;display:flex;flex-direction:column;gap:2px;}
+.snapshot-date{font-size:11px;font-weight:700;color:var(--dark);}
+.snapshot-reason{font-size:9px;color:var(--light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.snapshot-restore{flex-shrink:0;border:1px solid var(--mint);border-radius:7px;background:var(--mint-ll);color:var(--mint);padding:5px 8px;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
+.snapshot-empty{padding:8px;text-align:center;color:var(--light);font-size:10px;}
 .bicon{font-size:18px;flex-shrink:0;}
 .btxt span{display:block;font-size:11px;color:var(--light);font-weight:400;}
 .drive-steps{background:var(--bg);border-radius:10px;padding:11px;margin-top:7px;}
@@ -716,7 +723,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.1</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.2</div>
     <div>دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -781,6 +788,11 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     <div class="backup-section"><h3 id="t-imp-h"></h3>
       <button class="backup-btn" onclick="document.getElementById('importFile').click()"><span class="bicon">📂</span><div class="btxt"><span id="t-imp-btn"></span><span id="t-imp-s"></span></div></button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(this)">
+    </div>
+    <div class="backup-section">
+      <h3 id="t-history-h">🕘 النسخ المحلية</h3>
+      <button class="backup-btn" onclick="createManualSnapshot()"><span class="bicon">📌</span><div class="btxt"><span id="t-history-btn">إنشاء نسخة الآن</span><span id="t-history-sub">الاحتفاظ بآخر 5 نسخ على هذا الجهاز</span></div></button>
+      <div class="snapshot-list" id="snapshot-list"></div>
     </div>
     <div class="backup-section"><h3 id="t-drv-h"></h3>
       <div class="drive-steps">
@@ -1120,7 +1132,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.1</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — تدبير | Tadbir v3.5.2</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -1159,7 +1171,7 @@ const LANGS={
     import_confirm:'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add:'تمت الإضافة ✓',toast_save:'✅ تم تحميل ملف الحفظ',toast_import:'✅ تم استيراد البيانات',
     toast_pin_on:'🔐 PIN مفعّل',toast_pin_off:'🔓 PIN مؤقف',toast_pin_created:'تم إنشاء رمز PIN ✓',from_of:'من أصل',
-    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',sync_now:'مزامنة الآن',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
+    sync_off:'غير متصل',sync_ok:'متزامن ☁️',sync_ing:'جاري...',sync_now:'مزامنة الآن',history_h:'🕘 النسخ المحلية',history_btn:'إنشاء نسخة الآن',history_sub:'الاحتفاظ بآخر 5 نسخ على هذا الجهاز',history_empty:'لا توجد نسخة بعد',history_restore:'استرجاع',history_confirm:'استرجاع هذه النسخة؟ سيتم حفظ الوضع الحالي أولاً.',history_saved:'تم إنشاء نسخة محلية ✓',toast_signout:'👋 تم تسجيل الخروج',toast_loaded:'تم تحميل بياناتك من السحاب',signin:'تسجيل الدخول',signout:'خروج',
     custom_cat:'✏️ فئة جديدة...',
     reset_h:'🔄 إعادة تعيين',reset_btn:'إضافة البيانات الافتراضية الناقصة',reset_sub:'يضيف فقط ما ينقص — لا يمسح بياناتك',toast_reset:'✅ تمت إضافة البيانات الافتراضية',
     cal_total:'الإجمالي:',cal_leg1:'عادي',cal_leg2:'متوسط',cal_leg3:'مرتفع',cal_source:'📋 المصدر: سجل المصاريف',exp_auto_note:'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل',
@@ -1194,7 +1206,7 @@ const LANGS={
     import_confirm:'Cette opération remplacera vos données. Confirmer ?',
     toast_add:'Ajouté ✓',toast_save:'✅ Fichier téléchargé',toast_import:'✅ Données importées',
     toast_pin_on:'🔐 PIN activé',toast_pin_off:'🔓 PIN désactivé',toast_pin_created:'Code PIN créé ✓',from_of:'sur',
-    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',sync_now:'Synchroniser maintenant',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
+    sync_off:'Hors ligne',sync_ok:'Synchronisé ☁️',sync_ing:'Synchro...',sync_now:'Synchroniser maintenant',history_h:'🕘 Sauvegardes locales',history_btn:'Créer une sauvegarde',history_sub:'Conserve les 5 dernières versions sur cet appareil',history_empty:'Aucune sauvegarde locale',history_restore:'Restaurer',history_confirm:"Restaurer cette version ? L'état actuel sera sauvegardé d'abord.",history_saved:'Sauvegarde locale créée ✓',toast_signout:'👋 Déconnecté',toast_loaded:'Données chargées depuis le cloud',signin:'Connexion',signout:'Déconnexion',
     custom_cat:'✏️ Nouvelle catégorie...',
     reset_h:'🔄 Réinitialisation',reset_btn:'Ajouter les données par défaut manquantes',reset_sub:'Ajoute seulement ce qui manque — ne supprime rien',toast_reset:'✅ Données par défaut ajoutées',
     cal_total:'Total :',cal_leg1:'Normal',cal_leg2:'Modéré',cal_leg3:'Élevé',cal_source:'📋 Source : Carnet de notes',exp_auto_note:'Montants issus du carnet — le prévu est modifiable',
@@ -1381,6 +1393,10 @@ function setLang(l){
     set('t-ud-backup',t.bk||'الحفظ والحماية');
     set('t-ud-lang',t.lang_title||'اللغة');
   }
+  set('t-history-h',t.history_h||'🕘 Sauvegardes locales');
+  set('t-history-btn',t.history_btn||'Créer une sauvegarde');
+  set('t-history-sub',t.history_sub||'Conserve les 5 dernières versions');
+  renderSnapshotList();
   setSyncStatus(_fbUid?'ok':'off');
   if(t.reset_h){set('t-reset-h',t.reset_h);set('t-reset-btn',t.reset_btn);set('t-reset-sub',t.reset_sub);}
   document.querySelectorAll('.mini-table input[type=text]').forEach(i=>i.style.textAlign=isRTL?'right':'left');
@@ -1469,7 +1485,12 @@ function togglePIN(){
   }
 }
 function startChangePIN(){closeModal('backupModal');pinBuffer='';pinTemp='';pinMode='setup1';updateDots();set('pin-sub',T().pin_create);set('pin-note',T().pin_note);$('pin-forgot').style.display='none';set('pin-error','');$('pin-screen').classList.remove('hidden');}
-function updateBackupUI(){$('pin-toggle').classList.toggle('on',pinEnabled);const t=localStorage.getItem('sf_last_save');set('last-backup-info',t?T().last_save+': '+t:'');}
+function updateBackupUI(){
+  $('pin-toggle').classList.toggle('on',pinEnabled);
+  const t=localStorage.getItem('sf_last_save');
+  set('last-backup-info',t?T().last_save+': '+t:'');
+  renderSnapshotList();
+}
 
 // ══════════════════════════════════════════════
 // DATA — KEY FIX: saveData reads DOM first
@@ -1490,7 +1511,7 @@ function monthHasRealData(mk){
 function loadData(){
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER='3.5.1';
+  const CURRENT_VER='3.5.2';
   const ALL_KNOWN_KEYS=['sf_v35','sf_v33','sf_v32','sf_v31','sf_v30','sf_data','tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -1910,6 +1931,7 @@ function chgPY(d){pickerYear+=d;set('pickerYear',pickerYear);renderPicker();}
 function selNM(o){nmOpt=o;['copy','blank','same'].forEach(x=>$('nm-'+x).classList.toggle('selected',x===o));}
 function confirmNewMonth(){
   saveData();
+  createLocalSnapshot('before_new_month');
   let nm=curMonth+1,ny=curYear;
   if(nm>11){nm=0;ny++;}
   const nk=mkey(ny,nm),prev=allData[ck()];
@@ -2267,9 +2289,113 @@ function syncMonthlyLine(){
 // ══════════════════════════════════════════════
 // BACKUP
 // ══════════════════════════════════════════════
+const SNAPSHOT_KEY='sf_snapshots';
+const MAX_LOCAL_SNAPSHOTS=5;
+
+function getLocalSnapshots(){
+  try{
+    const value=JSON.parse(localStorage.getItem(SNAPSHOT_KEY)||'[]');
+    return Array.isArray(value)?value.filter(s=>s&&s.id&&s.payload&&s.payload.allData):[];
+  }catch(e){
+    return[];
+  }
+}
+
+function getSnapshotPayload(){
+  if(allData&&Object.keys(allData).length){
+    return JSON.parse(JSON.stringify({allData,currency,curYear,curMonth,lang}));
+  }
+  for(const key of [SK,'sf_backup']){
+    try{
+      const value=JSON.parse(localStorage.getItem(key)||'null');
+      if(value&&value.allData&&Object.keys(value.allData).length)return value;
+    }catch(e){}
+  }
+  return null;
+}
+
+function saveSnapshotPayload(payload,reason){
+  if(!payload||!payload.allData||!Object.keys(payload.allData).length)return false;
+  const snapshots=getLocalSnapshots();
+  snapshots.unshift({
+    id:String(Date.now())+'-'+Math.random().toString(36).slice(2,7),
+    createdAt:new Date().toISOString(),
+    reason:reason||'manual',
+    payload:JSON.parse(JSON.stringify(payload))
+  });
+  while(snapshots.length>MAX_LOCAL_SNAPSHOTS)snapshots.pop();
+  while(snapshots.length){
+    try{
+      localStorage.setItem(SNAPSHOT_KEY,JSON.stringify(snapshots));
+      renderSnapshotList();
+      return true;
+    }catch(e){
+      snapshots.pop();
+    }
+  }
+  return false;
+}
+
+function createLocalSnapshot(reason){
+  return saveSnapshotPayload(getSnapshotPayload(),reason);
+}
+
+function createManualSnapshot(){
+  if(createLocalSnapshot('manual'))showToast(T().history_saved||'Sauvegarde locale créée ✓');
+  else showToast('❌ '+(T().history_empty||'Aucune donnée'));
+}
+
+function snapshotReasonLabel(reason){
+  const fr={manual:'Manuelle',before_import:'Avant import',before_restore:'Avant restauration',before_new_month:'Avant nouveau mois',before_cloud_load:'Avant chargement cloud'};
+  const ar={manual:'يدوية',before_import:'قبل الاستيراد',before_restore:'قبل الاسترجاع',before_new_month:'قبل شهر جديد',before_cloud_load:'قبل تحميل السحابة'};
+  return (T().dir==='rtl'?ar:fr)[reason]||reason||'—';
+}
+
+function renderSnapshotList(){
+  const list=$('snapshot-list');if(!list)return;
+  list.textContent='';
+  const snapshots=getLocalSnapshots();
+  if(!snapshots.length){
+    const empty=document.createElement('div');
+    empty.className='snapshot-empty';
+    empty.textContent=T().history_empty||'Aucune sauvegarde locale';
+    list.appendChild(empty);
+    return;
+  }
+  snapshots.forEach(snapshot=>{
+    const row=document.createElement('div');row.className='snapshot-row';
+    const meta=document.createElement('div');meta.className='snapshot-meta';
+    const date=document.createElement('div');date.className='snapshot-date';
+    date.textContent=new Date(snapshot.createdAt).toLocaleString();
+    const reason=document.createElement('div');reason.className='snapshot-reason';
+    reason.textContent=snapshotReasonLabel(snapshot.reason);
+    const restore=document.createElement('button');restore.className='snapshot-restore';
+    restore.textContent=T().history_restore||'Restaurer';
+    restore.onclick=()=>restoreLocalSnapshot(snapshot.id);
+    meta.append(date,reason);row.append(meta,restore);list.appendChild(row);
+  });
+}
+
+function restoreLocalSnapshot(id){
+  const snapshot=getLocalSnapshots().find(s=>s.id===id);
+  if(!snapshot)return;
+  if(!confirm(T().history_confirm||"Restaurer cette version ?"))return;
+  createLocalSnapshot('before_restore');
+  const p=JSON.parse(JSON.stringify(snapshot.payload));
+  allData=p.allData;currency=p.currency||currency;
+  curYear=Number.isInteger(p.curYear)?p.curYear:curYear;
+  curMonth=Number.isInteger(p.curMonth)?p.curMonth:curMonth;
+  if(p.lang&&LANGS[p.lang])lang=p.lang;
+  persistData();
+  $('currencySelect').value=currency;
+  setLang(lang);renderAll();buildMonthlyTable();syncCur();
+  closeModal('backupModal');
+  showToast(T().toast_import||'✅ Données restaurées');
+}
+
 function exportJSON(){
   saveData();
-  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.1',owner:'BELMOUFADAL Abderrahim'};
+  const d={allData,currency,curYear,curMonth,lang,exportedAt:new Date().toISOString(),version:'3.5.2',owner:'BELMOUFADAL Abderrahim'};
   const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=`tadbir-${T().months[curMonth]}-${curYear}.json`;a.click();
@@ -2282,6 +2408,7 @@ function importJSON(input){
     try{
       const d=JSON.parse(e.target.result);if(!d.allData)throw 0;
       if(confirm(T().import_confirm)){
+        createLocalSnapshot('before_import');
         allData=d.allData;currency=d.currency||currency;curYear=d.curYear||curYear;
         curMonth=d.curMonth!==undefined?d.curMonth:curMonth;if(d.lang){lang=d.lang;}
         persistData();$('currencySelect').value=currency;setLang(lang);renderAll();buildMonthlyTable();syncCur();
@@ -2450,6 +2577,7 @@ async function fbLoadFromCloud(uid){
     const ref=window._fbDoc(window._fbDb,'users',uid);
     const snap=await window._fbGetDoc(ref);
     if(snap.exists()){
+      createLocalSnapshot('before_cloud_load');
       const d=snap.data();
       if(d.allData)allData=d.allData;
       if(d.currency)currency=d.currency;
@@ -3823,7 +3951,7 @@ function exportPDF(){
     +rows
     +'<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">'+fmt(totalNotes)+' '+currency+'</td></tr>'
     +'</tbody></table>'
-    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.5.1 — '+new Date().toLocaleDateString()+'</div>'
+    +'<div class="footer">Créé par BELMOUFADAL Abderrahim — تدبير | Tadbir v3.5.2 — '+new Date().toLocaleDateString()+'</div>'
     +'</body></html>';
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -3972,7 +4100,7 @@ function _buildXLSX(){
 
   var wb=XLSX.utils.book_new();
   var baseTitle='تدبير | Tadbir — تقرير '+monthLabel+' '+curYear;
-  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.5.1';
+  var credit='Créé par BELMOUFADAL Abderrahim — Tadbir v3.5.2';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري

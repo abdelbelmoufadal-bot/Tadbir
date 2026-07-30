@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/تدبير-v3.5.1-7EC8B0?style=for-the-badge)
+![Version](https://img.shields.io/badge/تدبير-v3.5.2-7EC8B0?style=for-the-badge)
 ![Firebase](https://img.shields.io/badge/Firebase-Sync-FFCA28?style=for-the-badge&logo=firebase)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-2E75B6?style=for-the-badge&logo=github)
 ![Languages](https://img.shields.io/badge/Languages-5-A8C5A0?style=for-the-badge)
@@ -70,6 +70,8 @@
 ### 💾 نسخ احتياطي
 - تحميل ملف JSON → رفعه على Google Drive
 - استيراد ملف حفظ سابق
+- الاحتفاظ تلقائياً بآخر 5 نسخ محلية مع إمكانية الاسترجاع
+- إنشاء نسخة أمان قبل الاستيراد، الاسترجاع، الشهر الجديد، وتحميل بيانات السحابة
 - **زر "إضافة البيانات الافتراضية"** — يضيف ما ينقص بدون مسح
 
 ---
@@ -149,6 +151,6 @@ tadbir/
 
 **Créé par BELMOUFADAL Abderrahim**
 
-دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.5.1** 🇲🇦
+دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.5.2** 🇲🇦
 
 </div>
