@@ -438,7 +438,22 @@ onAuthStateChanged(auth, user=>{
       </div>
     </div>
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--lav)"></span><span id="t-ch1"></span></div></div><div class="chart-wrap"><canvas id="donutChart"></canvas></div><div id="donutLegend" class="donut-custom-legend"></div></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="t-ch2"></span></div></div><div class="chart-wrap"><canvas id="barChart"></canvas></div></div>
+    <div class="card">
+      <div class="card-header bar-chart-header">
+        <div class="bar-legend-inline">
+          <div class="bcl-item"><span class="bcl-sq" style="background:#ff3b69"></span><span id="bcl-act-lbl">تصرفت</span></div>
+          <div class="bcl-item"><span class="bcl-sq" style="background:#6164ff"></span><span id="bcl-pln-lbl">مخطط</span></div>
+        </div>
+        <div class="bar-title-group">
+          <div class="card-title">
+            <span id="t-ch2">لي مخطط له / لي تصرف</span>
+            <span class="bar-icon">📊</span>
+          </div>
+          <div class="bar-subtitle" id="t-ch2-sub">مقارنة التخطيط الشهري مع المصاريف الفعلية</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+    </div>
   </div>
   <div class="tables-grid">
     <div class="card"><div class="card-header"><div class="card-title"><span class="dot" style="background:var(--peach)"></span><span id="tl-bills"></span></div><div class="card-total" style="color:var(--peach)" id="th-bills">0</div></div><table class="mini-table"><thead><tr><th id="tc-b1"></th><th id="tc-b2"></th><th id="tc-b3"></th></tr></thead><tbody id="bills-body"></tbody></table><button class="add-btn" id="add-bills-btn" onclick="addRow('bills')">＋</button></div>

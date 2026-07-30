@@ -225,7 +225,11 @@ function setLang(l){
   set('kl-income',t.k_income); set('kl-bills',t.k_bills); set('kl-expenses',t.k_expenses);
   set('kl-savings',t.k_savings); set('kl-debts',t.k_debts); set('kl-remaining',t.k_remaining);
   set('kl-emergency',t.k_emergency||"صندوق الطوارئ");
-  set('t-hero-lbl',t.hero_lbl); set('t-ch1',t.ch1); set('t-ch2',t.ch2);
+  set('t-hero-lbl',t.hero_lbl); set('t-ch1',t.ch1);
+  set('t-ch2', t.ch2 || (l==='fr'?'Prévu / Réalisé':'لي مخطط له / لي تصرف'));
+  set('t-ch2-sub', l==='fr'?'Comparaison du budget prévu avec les dépenses réelles':'مقارنة التخطيط الشهري مع المصاريف الفعلية');
+  set('bcl-act-lbl', t.col_act || (l==='fr'?'Réalisé':'تصرفت'));
+  set('bcl-pln-lbl', t.col_pln || (l==='fr'?'Prévu':'مخطط'));
   set('tl-bills',t.k_bills); set('tl-expenses',t.k_expenses); set('tl-savings',t.k_savings);
   set('tl-debts',t.k_debts); set('tl-income',t.k_income);
   set('tc-b1',t.col_item); set('tc-b2',t.col_act); set('tc-b3',t.col_pln);
@@ -960,7 +964,12 @@ function recalc(){
       dl.innerHTML=html;
     }
   }
-  if(chartBar){chartBar.data.datasets[0].data=[bill.act,exp.act,sav.act,dbt.act];chartBar.data.datasets[1].data=[bill.pln,exp.pln,sav.pln,dbt.pln];chartBar.update('none');}
+  if(chartBar){
+    chartBar.data.labels = [t.k_bills||'الفواتير', t.k_expenses||'المصاريف', t.k_savings||'التوفير', t.k_debts||'الديون'];
+    chartBar.data.datasets[0].data = [bill.pln, exp.pln, sav.pln, dbt.pln];
+    chartBar.data.datasets[1].data = [bill.act, exp.act, sav.act, dbt.act];
+    chartBar.update('none');
+  }
   if(chartHero){chartHero.data.datasets[0].data=[rem>0?rem:0,bill.act+exp.act+sav.act+dbt.act];chartHero.update('none');}
   // Refresh weekly tab if visible
   const wPanel=document.getElementById('tab-weekly');
@@ -1718,32 +1727,34 @@ function initCharts(){
       responsive:true,maintainAspectRatio:true}
   });
 
-  // ── Bar chart: planned vs actual (vertical, uniform color per dataset) ──
-  // Actual = pink #f472b6 | Planned = indigo #818cf8 (matches screenshot)
+  // ── Bar chart: planned vs actual (matches Image 2 mockup) ──
+  // Dataset 0: Planned = indigo/blue #6164ff | Dataset 1: Actual = pink/red #ff3b69
+  const defaultBarLabels = lang === 'fr' 
+    ? ['Factures', 'Dépenses', 'Épargne', 'Dettes'] 
+    : ['الفواتير', 'المصاريف', 'التوفير', 'الديون'];
+
   chartBar=new Chart($('barChart'),{
     type:'bar',
-    data:{labels:['','','',''],
+    data:{labels:defaultBarLabels,
       datasets:[
-        {label:'تصرفت',data:[0,0,0,0],
-          backgroundColor:'#f472b6',
+        {label:lang==='fr'?'Prévu':'مخطط',data:[0,0,0,0],
+          backgroundColor:'#6164ff',
           borderRadius:6,borderSkipped:false,
-          borderWidth:0,maxBarThickness:26},
-        {label:'مخطط',data:[0,0,0,0],
-          backgroundColor:'#818cf8',
+          borderWidth:0,maxBarThickness:18,categoryPercentage:0.6,barPercentage:0.85},
+        {label:lang==='fr'?'Réalisé':'تصرفت',data:[0,0,0,0],
+          backgroundColor:'#ff3b69',
           borderRadius:6,borderSkipped:false,
-          borderWidth:0,maxBarThickness:26}
+          borderWidth:0,maxBarThickness:18,categoryPercentage:0.6,barPercentage:0.85}
       ]},
     options:{
-      plugins:{legend:{position:'top',
-        labels:{font:{size:11,weight:'700'},
-          color:legendColor(),usePointStyle:true,pointStyleWidth:10,padding:14}}},
+      plugins:{legend:{display:false}},
       scales:{
         x:{grid:{display:false},
           border:{display:false},
-          ticks:{font:{size:11,weight:'500'},color:tickColor()}},
+          ticks:{font:{size:12,weight:'700',family:'Tajawal'},color:tickColor()}},
         y:{grid:{color:gridColor(),drawBorder:false},
           border:{display:false},
-          ticks:{font:{size:10},color:tickColor()}}},
+          ticks:{font:{size:10,family:'DM Mono'},color:tickColor()}}},
       responsive:true,maintainAspectRatio:true}
   });
 
