@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/تدبير-v3.6.2-7EC8B0?style=for-the-badge)
+![Version](https://img.shields.io/badge/تدبير-v3.7.0-7EC8B0?style=for-the-badge)
 ![Firebase](https://img.shields.io/badge/Firebase-Sync-FFCA28?style=for-the-badge&logo=firebase)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-2E75B6?style=for-the-badge&logo=github)
 ![Languages](https://img.shields.io/badge/Languages-5-A8C5A0?style=for-the-badge)
@@ -48,6 +48,10 @@
 - بيانات افتراضية جاهزة: **8 فواتير** • **10 مصاريف** • **4 توفير** • **3 ديون** • **3 دخل**
 - progression des objectifs d'épargne avec échéance
 - suivi des dettes avec montant restant, taux d'intérêt et mensualité
+- dépense moyenne quotidienne et budget journalier restant
+- projection des dépenses à la fin du mois
+- taux d'épargne et catégorie principale du mois
+- la devise est une unité d'affichage, sans conversion automatique
 
 ### 📝 دفتر الملاحظات (فئات هرمية)
 - **8 فئات رئيسية** مع خيارات فرعية:
@@ -161,6 +165,6 @@ tadbir/
 
 **Créé par BELMOUFADAL Abderrahim**
 
-دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.6.2** 🇲🇦
+دبّر فلوسك بذكاء 💚 — **تدبير | Tadbir v3.7.0** 🇲🇦
 
 </div>
