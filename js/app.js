@@ -4459,26 +4459,56 @@ function saveWaItemsToBudget() {
 function getTelegramConfig() {
   return {
     token: (localStorage.getItem('sf_tg_token') || '7178837190:AAH6uEJKEqlf--xIpbufkKOUWJWOXWTfVYw').trim(),
-    chatId: (localStorage.getItem('sf_tg_chat_id') || '').trim()
+    chatId: (localStorage.getItem('sf_tg_chat_id') || '').trim(),
+    autoSend: localStorage.getItem('sf_tg_auto_send') === 'true',
+    autoTime: localStorage.getItem('sf_tg_auto_time') || '21:00',
+    lastSentDate: localStorage.getItem('sf_tg_last_sent_date') || ''
   };
 }
 
 function handleTelegramHeaderClick() {
-  const cfg = getTelegramConfig();
-  if (!cfg.chatId) {
-    openTelegramModal();
-  } else {
-    sendDailyTelegramSummary();
-  }
+  openTelegramModal();
 }
 
 function openTelegramModal() {
   const cfg = getTelegramConfig();
   const tokenEl = $('tg-bot-token');
   const chatIdEl = $('tg-chat-id');
+  const chkEl = $('tg-auto-send-chk');
+  const timeEl = $('tg-auto-time');
+
   if (tokenEl) tokenEl.value = cfg.token;
   if (chatIdEl) chatIdEl.value = cfg.chatId;
+  if (chkEl) chkEl.checked = cfg.autoSend;
+  if (timeEl) timeEl.value = cfg.autoTime;
+
+  updateTelegramAutoStatusUI();
   openModal('telegramModal');
+}
+
+function toggleTelegramAutoSend(val) {
+  localStorage.setItem('sf_tg_auto_send', val ? 'true' : 'false');
+  updateTelegramAutoStatusUI();
+  showToast(val ? (lang === 'fr' ? '⏰ Envoi automatique activé' : '⏰ تم تفعيل الإرسال التلقائي') : (lang === 'fr' ? '⏸️ Envoi automatique désactivé' : '⏸️ تم إيقاف الإرسال التلقائي'));
+}
+
+function saveTelegramAutoTime(val) {
+  if (val) {
+    localStorage.setItem('sf_tg_auto_time', val);
+    updateTelegramAutoStatusUI();
+    showToast((lang === 'fr' ? '⏰ Heure d’envoi réglée sur ' : '⏰ وقت الإرسال: ') + val);
+  }
+}
+
+function updateTelegramAutoStatusUI() {
+  const statusEl = $('tg-auto-status');
+  if (!statusEl) return;
+  const cfg = getTelegramConfig();
+  if (cfg.autoSend) {
+    statusEl.innerHTML = `<span style="color:#10b981;font-weight:700;">🟢 ${lang === 'fr' ? 'Envoi automatique actif chaque jour à' : 'الإرسال التلقائي مفعل يوميا الساعة'} ${cfg.autoTime}</span>`;
+  } else {
+    statusEl.innerHTML = `<span style="color:var(--mid);">⏸️ ${lang === 'fr' ? 'Envoi automatique désactivé' : 'الإرسال التلقائي غير مفعل'}</span>`;
+  }
 }
 
 function saveTelegramConfig() {
@@ -4493,7 +4523,7 @@ function saveTelegramConfig() {
   localStorage.setItem('sf_tg_token', token);
   localStorage.setItem('sf_tg_chat_id', chatId);
   closeModal('telegramModal');
-  showToast(lang === 'fr' ? '✅ Configuration Telegram enregistrée' : '✅ تم حفظ إعدادات تليجرام');
+  showToast(lang === 'fr' ? '✅ Paramètres Telegram enregistrés' : '✅ تم حفظ إعدادات تليجرام');
 }
 
 async function sendTelegramMessage(text) {
@@ -4550,7 +4580,7 @@ async function testTelegramConnection() {
   }
 }
 
-async function sendDailyTelegramSummary() {
+async function sendDailyTelegramSummary(isAuto = false) {
   const cfg = getTelegramConfig();
   if (!cfg.token || !cfg.chatId) {
     openTelegramModal();
@@ -4593,8 +4623,10 @@ async function sendDailyTelegramSummary() {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   });
 
+  const titlePrefix = isAuto ? '🤖 [Envoi Automatique] ' : '';
+
   const msg =
-    `<b>📊 Résumé des Consommations — Tadbir</b>\n` +
+    `<b>📊 ${titlePrefix}Résumé des Consommations — Tadbir</b>\n` +
     `📅 <i>${dateFormatted}</i>\n` +
     `-----------------------------------------\n\n` +
     `🛒 <b>Dépenses du jour :</b>\n` +
@@ -4609,9 +4641,34 @@ async function sendDailyTelegramSummary() {
   showToast('⏳ Envoi du résumé Telegram...');
   const sent = await sendTelegramMessage(msg);
   if (sent) {
-    showToast(lang === 'fr' ? '✅ Résumé envoyé sur Telegram !' : '✅ تم إرسال الملخص على تليجرام');
+    showToast(isAuto
+      ? (lang === 'fr' ? '🤖 Résumé automatique quotidien envoyé sur Telegram !' : '🤖 تم إرسال الملخص اليومي التلقائي على تليجرام')
+      : (lang === 'fr' ? '✅ Résumé envoyé sur Telegram !' : '✅ تم إرسال الملخص على تليجرام')
+    );
   }
 }
+
+function checkTelegramAutoSend() {
+  const cfg = getTelegramConfig();
+  if (!cfg.autoSend || !cfg.chatId || !cfg.token) return;
+
+  const now = new Date();
+  const todayStr = now.toISOString().slice(0, 10);
+
+  if (cfg.lastSentDate === todayStr) return;
+
+  const hours = String(now.getHours()).padStart(2, '0');
+  const mins = String(now.getMinutes()).padStart(2, '0');
+  const currentTime = `${hours}:${mins}`;
+
+  if (currentTime >= cfg.autoTime) {
+    localStorage.setItem('sf_tg_last_sent_date', todayStr);
+    sendDailyTelegramSummary(true);
+  }
+}
+
+// Vérifie l'envoi automatique chaque minute
+setInterval(checkTelegramAutoSend, 60000);
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();

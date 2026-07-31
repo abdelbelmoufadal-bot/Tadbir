@@ -825,38 +825,60 @@ onAuthStateChanged(auth, user=>{
         </svg>
         <div>
           <div style="font-size:15px;font-weight:800;" id="t-tg-title">Telegram Bot Assistant</div>
-          <div style="font-size:10px;color:var(--mid);font-weight:400;" id="t-tg-sub">Envoi des consommations & total journalier</div>
+          <div style="font-size:10px;color:var(--mid);font-weight:400;" id="t-tg-sub">Consommations, somme journalière & programmation</div>
         </div>
       </span>
       <button class="modal-close" onclick="closeModal('telegramModal')">✕</button>
     </div>
 
-    <!-- Quick Action Button -->
+    <!-- 1. Envoi Manuel Immédiat -->
     <div style="margin-bottom:14px;background:rgba(0,136,204,0.06);padding:12px;border-radius:12px;border:1px solid rgba(0,136,204,0.2);text-align:center;">
       <button class="modal-btn" style="background:linear-gradient(135deg, #0088cc 0%, #006699 100%);width:100%;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;" onclick="sendDailyTelegramSummary()">
-        <span>📲 Envoyer le résumé du jour sur Telegram</span>
+        <span>📲 Envoyer le résumé du jour maintenant</span>
       </button>
     </div>
 
-    <div style="font-size:11px;color:var(--mid);margin-bottom:12px;line-height:1.5;background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--border);">
-      <strong>💡 Configuration Chat ID :</strong><br>
-      1. Envoyez n'importe quel message à <a href="https://t.me/userinfobot" target="_blank" style="color:#0088cc;">@userinfobot</a> sur Telegram.<br>
-      2. Collez votre <b>Chat ID</b> ci-dessous et enregistrez.
+    <!-- 2. Envoi Automatique Programmé -->
+    <div style="margin-bottom:14px;background:var(--bg);padding:12px;border-radius:12px;border:1px solid var(--border);">
+      <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+        <span>⏰ Envoi automatique quotidien</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;">
+        <label style="font-size:11px;color:var(--dark);cursor:pointer;display:flex;align-items:center;gap:6px;">
+          <input type="checkbox" id="tg-auto-send-chk" onchange="toggleTelegramAutoSend(this.checked)">
+          <span>Activer l'envoi automatique</span>
+        </label>
+        <input type="time" id="tg-auto-time" class="nf-input" style="width:95px;font-size:11px;padding:4px 6px;text-align:center;" value="21:00" onchange="saveTelegramAutoTime(this.value)">
+      </div>
+      <div style="font-size:10px;color:var(--light);line-height:1.3;" id="tg-auto-status">
+        ℹ️ Envoie automatiquement le résumé du jour chaque soir à l'heure choisie.
+      </div>
     </div>
 
-    <div style="margin-bottom:10px;">
-      <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Bot Token API :</label>
-      <input type="text" id="tg-bot-token" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" value="7178837190:AAH6uEJKEqlf--xIpbufkKOUWJWOXWTfVYw" placeholder="Ex: 7123456789:ABCdefGHIjklMNOpqrs...">
-    </div>
+    <!-- 3. Modification Paramètres API & Chat ID -->
+    <div style="border-top:1px dashed var(--border);padding-top:12px;">
+      <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+        <span>⚙️ Paramètres API & Chat ID Telegram</span>
+      </div>
 
-    <div style="margin-bottom:16px;">
-      <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Chat ID :</label>
-      <input type="text" id="tg-chat-id" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" placeholder="Ex: 123456789">
-    </div>
+      <div style="font-size:10px;color:var(--mid);margin-bottom:10px;line-height:1.4;background:var(--bg);padding:8px;border-radius:8px;border:1px solid var(--border);">
+        <strong>💡 Obtenir votre Chat ID :</strong> Envoyez un message à <a href="https://t.me/userinfobot" target="_blank" style="color:#0088cc;">@userinfobot</a> sur Telegram.
+      </div>
 
-    <div style="display:flex;gap:8px;">
-      <button class="modal-btn" style="background:#0088cc;flex:1;" onclick="saveTelegramConfig()">💾 Enregistrer Chat ID</button>
-      <button class="modal-btn" style="background:var(--bg);color:var(--dark);border:1px solid var(--border);" onclick="testTelegramConnection()">🧪 Tester</button>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Bot Token API :</label>
+        <input type="text" id="tg-bot-token" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" value="7178837190:AAH6uEJKEqlf--xIpbufkKOUWJWOXWTfVYw">
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Chat ID Utilisateur :</label>
+        <input type="text" id="tg-chat-id" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" placeholder="Ex: 123456789">
+      </div>
+
+      <div style="display:flex;gap:8px;">
+        <button class="modal-btn" style="background:#0088cc;flex:1;" onclick="saveTelegramConfig()">💾 Enregistrer les paramètres</button>
+        <button class="modal-btn" style="background:var(--bg);color:var(--dark);border:1px solid var(--border);" onclick="testTelegramConnection()">🧪 Tester</button>
+      </div>
     </div>
   </div>
 </div>
