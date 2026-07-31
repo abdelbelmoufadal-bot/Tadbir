@@ -922,13 +922,43 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
 }
-.wa-badge-pill {
-  background: rgba(255, 255, 255, 0.25);
-  font-size: 9px;
-  padding: 2px 7px;
-  border-radius: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+/* ── TELEGRAM MODULE ── */
+.tg-express-btn {
+  background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 136, 204, 0.3);
+  transition: all 0.2s ease;
+}
+.tg-express-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 136, 204, 0.45);
+}
+.tg-config-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: var(--mid);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+.tg-config-btn:hover {
+  background: var(--bg);
+  color: var(--dark);
 }
 
 .wa-modal-box {

@@ -4452,6 +4452,158 @@ function saveWaItemsToBudget() {
   showToast(`✅ ${addedCount} ${lang === 'fr' ? 'dépenses enregistrées' : 'مصاريف تضافات'} (+${fmt(addedSum)} ${currency})`);
 }
 
+// ══════════════════════════════════════════════
+// TELEGRAM MODULE (Option B - Résumé Journalier & Consommations)
+// ══════════════════════════════════════════════
+
+function getTelegramConfig() {
+  return {
+    token: (localStorage.getItem('sf_tg_token') || '').trim(),
+    chatId: (localStorage.getItem('sf_tg_chat_id') || '').trim()
+  };
+}
+
+function openTelegramModal() {
+  const cfg = getTelegramConfig();
+  const tokenEl = $('tg-bot-token');
+  const chatIdEl = $('tg-chat-id');
+  if (tokenEl) tokenEl.value = cfg.token;
+  if (chatIdEl) chatIdEl.value = cfg.chatId;
+  openModal('telegramModal');
+}
+
+function saveTelegramConfig() {
+  const token = ($('tg-bot-token')?.value || '').trim();
+  const chatId = ($('tg-chat-id')?.value || '').trim();
+
+  if (!token || !chatId) {
+    showToast(lang === 'fr' ? 'Veuillez remplir le Token et le Chat ID' : 'الرجاء إدخال Token و Chat ID');
+    return;
+  }
+
+  localStorage.setItem('sf_tg_token', token);
+  localStorage.setItem('sf_tg_chat_id', chatId);
+  closeModal('telegramModal');
+  showToast(lang === 'fr' ? '✅ Configuration Telegram enregistrée' : '✅ تم حفظ إعدادات تليجرام');
+}
+
+async function sendTelegramMessage(text) {
+  const cfg = getTelegramConfig();
+  if (!cfg.token || !cfg.chatId) {
+    openTelegramModal();
+    showToast(lang === 'fr' ? '⚠️ Veuillez d’abord configurer Telegram' : '⚠️ الرجاء ضبط إعدادات تليجرام أولاً');
+    return false;
+  }
+
+  const url = `https://api.telegram.org/bot${cfg.token}/sendMessage`;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: cfg.chatId,
+        text: text,
+        parse_mode: 'HTML'
+      })
+    });
+    const json = await res.json();
+    if (json.ok) {
+      return true;
+    } else {
+      console.error('Telegram API error:', json);
+      showToast('❌ Erreur Telegram: ' + (json.description || 'Échec d’envoi'));
+      return false;
+    }
+  } catch (err) {
+    console.error('Telegram fetch error:', err);
+    showToast('❌ Erreur réseau lors de l’envoi à Telegram');
+    return false;
+  }
+}
+
+async function testTelegramConnection() {
+  const token = ($('tg-bot-token')?.value || '').trim();
+  const chatId = ($('tg-chat-id')?.value || '').trim();
+  if (!token || !chatId) {
+    showToast('⚠️ Renseignez le Token et le Chat ID');
+    return;
+  }
+  localStorage.setItem('sf_tg_token', token);
+  localStorage.setItem('sf_tg_chat_id', chatId);
+
+  showToast('⏳ Envoi du message de test...');
+  const success = await sendTelegramMessage(
+    '<b>🤖 Tadbir Pro - Test Telegram</b>\n\n' +
+    '✅ La connexion avec votre Bot Telegram fonctionne parfaitement !'
+  );
+  if (success) {
+    showToast('✅ Message de test envoyé !');
+  }
+}
+
+async function sendDailyTelegramSummary() {
+  const cfg = getTelegramConfig();
+  if (!cfg.token || !cfg.chatId) {
+    openTelegramModal();
+    return;
+  }
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const mk = ck();
+  const monthNotes = ((allData[mk] || {}).notes) || [];
+
+  // Notes du jour
+  const todayNotes = monthNotes.filter(n => n.date === todayStr);
+
+  let todaySum = 0;
+  let itemsLines = '';
+
+  if (todayNotes.length > 0) {
+    todayNotes.forEach(n => {
+      const amt = Number(n.amount || 0);
+      todaySum += amt;
+      const mc = getMainCats().find(c => c.id === n.mainCat) || { icon: '🍿', label: '' };
+      const sub = (n.chips && n.chips.length > 0)
+        ? n.chips.map(s => s.replace(/^[^ ]+ /, '')).join(' + ')
+        : (n.subCat || n.note || '');
+      itemsLines += `• ${mc.icon} <b>${sub || mc.label}</b> : ${fmt(amt)} ${currency}\n`;
+    });
+  } else {
+    itemsLines = '<i>Aucune dépense enregistrée aujourd’hui.</i>\n';
+  }
+
+  // Calcul du total du mois et du solde
+  const monthNotesTotal = monthNotes.reduce((s, n) => s + Number(n.amount || 0), 0);
+  const inc = (allData[mk]?.income || []).reduce((s, r) => s + Number(r.act || 0), 0);
+  const bills = (allData[mk]?.bills || []).reduce((s, r) => s + Number(r.act || 0), 0);
+  const sav = (allData[mk]?.savings || []).reduce((s, r) => s + Number(r.act || 0), 0);
+  const dbt = (allData[mk]?.debts || []).reduce((s, r) => s + Number(r.act || 0), 0);
+  const rem = inc - bills - monthNotesTotal - sav - dbt;
+
+  const dateFormatted = new Date().toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'ar-MA', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  const msg =
+    `<b>📊 Résumé des Consommations — Tadbir</b>\n` +
+    `📅 <i>${dateFormatted}</i>\n` +
+    `-----------------------------------------\n\n` +
+    `🛒 <b>Dépenses du jour :</b>\n` +
+    itemsLines +
+    `-----------------------------------------\n` +
+    `💰 <b>Total aujourd'hui : ${fmt(todaySum)} ${currency}</b>\n` +
+    `📈 Total mois : ${fmt(monthNotesTotal)} ${currency}\n` +
+    `💚 Solde restant : ${fmt(rem)} ${currency}\n` +
+    `-----------------------------------------\n` +
+    `<i>Géré avec Tadbir Pro 💚</i>`;
+
+  showToast('⏳ Envoi du résumé Telegram...');
+  const sent = await sendTelegramMessage(msg);
+  if (sent) {
+    showToast(lang === 'fr' ? '✅ Résumé envoyé sur Telegram !' : '✅ تم إرسال الملخص على تليجرام');
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   // ALWAYS show landing page on startup — no PIN screen here

@@ -486,10 +486,18 @@ onAuthStateChanged(auth, user=>{
 
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
     <div class="section-title" style="margin-bottom:0;"><span id="t-notes-title">سجل المصاريف</span> — <span id="notes-month-lbl" style="font-weight:400;color:var(--light);font-size:13px;"></span></div>
-    <button class="wa-express-btn" onclick="openWaExpressModal()">
-      <span>💬 WhatsApp Express</span>
-      <span class="wa-badge-pill" id="t-wa-pill">Saisie Rapide</span>
-    </button>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+      <button class="tg-express-btn" onclick="sendDailyTelegramSummary()" title="Envoyer le résumé du jour sur Telegram">
+        <span>✈️ Telegram</span>
+      </button>
+      <button class="tg-config-btn" onclick="openTelegramModal()" title="Configuration Telegram">
+        <span>⚙️</span>
+      </button>
+      <button class="wa-express-btn" onclick="openWaExpressModal()">
+        <span>💬 WhatsApp Express</span>
+        <span class="wa-badge-pill" id="t-wa-pill">Saisie Rapide</span>
+      </button>
+    </div>
   </div>
 
   <div class="card" style="margin-bottom:12px;">
@@ -785,6 +793,44 @@ onAuthStateChanged(auth, user=>{
           🚀 Tout enregistrer dans le budget
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TELEGRAM MODAL ── -->
+<div class="modal-overlay" id="telegramModal" onclick="if(event.target===this)closeModal('telegramModal')">
+  <div class="modal-box wa-modal-box">
+    <div class="modal-title">
+      <span style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:22px;">✈️</span>
+        <div>
+          <div style="font-size:15px;font-weight:800;" id="t-tg-title">Configuration Telegram</div>
+          <div style="font-size:10px;color:var(--mid);font-weight:400;" id="t-tg-sub">Envoi des résumés journaliers vers Telegram</div>
+        </div>
+      </span>
+      <button class="modal-close" onclick="closeModal('telegramModal')">✕</button>
+    </div>
+
+    <div style="font-size:11px;color:var(--mid);margin-bottom:12px;line-height:1.5;background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--border);">
+      <strong>💡 Comment configurer :</strong><br>
+      1. Obtenez votre <b>Bot Token</b> en créant un bot via <a href="https://t.me/BotFather" target="_blank" style="color:#0088cc;">@BotFather</a>.<br>
+      2. Obtenez votre <b>Chat ID</b> en envoyant un message à <a href="https://t.me/userinfobot" target="_blank" style="color:#0088cc;">@userinfobot</a>.<br>
+      3. Renseignez les deux champs ci-dessous et enregistrez.
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Bot Token API :</label>
+      <input type="text" id="tg-bot-token" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" placeholder="Ex: 7123456789:ABCdefGHIjklMNOpqrs...">
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Chat ID :</label>
+      <input type="text" id="tg-chat-id" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" placeholder="Ex: 123456789">
+    </div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="modal-btn" style="background:#0088cc;flex:1;" onclick="saveTelegramConfig()">💾 Enregistrer</button>
+      <button class="modal-btn" style="background:var(--bg);color:var(--dark);border:1px solid var(--border);" onclick="testTelegramConnection()">🧪 Tester</button>
     </div>
   </div>
 </div>
