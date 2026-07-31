@@ -4458,7 +4458,7 @@ function saveWaItemsToBudget() {
 
 function getTelegramConfig() {
   return {
-    token: (localStorage.getItem('sf_tg_token') || '').trim(),
+    token: (localStorage.getItem('sf_tg_token') || '7178837190:AAH6uEJKEqlf--xIpbufkKOUWJWOXWTfVYw').trim(),
     chatId: (localStorage.getItem('sf_tg_chat_id') || '').trim()
   };
 }
