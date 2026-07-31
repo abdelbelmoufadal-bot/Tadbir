@@ -312,6 +312,16 @@ onAuthStateChanged(auth, user=>{
       <button class="backup-btn" onclick="closeModal('backupModal');openBudgetModal()" style="border-color:var(--blue);"><span class="bicon">🎯</span><div class="btxt"><span id="t-bud-h">إعداد ميزانية الفئات</span><span id="t-bud-s">تحديد حد أقصى لكل قسم</span></div></button>
       <button class="backup-btn" onclick="startChangePIN()" style="margin-top:9px;"><span class="bicon">🔑</span><div class="btxt"><span id="t-pin-ch"></span><span id="t-pin-chs"></span></div></button>
     </div>
+    <div class="backup-section" style="margin-top:8px;">
+      <h3>✈️ Bot Telegram</h3>
+      <button class="backup-btn" onclick="closeModal('backupModal');openTelegramModal();" style="border-color:#0088cc;">
+        <span class="bicon">⚙️</span>
+        <div class="btxt">
+          <span>Configuration Telegram Bot</span>
+          <span>Renseigner votre Chat ID et tester l'envoi</span>
+        </div>
+      </button>
+    </div>
     <div class="last-backup" id="last-backup-info"></div>
     <div class="backup-section" style="margin-top:4px;">
       <h3 id="t-reset-h">🔄 إعادة تعيين</h3>
@@ -355,6 +365,8 @@ onAuthStateChanged(auth, user=>{
     <button class="theme-btn" id="month-lock-btn" onclick="toggleMonthClosed()" title="Clôturer le mois">🔓</button>
     <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦</button>
     <button class="theme-btn" onclick="toggleTheme()" title="🌓">🌓</button>
+    <button class="icon-btn hdr-icon-desktop" onclick="sendDailyTelegramSummary()" title="Envoyer résumé sur Telegram" style="color:#0088cc;font-weight:700;">✈️</button>
+    <button class="icon-btn hdr-icon-desktop" onclick="openTelegramModal()" title="Configuration Telegram (Chat ID)">⚙️</button>
     <button class="icon-btn hdr-icon-desktop" onclick="openModal('langModal')">🌍</button>
     <button class="icon-btn hdr-icon-desktop" onclick="openModal('backupModal');updateBackupUI()">💾</button>
     <!-- AUTH UI -->
@@ -666,6 +678,7 @@ onAuthStateChanged(auth, user=>{
 <!-- ── FAB FLOATING DOCK (Floating Action Bar) ── -->
 <div class="fab-dock" id="fab-dock">
   <button class="fab-btn fab-add-btn" id="fab-btn" onclick="fabQuickAdd()">＋ تسجيل مصروف</button>
+  <button class="fab-btn fab-tg-btn" id="fab-tg-btn" onclick="sendDailyTelegramSummary()" style="background:linear-gradient(135deg, #0088cc 0%, #006699 100%);color:#fff;" title="Envoyer le résumé sur Telegram">✈️ Telegram</button>
   <button class="fab-btn fab-wa-btn" id="fab-wa-btn" onclick="openWaExpressModal()">💬 WhatsApp</button>
 </div>
 
