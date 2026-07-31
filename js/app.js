@@ -3947,7 +3947,11 @@ function _buildXLSX() {
 
     var alt = ['FFF8F0', 'FFFFFF'];
     var sorted = smokeNotes.slice().sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
-_setRange(ws, r, 0, _makeCell(n.date || '', _cStyle(bg, false, 'center')));
+    var smokeTotal = 0;
+    sorted.forEach(function (n, i) {
+      smokeTotal += Number(n.amount || 0);
+      var bg = alt[i % 2];
+      _setRange(ws, r, 0, _makeCell(n.date || '', _cStyle(bg, false, 'center')));
       _setRange(ws, r, 1, _makeCell(dispChips(n), _cStyle(bg)));
       _setRange(ws, r, 2, _makeCell(Number(n.amount || 0), _cStyle(bg, false, 'right', '#,##0')));
       r++;
