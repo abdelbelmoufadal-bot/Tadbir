@@ -365,8 +365,12 @@ onAuthStateChanged(auth, user=>{
     <button class="theme-btn" id="month-lock-btn" onclick="toggleMonthClosed()" title="Clôturer le mois">🔓</button>
     <button class="new-month-btn" id="t-new-btn" onclick="openModal('newMonthModal')">✦</button>
     <button class="theme-btn" onclick="toggleTheme()" title="🌓">🌓</button>
-    <button class="icon-btn hdr-icon-desktop" onclick="sendDailyTelegramSummary()" title="Envoyer résumé sur Telegram" style="color:#0088cc;font-weight:700;">✈️</button>
-    <button class="icon-btn hdr-icon-desktop" onclick="openTelegramModal()" title="Configuration Telegram (Chat ID)">⚙️</button>
+    <button class="icon-btn hdr-icon-desktop" onclick="handleTelegramHeaderClick()" title="Telegram Bot (Résumé et Config)" style="display:inline-flex;align-items:center;justify-content:center;padding:4px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="11" fill="#0088cc"/>
+        <path d="M9.78 18.65l.28-4.2 7.63-6.88c.34-.31-.07-.48-.52-.18l-9.43 5.95-4.07-1.27c-.89-.28-.91-.88.19-1.31l15.93-6.14c.74-.27 1.39.18 1.15 1.3l-2.71 12.78c-.2.93-.75 1.15-1.53.72l-4.14-3.05-2 1.93c-.22.22-.41.41-.83.41z" fill="#ffffff"/>
+      </svg>
+    </button>
     <button class="icon-btn hdr-icon-desktop" onclick="openModal('langModal')">🌍</button>
     <button class="icon-btn hdr-icon-desktop" onclick="openModal('backupModal');updateBackupUI()">💾</button>
     <!-- AUTH UI -->
@@ -815,20 +819,29 @@ onAuthStateChanged(auth, user=>{
   <div class="modal-box wa-modal-box">
     <div class="modal-title">
       <span style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:22px;">✈️</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="11" fill="#0088cc"/>
+          <path d="M9.78 18.65l.28-4.2 7.63-6.88c.34-.31-.07-.48-.52-.18l-9.43 5.95-4.07-1.27c-.89-.28-.91-.88.19-1.31l15.93-6.14c.74-.27 1.39.18 1.15 1.3l-2.71 12.78c-.2.93-.75 1.15-1.53.72l-4.14-3.05-2 1.93c-.22.22-.41.41-.83.41z" fill="#ffffff"/>
+        </svg>
         <div>
-          <div style="font-size:15px;font-weight:800;" id="t-tg-title">Configuration Telegram</div>
-          <div style="font-size:10px;color:var(--mid);font-weight:400;" id="t-tg-sub">Envoi des résumés journaliers vers Telegram</div>
+          <div style="font-size:15px;font-weight:800;" id="t-tg-title">Telegram Bot Assistant</div>
+          <div style="font-size:10px;color:var(--mid);font-weight:400;" id="t-tg-sub">Envoi des consommations & total journalier</div>
         </div>
       </span>
       <button class="modal-close" onclick="closeModal('telegramModal')">✕</button>
     </div>
 
+    <!-- Quick Action Button -->
+    <div style="margin-bottom:14px;background:rgba(0,136,204,0.06);padding:12px;border-radius:12px;border:1px solid rgba(0,136,204,0.2);text-align:center;">
+      <button class="modal-btn" style="background:linear-gradient(135deg, #0088cc 0%, #006699 100%);width:100%;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;" onclick="sendDailyTelegramSummary()">
+        <span>📲 Envoyer le résumé du jour sur Telegram</span>
+      </button>
+    </div>
+
     <div style="font-size:11px;color:var(--mid);margin-bottom:12px;line-height:1.5;background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--border);">
-      <strong>💡 Comment configurer :</strong><br>
-      1. Obtenez votre <b>Bot Token</b> en créant un bot via <a href="https://t.me/BotFather" target="_blank" style="color:#0088cc;">@BotFather</a>.<br>
-      2. Obtenez votre <b>Chat ID</b> en envoyant un message à <a href="https://t.me/userinfobot" target="_blank" style="color:#0088cc;">@userinfobot</a>.<br>
-      3. Renseignez les deux champs ci-dessous et enregistrez.
+      <strong>💡 Configuration Chat ID :</strong><br>
+      1. Envoyez n'importe quel message à <a href="https://t.me/userinfobot" target="_blank" style="color:#0088cc;">@userinfobot</a> sur Telegram.<br>
+      2. Collez votre <b>Chat ID</b> ci-dessous et enregistrez.
     </div>
 
     <div style="margin-bottom:10px;">
@@ -842,7 +855,7 @@ onAuthStateChanged(auth, user=>{
     </div>
 
     <div style="display:flex;gap:8px;">
-      <button class="modal-btn" style="background:#0088cc;flex:1;" onclick="saveTelegramConfig()">💾 Enregistrer</button>
+      <button class="modal-btn" style="background:#0088cc;flex:1;" onclick="saveTelegramConfig()">💾 Enregistrer Chat ID</button>
       <button class="modal-btn" style="background:var(--bg);color:var(--dark);border:1px solid var(--border);" onclick="testTelegramConnection()">🧪 Tester</button>
     </div>
   </div>

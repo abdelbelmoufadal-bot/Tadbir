@@ -4463,6 +4463,15 @@ function getTelegramConfig() {
   };
 }
 
+function handleTelegramHeaderClick() {
+  const cfg = getTelegramConfig();
+  if (!cfg.chatId) {
+    openTelegramModal();
+  } else {
+    sendDailyTelegramSummary();
+  }
+}
+
 function openTelegramModal() {
   const cfg = getTelegramConfig();
   const tokenEl = $('tg-bot-token');
