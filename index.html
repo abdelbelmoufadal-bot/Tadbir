@@ -405,8 +405,77 @@ onAuthStateChanged(auth, user=>{
       <option value="درهم">درهم</option><option value="ريال">ريال</option>
       <option value="$">$</option><option value="€">€</option><option value="£">£</option>
     </select>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menu">☰</button>
   </div>
 </header>
+
+<!-- ── MOBILE MENU DRAWER (PROTOTYPE DESIGN) ── -->
+<div class="mobile-menu-drawer" id="mobile-menu-drawer">
+  <div class="mm-header">
+    <div class="brand">
+      <div class="brand-icon">💰</div>
+      <div class="brand-name">تدبير</div>
+    </div>
+    <button class="mm-close-btn" onclick="closeMobileMenu()">✕</button>
+  </div>
+
+  <div class="mm-body">
+    <!-- Month Navigation Section -->
+    <div class="mm-section">
+      <div class="mm-section-title">📅 <span id="mm-t-month">الشهر الحالي</span></div>
+      <div class="mm-month-row">
+        <button class="mm-btn-arrow" onclick="navigateMonth(-1)">‹</button>
+        <div class="mm-month-card" id="mobileMonthLabel" onclick="closeMobileMenu();openModal('monthModal');renderPicker()">---</div>
+        <button class="mm-btn-arrow" onclick="navigateMonth(1)">›</button>
+      </div>
+      <div class="mm-month-actions">
+        <button class="mm-action-btn" id="mm-lock-btn" onclick="toggleMonthClosed()">🔓 <span>Clôturer</span></button>
+        <button class="mm-action-btn primary" onclick="closeMobileMenu();openModal('newMonthModal')">✦ <span>Nouveau mois</span></button>
+      </div>
+    </div>
+
+    <!-- Quick Tools Grid -->
+    <div class="mm-section">
+      <div class="mm-section-title">⚙️ <span id="mm-t-tools">الأدوات والإعدادات</span></div>
+      <div class="mm-grid">
+        <button class="mm-grid-card" onclick="closeMobileMenu();toggleTheme()">
+          <span class="mm-card-icon">🌓</span>
+          <span class="mm-card-lbl">المظهر / Thème</span>
+        </button>
+        <button class="mm-grid-card" onclick="closeMobileMenu();handleTelegramHeaderClick()">
+          <span class="mm-card-icon">✈️</span>
+          <span class="mm-card-lbl">Telegram Bot</span>
+        </button>
+        <button class="mm-grid-card" onclick="closeMobileMenu();openModal('langModal')">
+          <span class="mm-card-icon">🌍</span>
+          <span class="mm-card-lbl">اللغة / Langue</span>
+        </button>
+        <button class="mm-grid-card" onclick="closeMobileMenu();openModal('backupModal');updateBackupUI()">
+          <span class="mm-card-icon">💾</span>
+          <span class="mm-card-lbl">Sauvegarde</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Auth Section -->
+    <div class="mm-section" id="mm-auth-section">
+      <div class="mm-section-title">🔑 <span id="mm-t-account">الحساب</span></div>
+      <div id="mm-signed-out">
+        <button class="mm-full-btn primary" onclick="closeMobileMenu();fbSignIn()">🔑 <span id="mm-t-login">تسجيل الدخول Google</span></button>
+      </div>
+      <div id="mm-signed-in" style="display:none;">
+        <div class="mm-user-card">
+          <img id="mm-user-avatar" class="mm-avatar" src="" alt="">
+          <div>
+            <div id="mm-user-name" class="mm-user-name"></div>
+            <div id="mm-user-email" class="mm-user-email"></div>
+          </div>
+        </div>
+        <button class="mm-full-btn danger" onclick="closeMobileMenu();fbSignOut()">🚪 <span id="mm-t-logout">تسجيل الخروج</span></button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

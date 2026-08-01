@@ -4767,3 +4767,54 @@ document.addEventListener('DOMContentLoaded', () => {
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   }, { passive: true });
 });
+
+// ══════════════════════════════════════════════════════════════════
+// MOBILE MENU DRAWER CONTROLLER
+// ══════════════════════════════════════════════════════════════════
+function toggleMobileMenu() {
+  const drawer = $('mobile-menu-drawer');
+  if (drawer) {
+    drawer.classList.toggle('active');
+    if (drawer.classList.contains('active')) {
+      syncMobileMenuUI();
+    }
+  }
+}
+
+function closeMobileMenu() {
+  const drawer = $('mobile-menu-drawer');
+  if (drawer) drawer.classList.remove('active');
+}
+
+function syncMobileMenuUI() {
+  const mainMonthLabel = $('monthLabel');
+  const mobMonthLabel = $('mobileMonthLabel');
+  if (mainMonthLabel && mobMonthLabel) {
+    mobMonthLabel.textContent = mainMonthLabel.textContent;
+  }
+
+  const signedOutMain = $('auth-signed-out');
+  const signedInMain = $('auth-signed-in');
+  const mobSignedOut = $('mm-signed-out');
+  const mobSignedIn = $('mm-signed-in');
+
+  if (signedInMain && signedInMain.style.display !== 'none') {
+    if (mobSignedOut) mobSignedOut.style.display = 'none';
+    if (mobSignedIn) mobSignedIn.style.display = 'block';
+
+    const avatarMain = $('auth-avatar');
+    const mobAvatar = $('mm-user-avatar');
+    if (avatarMain && mobAvatar) mobAvatar.src = avatarMain.src;
+
+    const nameMain = $('ud-name');
+    const mobName = $('mm-user-name');
+    if (nameMain && mobName) mobName.textContent = nameMain.textContent;
+
+    const emailMain = $('ud-email');
+    const mobEmail = $('mm-user-email');
+    if (emailMain && mobEmail) mobEmail.textContent = emailMain.textContent;
+  } else {
+    if (mobSignedOut) mobSignedOut.style.display = 'block';
+    if (mobSignedIn) mobSignedIn.style.display = 'none';
+  }
+}
