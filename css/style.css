@@ -1112,21 +1112,21 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   MOBILE RESPONSIVE COMPACT & DYNAMIC SYSTEM (PROTOTYPE DESIGN)
+   MOBILE RESPONSIVE COMPACT & DYNAMIC SYSTEM (PERFECT MOBILE UX)
    ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 600px) {
   /* 1. Header Compact Single-Line */
   .header {
-    height: 48px !important;
-    padding: 0 10px !important;
+    height: 46px !important;
+    padding: 0 8px !important;
     display: flex !important;
+    flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: space-between !important;
     position: sticky !important;
     top: 0 !important;
     z-index: 999 !important;
-    background: var(--nav-bg, rgba(15, 23, 42, 0.95)) !important;
-    backdrop-filter: blur(10px) !important;
+    background: var(--nav-bg, #0f172a) !important;
     border-bottom: 1px solid var(--border) !important;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
@@ -1139,7 +1139,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     font-size: 14px !important;
   }
   .brand-name {
-    font-size: 14px !important;
+    font-size: 13px !important;
   }
   .brand-sub {
     display: none !important;
@@ -1147,7 +1147,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   .month-nav {
     padding: 2px 6px !important;
     gap: 4px !important;
-    height: 28px !important;
+    height: 26px !important;
   }
   .month-label {
     font-size: 11px !important;
@@ -1156,78 +1156,117 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     gap: 4px !important;
   }
   .header-right .icon-btn, .header-right .theme-btn, .header-right .new-month-btn {
-    width: 28px !important;
-    height: 28px !important;
+    width: 26px !important;
+    height: 26px !important;
     font-size: 12px !important;
     padding: 0 !important;
   }
 
-  /* 2. Bottom Navigation Bar (Tabs) */
+  /* 2. Horizontal Scrollable Tabs Bar */
   .nav-tabs-inline {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 52px !important;
-    background: var(--card-bg, #0f172a) !important;
-    border-top: 1px solid var(--border) !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    height: 38px !important;
+    width: 100% !important;
+    background: var(--bg) !important;
+    border-bottom: 1px solid var(--border) !important;
     display: flex !important;
-    justify-content: space-around !important;
     align-items: center !important;
-    z-index: 1000 !important;
-    padding: 0 4px !important;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5) !important;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    gap: 6px !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 4px 8px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-tabs-inline::-webkit-scrollbar {
+    display: none;
   }
   .nav-tab {
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
+    flex: 0 0 auto !important;
+    height: 28px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+    border-radius: 14px !important;
+    display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important;
-    font-size: 9px !important;
-    padding: 4px 2px !important;
-    margin: 0 !important;
-    border-radius: 8px !important;
-    background: transparent !important;
+    gap: 4px !important;
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--mid) !important;
   }
   .nav-tab.active {
-    background: rgba(16, 185, 129, 0.15) !important;
-    color: var(--mint) !important;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    border-color: #10b981 !important;
     font-weight: 800 !important;
   }
 
-  /* 3. Compact Circular FAB Dock */
-  .fab-dock {
-    bottom: 62px !important;
-    right: 12px !important;
+  /* 3. Floating Glassmorphic Bottom Action Bar (Capsule FAB Dock) */
+  .fab-dock, #fab-dock {
+    position: fixed !important;
+    bottom: 14px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
     display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-    align-items: flex-end !important;
-    z-index: 1001 !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    z-index: 1000 !important;
+    background: rgba(15, 23, 42, 0.88) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    padding: 5px 10px !important;
+    border-radius: 30px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(16, 185, 129, 0.2) !important;
+    width: auto !important;
+    max-width: 92vw !important;
+    height: 44px !important;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
   .fab-btn {
-    border-radius: 50% !important;
-    padding: 0 !important;
-    display: flex !important;
+    border-radius: 20px !important;
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+    height: 34px !important;
+    display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+    gap: 4px !important;
+    border: none !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
   }
   .fab-add-btn {
-    width: 46px !important;
-    height: 46px !important;
-    font-size: 22px !important;
-    font-weight: bold !important;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    padding: 4px 12px !important;
   }
-  .fab-tg-btn, .fab-wa-btn {
-    width: 38px !important;
-    height: 38px !important;
-    font-size: 16px !important;
+  .fab-tg-btn {
+    background: linear-gradient(135deg, #0088cc 0%, #006699 100%) !important;
+    color: #fff !important;
+    width: 34px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+  }
+  .fab-wa-btn {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+    color: #fff !important;
+    width: 34px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
   }
   .fab-btn span.fab-text {
+    display: inline !important;
+  }
+  .fab-tg-btn span.fab-text, .fab-wa-btn span.fab-text {
     display: none !important;
   }
 }

@@ -4758,12 +4758,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (scrollTop > lastScrollTop && scrollTop > 50) {
       if (header) header.style.transform = 'translateY(-100%)';
-      if (fabDock) fabDock.style.transform = 'translateY(150px)';
-      if (bottomNav) bottomNav.style.transform = 'translateY(100%)';
+      if (fabDock) fabDock.style.transform = 'translate(-50%, 150px)';
     } else {
       if (header) header.style.transform = 'translateY(0)';
-      if (fabDock) fabDock.style.transform = 'translateY(0)';
-      if (bottomNav) bottomNav.style.transform = 'translateY(0)';
+      if (fabDock) fabDock.style.transform = 'translate(-50%, 0)';
     }
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   }, { passive: true });
