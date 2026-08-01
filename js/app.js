@@ -4810,11 +4810,17 @@ function syncMobileMenuUI() {
     const mobName = $('mm-user-name');
     if (nameMain && mobName) mobName.textContent = nameMain.textContent;
 
-    const emailMain = $('ud-email');
-    const mobEmail = $('mm-user-email');
-    if (emailMain && mobEmail) mobEmail.textContent = emailMain.textContent;
   } else {
     if (mobSignedOut) mobSignedOut.style.display = 'block';
     if (mobSignedIn) mobSignedIn.style.display = 'none';
   }
+}
+
+function switchTabMobile(tabName, el) {
+  if (typeof showTab === 'function') {
+    showTab(tabName, el);
+  }
+  document.querySelectorAll('.mm-nav-item').forEach(item => item.classList.remove('active'));
+  const targetMobItem = $('mm-tab-' + tabName);
+  if (targetMobItem) targetMobItem.classList.add('active');
 }

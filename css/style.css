@@ -1175,47 +1175,9 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     cursor: pointer !important;
   }
 
-  /* 2. Horizontal Scrollable Tabs Bar */
-  .nav-tabs-inline {
-    position: relative !important;
-    bottom: auto !important;
-    left: auto !important;
-    right: auto !important;
-    height: 38px !important;
-    width: 100% !important;
-    background: var(--bg) !important;
-    border-bottom: 1px solid var(--border) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    padding: 4px 8px !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  .nav-tabs-inline::-webkit-scrollbar {
-    display: none;
-  }
-  .nav-tab {
-    flex: 0 0 auto !important;
-    height: 28px !important;
-    padding: 0 10px !important;
-    font-size: 11px !important;
-    border-radius: 14px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-    background: var(--card) !important;
-    border: 1px solid var(--border) !important;
-    color: var(--mid) !important;
-  }
-  .nav-tab.active {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-    color: #ffffff !important;
-    border-color: #10b981 !important;
-    font-weight: 800 !important;
+  /* 2. Hide Navigation Tabs Bar on Mobile Main Interface (Moved inside Hamburger Drawer) */
+  .nav-tabs-inline, #main-nav-inline {
+    display: none !important;
   }
 
   /* 3. Floating Glassmorphic Bottom Action Bar (Capsule FAB Dock) */
@@ -1365,6 +1327,36 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.mm-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mm-nav-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 12px 14px !important;
+  border-radius: 12px !important;
+  background: #0f172a !important;
+  border: 1px solid #334155 !important;
+  color: #f8fafc !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+}
+
+.mm-nav-item.active {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: #ffffff !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3) !important;
 }
 
 .mm-month-row {

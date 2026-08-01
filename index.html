@@ -420,6 +420,18 @@ onAuthStateChanged(auth, user=>{
   </div>
 
   <div class="mm-body">
+    <!-- Mobile Main Navigation Section (Tabs inside Hamburger Drawer) -->
+    <div class="mm-section">
+      <div class="mm-section-title">📂 <span id="mm-t-navtitle">التنقل في التطبيق</span></div>
+      <div class="mm-nav-list">
+        <button class="mm-nav-item active" id="mm-tab-dashboard" onclick="closeMobileMenu();switchTabMobile('dashboard',this)">📊 <span id="mm-t-tab1">لوحة الميزانية</span></button>
+        <button class="mm-nav-item" id="mm-tab-notes" onclick="closeMobileMenu();switchTabMobile('notes',this)">📝 <span id="mm-t-tab2">دفتر الملاحظات</span></button>
+        <button class="mm-nav-item" id="mm-tab-drive" onclick="closeMobileMenu();switchTabMobile('drive',this)">🚗 <span id="mm-t-tab5">In Drive</span></button>
+        <button class="mm-nav-item" id="mm-tab-weekly" onclick="closeMobileMenu();switchTabMobile('weekly',this)">📊 <span id="mm-t-tab6">إحصائيات</span></button>
+        <button class="mm-nav-item" id="mm-tab-monthly" onclick="closeMobileMenu();switchTabMobile('monthly',this)">📅 <span id="mm-t-tab3">مقارنة شهرية</span></button>
+      </div>
+    </div>
+
     <!-- Month Navigation Section -->
     <div class="mm-section">
       <div class="mm-section-title">📅 <span id="mm-t-month">الشهر الحالي</span></div>
