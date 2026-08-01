@@ -4457,12 +4457,15 @@ function saveWaItemsToBudget() {
 // ══════════════════════════════════════════════
 
 function getTelegramConfig() {
+  const cloudCfg = (typeof allData === 'object' && allData && allData._telegram) ? allData._telegram : {};
   return {
-    token: (localStorage.getItem('sf_tg_token') || '7178837190:AAH6uEJKEqlf--xIpbufkKOUWJWOXWTfVYw').trim(),
-    chatId: (localStorage.getItem('sf_tg_chat_id') || '').trim(),
-    autoSend: localStorage.getItem('sf_tg_auto_send') === 'true',
-    autoTime: localStorage.getItem('sf_tg_auto_time') || '21:00',
-    lastSentDate: localStorage.getItem('sf_tg_last_sent_date') || ''
+    token: (localStorage.getItem('sf_tg_token') || cloudCfg.token || '7178837190:AAH6uEJKEqlf--xIpbufkKOUWJWOXWTfVYw').trim(),
+    chatId: (localStorage.getItem('sf_tg_chat_id') || cloudCfg.chatId || '7069247925').trim(),
+    autoSend: (localStorage.getItem('sf_tg_auto_send') !== null)
+      ? (localStorage.getItem('sf_tg_auto_send') === 'true')
+      : (cloudCfg.autoSend === true),
+    autoTime: localStorage.getItem('sf_tg_auto_time') || cloudCfg.autoTime || '21:00',
+    lastSentDate: localStorage.getItem('sf_tg_last_sent_date') || cloudCfg.lastSentDate || ''
   };
 }
 
@@ -4488,6 +4491,11 @@ function openTelegramModal() {
 
 function toggleTelegramAutoSend(val) {
   localStorage.setItem('sf_tg_auto_send', val ? 'true' : 'false');
+  if (typeof allData === 'object' && allData !== null) {
+    if (!allData._telegram) allData._telegram = {};
+    allData._telegram.autoSend = val;
+    if (typeof persistData === 'function') persistData();
+  }
   updateTelegramAutoStatusUI();
   showToast(val ? (lang === 'fr' ? '⏰ Envoi automatique activé' : '⏰ تم تفعيل الإرسال التلقائي') : (lang === 'fr' ? '⏸️ Envoi automatique désactivé' : '⏸️ تم إيقاف الإرسال التلقائي'));
 }
@@ -4495,6 +4503,11 @@ function toggleTelegramAutoSend(val) {
 function saveTelegramAutoTime(val) {
   if (val) {
     localStorage.setItem('sf_tg_auto_time', val);
+    if (typeof allData === 'object' && allData !== null) {
+      if (!allData._telegram) allData._telegram = {};
+      allData._telegram.autoTime = val;
+      if (typeof persistData === 'function') persistData();
+    }
     updateTelegramAutoStatusUI();
     showToast((lang === 'fr' ? '⏰ Heure d’envoi réglée sur ' : '⏰ وقت الإرسال: ') + val);
   }
@@ -4522,8 +4535,16 @@ function saveTelegramConfig() {
 
   localStorage.setItem('sf_tg_token', token);
   localStorage.setItem('sf_tg_chat_id', chatId);
+
+  if (typeof allData === 'object' && allData !== null) {
+    if (!allData._telegram) allData._telegram = {};
+    allData._telegram.token = token;
+    allData._telegram.chatId = chatId;
+    if (typeof persistData === 'function') persistData();
+  }
+
   closeModal('telegramModal');
-  showToast(lang === 'fr' ? '✅ Paramètres Telegram enregistrés' : '✅ تم حفظ إعدادات تليجرام');
+  showToast(lang === 'fr' ? '✅ Paramètres Telegram enregistrés & synchronisés' : '✅ تم حفظ وحفظ إعدادات تليجرام');
 }
 
 async function sendTelegramMessage(text) {
