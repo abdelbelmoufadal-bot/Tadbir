@@ -559,7 +559,7 @@ function monthHasRealData(mk) {
 function loadData() {
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER = '4.2.0';
+  const CURRENT_VER = '4.4.0';
   const ALL_KNOWN_KEYS = ['sf_v35', 'sf_v33', 'sf_v32', 'sf_v31', 'sf_v30', 'sf_data', 'tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -1649,7 +1649,7 @@ function restoreLocalSnapshot(id) {
 
 function exportJSON() {
   saveData();
-  const d = { allData, currency, curYear, curMonth, lang, exportedAt: new Date().toISOString(), version: '4.2.0', owner: 'BELMOUFADAL Abderrahim' };
+  const d = { allData, currency, curYear, curMonth, lang, exportedAt: new Date().toISOString(), version: '4.4.0', owner: 'BELMOUFADAL Abderrahim' };
   const b = new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(b);
   a.download = `tadbir-${T().months[curMonth]}-${curYear}.json`; a.click();
@@ -2635,23 +2635,40 @@ function roundDown(value) {
   return Math.floor(Number(value) || 0);
 }
 
-function getFuelData() {
-  return (allData[ck()] || {}).fuelEntries || [];
+function getFuelData(monthKey = ck()) {
+  return (allData[monthKey] || {}).fuelEntries || [];
 }
 
-// Récupère automatiquement le km du dernier plein (ce mois, sinon mois précédent)
-function getAutoPreviousKm() {
-  const current = getFuelData();
-  if (current.length > 0) return current[current.length - 1].currKm;
-  const parts = ck().split('-').map(Number);
-  let prevYear = parts[0], prevMonth = parts[1] - 1;
-  if (prevMonth === 0) { prevMonth = 12; prevYear -= 1; }
-  const prevKey = prevYear + '-' + String(prevMonth).padStart(2, '0');
-  const prevData = allData[prevKey];
-  if (prevData && prevData.fuelEntries && prevData.fuelEntries.length > 0) {
-    return prevData.fuelEntries[prevData.fuelEntries.length - 1].currKm;
+function getLatestFuelBefore(monthKey = ck()) {
+  const keys = Object.keys(allData).filter(function (key) {
+    return /^\d{4}-\d{2}$/.test(key) && key < monthKey && getFuelData(key).length > 0;
+  }).sort().reverse();
+  if (!keys.length) return null;
+  const entries = getFuelData(keys[0]).slice().sort(function (a, b) { return String(a.date || '').localeCompare(String(b.date || '')); });
+  return entries[entries.length - 1] || null;
+}
+
+// Récupère le dernier kilométrage disponible, même si plusieurs mois sont vides.
+function getAutoPreviousKm(monthKey = ck()) {
+  const current = getFuelData(monthKey);
+  if (current.length > 0) return roundDown(current[current.length - 1].currKm);
+  const previous = getLatestFuelBefore(monthKey);
+  return previous ? roundDown(previous.currKm) : 0;
+}
+
+function relinkFuelEntriesAfterDelete(monthKey, startIndex) {
+  const entries = getFuelData(monthKey);
+  if (!entries.length || startIndex >= entries.length) return;
+  let previousKm;
+  if (startIndex > 0) previousKm = roundDown(entries[startIndex - 1].currKm);
+  else {
+    const previous = getLatestFuelBefore(monthKey);
+    previousKm = previous ? roundDown(previous.currKm) : roundDown(entries[0].prevKm);
   }
-  return 0;
+  for (let i = startIndex; i < entries.length; i++) {
+    entries[i].prevKm = previousKm;
+    previousKm = roundDown(entries[i].currKm);
+  }
 }
 
 function addFuelEntry() {
@@ -2673,7 +2690,7 @@ function addFuelEntry() {
     return;
   }
   allData[mk].fuelEntries.push({ date, prevKm, currKm, pricePerLitre, totalAmount });
-  persistData();
+  syncCarCostsToBudget(mk); persistData();
   document.getElementById('fuel-curr-km').value = '';
   document.getElementById('fuel-price').value = '';
   document.getElementById('fuel-total').value = '';
@@ -2689,7 +2706,8 @@ function deleteFuelEntry(idx) {
   const mk = ck();
   if (!allData[mk] || !allData[mk].fuelEntries) return;
   allData[mk].fuelEntries.splice(idx, 1);
-  persistData();
+  relinkFuelEntriesAfterDelete(mk, idx);
+  syncCarCostsToBudget(mk); persistData();
   renderFuelTab();
 }
 
@@ -2701,7 +2719,12 @@ function renderFuelTab() {
 
   // Auto-remplir le kilométrage précédent
   const prevKmInput = document.getElementById('fuel-prev-km');
-  if (prevKmInput) prevKmInput.value = getAutoPreviousKm();
+  if (prevKmInput) {
+    const autoPreviousKm = getAutoPreviousKm();
+    prevKmInput.value = autoPreviousKm || prevKmInput.value || '';
+    prevKmInput.readOnly = entries.length > 0;
+    prevKmInput.style.opacity = entries.length > 0 ? '.6' : '1';
+  }
 
   // Date du jour par défaut
   const dateInput = document.getElementById('fuel-date');
@@ -2783,6 +2806,31 @@ function getCarExpensesData() {
   return (allData[ck()] || {}).carExpenses || [];
 }
 
+function getAllCarExpenses() {
+  const result = [];
+  Object.keys(allData).filter(function (key) { return /^\d{4}-\d{2}$/.test(key); }).sort().forEach(function (monthKey) {
+    ((allData[monthKey] || {}).carExpenses || []).forEach(function (entry) {
+      result.push(Object.assign({ _monthKey: monthKey }, entry));
+    });
+  });
+  return result;
+}
+
+function syncCarCostsToBudget(monthKey = ck()) {
+  if (!allData[monthKey]) allData[monthKey] = defMonth();
+  const month = allData[monthKey];
+  if (!month.notes) month.notes = [];
+  const notes = month.notes.filter(function (note) { return note.source !== 'car-auto'; });
+  (month.fuelEntries || []).forEach(function (entry) {
+    notes.push({ date: entry.date, mainCat: 'transport', subCat: 'Gasoil', note: 'Gasoil', cat: 'Gasoil', chips: [], amount: roundDown(entry.totalAmount), person: 'self', remark: 'Plein voiture', source: 'car-auto', carRef: 'fuel:' + entry.date + ':' + entry.currKm });
+  });
+  (month.carExpenses || []).forEach(function (entry) {
+    const subCat = entry.type === 'lavage' ? 'Lavage voiture' : 'Entretien voiture';
+    notes.push({ date: entry.date, mainCat: 'transport', subCat: subCat, note: entry.label || subCat, cat: subCat, chips: [], amount: Number(entry.amount) || 0, person: 'self', remark: entry.label || '', source: 'car-auto', carRef: 'expense:' + entry.id });
+  });
+  month.notes = notes;
+}
+
 function addCarExpense() {
   if (!ensureMonthEditable()) return;
   const date = document.getElementById('car-exp-date').value || new Date().toISOString().slice(0, 10);
@@ -2790,6 +2838,8 @@ function addCarExpense() {
   const label = (document.getElementById('car-exp-label').value || '').trim();
   const amount = roundDown(document.getElementById('car-exp-amount').value);
   const km = roundDown(document.getElementById('car-exp-km').value);
+  const nextKm = roundDown(document.getElementById('car-exp-next-km').value);
+  const nextDate = document.getElementById('car-exp-next-date').value || '';
   const isFixed = (document.getElementById('car-exp-fixed').value === 'fixed');
 
   if (amount <= 0 || !label) {
@@ -2808,14 +2858,19 @@ function addCarExpense() {
     label: label,
     amount: amount,
     km: km,
+    nextKm: nextKm,
+    nextDate: nextDate,
     isFixed: isFixed
   });
 
   document.getElementById('car-exp-label').value = '';
   document.getElementById('car-exp-amount').value = '';
   document.getElementById('car-exp-km').value = '';
+  document.getElementById('car-exp-next-km').value = '';
+  document.getElementById('car-exp-next-date').value = '';
 
-  persistData();
+  syncCarCostsToBudget(mk); persistData();
+  renderExpensesCats(); recalc();
   renderCarTab();
   showToast(T().toast_add || '✓ Frais enregistré');
 }
@@ -2825,12 +2880,14 @@ function deleteCarExpense(idx) {
   const mk = ck();
   if (!allData[mk] || !allData[mk].carExpenses) return;
   allData[mk].carExpenses.splice(idx, 1);
-  persistData();
+  syncCarCostsToBudget(mk); persistData();
+  renderExpensesCats(); recalc();
   renderCarTab();
 }
 
 function renderCarMaintenanceTab() {
   const expenses = getCarExpensesData();
+  const allExpenses = getAllCarExpenses();
   let totalMaint = 0, fixedCount = 0, varCount = 0, fixedTotal = 0, varTotal = 0;
   expenses.forEach(function (e) {
     totalMaint += e.amount;
@@ -2846,15 +2903,16 @@ function renderCarMaintenanceTab() {
 
   // Reminders / Alerts
   const currentKm = getAutoPreviousKm();
-  const lastOilEntry = expenses.slice().reverse().find(function (e) { return e.type === 'vidange' && e.km > 0; });
-  const lastTiresEntry = expenses.slice().reverse().find(function (e) { return e.type === 'pneu' && e.km > 0; });
+  const lastOilEntry = allExpenses.slice().reverse().find(function (e) { return e.type === 'vidange' && e.km > 0; });
+  const lastTiresEntry = allExpenses.slice().reverse().find(function (e) { return e.type === 'pneu' && e.km > 0; });
 
   const oilNextEl = document.getElementById('car-next-oil');
   if (oilNextEl) {
     if (lastOilEntry) {
-      const nextKm = lastOilEntry.km + 10000;
+      const nextKm = lastOilEntry.nextKm > lastOilEntry.km ? lastOilEntry.nextKm : lastOilEntry.km + 10000;
       const remain = nextKm - currentKm;
-      oilNextEl.textContent = nextKm + ' km (' + (remain > 0 ? 'dans ' + remain + ' km' : '⚠️ Dépassé') + ')';
+      const dateInfo = lastOilEntry.nextDate ? ' · ' + lastOilEntry.nextDate : '';
+      oilNextEl.textContent = nextKm + ' km (' + (remain > 0 ? 'dans ' + remain + ' km' : '⚠️ Dépassé') + ')' + dateInfo;
     } else {
       oilNextEl.textContent = 'Non enregistrée (Tous les 10 000 km)';
     }
@@ -2863,9 +2921,10 @@ function renderCarMaintenanceTab() {
   const tiresNextEl = document.getElementById('car-next-tires');
   if (tiresNextEl) {
     if (lastTiresEntry) {
-      const nextKm = lastTiresEntry.km + 40000;
+      const nextKm = lastTiresEntry.nextKm > lastTiresEntry.km ? lastTiresEntry.nextKm : lastTiresEntry.km + 40000;
       const remain = nextKm - currentKm;
-      tiresNextEl.textContent = nextKm + ' km (' + (remain > 0 ? 'dans ' + remain + ' km' : '⚠️ À vérifier') + ')';
+      const dateInfo = lastTiresEntry.nextDate ? ' · ' + lastTiresEntry.nextDate : '';
+      tiresNextEl.textContent = nextKm + ' km (' + (remain > 0 ? 'dans ' + remain + ' km' : '⚠️ À vérifier') + ')' + dateInfo;
     } else {
       tiresNextEl.textContent = 'Non enregistré (Tous les 40 000 km)';
     }
@@ -2891,8 +2950,19 @@ function renderCarMaintenanceTab() {
     info.style.cssText = 'flex:1;';
     const kmTxt = e.km ? ' • ' + e.km + ' km' : '';
     const fixTxt = e.isFixed ? '📌 Charge fixe' : '⚡ Charge variable';
-    info.innerHTML = '<div style="font-size:14px;font-weight:600;color:var(--dark);">' + e.label + '</div>'
-      + '<div style="font-size:12px;color:var(--light);">' + e.date + kmTxt + ' • ' + fixTxt + '</div>';
+    const nextParts = [];
+    if (e.nextKm) nextParts.push('prochain: ' + e.nextKm + ' km');
+    if (e.nextDate) nextParts.push('date: ' + e.nextDate);
+    const overdueByKm = e.nextKm && currentKm >= e.nextKm;
+    const overdueByDate = e.nextDate && new Date(e.nextDate + 'T00:00:00') < new Date(new Date().toDateString());
+    const nextTxt = nextParts.length ? ' • ' + nextParts.join(' / ') + (overdueByKm || overdueByDate ? ' ⚠️ En retard' : '') : '';
+    const title = document.createElement('div');
+    title.style.cssText = 'font-size:14px;font-weight:600;color:var(--dark);';
+    title.textContent = e.label;
+    const meta = document.createElement('div');
+    meta.style.cssText = 'font-size:12px;color:var(--light);';
+    meta.textContent = e.date + kmTxt + ' • ' + fixTxt + nextTxt;
+    info.appendChild(title); info.appendChild(meta);
     const amt = document.createElement('div');
     amt.style.cssText = 'font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:#FCA5A5;flex-shrink:0;';
     amt.textContent = fmt(e.amount);
@@ -2917,12 +2987,17 @@ function renderCarSummaryTab() {
   const totalCarCharges = totalFuelCost + totalCarMaint;
   const netProfit = totalDriveRev - totalCarCharges;
   const marginPct = totalDriveRev > 0 ? Math.round((netProfit / totalDriveRev) * 100) : 0;
+  const totalKm = fuelEntries.reduce(function (sum, entry) { return sum + Math.max(0, Number(entry.currKm || 0) - Number(entry.prevKm || 0)); }, 0);
+  const costPerKm = totalKm > 0 ? totalCarCharges / totalKm : 0;
+  const revenuePerKm = totalKm > 0 ? totalDriveRev / totalKm : 0;
 
   var el;
   el = document.getElementById('car-sum-revenue'); if (el) el.textContent = fmt(totalDriveRev);
   el = document.getElementById('car-sum-fuel'); if (el) el.textContent = fmt(totalFuelCost);
   el = document.getElementById('car-sum-maint'); if (el) el.textContent = fmt(totalCarMaint);
   el = document.getElementById('car-sum-total-exp'); if (el) el.textContent = fmt(totalCarCharges);
+  el = document.getElementById('car-sum-cost-km'); if (el) el.textContent = costPerKm.toFixed(2);
+  el = document.getElementById('car-sum-revenue-km'); if (el) el.textContent = revenuePerKm.toFixed(2);
 
   const netEl = document.getElementById('car-val-net-profit');
   if (netEl) {
@@ -2948,10 +3023,12 @@ function renderCarSummaryTab() {
 function renderCarTab() {
   const panel = document.getElementById('tab-drive');
   if (!panel || !panel.classList.contains('active')) return;
+  syncCarCostsToBudget();
   renderDriveTab();
   renderFuelTab();
   renderCarMaintenanceTab();
   renderCarSummaryTab();
+  renderExpensesCats(); recalc();
 }
 
 // ── OCR (Tesseract.js) — analyse des photos pompe / tableau de bord ──
@@ -2985,6 +3062,20 @@ function extractNumbersFromText(text) {
 function parsePumpNumbers(text) {
   const nums = extractNumbersFromText(text);
   if (!nums.length) return null;
+  let best = null;
+  nums.forEach(function (price) {
+    if (price < 6 || price > 30) return;
+    nums.forEach(function (litres) {
+      if (litres < 5 || litres > 100 || litres === price) return;
+      nums.forEach(function (total) {
+        if (total < 50 || total <= litres || total === price) return;
+        const expected = price * litres;
+        const error = Math.abs(total - expected) / Math.max(total, 1);
+        if (error <= 0.08 && (!best || error < best.error)) best = { price, litres, total, error };
+      });
+    });
+  });
+  if (best) return { price: best.price, litres: best.litres, total: best.total, confidence: 1 - best.error, consistent: true };
   let price;
   const priceIdx = nums.findIndex(function (n) { return n >= 6 && n <= 30; });
   const rest = nums.slice();
@@ -2993,7 +3084,7 @@ function parsePumpNumbers(text) {
   rest.sort(function (a, b) { return b - a; });
   const total = rest[0];
   if (price === undefined) price = rest[rest.length - 1];
-  return { price: price, total: total };
+  return { price: price, total: total, litres: null, confidence: 0.35, consistent: false };
 }
 
 // Heuristique : le kilométrage est généralement le plus grand nombre détecté sur le tableau de bord
@@ -3016,20 +3107,28 @@ async function processFuelImagesOCR() {
   if (btn) btn.disabled = true;
   if (statusEl) statusEl.textContent = T().fuel_ocr_loading || 'Analyse en cours...';
   try {
+    const messages = [];
     if (pumpFile) {
       const pumpText = await ocrImageFile(pumpFile);
       const parsed = parsePumpNumbers(pumpText);
       if (parsed) {
         if (parsed.price != null) document.getElementById('fuel-price').value = parsed.price;
         if (parsed.total != null) document.getElementById('fuel-total').value = roundDown(parsed.total);
+        if (parsed.consistent) messages.push('Pompe cohérente' + (parsed.litres ? ' · ' + parsed.litres.toFixed(2) + ' L' : ''));
+        else messages.push('⚠️ Vérifiez le prix et le montant détectés');
       }
     }
     if (dashFile) {
       const dashText = await ocrImageFile(dashFile);
       const km = parseDashNumber(dashText);
-      if (km != null) document.getElementById('fuel-curr-km').value = roundDown(km);
+      if (km != null) {
+        const roundedKm = roundDown(km);
+        document.getElementById('fuel-curr-km').value = roundedKm;
+        const previousKm = roundDown(document.getElementById('fuel-prev-km').value);
+        messages.push(roundedKm > previousKm ? 'Compteur détecté: ' + roundedKm + ' km' : '⚠️ Le compteur détecté est inférieur au précédent');
+      }
     }
-    if (statusEl) statusEl.textContent = T().fuel_ocr_ok || '✓';
+    if (statusEl) statusEl.textContent = (T().fuel_ocr_ok || '✓') + (messages.length ? ' — ' + messages.join(' · ') : '');
     showToast(T().fuel_ocr_ok || '✓');
   } catch (e) {
     if (statusEl) statusEl.textContent = T().fuel_ocr_loadfail || '❌';
@@ -4023,7 +4122,7 @@ function exportPDF() {
     + rows
     + '<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">' + fmt(totalNotes) + ' ' + currency + '</td></tr>'
     + '</tbody></table>'
-    + '<div class="footer">Créé par BELMOUFADAL Abderrahim — Tadbir v4.2.0 — ' + new Date().toLocaleDateString() + '</div>'
+    + '<div class="footer">Créé par BELMOUFADAL Abderrahim — Tadbir v4.4.0 — ' + new Date().toLocaleDateString() + '</div>'
     + '</body></html>';
 
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -4172,7 +4271,7 @@ function _buildXLSX() {
 
   var wb = XLSX.utils.book_new();
   var baseTitle = 'تدبير | Tadbir — تقرير ' + monthLabel + ' ' + curYear;
-  var credit = 'Créé par BELMOUFADAL Abderrahim — Tadbir v4.2.0';
+  var credit = 'Créé par BELMOUFADAL Abderrahim — Tadbir v4.4.0';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري
@@ -4946,8 +5045,8 @@ function saveWaItemsToBudget() {
 function getTelegramConfig() {
   const cloudCfg = (typeof allData === 'object' && allData && allData._telegram) ? allData._telegram : {};
   return {
-    token: (localStorage.getItem('sf_tg_token') || cloudCfg.token || '7178837190:AAH6uEJKEqlf--xIpbufkKOUWJWOXWTfVYw').trim(),
-    chatId: (localStorage.getItem('sf_tg_chat_id') || cloudCfg.chatId || '7069247925').trim(),
+    token: (localStorage.getItem('sf_tg_token') || cloudCfg.token || '').trim(),
+    chatId: (localStorage.getItem('sf_tg_chat_id') || cloudCfg.chatId || '').trim(),
     autoSend: (localStorage.getItem('sf_tg_auto_send') !== null)
       ? (localStorage.getItem('sf_tg_auto_send') === 'true')
       : (cloudCfg.autoSend === true),

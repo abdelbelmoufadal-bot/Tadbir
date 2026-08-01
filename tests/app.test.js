@@ -26,8 +26,9 @@ test('external assets are linked and non-empty', () => {
 test('release version is consistent', () => {
   const version = packageJson.version.replaceAll('.', '\\.');
   assert.match(html, new RegExp(`Tadbir v${version}`));
-  assert.match(app, new RegExp(`CURRENT_VER='${version}'`));
-  assert.match(app, new RegExp(`version:'${version}'`));
+  assert.match(app, new RegExp(`CURRENT_VER\\s*=\\s*'${version}'`));
+  assert.match(app, new RegExp(`version\\s*:\\s*'${version}'`));
+  assert.match(serviceWorker, new RegExp(`CACHE_NAME\\s*=\\s*'tadbir-v${version}'`));
   assert.match(readme, new RegExp(`v${version}`));
 });
 
@@ -78,7 +79,7 @@ test('monthly balance includes income, bills, notes, savings and debts', () => {
 });
 
 test('critical mutations respect month closure', () => {
-  const guarded = ['onInput', 'deleteRow', 'addRow', 'addNoteNew', 'deleteNoteNew', 'addDriveEntry', 'deleteDriveEntry', 'saveRowDetails'];
+  const guarded = ['onInput', 'deleteRow', 'addRow', 'addNoteNew', 'deleteNoteNew', 'addDriveEntry', 'deleteDriveEntry', 'addFuelEntry', 'deleteFuelEntry', 'addCarExpense', 'deleteCarExpense', 'saveRowDetails'];
   for (const name of guarded) {
     const start = app.indexOf(`function ${name}(`);
     assert.notEqual(start, -1, `${name} is missing`);
@@ -87,7 +88,7 @@ test('critical mutations respect month closure', () => {
 });
 
 test('local history keeps a maximum of five snapshots', () => {
-  assert.match(app, /MAX_LOCAL_SNAPSHOTS=5/);
+  assert.match(app, /MAX_LOCAL_SNAPSHOTS\s*=\s*5/);
   assert.match(app, /before_import/);
   assert.match(app, /before_cloud_load/);
 });
@@ -107,7 +108,7 @@ test('statistics page supports month filtering and leak analysis', () => {
   assert.match(html, /id="stats-month-filter"/);
   assert.match(app, /function populateStatsMonthFilter/);
   assert.match(app, /function normalizedProductName/);
-  assert.match(app, /productCounts\[p\]>=6/);
+  assert.match(app, /productCounts\[p\]\s*>=\s*6/);
 });
 
 test('French catalog includes newly identified products', () => {
@@ -118,11 +119,68 @@ test('French catalog includes newly identified products', () => {
 
 test('expenses can be attributed and filtered by family member', () => {
   for (const id of ['self', 'noufissa', 'iyad', 'owayss', 'family']) {
-    assert.match(app, new RegExp(`id:'${id}'`));
+    assert.match(app, new RegExp(`id\\s*:\\s*'${id}'`));
   }
   assert.match(html, /id="nf-person"/);
   assert.match(html, /id="nf-person-filter"/);
   assert.match(html, /id="stats-person-filter"/);
-  assert.match(app, /person:\(personEl&&personEl\.value\)\|\|'self'/);
+  assert.match(app, /person\s*:\s*\(personEl\s*&&\s*personEl\.value\)\s*\|\|\s*'self'/);
   assert.match(app, /familyTotals/);
+});
+
+test('Telegram credentials are not embedded in public source', () => {
+  assert.doesNotMatch(html, /7178837190:AAH/);
+  assert.doesNotMatch(app, /7178837190:AAH/);
+  assert.doesNotMatch(html, /value="7069247925"/);
+  assert.match(html, /type="password"[^>]*id="tg-bot-token"/);
+});
+
+test('fuel history crosses empty months and deletion relinks following entries', () => {
+  const start = app.indexOf('function roundDown');
+  const end = app.indexOf('function addFuelEntry', start);
+  const context = {
+    allData: {
+      '2026-05': { fuelEntries: [{ date: '2026-05-20', prevKm: 900, currKm: 1020 }] },
+      '2026-08': { fuelEntries: [{ date: '2026-08-01', prevKm: 1020, currKm: 1139 }, { date: '2026-08-15', prevKm: 1139, currKm: 1500 }] }
+    },
+    ck: () => '2026-08'
+  };
+  vm.createContext(context);
+  vm.runInContext(app.slice(start, end), context);
+  assert.equal(context.getLatestFuelBefore('2026-08').currKm, 1020);
+  context.allData['2026-08'].fuelEntries.splice(0, 1);
+  context.relinkFuelEntriesAfterDelete('2026-08', 0);
+  assert.equal(context.allData['2026-08'].fuelEntries[0].prevKm, 1020);
+});
+
+test('fuel OCR validates pump arithmetic', () => {
+  const start = app.indexOf('function extractNumbersFromText');
+  const end = app.indexOf('async function processFuelImagesOCR', start);
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(app.slice(start, end), context);
+  const parsed = context.parsePumpNumbers('600.05 DIRHAMS 44.78 LITRES 13.40 DIRHAMS/LITRE');
+  assert.equal(parsed.price, 13.4);
+  assert.equal(parsed.litres, 44.78);
+  assert.equal(parsed.total, 600.05);
+  assert.equal(parsed.consistent, true);
+  assert.equal(context.parseDashNumber('ODO 1808.4 km'), 1808.4);
+});
+
+test('car costs sync to budget idempotently', () => {
+  const start = app.indexOf('function syncCarCostsToBudget');
+  const end = app.indexOf('function addCarExpense', start);
+  const context = {
+    allData: { '2026-08': { notes: [{ amount: 10 }], fuelEntries: [{ date: '2026-08-01', totalAmount: 600, currKm: 1808 }], carExpenses: [{ id: 1, date: '2026-08-02', type: 'vidange', label: 'Vidange', amount: 450 }] } },
+    ck: () => '2026-08',
+    defMonth: () => ({ notes: [], fuelEntries: [], carExpenses: [] }),
+    roundDown: value => Math.floor(Number(value) || 0)
+  };
+  vm.createContext(context);
+  vm.runInContext(app.slice(start, end), context);
+  context.syncCarCostsToBudget();
+  context.syncCarCostsToBudget();
+  const auto = context.allData['2026-08'].notes.filter(note => note.source === 'car-auto');
+  assert.equal(auto.length, 2);
+  assert.equal(auto.reduce((sum, note) => sum + note.amount, 0), 1050);
 });

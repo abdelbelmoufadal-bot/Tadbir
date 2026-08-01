@@ -253,7 +253,7 @@ onAuthStateChanged(auth, user=>{
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.2.0</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.4.0</div>
     <div id="t-lnd-footer-c">دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -841,7 +841,7 @@ onAuthStateChanged(auth, user=>{
         <div class="drive-form-title" id="fuel-add-title">إضافة تعبئة جديدة</div>
         <div class="drive-form-row" style="grid-template-columns:1fr 1fr;">
           <div><div class="drive-input-lbl" id="fuel-lbl-date">التاريخ</div><input type="date" class="drive-input" id="fuel-date"></div>
-          <div><div class="drive-input-lbl" id="fuel-lbl-prevkm">الكيلومتراج السابق</div><input type="number" class="drive-input" id="fuel-prev-km" readonly style="opacity:.6;"></div>
+          <div><div class="drive-input-lbl" id="fuel-lbl-prevkm">الكيلومتراج السابق</div><input type="number" class="drive-input" id="fuel-prev-km" min="0" placeholder="أدخله لأول تعبئة"></div>
         </div>
         <div class="drive-form-row" style="grid-template-columns:1fr 1fr;">
           <div><div class="drive-input-lbl" id="fuel-lbl-currkm">الكيلومتراج الحالي</div><input type="number" class="drive-input" id="fuel-curr-km" placeholder="Ex: 47450"></div>
@@ -919,6 +919,11 @@ onAuthStateChanged(auth, user=>{
             </select>
           </div>
         </div>
+        <div class="drive-form-row" style="grid-template-columns:1fr 1fr;">
+          <div><div class="drive-input-lbl">Prochain kilométrage (optionnel)</div><input type="number" class="drive-input" id="car-exp-next-km" placeholder="Ex: 11139"></div>
+          <div><div class="drive-input-lbl">Prochaine date (optionnelle)</div><input type="date" class="drive-input" id="car-exp-next-date"></div>
+        </div>
+        <div style="font-size:10px;color:rgba(255,255,255,.45);margin:0 0 10px;">Les frais enregistrés ici sont ajoutés automatiquement au budget Transport. Ne les saisissez pas une seconde fois dans le carnet de dépenses.</div>
         <button class="drive-submit" id="car-exp-btn" onclick="addCarExpense()">🛠️ <span id="car-exp-btn-lbl">Enregistrer le frais</span></button>
       </div>
     </div>
@@ -951,6 +956,8 @@ onAuthStateChanged(auth, user=>{
         <div class="drive-stat"><div class="drive-stat-val" style="color:#FCA5A5;" id="car-sum-fuel">0</div><div class="drive-stat-lbl" id="lbl-sum-fuel">⛽ Carburant</div></div>
         <div class="drive-stat"><div class="drive-stat-val" style="color:#FDBA74;" id="car-sum-maint">0</div><div class="drive-stat-lbl" id="lbl-sum-maint">🛠️ Frais & Entretien</div></div>
         <div class="drive-stat"><div class="drive-stat-val" style="color:#B5A8D4;" id="car-sum-total-exp">0</div><div class="drive-stat-lbl" id="lbl-sum-totexp">Total Charges</div></div>
+        <div class="drive-stat"><div class="drive-stat-val" id="car-sum-cost-km">0.00</div><div class="drive-stat-lbl">Coût réel / km</div></div>
+        <div class="drive-stat"><div class="drive-stat-val" id="car-sum-revenue-km">0.00</div><div class="drive-stat-lbl">Revenu / km</div></div>
       </div>
 
       <div style="margin-top:14px;background:rgba(0,0,0,.2);padding:14px;border-radius:12px;font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;">
@@ -1206,12 +1213,12 @@ onAuthStateChanged(auth, user=>{
 
       <div style="margin-bottom:10px;">
         <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Bot Token API :</label>
-        <input type="text" id="tg-bot-token" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" value="7178837190:AAH6uEJKEqlf--xIpbufkKOUWJWOXWTfVYw">
+        <input type="password" id="tg-bot-token" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" value="" autocomplete="off" placeholder="Jeton fourni par BotFather">
       </div>
 
       <div style="margin-bottom:14px;">
         <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Chat ID Utilisateur :</label>
-        <input type="text" id="tg-chat-id" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" value="7069247925" placeholder="Ex: 7069247925">
+        <input type="text" id="tg-chat-id" class="nf-input" style="width:100%;font-family:monospace;font-size:11px;" value="" autocomplete="off" placeholder="Ex: 7069247925">
       </div>
 
       <div style="display:flex;gap:8px;">
@@ -1223,7 +1230,7 @@ onAuthStateChanged(auth, user=>{
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.2.0</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.4.0</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
