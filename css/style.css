@@ -1231,42 +1231,37 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
   .fab-btn {
-    border-radius: 20px !important;
-    padding: 4px 10px !important;
-    font-size: 11px !important;
-    height: 34px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 4px !important;
     border: none !important;
-    white-space: nowrap !important;
     box-shadow: none !important;
+    cursor: pointer !important;
   }
   .fab-add-btn {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
     color: #fff !important;
-    font-weight: 700 !important;
-    padding: 4px 12px !important;
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4) !important;
   }
   .fab-tg-btn {
     background: linear-gradient(135deg, #0088cc 0%, #006699 100%) !important;
     color: #fff !important;
     width: 34px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
+    height: 34px !important;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.4) !important;
   }
   .fab-wa-btn {
     background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
     color: #fff !important;
     width: 34px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-  }
-  .fab-btn span.fab-text {
-    display: inline !important;
-  }
-  .fab-tg-btn span.fab-text, .fab-wa-btn span.fab-text {
-    display: none !important;
+    height: 34px !important;
+    font-size: 16px !important;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4) !important;
   }
 }
