@@ -157,6 +157,17 @@ test('fuel history crosses empty months and deletion relinks following entries',
   assert.equal(context.allData['2026-08'].fuelEntries[0].prevKm, 1020);
 });
 
+test('fuel initial entry and editing controls are available', () => {
+  assert.match(html, /id="fuel-initial-btn"/);
+  assert.match(html, /id="fuel-cancel-edit-btn"/);
+  for (const fn of ['hasFuelInitialEver', 'relinkAllFuelEntries', 'startInitialFuelEntry', 'editFuelEntry', 'cancelFuelEdit']) {
+    assert.match(app, new RegExp(`function ${fn}\\(`), `${fn} is missing`);
+  }
+  assert.match(app, /isInitial:\s*fuelInitialMode/);
+  assert.match(app, /_fuelInitialEver\s*=\s*true/);
+  assert.match(app, /aucune consommation calculée/);
+});
+
 test('fuel OCR validates pump arithmetic', () => {
   const start = app.indexOf('function normalizePumpCandidate');
   const end = app.indexOf('async function processFuelImagesOCR', start);

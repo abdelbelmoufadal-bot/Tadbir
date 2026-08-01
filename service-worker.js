@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tadbir-v4.4.4';
+const CACHE_NAME = 'tadbir-v4.5.0';
 const APP_SHELL = [
   './',
   './index.html',

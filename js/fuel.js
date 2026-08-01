@@ -6,6 +6,92 @@ function roundDown(value) {
   return Math.floor(Number(value) || 0);
 }
 
+let fuelEditingIndex = null;
+let fuelInitialMode = false;
+
+function getAllFuelRefs() {
+  const refs = [];
+  Object.keys(allData).filter(function (key) { return /^\d{4}-\d{2}$/.test(key); }).forEach(function (monthKey) {
+    getFuelData(monthKey).forEach(function (entry, index) { refs.push({ monthKey, index, entry }); });
+  });
+  return refs.sort(function (a, b) {
+    if (!!a.entry.isInitial !== !!b.entry.isInitial) return a.entry.isInitial ? -1 : 1;
+    return String(a.entry.date || '').localeCompare(String(b.entry.date || '')) || a.monthKey.localeCompare(b.monthKey) || a.index - b.index;
+  });
+}
+
+function hasFuelInitialEver() {
+  return Object.keys(allData).some(function (key) {
+    const month = allData[key] || {};
+    return month._fuelInitialEver || (month.fuelEntries || []).some(function (entry) { return entry.isInitial; });
+  });
+}
+
+function relinkAllFuelEntries() {
+  let previousKm = 0;
+  getAllFuelRefs().forEach(function (ref) {
+    if (ref.entry.isInitial) {
+      ref.entry.prevKm = 0;
+      ref.entry.currKm = 0;
+      previousKm = 0;
+      return;
+    }
+    ref.entry.prevKm = previousKm;
+    previousKm = roundDown(ref.entry.currKm);
+  });
+}
+
+function fuelTimelineIsValid() {
+  return getAllFuelRefs().every(function (ref) { return ref.entry.isInitial || roundDown(ref.entry.currKm) > roundDown(ref.entry.prevKm); });
+}
+
+function startInitialFuelEntry() {
+  if (hasFuelInitialEver()) return;
+  fuelEditingIndex = null;
+  fuelInitialMode = true;
+  document.getElementById('fuel-prev-km').value = 0;
+  document.getElementById('fuel-curr-km').value = 0;
+  document.getElementById('fuel-prev-km').readOnly = true;
+  document.getElementById('fuel-curr-km').readOnly = true;
+  document.getElementById('fuel-add-title').textContent = '🚘 Plein initial — point de départ à 0 km';
+  document.getElementById('fuel-submit-lbl').textContent = 'Enregistrer le plein initial';
+  document.getElementById('fuel-submit-btn').disabled = false;
+  document.getElementById('fuel-cancel-edit-btn').style.display = 'block';
+}
+
+function editFuelEntry(index) {
+  if (!ensureMonthEditable()) return;
+  const entry = getFuelData()[index];
+  if (!entry) return;
+  fuelEditingIndex = index;
+  fuelInitialMode = !!entry.isInitial;
+  document.getElementById('fuel-date').value = entry.date || '';
+  document.getElementById('fuel-prev-km').value = entry.prevKm;
+  document.getElementById('fuel-curr-km').value = entry.currKm;
+  document.getElementById('fuel-litres').value = Number(entry.litres) > 0 ? entry.litres : (entry.pricePerLitre > 0 ? (entry.totalAmount / entry.pricePerLitre).toFixed(2) : '');
+  document.getElementById('fuel-price').value = entry.pricePerLitre || '';
+  document.getElementById('fuel-total').value = entry.totalAmount || '';
+  document.getElementById('fuel-prev-km').readOnly = true;
+  document.getElementById('fuel-curr-km').readOnly = fuelInitialMode;
+  document.getElementById('fuel-add-title').textContent = fuelInitialMode ? '🚘 Modifier le plein initial' : '✏️ Modifier le plein';
+  document.getElementById('fuel-submit-lbl').textContent = 'Enregistrer les modifications';
+  document.getElementById('fuel-submit-btn').disabled = false;
+  document.getElementById('fuel-cancel-edit-btn').style.display = 'block';
+  updateFuelDraftCheck();
+  document.getElementById('fuel-add-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function cancelFuelEdit() {
+  fuelEditingIndex = null;
+  fuelInitialMode = false;
+  ['fuel-curr-km', 'fuel-litres', 'fuel-price', 'fuel-total'].forEach(function (id) { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.getElementById('fuel-curr-km').readOnly = false;
+  document.getElementById('fuel-add-title').textContent = T().fuel_add_title || 'Ajouter un plein';
+  document.getElementById('fuel-submit-lbl').textContent = T().fuel_submit || 'Enregistrer le plein';
+  document.getElementById('fuel-cancel-edit-btn').style.display = 'none';
+  renderFuelTab();
+}
+
 function getFuelData(monthKey = ck()) {
   return (allData[monthKey] || {}).fuelEntries || [];
 }
@@ -69,24 +155,34 @@ function addFuelEntry() {
   const mk = ck();
   if (!allData[mk]) allData[mk] = defMonth();
   if (!allData[mk].fuelEntries) allData[mk].fuelEntries = [];
-  if (allData[mk].fuelEntries.length >= 3) {
+  if (fuelEditingIndex == null && !fuelInitialMode && allData[mk].fuelEntries.length >= 3) {
     showToast(T().fuel_max || '⚠️ Maximum 3 pleins par mois atteint');
     return;
   }
   const date = document.getElementById('fuel-date').value;
-  const prevKm = roundDown(document.getElementById('fuel-prev-km').value);
-  const currKm = roundDown(document.getElementById('fuel-curr-km').value);
+  const prevKm = fuelInitialMode ? 0 : roundDown(document.getElementById('fuel-prev-km').value);
+  const currKm = fuelInitialMode ? 0 : roundDown(document.getElementById('fuel-curr-km').value);
   let litres = Number(document.getElementById('fuel-litres').value) || 0;
   let pricePerLitre = Number(document.getElementById('fuel-price').value) || 0;
   let totalAmount = Number(document.getElementById('fuel-total').value) || 0;
   if (!totalAmount && litres > 0 && pricePerLitre > 0) totalAmount = litres * pricePerLitre;
   if (!pricePerLitre && litres > 0 && totalAmount > 0) pricePerLitre = totalAmount / litres;
   if (!litres && pricePerLitre > 0 && totalAmount > 0) litres = totalAmount / pricePerLitre;
-  if (!date || currKm <= prevKm || totalAmount <= 0 || pricePerLitre <= 0) {
+  if (!date || (!fuelInitialMode && currKm <= prevKm) || totalAmount <= 0 || pricePerLitre <= 0 || litres <= 0) {
     showToast('❌ ' + (T().fuel_fill || 'Vérifiez les champs'));
     return;
   }
-  allData[mk].fuelEntries.push({ date, prevKm, currKm, pricePerLitre, totalAmount: roundDown(totalAmount), litres: Math.round(litres * 100) / 100 });
+  const entry = { date, prevKm, currKm, pricePerLitre, totalAmount: roundDown(totalAmount), litres: Math.round(litres * 100) / 100, isInitial: fuelInitialMode };
+  const backup = JSON.parse(JSON.stringify(allData));
+  if (fuelEditingIndex != null) allData[mk].fuelEntries[fuelEditingIndex] = entry;
+  else allData[mk].fuelEntries.push(entry);
+  if (fuelInitialMode) allData[mk]._fuelInitialEver = true;
+  relinkAllFuelEntries();
+  if (!fuelTimelineIsValid()) {
+    allData = backup;
+    showToast('❌ Kilométrage incompatible avec le plein suivant');
+    return;
+  }
   syncCarCostsToBudget(mk); persistData();
   document.getElementById('fuel-curr-km').value = '';
   document.getElementById('fuel-price').value = '';
@@ -95,8 +191,14 @@ function addFuelEntry() {
   const pumpInput = document.getElementById('fuel-ocr-pump-input'); if (pumpInput) pumpInput.value = '';
   const dashInput = document.getElementById('fuel-ocr-dash-input'); if (dashInput) dashInput.value = '';
   const statusEl = document.getElementById('fuel-ocr-status'); if (statusEl) statusEl.textContent = '';
+  const wasEditing = fuelEditingIndex != null;
+  fuelEditingIndex = null; fuelInitialMode = false;
+  document.getElementById('fuel-curr-km').readOnly = false;
+  document.getElementById('fuel-add-title').textContent = T().fuel_add_title || 'Ajouter un plein';
+  document.getElementById('fuel-submit-lbl').textContent = T().fuel_submit || 'Enregistrer le plein';
+  document.getElementById('fuel-cancel-edit-btn').style.display = 'none';
   renderFuelTab();
-  showToast(T().toast_add || '✓');
+  showToast(wasEditing ? '✓ Modification enregistrée' : (T().toast_add || '✓'));
 }
 
 function deleteFuelEntry(idx) {
@@ -104,7 +206,7 @@ function deleteFuelEntry(idx) {
   const mk = ck();
   if (!allData[mk] || !allData[mk].fuelEntries) return;
   allData[mk].fuelEntries.splice(idx, 1);
-  relinkFuelEntriesAfterDelete(mk, idx);
+  relinkAllFuelEntries();
   syncCarCostsToBudget(mk); persistData();
   renderFuelTab();
 }
@@ -114,6 +216,9 @@ function renderFuelTab() {
   if (!panel || !panel.classList.contains('active')) return;
   const t = T();
   const entries = getFuelData();
+
+  const initialBtn = document.getElementById('fuel-initial-btn');
+  if (initialBtn) initialBtn.style.display = hasFuelInitialEver() ? 'none' : 'block';
 
   // Auto-remplir le kilométrage précédent
   const prevKmInput = document.getElementById('fuel-prev-km');
@@ -137,7 +242,7 @@ function renderFuelTab() {
   entries.forEach(function (e) {
     const distance = e.currKm - e.prevKm;
     const litres = Number(e.litres) > 0 ? Number(e.litres) : (e.pricePerLitre > 0 ? e.totalAmount / e.pricePerLitre : 0);
-    totalKm += distance; totalCost += e.totalAmount; totalLitres += litres;
+    totalKm += distance; totalCost += e.totalAmount; if (!e.isInitial) totalLitres += litres;
   });
   const avgConso = totalKm > 0 ? (totalLitres / totalKm) * 100 : 0;
   const avgPriceKm = totalKm > 0 ? totalCost / totalKm : 0;
@@ -160,7 +265,7 @@ function renderFuelTab() {
   sorted.forEach(function (e) {
     const distance = e.currKm - e.prevKm;
     const litres = Number(e.litres) > 0 ? Number(e.litres) : (e.pricePerLitre > 0 ? e.totalAmount / e.pricePerLitre : 0);
-    const conso = distance > 0 ? (litres / distance) * 100 : 0;
+    const conso = !e.isInitial && distance > 0 ? (litres / distance) * 100 : 0;
     const priceKm = distance > 0 ? e.totalAmount / distance : 0;
     const row = document.createElement('div');
     row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);';
@@ -169,8 +274,8 @@ function renderFuelTab() {
     icon.textContent = '⛽';
     const info = document.createElement('div');
     info.style.cssText = 'flex:1;';
-    info.innerHTML = '<div style="font-size:14px;font-weight:600;color:var(--dark);">' + e.date + ' • ' + e.prevKm + ' → ' + e.currKm + ' km</div>'
-      + '<div style="font-size:12px;color:var(--light);">' + distance + ' km • ' + conso.toFixed(1) + 'L/100km • ' + priceKm.toFixed(2) + ' ' + currency + '/km</div>';
+    info.innerHTML = '<div style="font-size:14px;font-weight:600;color:var(--dark);">' + (e.isInitial ? '🚘 Point de départ • ' : '') + e.date + ' • ' + e.prevKm + ' → ' + e.currKm + ' km</div>'
+      + '<div style="font-size:12px;color:var(--light);">' + (e.isInitial ? litres.toFixed(2) + ' L • aucune consommation calculée' : distance + ' km • ' + conso.toFixed(1) + 'L/100km • ' + priceKm.toFixed(2) + ' ' + currency + '/km') + '</div>';
     const amt = document.createElement('div');
     amt.style.cssText = 'font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:var(--mint);flex-shrink:0;';
     amt.textContent = fmt(e.totalAmount);
@@ -178,7 +283,12 @@ function renderFuelTab() {
     del.style.cssText = 'background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
     del.textContent = '✕';
     del.onclick = (function (idx) { return function () { deleteFuelEntry(idx); }; })(e._idx);
-    row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(del);
+    const edit = document.createElement('button');
+    edit.style.cssText = 'background:none;border:none;color:var(--blue);cursor:pointer;font-size:16px;flex-shrink:0;';
+    edit.textContent = '✏️';
+    edit.title = 'Modifier';
+    edit.onclick = (function (idx) { return function () { editFuelEntry(idx); }; })(e._idx);
+    row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(edit); row.appendChild(del);
     list.appendChild(row);
   });
 }

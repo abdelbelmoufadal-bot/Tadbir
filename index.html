@@ -253,7 +253,7 @@ onAuthStateChanged(auth, user=>{
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.4.4</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.5.0</div>
     <div id="t-lnd-footer-c">دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -839,6 +839,7 @@ onAuthStateChanged(auth, user=>{
       <!-- Manual form -->
       <div class="drive-form" style="margin-top:12px;">
         <div class="drive-form-title" id="fuel-add-title">إضافة تعبئة جديدة</div>
+        <button type="button" class="drive-submit" id="fuel-initial-btn" onclick="startInitialFuelEntry()" style="margin-bottom:12px;background:linear-gradient(135deg,#5b8def,#7b68c8);">🚘 Plein initial à 0 km</button>
         <div class="drive-form-row" style="grid-template-columns:1fr 1fr;">
           <div><div class="drive-input-lbl" id="fuel-lbl-date">التاريخ</div><input type="date" class="drive-input" id="fuel-date"></div>
           <div><div class="drive-input-lbl" id="fuel-lbl-prevkm">الكيلومتراج السابق</div><input type="number" class="drive-input" id="fuel-prev-km" min="0" placeholder="أدخله لأول تعبئة"></div>
@@ -853,6 +854,7 @@ onAuthStateChanged(auth, user=>{
         </div>
         <div id="fuel-manual-hint" style="font-size:11px;color:var(--light);text-align:center;margin:6px 0 10px;">✏️ Vous pouvez corriger chaque valeur avant l’enregistrement.</div>
         <button class="drive-submit" id="fuel-submit-btn" onclick="addFuelEntry()">⛽ <span id="fuel-submit-lbl">تسجيل التعبئة</span></button>
+        <button type="button" class="drive-submit" id="fuel-cancel-edit-btn" onclick="cancelFuelEdit()" style="display:none;margin-top:8px;background:#687386;">Annuler la modification</button>
       </div>
     </div>
 
@@ -1232,7 +1234,7 @@ onAuthStateChanged(auth, user=>{
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.4.4</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.5.0</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>
