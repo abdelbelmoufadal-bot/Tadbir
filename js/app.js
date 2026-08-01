@@ -817,9 +817,17 @@ function renderAll() {
   updateMonthLabel();
   recalc();
   renderCalendar();
-  // Refresh notes tab if active
+  
+  // Synchronize local month filters for sub-modules
+  if (typeof initNotesMonthFilter === 'function') initNotesMonthFilter();
+  const statsSel = document.getElementById('stats-month-filter');
+  if (statsSel) statsSel.value = ck();
+
+  // Refresh currently active tab
   var notesTab = document.getElementById('tab-notes');
   if (notesTab && notesTab.classList.contains('active')) renderNotesTab();
+  var weeklyTab = document.getElementById('tab-weekly');
+  if (weeklyTab && weeklyTab.classList.contains('active')) renderWeeklyTab();
 }
 
 // ══════════════════════════════════════════════
@@ -1876,10 +1884,17 @@ function showTab(name, el) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   const panel = $('tab-' + name);
   if (panel) { panel.classList.add('active'); panel.style.display = ''; }
-  el.classList.add('active');
+  if (el) el.classList.add('active');
   if (name === 'monthly') buildMonthlyTable();
-  if (name === 'notes') renderNotesTab();
-  if (name === 'weekly') renderWeeklyTab();
+  if (name === 'notes') {
+    if (typeof initNotesMonthFilter === 'function') initNotesMonthFilter();
+    renderNotesTab();
+  }
+  if (name === 'weekly') {
+    const statsSel = document.getElementById('stats-month-filter');
+    if (statsSel) statsSel.value = ck();
+    renderWeeklyTab();
+  }
   if (name === 'drive') {
     const dateInput = document.getElementById('drive-date');
     if (dateInput && !dateInput.value) dateInput.value = new Date().toISOString().slice(0, 10);
@@ -2654,8 +2669,8 @@ function initNotesMonthFilter() {
     });
     if (hasNotes) latestWithNotes = ym;
   });
-  // Default: most recent with notes OR display month
-  var defaultYM = latestWithNotes || displayYM;
+  // Default: current active display month from header
+  var defaultYM = displayYM;
   sorted.forEach(function (ym) {
     var parts = ym.split('-');
     var mIdx = parseInt(parts[1]) - 1;
