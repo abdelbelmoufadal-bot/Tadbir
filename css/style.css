@@ -581,6 +581,13 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .drive-form input[type="file"].drive-input::-webkit-file-upload-button{background:rgba(126,200,176,.18);border:none;border-radius:8px;padding:6px 10px;color:#7EC8B0;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;margin-inline-end:8px;cursor:pointer;}
 .drive-submit:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
 
+/* ══ CAR SUB-NAVIGATION ══ */
+.car-subnav{display:flex;gap:6px;background:rgba(0,0,0,.25);padding:5px;border-radius:12px;overflow-x:auto;margin-top:10px;scrollbar-width:none;}
+.car-subnav::-webkit-scrollbar{display:none;}
+.car-subtab-btn{flex:1;min-width:85px;padding:8px 10px;border:none;background:transparent;color:rgba(255,255,255,.65);font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.car-subtab-btn:hover{color:#fff;background:rgba(255,255,255,.1);}
+.car-subtab-btn.active{background:rgba(255,255,255,.22);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+
 @media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}}
 /* AUTH */
 .auth-bar{display:flex;align-items:center;gap:8px;}

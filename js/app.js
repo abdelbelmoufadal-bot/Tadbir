@@ -204,7 +204,8 @@ function defMonth() {
     income: lbl.income.map((l, i) => ({ label: l, act: 0, pln: pln.income[i] || 0 })),
     notes: [],
     expCatPln: {},
-    fuelEntries: []
+    fuelEntries: [],
+    carExpenses: []
   };
 }
 
@@ -302,8 +303,16 @@ function setLang(l) {
   set('cal-leg2', T().cal_leg2 || 'متوسط');
   set('cal-leg3', T().cal_leg3 || 'مرتفع');
   set('cal-source', T().cal_source || '📋 المصدر: سجل المصاريف');
-  // In Drive labels
+  // Car / In Drive labels
   const _t = T();
+  set('t-tab5', _t.t_tab_car || 'Voiture');
+  set('mm-t-tab5', _t.t_tab_car || 'Voiture');
+  set('car-main-title', _t.car_main_title || '🚗 Gestion Voiture & InDrive');
+  set('lbl-subtab-indrive', _t.car_subtab_indrive || 'InDrive');
+  set('lbl-subtab-fuel', _t.car_subtab_fuel || 'Carburant');
+  set('lbl-subtab-maint', _t.car_subtab_maint || 'Entretien & Frais');
+  set('lbl-subtab-summary', _t.car_subtab_summary || 'Bilan Net');
+
   set('drv-today-lbl', _t.drv_today || 'اليوم');
   set('drv-week-lbl', _t.drv_week || 'الأسبوع');
   set('drv-month-lbl2', _t.drv_month || 'الشهر');
@@ -1923,8 +1932,7 @@ function showTab(name, el) {
   if (name === 'drive') {
     const dateInput = document.getElementById('drive-date');
     if (dateInput && !dateInput.value) dateInput.value = new Date().toISOString().slice(0, 10);
-    renderDriveTab();
-    renderFuelTab();
+    renderCarTab();
   }
   updateFabVisibility();
 }
@@ -2752,6 +2760,198 @@ function renderFuelTab() {
     row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(del);
     list.appendChild(row);
   });
+}
+
+// ══════════════════════════════════════════════
+// CAR & MAINTENANCE MANAGEMENT
+// ══════════════════════════════════════════════
+let _currentCarSubTab = 'indrive';
+
+function switchCarSubTab(subTabId, btnEl) {
+  _currentCarSubTab = subTabId;
+  const sections = ['indrive', 'fuel', 'maint', 'summary'];
+  sections.forEach(function (s) {
+    const secEl = document.getElementById('car-sec-' + s);
+    const btn = document.getElementById('car-subtab-' + s);
+    if (secEl) secEl.style.display = (s === subTabId) ? 'block' : 'none';
+    if (btn) btn.classList.toggle('active', s === subTabId);
+  });
+  renderCarTab();
+}
+
+function getCarExpensesData() {
+  return (allData[ck()] || {}).carExpenses || [];
+}
+
+function addCarExpense() {
+  if (!ensureMonthEditable()) return;
+  const date = document.getElementById('car-exp-date').value || new Date().toISOString().slice(0, 10);
+  const type = document.getElementById('car-exp-type').value || 'autre';
+  const label = (document.getElementById('car-exp-label').value || '').trim();
+  const amount = roundDown(document.getElementById('car-exp-amount').value);
+  const km = roundDown(document.getElementById('car-exp-km').value);
+  const isFixed = (document.getElementById('car-exp-fixed').value === 'fixed');
+
+  if (amount <= 0 || !label) {
+    showToast('❌ ' + (T().car_exp_fill || 'Veuillez remplir le libellé et le montant'));
+    return;
+  }
+
+  const mk = ck();
+  if (!allData[mk]) allData[mk] = defMonth();
+  if (!allData[mk].carExpenses) allData[mk].carExpenses = [];
+
+  allData[mk].carExpenses.push({
+    id: Date.now(),
+    date: date,
+    type: type,
+    label: label,
+    amount: amount,
+    km: km,
+    isFixed: isFixed
+  });
+
+  document.getElementById('car-exp-label').value = '';
+  document.getElementById('car-exp-amount').value = '';
+  document.getElementById('car-exp-km').value = '';
+
+  persistData();
+  renderCarTab();
+  showToast(T().toast_add || '✓ Frais enregistré');
+}
+
+function deleteCarExpense(idx) {
+  if (!ensureMonthEditable()) return;
+  const mk = ck();
+  if (!allData[mk] || !allData[mk].carExpenses) return;
+  allData[mk].carExpenses.splice(idx, 1);
+  persistData();
+  renderCarTab();
+}
+
+function renderCarMaintenanceTab() {
+  const expenses = getCarExpensesData();
+  let totalMaint = 0, fixedCount = 0, varCount = 0, fixedTotal = 0, varTotal = 0;
+  expenses.forEach(function (e) {
+    totalMaint += e.amount;
+    if (e.isFixed) { fixedCount++; fixedTotal += e.amount; }
+    else { varCount++; varTotal += e.amount; }
+  });
+
+  var el;
+  el = document.getElementById('car-maint-total'); if (el) el.textContent = fmt(totalMaint);
+  el = document.getElementById('car-maint-fixed'); if (el) el.textContent = fmt(fixedTotal);
+  el = document.getElementById('car-maint-variable'); if (el) el.textContent = fmt(varTotal);
+  el = document.getElementById('car-maint-count'); if (el) el.textContent = expenses.length;
+
+  // Reminders / Alerts
+  const currentKm = getAutoPreviousKm();
+  const lastOilEntry = expenses.slice().reverse().find(function (e) { return e.type === 'vidange' && e.km > 0; });
+  const lastTiresEntry = expenses.slice().reverse().find(function (e) { return e.type === 'pneu' && e.km > 0; });
+
+  const oilNextEl = document.getElementById('car-next-oil');
+  if (oilNextEl) {
+    if (lastOilEntry) {
+      const nextKm = lastOilEntry.km + 10000;
+      const remain = nextKm - currentKm;
+      oilNextEl.textContent = nextKm + ' km (' + (remain > 0 ? 'dans ' + remain + ' km' : '⚠️ Dépassé') + ')';
+    } else {
+      oilNextEl.textContent = 'Non enregistrée (Tous les 10 000 km)';
+    }
+  }
+
+  const tiresNextEl = document.getElementById('car-next-tires');
+  if (tiresNextEl) {
+    if (lastTiresEntry) {
+      const nextKm = lastTiresEntry.km + 40000;
+      const remain = nextKm - currentKm;
+      tiresNextEl.textContent = nextKm + ' km (' + (remain > 0 ? 'dans ' + remain + ' km' : '⚠️ À vérifier') + ')';
+    } else {
+      tiresNextEl.textContent = 'Non enregistré (Tous les 40 000 km)';
+    }
+  }
+
+  // List of expenses
+  const list = document.getElementById('car-expenses-list');
+  if (!list) return;
+  list.innerHTML = '';
+  if (!expenses.length) {
+    list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--light);font-size:12px;">🛠️ Aucun frais enregistré ce mois</div>';
+    return;
+  }
+  const typeIcons = { vidange: '🛢️', pneu: '🛞', reparation: '🛠️', assurance: '📄', vignette: '🏷️', lavage: '🧼', autre: '📦' };
+  expenses.slice().reverse().forEach(function (e, i) {
+    const origIdx = expenses.length - 1 - i;
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);';
+    const icon = document.createElement('div');
+    icon.style.cssText = 'width:36px;height:36px;border-radius:10px;background:rgba(252,165,165,.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;';
+    icon.textContent = typeIcons[e.type] || '🛠️';
+    const info = document.createElement('div');
+    info.style.cssText = 'flex:1;';
+    const kmTxt = e.km ? ' • ' + e.km + ' km' : '';
+    const fixTxt = e.isFixed ? '📌 Charge fixe' : '⚡ Charge variable';
+    info.innerHTML = '<div style="font-size:14px;font-weight:600;color:var(--dark);">' + e.label + '</div>'
+      + '<div style="font-size:12px;color:var(--light);">' + e.date + kmTxt + ' • ' + fixTxt + '</div>';
+    const amt = document.createElement('div');
+    amt.style.cssText = 'font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:#FCA5A5;flex-shrink:0;';
+    amt.textContent = fmt(e.amount);
+    const del = document.createElement('button');
+    del.style.cssText = 'background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
+    del.textContent = '✕';
+    del.onclick = function () { deleteCarExpense(origIdx); };
+    row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(del);
+    list.appendChild(row);
+  });
+}
+
+function renderCarSummaryTab() {
+  const driveEntries = getDriveData();
+  const fuelEntries = getFuelData();
+  const carExpenses = getCarExpensesData();
+
+  const totalDriveRev = driveEntries.reduce(function (s, e) { return s + Number(e.total || 0); }, 0);
+  const totalFuelCost = fuelEntries.reduce(function (s, e) { return s + Number(e.totalAmount || 0); }, 0);
+  const totalCarMaint = carExpenses.reduce(function (s, e) { return s + Number(e.amount || 0); }, 0);
+
+  const totalCarCharges = totalFuelCost + totalCarMaint;
+  const netProfit = totalDriveRev - totalCarCharges;
+  const marginPct = totalDriveRev > 0 ? Math.round((netProfit / totalDriveRev) * 100) : 0;
+
+  var el;
+  el = document.getElementById('car-sum-revenue'); if (el) el.textContent = fmt(totalDriveRev);
+  el = document.getElementById('car-sum-fuel'); if (el) el.textContent = fmt(totalFuelCost);
+  el = document.getElementById('car-sum-maint'); if (el) el.textContent = fmt(totalCarMaint);
+  el = document.getElementById('car-sum-total-exp'); if (el) el.textContent = fmt(totalCarCharges);
+
+  const netEl = document.getElementById('car-val-net-profit');
+  if (netEl) {
+    netEl.textContent = fmt(netProfit) + ' ' + currency;
+    netEl.style.color = netProfit >= 0 ? '#7EC8B0' : '#FCA5A5';
+  }
+
+  const marginEl = document.getElementById('car-val-margin-pct');
+  if (marginEl) {
+    marginEl.textContent = 'Marge Nette: ' + marginPct + '%';
+  }
+
+  const textEl = document.getElementById('car-analysis-text');
+  if (textEl) {
+    if (totalDriveRev === 0) {
+      textEl.textContent = 'Enregistrez vos trajets InDrive pour voir votre bénéfice net après déduction du carburant et des frais d\'entretien.';
+    } else {
+      textEl.textContent = 'Recettes InDrive (' + fmt(totalDriveRev) + ') - [Carburant (' + fmt(totalFuelCost) + ') + Entretiens (' + fmt(totalCarMaint) + ')] = Profit Net: ' + fmt(netProfit) + ' ' + currency + '.';
+    }
+  }
+}
+
+function renderCarTab() {
+  const panel = document.getElementById('tab-drive');
+  if (!panel || !panel.classList.contains('active')) return;
+  renderDriveTab();
+  renderFuelTab();
+  renderCarMaintenanceTab();
+  renderCarSummaryTab();
 }
 
 // ── OCR (Tesseract.js) — analyse des photos pompe / tableau de bord ──
