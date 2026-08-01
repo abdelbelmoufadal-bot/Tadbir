@@ -3001,7 +3001,7 @@ function exportPDF() {
     + rows
     + '<tr class="total-row"><td colspan="4">إجمالي سجل المصاريف</td><td style="text-align:left;">' + fmt(totalNotes) + ' ' + currency + '</td></tr>'
     + '</tbody></table>'
-    + '<div class="footer">Créé par BELMOUFADAL Abderrahim — Tadbir v4.5.3 — ' + new Date().toLocaleDateString() + '</div>'
+    + '<div class="footer">Créé par BELMOUFADAL Abderrahim — Tadbir v4.5.4 — ' + new Date().toLocaleDateString() + '</div>'
     + '</body></html>';
 
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3150,7 +3150,7 @@ function _buildXLSX() {
 
   var wb = XLSX.utils.book_new();
   var baseTitle = 'تدبير | Tadbir — تقرير ' + monthLabel + ' ' + curYear;
-  var credit = 'Créé par BELMOUFADAL Abderrahim — Tadbir v4.5.3';
+  var credit = 'Créé par BELMOUFADAL Abderrahim — Tadbir v4.5.4';
 
   // ══════════════════════════════
   // SHEET 1 — الملخص الشهري
