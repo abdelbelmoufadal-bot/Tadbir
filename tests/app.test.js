@@ -169,6 +169,10 @@ test('fuel OCR validates pump arithmetic', () => {
   assert.equal(parsed.total, 600.05);
   assert.equal(parsed.consistent, true);
   assert.equal(context.parseDashNumber('ODO 1808.4 km'), 1808.4);
+  assert.equal(context.parseDashNumber('Autonomie 120 km Distance 1808 km Trip 1808.4 km'), 1808.4);
+  assert.equal(context.parseDashNumber('Autonomie 120 km'), 120);
+  assert.match(app, /const OCR_CROPS\s*=\s*\{/);
+  assert.match(app, /createOCRCanvas/);
 });
 
 test('car costs sync to budget idempotently', () => {

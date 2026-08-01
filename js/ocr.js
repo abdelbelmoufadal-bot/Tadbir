@@ -15,10 +15,68 @@ function loadTesseract() {
   return _tesseractLoadPromise;
 }
 
-async function ocrImageFile(file) {
-  const Tesseract = await loadTesseract();
-  const result = await Tesseract.recognize(file, 'eng');
+const OCR_CROPS = {
+  pump: [
+    { x: 0.00, y: 0.08, w: 0.78, h: 0.30 },
+    { x: 0.39, y: 0.12, w: 0.36, h: 0.22 }
+  ],
+  dash: [
+    { x: 0.00, y: 0.30, w: 0.70, h: 0.30 },
+    { x: 0.40, y: 0.34, w: 0.28, h: 0.20 }
+  ]
+};
+
+function loadOCRImage(file) {
+  return new Promise(function (resolve, reject) {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = function () { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('image-load-failed')); };
+    img.src = url;
+  });
+}
+
+function createOCRCanvas(img, crop, threshold) {
+  const sx = Math.max(0, Math.round(img.naturalWidth * crop.x));
+  const sy = Math.max(0, Math.round(img.naturalHeight * crop.y));
+  const sw = Math.max(1, Math.min(img.naturalWidth - sx, Math.round(img.naturalWidth * crop.w)));
+  const sh = Math.max(1, Math.min(img.naturalHeight - sy, Math.round(img.naturalHeight * crop.h)));
+  const scale = 3;
+  const canvas = document.createElement('canvas');
+  canvas.width = sw * scale;
+  canvas.height = sh * scale;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+  const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < pixels.data.length; i += 4) {
+    const grey = 0.299 * pixels.data[i] + 0.587 * pixels.data[i + 1] + 0.114 * pixels.data[i + 2];
+    const enhanced = threshold ? (grey >= threshold ? 255 : 0) : Math.max(0, Math.min(255, (grey - 105) * 2.25 + 128));
+    pixels.data[i] = pixels.data[i + 1] = pixels.data[i + 2] = enhanced;
+  }
+  ctx.putImageData(pixels, 0, 0);
+  return canvas;
+}
+
+async function recognizeOCRSource(Tesseract, source) {
+  const result = await Tesseract.recognize(source, 'eng', {
+    tessedit_char_whitelist: '0123456789.,',
+    preserve_interword_spaces: '1'
+  });
   return (result && result.data && result.data.text) || '';
+}
+
+async function ocrImageFile(file, kind) {
+  const Tesseract = await loadTesseract();
+  const img = await loadOCRImage(file);
+  const crops = OCR_CROPS[kind] || [{ x: 0, y: 0, w: 1, h: 1 }];
+  const texts = [];
+  for (let i = 0; i < crops.length; i++) {
+    // La vue large conserve le contexte; la vue serrée noir/blanc cible les chiffres LCD.
+    texts.push(await recognizeOCRSource(Tesseract, createOCRCanvas(img, crops[i], i === crops.length - 1 ? 150 : null)));
+  }
+  return texts.join('\n');
 }
 
 function extractNumbersFromText(text) {
@@ -60,8 +118,10 @@ function parsePumpNumbers(text) {
 function parseDashNumber(text) {
   const nums = extractNumbersFromText(text);
   if (!nums.length) return null;
-  nums.sort(function (a, b) { return b - a; });
-  return nums[0];
+  const plausibleOdometers = nums.filter(function (n) { return n >= 500 && n <= 999999; });
+  const candidates = plausibleOdometers.length ? plausibleOdometers : nums.filter(function (n) { return n <= 999999; });
+  candidates.sort(function (a, b) { return b - a; });
+  return candidates[0] || null;
 }
 
 async function processFuelImagesOCR() {
@@ -78,17 +138,17 @@ async function processFuelImagesOCR() {
   try {
     const messages = [];
     if (pumpFile) {
-      const pumpText = await ocrImageFile(pumpFile);
+      const pumpText = await ocrImageFile(pumpFile, 'pump');
       const parsed = parsePumpNumbers(pumpText);
       if (parsed) {
         if (parsed.price != null) document.getElementById('fuel-price').value = parsed.price;
         if (parsed.total != null) document.getElementById('fuel-total').value = roundDown(parsed.total);
-        if (parsed.consistent) messages.push('Pompe cohérente' + (parsed.litres ? ' · ' + parsed.litres.toFixed(2) + ' L' : ''));
+        if (parsed.consistent) messages.push('Pompe: ' + parsed.total.toFixed(2) + ' MAD · ' + parsed.litres.toFixed(2) + ' L · ' + parsed.price.toFixed(2) + ' MAD/L');
         else messages.push('⚠️ Vérifiez le prix et le montant détectés');
       }
     }
     if (dashFile) {
-      const dashText = await ocrImageFile(dashFile);
+      const dashText = await ocrImageFile(dashFile, 'dash');
       const km = parseDashNumber(dashText);
       if (km != null) {
         const roundedKm = roundDown(km);
