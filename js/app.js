@@ -4465,6 +4465,7 @@ function getTelegramConfig() {
       ? (localStorage.getItem('sf_tg_auto_send') === 'true')
       : (cloudCfg.autoSend === true),
     autoTime: localStorage.getItem('sf_tg_auto_time') || cloudCfg.autoTime || '21:00',
+    timezone: localStorage.getItem('sf_tg_timezone') || cloudCfg.timezone || 'UTC+1',
     lastSentDate: localStorage.getItem('sf_tg_last_sent_date') || cloudCfg.lastSentDate || ''
   };
 }
@@ -4479,11 +4480,13 @@ function openTelegramModal() {
   const chatIdEl = $('tg-chat-id');
   const chkEl = $('tg-auto-send-chk');
   const timeEl = $('tg-auto-time');
+  const tzEl = $('tg-timezone');
 
   if (tokenEl) tokenEl.value = cfg.token;
   if (chatIdEl) chatIdEl.value = cfg.chatId;
   if (chkEl) chkEl.checked = cfg.autoSend;
   if (timeEl) timeEl.value = cfg.autoTime;
+  if (tzEl) tzEl.value = cfg.timezone;
 
   updateTelegramAutoStatusUI();
   openModal('telegramModal');
@@ -4511,6 +4514,43 @@ function saveTelegramAutoTime(val) {
     updateTelegramAutoStatusUI();
     showToast((lang === 'fr' ? '⏰ Heure d’envoi réglée sur ' : '⏰ وقت الإرسال: ') + val);
   }
+}
+
+function saveTelegramTimezone(val) {
+  if (val) {
+    localStorage.setItem('sf_tg_timezone', val);
+    if (typeof allData === 'object' && allData !== null) {
+      if (!allData._telegram) allData._telegram = {};
+      allData._telegram.timezone = val;
+      if (typeof persistData === 'function') persistData();
+    }
+    updateTelegramAutoStatusUI();
+    showToast((lang === 'fr' ? '🌍 Fuseau horaire réglé sur ' : '🌍 المنطقة الزمنية: ') + val);
+  }
+}
+
+function getCurrentTimeInTimezone(tzOption) {
+  const now = new Date();
+  if (!tzOption || tzOption === 'auto') {
+    const hours = String(now.getHours()).padStart(2, '0');
+    const mins = String(now.getMinutes()).padStart(2, '0');
+    return { timeStr: `${hours}:${mins}`, dateStr: now.toISOString().slice(0, 10) };
+  }
+
+  const match = tzOption.match(/UTC([+-]\d+)/i);
+  let targetOffsetHours = 1; // UTC+1 Maroc par défaut
+  if (match) {
+    targetOffsetHours = parseInt(match[1], 10);
+  }
+
+  const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const targetDate = new Date(utcMs + (3600000 * targetOffsetHours));
+
+  const hours = String(targetDate.getHours()).padStart(2, '0');
+  const mins = String(targetDate.getMinutes()).padStart(2, '0');
+  const dateStr = targetDate.toISOString().slice(0, 10);
+
+  return { timeStr: `${hours}:${mins}`, dateStr: dateStr };
 }
 
 function updateTelegramAutoStatusUI() {
@@ -4673,17 +4713,18 @@ function checkTelegramAutoSend() {
   const cfg = getTelegramConfig();
   if (!cfg.autoSend || !cfg.chatId || !cfg.token) return;
 
-  const now = new Date();
-  const todayStr = now.toISOString().slice(0, 10);
+  const tzInfo = getCurrentTimeInTimezone(cfg.timezone);
+  const todayStr = tzInfo.dateStr;
 
   if (cfg.lastSentDate === todayStr) return;
 
-  const hours = String(now.getHours()).padStart(2, '0');
-  const mins = String(now.getMinutes()).padStart(2, '0');
-  const currentTime = `${hours}:${mins}`;
-
-  if (currentTime >= cfg.autoTime) {
+  if (tzInfo.timeStr >= cfg.autoTime) {
     localStorage.setItem('sf_tg_last_sent_date', todayStr);
+    if (typeof allData === 'object' && allData !== null) {
+      if (!allData._telegram) allData._telegram = {};
+      allData._telegram.lastSentDate = todayStr;
+      if (typeof persistData === 'function') persistData();
+    }
     sendDailyTelegramSummary(true);
   }
 }

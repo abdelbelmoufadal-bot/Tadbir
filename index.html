@@ -850,6 +850,19 @@ onAuthStateChanged(auth, user=>{
         </label>
         <input type="time" id="tg-auto-time" class="nf-input" style="width:95px;font-size:11px;padding:4px 6px;text-align:center;" value="21:00" onchange="saveTelegramAutoTime(this.value)">
       </div>
+
+      <!-- Fuseau Horaire (Timezone) -->
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;margin-bottom:8px;padding-top:8px;border-top:1px dashed var(--border);">
+        <span style="font-size:11px;color:var(--dark);font-weight:600;">🌍 Fuseau horaire :</span>
+        <select id="tg-timezone" class="nf-input" style="width:145px;font-size:11px;padding:3px 6px;" onchange="saveTelegramTimezone(this.value)">
+          <option value="auto">📱 Heure de l'appareil</option>
+          <option value="UTC+1" selected>🇲🇦 UTC+1 (Maroc)</option>
+          <option value="UTC+2">🇫🇷 UTC+2 (France / Éte)</option>
+          <option value="UTC+0">🇬🇧 UTC+0 (GMT)</option>
+          <option value="UTC+3">🇸🇦 UTC+3 (Golfe)</option>
+        </select>
+      </div>
+
       <div style="font-size:10px;color:var(--light);line-height:1.3;" id="tg-auto-status">
         ℹ️ Envoie automatiquement le résumé du jour chaque soir à l'heure choisie.
       </div>
