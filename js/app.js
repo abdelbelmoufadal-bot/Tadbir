@@ -4746,5 +4746,25 @@ document.addEventListener('DOMContentLoaded', () => {
   sessionStorage.removeItem('show_landing');
   initCharts();
   setTimeout(initLandingCharts, 200);
-  // Firebase onAuthStateChanged will handle routing after Google sign-in
+
+  // Dynamic Scroll Auto-Hide for Mobile (Header & FAB Dock)
+  let lastScrollTop = 0;
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth > 600) return;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const header = document.querySelector('.header');
+    const fabDock = document.getElementById('fab-dock');
+    const bottomNav = document.getElementById('main-nav-inline');
+
+    if (scrollTop > lastScrollTop && scrollTop > 50) {
+      if (header) header.style.transform = 'translateY(-100%)';
+      if (fabDock) fabDock.style.transform = 'translateY(150px)';
+      if (bottomNav) bottomNav.style.transform = 'translateY(100%)';
+    } else {
+      if (header) header.style.transform = 'translateY(0)';
+      if (fabDock) fabDock.style.transform = 'translateY(0)';
+      if (bottomNav) bottomNav.style.transform = 'translateY(0)';
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  }, { passive: true });
 });
