@@ -1443,6 +1443,17 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   cursor: pointer !important;
 }
 
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.4));
+  transition: transform 0.2s ease;
+}
+.brand-icon:hover {
+  transform: scale(1.1);
+}
+
 .mm-card-icon {
   font-size: 24px;
 }
