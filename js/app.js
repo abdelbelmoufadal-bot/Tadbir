@@ -32,7 +32,10 @@ const LANGS = {
     import_confirm: 'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
     toast_add: 'تمت الإضافة ✓', toast_save: '✅ تم تحميل ملف الحفظ', toast_import: '✅ تم استيراد البيانات',
     toast_pin_on: '🔐 PIN مفعّل', toast_pin_off: '🔓 PIN مؤقف', toast_pin_created: 'تم إنشاء رمز PIN ✓', from_of: 'من أصل',
-    sync_off: 'غير متصل', sync_ok: 'متزامن ☁️', sync_ing: 'جاري...', sync_now: 'مزامنة الآن', history_h: '<ctrl42> النسخ المحلية', history_btn: 'إنشاء نسخة الآن', history_sub: 'الاحتفاظ بآخر 5 نسخ على هذا الجهاز', history_empty: 'لا توجد نسخة بعد', history_restore: 'استرجاع', history_confirm: 'استرجاع هذه النسخة؟ سيتم حفظ الوضع الحالي أولاً.', history_saved: 'تم إنشاء نسخة محلية ✓', month_closed: 'هذا الشهر مغلق', month_close: 'إغلاق الشهر', month_reopen: 'إعادة فتح الشهر', carry_balance: 'ترحيل رصيد الشهر', month_exists: 'الشهر التالي يحتوي على بيانات. هل تريد استبدالها؟', vs_previous: 'مقارنة بالشهر السابق', expense_search: 'بحث...', sort_newest: 'الأحدث أولاً', sort_oldest: 'الأقدم أولاً', sort_highest: 'المبلغ: الأكبر', sort_lowest: 'المبلغ: الأصغر', duplicate_expense: 'تكرار المصروف', details: 'التفاصيل', deadline: 'تاريخ الهدف', interest_rate: 'نسبة الفائدة (%)', monthly_payment: 'القسط الشهر', remaining_amount: 'المتبقي', progress: 'التقدم', cancel: 'إلغاء', save: 'حفظ', avg_daily: 'معدل المصروف اليومي', daily_budget: 'الميزانية اليومية المتبقية', month_projection: 'توقع نهاية الشهر', savings_rate: 'نسبة التوفير', top_category: 'أكبر فئة', days_elapsed: 'أيام محسوبة', days_remaining: 'أيام متبقية', display_currency: 'وحدة عرض فقط — لا يتم تحويل المبالغ', toast_signout: '👋 تم تسجيل الخروج', toast_loaded: 'تم تحميل بياناتك من السحاب', signin: 'تسجيل الدخول', signout: 'خروج', custom_cat: '✏️ فئة جديدة...', reset_h: '🔄 إعادة تعيين', reset_btn: 'إضافة البيانات الافتراضية الناقصة', reset_sub: 'يضيف فقط ما ينقص — لا يمسح بياناتك', toast_reset: '✅ تمت إضافة البيانات الافتراضية', cal_total: 'الإجمالي:', cal_leg1: 'عادي', cal_leg2: 'متوسط', cal_leg3: 'مرتفع', cal_source: '📋 المصدر: سجل المصاريف', exp_auto_note: 'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل', drv_today: 'اليوم', drv_week: 'الأسبوع', drv_month: 'الشهر', drv_avg: 'معدل/رحلة', drv_trips: 'رحلة', drv_add_title: 'تسجيل يوم جديد', drv_lbl_date: 'التاريخ', drv_lbl_trips: 'عدد الرحلات', drv_lbl_total: 'المجموع', drv_submit: 'تسجيل اليوم', drv_heatmap: 'أفضل أيام الأسبوع', drv_list: 'سجل الرحلات', drive_fill: 'أكمل كل الحقول', stats_title: 'تحليل المصاريف', stats_subtitle: 'اكتشف التسربات والعادات المكلفة وفرص التوفير.', stats_month: 'الشهر المحلل', stats_leaks: '🚨 تسربات محتملة', stats_products: '🧾 المنتجات الأكثر كلفة', stats_actions: '💡 إجراءات مقترحة', stats_category: 'توزيع المصاريف حسب الفئة', stats_entries: 'عملية', stats_discretionary: 'الكماليات', stats_no_data: 'لا توجد بيانات لهذا الشهر', stats_reduce: 'قلّص أكبر مصروف كمالي بنسبة 25٪', stats_repeat: 'راجع المشتريات المتكررة يومياً', stats_budget: 'حدد سقفاً شهرياً لكل فئة', form_choose: 'اختر المشتريات', form_clear: 'مسح الكل ✕', filter_month: 'الشهر:', filter_day: 'اليوم:', filter_total: 'الإجمالي:', month_total: 'إجمالي الشهر', drive_sync: '⚡ يتزامن مع الدخل', offline: '📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً', person: 'المستفيد', all_people: 'كل العائلة', family_stats: '👨‍👩‍👦‍👦 استهلاك العائلة', bud_h: 'إعداد ميزانية الفئات', bud_s: 'تحديد حد أقصى لكل قسم', lnd_logo_name: 'Tadbir Pro', lnd_logo_sub: 'دبّر ميزانيتك بذكاء', lnd_nav_btn: '🔑 تسجيل الدخول بـ Google', lnd_badge: '✦ مجاني 100% • مزامنة سحابية', lnd_h1_1: 'دبّر فلوسك بذكاء', lnd_h1_2: 'وفبلاصة وحدة', lnd_sub: 'تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم', lnd_start_btn: '🚀 ابدأ مجاناً مع Google', lnd_install: '📲 تثبيت التطبيق', lnd_no_card: 'لا حاجة لبطاقة بنكية • مجاني للأبد', lnd_demo_title: 'معاينة التطبيق', lnd_demo_inc: '💵 الدخل', lnd_demo_exp: '🛒 المصاريف', lnd_demo_rem: '✅ الباقي', lnd_demo_ch1: 'فين كتمشي الفلوس', lnd_demo_ch2: 'المخطط / الفعلي', lnd_demo_l1: 'البيان', lnd_demo_l2: 'تصرفت', lnd_demo_l3: 'مخطط', lnd_demo_food: 'مواد غذائية', lnd_demo_market: 'السوق', lnd_feat_h2_1: 'كل شيء تحتاجه', lnd_feat_h2_2: 'في مكان واحد', lnd_feat_p: 'تطبيق مصمم خصيصاً لتنظيم ميزانيتك بسهولة وبدون تعقيد', lnd_f1_t: 'لوحة الميزانية', lnd_f1_d: 'تتبع الدخل والفواتير والمصاريف والتوفير والديون في لوحة واحدة واضحة مع رسوم بيانية ذكية', lnd_f2_t: 'مزامنة تلقائية', lnd_f2_d: 'بياناتك محفوظة في السحاب وتتزامن بين الهاتف والكمبيوتر في الوقت الفعلي — لا تفقد أي شيء', lnd_f3_t: 'دفتر الملاحظات', lnd_f3_d: 'سجّل أي مصروف يومي بفئته ويتجمع تلقائياً مع المصاريف الشهرية بدون إدخال يدوي مكرر', lnd_f4_t: 'مقارنة شهرية', lnd_f4_d: 'تابع تطور ميزانيتك عبر 12 شهر مع رسم بياني يبين الفرق بين المخطط والفعلي', lnd_f5_t: 'لغتان مكتملتان', lnd_f5_d: 'العربية • Français — تغيير اللغة يغيّر اتجاه الصفحة والمكونات تلقائياً', lnd_f6_t: 'حماية وأمان', lnd_f6_d: 'تسجيل دخول آمن بـ Google + رمز PIN لحماية التطبيق على جهازك — بياناتك لك وحدك', lnd_f7_t: 'بوت تليجرام تلقائي', lnd_f7_d: 'ملخصات يومية تلقائية تصلك على تليجرام في الوقت والتوقيت الذي تحدده (المغرب، فرنسا...)', lnd_f8_t: 'واتساب إكسبريس', lnd_f8_d: 'الصق نص محادثة الواتساب ويستخرج التطبيق المنتجات والأسعار تلقائياً في الميزانية', lnd_stat_1: 'مجاني', lnd_stat_2: 'لغتان', lnd_stat_3: 'سحاب آمن', lnd_stat_4: 'كل الأجهزة', lnd_step_h2: 'كيف يشتغل؟', lnd_step_p: '3 خطوات بسيطة تنظم فيها ميزانيتك', lnd_s1_t: 'سجّل دخولك بـ Google', lnd_s1_d: 'اضغط على "ابدأ مجاناً" وسجّل بحساب Google ديالك — لا تسجيل، لا كلمة مرور', lnd_s2_t: 'أدخل ميزانيتك', lnd_s2_d: 'عندك بيانات افتراضية جاهزة — فقط أدخل الأرقام الحقيقية ديالك في الخانات المناسبة', lnd_s3_t: 'تابع وتحكم في فلوسك', lnd_s3_d: 'البيانات تتزامن تلقائياً — افتح التطبيق من الهاتف أو الكمبيوتر وتلقى كل شيء في مكانه', lnd_final_h2: 'جاهز تنظم فلوسك؟ 💚', lnd_final_p: 'ابدأ دابا — مجاني 100% ولا تحتاج لأي إعداد معقد', lnd_final_note: 'لا حاجة لبطاقة بنكية', lnd_footer_c: 'دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة'
+    sync_off: 'غير متصل', sync_ok: 'متزامن ☁️', sync_ing: 'جاري...', sync_now: 'مزامنة الآن', history_h: '<ctrl42> النسخ المحلية', history_btn: 'إنشاء نسخة الآن', history_sub: 'الاحتفاظ بآخر 5 نسخ على هذا الجهاز', history_empty: 'لا توجد نسخة بعد', history_restore: 'استرجاع', history_confirm: 'استرجاع هذه النسخة؟ سيتم حفظ الوضع الحالي أولاً.', history_saved: 'تم إنشاء نسخة محلية ✓', month_closed: 'هذا الشهر مغلق', month_close: 'إغلاق الشهر', month_reopen: 'إعادة فتح الشهر', carry_balance: 'ترحيل رصيد الشهر', month_exists: 'الشهر التالي يحتوي على بيانات. هل تريد استبدالها؟', vs_previous: 'مقارنة بالشهر السابق', expense_search: 'بحث...', sort_newest: 'الأحدث أولاً', sort_oldest: 'الأقدم أولاً', sort_highest: 'المبلغ: الأكبر', sort_lowest: 'المبلغ: الأصغر', duplicate_expense: 'تكرار المصروف', details: 'التفاصيل', deadline: 'تاريخ الهدف', interest_rate: 'نسبة الفائدة (%)', monthly_payment: 'القسط الشهر', remaining_amount: 'المتبقي', progress: 'التقدم', cancel: 'إلغاء', save: 'حفظ', avg_daily: 'معدل المصروف اليومي', daily_budget: 'الميزانية اليومية المتبقية', month_projection: 'توقع نهاية الشهر', savings_rate: 'نسبة التوفير', top_category: 'أكبر فئة', days_elapsed: 'أيام محسوبة', days_remaining: 'أيام متبقية', display_currency: 'وحدة عرض فقط — لا يتم تحويل المبالغ', toast_signout: '👋 تم تسجيل الخروج', toast_loaded: 'تم تحميل بياناتك من السحاب', signin: 'تسجيل الدخول', signout: 'خروج', custom_cat: '✏️ فئة جديدة...', reset_h: '🔄 إعادة تعيين', reset_btn: 'إضافة البيانات الافتراضية الناقصة', reset_sub: 'يضيف فقط ما ينقص — لا يمسح بياناتك', toast_reset: '✅ تمت إضافة البيانات الافتراضية', cal_total: 'الإجمالي:', cal_leg1: 'عادي', cal_leg2: 'متوسط', cal_leg3: 'مرتفع', cal_source: '📋 المصدر: سجل المصاريف', exp_auto_note: 'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل', drv_today: 'اليوم', drv_week: 'الأسبوع', drv_month: 'الشهر', drv_avg: 'معدل/رحلة', drv_trips: 'رحلة', drv_add_title: 'تسجيل يوم جديد', drv_lbl_date: 'التاريخ', drv_lbl_trips: 'عدد الرحلات', drv_lbl_total: 'المجموع', drv_submit: 'تسجيل اليوم', drv_heatmap: 'أفضل أيام الأسبوع', drv_list: 'سجل الرحلات', drive_fill: 'أكمل كل الحقول',
+    fuel_title: '⛽ استهلاك الوقود', fuel_add_title: 'إضافة تعبئة جديدة', fuel_lbl_date: 'التاريخ', fuel_lbl_prevkm: 'الكيلومتراج السابق', fuel_lbl_currkm: 'الكيلومتراج الحالي', fuel_lbl_price: 'ثمن اللتر', fuel_lbl_total: 'المبلغ الإجمالي', fuel_submit: 'تسجيل التعبئة', fuel_list: 'سجل التعبئات', fuel_fill: 'تحقق من الحقول (الكيلومتراج الحالي يجب أن يكون أكبر)', fuel_max: '⚠️ الحد الأقصى 3 تعبئات في الشهر', fuel_empty: '⛽ لا توجد تعبئة مسجلة هذا الشهر',
+    fuel_ocr_title: '📷 استيراد من صورة', fuel_ocr_pump: 'صورة المضخة', fuel_ocr_dash: 'صورة عداد الكيلومترات', fuel_ocr_btn: 'تحليل الصور', fuel_ocr_loading: 'جاري التحليل...', fuel_ocr_ok: '✓ تم استخراج البيانات، تحقق منها قبل التسجيل', fuel_ocr_fail: '❌ تعذر استخراج البيانات، أدخلها يدوياً', fuel_ocr_loadfail: '❌ تعذر تحميل أداة التحليل، تحقق من الاتصال',
+    fuel_stat_km: 'المسافة', fuel_stat_cost: 'التكلفة', fuel_stat_conso: 'الاستهلاك/100كم', fuel_stat_pricekm: 'الثمن/كم', stats_title: 'تحليل المصاريف', stats_subtitle: 'اكتشف التسربات والعادات المكلفة وفرص التوفير.', stats_month: 'الشهر المحلل', stats_leaks: '🚨 تسربات محتملة', stats_products: '🧾 المنتجات الأكثر كلفة', stats_actions: '💡 إجراءات مقترحة', stats_category: 'توزيع المصاريف حسب الفئة', stats_entries: 'عملية', stats_discretionary: 'الكماليات', stats_no_data: 'لا توجد بيانات لهذا الشهر', stats_reduce: 'قلّص أكبر مصروف كمالي بنسبة 25٪', stats_repeat: 'راجع المشتريات المتكررة يومياً', stats_budget: 'حدد سقفاً شهرياً لكل فئة', form_choose: 'اختر المشتريات', form_clear: 'مسح الكل ✕', filter_month: 'الشهر:', filter_day: 'اليوم:', filter_total: 'الإجمالي:', month_total: 'إجمالي الشهر', drive_sync: '⚡ يتزامن مع الدخل', offline: '📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً', person: 'المستفيد', all_people: 'كل العائلة', family_stats: '👨‍👩‍👦‍👦 استهلاك العائلة', bud_h: 'إعداد ميزانية الفئات', bud_s: 'تحديد حد أقصى لكل قسم', lnd_logo_name: 'Tadbir Pro', lnd_logo_sub: 'دبّر ميزانيتك بذكاء', lnd_nav_btn: '🔑 تسجيل الدخول بـ Google', lnd_badge: '✦ مجاني 100% • مزامنة سحابية', lnd_h1_1: 'دبّر فلوسك بذكاء', lnd_h1_2: 'وفبلاصة وحدة', lnd_sub: 'تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم', lnd_start_btn: '🚀 ابدأ مجاناً مع Google', lnd_install: '📲 تثبيت التطبيق', lnd_no_card: 'لا حاجة لبطاقة بنكية • مجاني للأبد', lnd_demo_title: 'معاينة التطبيق', lnd_demo_inc: '💵 الدخل', lnd_demo_exp: '🛒 المصاريف', lnd_demo_rem: '✅ الباقي', lnd_demo_ch1: 'فين كتمشي الفلوس', lnd_demo_ch2: 'المخطط / الفعلي', lnd_demo_l1: 'البيان', lnd_demo_l2: 'تصرفت', lnd_demo_l3: 'مخطط', lnd_demo_food: 'مواد غذائية', lnd_demo_market: 'السوق', lnd_feat_h2_1: 'كل شيء تحتاجه', lnd_feat_h2_2: 'في مكان واحد', lnd_feat_p: 'تطبيق مصمم خصيصاً لتنظيم ميزانيتك بسهولة وبدون تعقيد', lnd_f1_t: 'لوحة الميزانية', lnd_f1_d: 'تتبع الدخل والفواتير والمصاريف والتوفير والديون في لوحة واحدة واضحة مع رسوم بيانية ذكية', lnd_f2_t: 'مزامنة تلقائية', lnd_f2_d: 'بياناتك محفوظة في السحاب وتتزامن بين الهاتف والكمبيوتر في الوقت الفعلي — لا تفقد أي شيء', lnd_f3_t: 'دفتر الملاحظات', lnd_f3_d: 'سجّل أي مصروف يومي بفئته ويتجمع تلقائياً مع المصاريف الشهرية بدون إدخال يدوي مكرر', lnd_f4_t: 'مقارنة شهرية', lnd_f4_d: 'تابع تطور ميزانيتك عبر 12 شهر مع رسم بياني يبين الفرق بين المخطط والفعلي', lnd_f5_t: 'لغتان مكتملتان', lnd_f5_d: 'العربية • Français — تغيير اللغة يغيّر اتجاه الصفحة والمكونات تلقائياً', lnd_f6_t: 'حماية وأمان', lnd_f6_d: 'تسجيل دخول آمن بـ Google + رمز PIN لحماية التطبيق على جهازك — بياناتك لك وحدك', lnd_f7_t: 'بوت تليجرام تلقائي', lnd_f7_d: 'ملخصات يومية تلقائية تصلك على تليجرام في الوقت والتوقيت الذي تحدده (المغرب، فرنسا...)', lnd_f8_t: 'واتساب إكسبريس', lnd_f8_d: 'الصق نص محادثة الواتساب ويستخرج التطبيق المنتجات والأسعار تلقائياً في الميزانية', lnd_stat_1: 'مجاني', lnd_stat_2: 'لغتان', lnd_stat_3: 'سحاب آمن', lnd_stat_4: 'كل الأجهزة', lnd_step_h2: 'كيف يشتغل؟', lnd_step_p: '3 خطوات بسيطة تنظم فيها ميزانيتك', lnd_s1_t: 'سجّل دخولك بـ Google', lnd_s1_d: 'اضغط على "ابدأ مجاناً" وسجّل بحساب Google ديالك — لا تسجيل، لا كلمة مرور', lnd_s2_t: 'أدخل ميزانيتك', lnd_s2_d: 'عندك بيانات افتراضية جاهزة — فقط أدخل الأرقام الحقيقية ديالك في الخانات المناسبة', lnd_s3_t: 'تابع وتحكم في فلوسك', lnd_s3_d: 'البيانات تتزامن تلقائياً — افتح التطبيق من الهاتف أو الكمبيوتر وتلقى كل شيء في مكانه', lnd_final_h2: 'جاهز تنظم فلوسك؟ 💚', lnd_final_p: 'ابدأ دابا — مجاني 100% ولا تحتاج لأي إعداد معقد', lnd_final_note: 'لا حاجة لبطاقة بنكية', lnd_footer_c: 'دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة'
   },
   fr: {
     dir: 'ltr',
@@ -69,6 +72,9 @@ const LANGS = {
     reset_h: '🔄 Réinitialisation', reset_btn: 'Ajouter les données par défaut manquantes', reset_sub: 'Ajoute seulement ce qui manque — ne supprime rien', toast_reset: '✅ Données par défaut ajoutées',
     cal_total: 'Total :', cal_leg1: 'Normal', cal_leg2: 'Modéré', cal_leg3: 'Élevé', cal_source: '📋 Source : Carnet de notes', exp_auto_note: 'Montants issus du carnet — le prévu est modifiable',
     drv_today: "Aujourd'hui", drv_week: 'Semaine', drv_month: 'Mois', drv_avg: 'Moy./trajet', drv_trips: 'trajet', drv_add_title: 'Ajouter une journée', drv_lbl_date: 'Date', drv_lbl_trips: 'Nombre de trajets', drv_lbl_total: 'Montant total', drv_submit: 'Enregistrer la journée', drv_heatmap: 'Dépenses par jour de la semaine', drv_list: 'Historique des trajets', drive_fill: 'Veuillez remplir tous les champs',
+    fuel_title: '⛽ Consommation carburant', fuel_add_title: 'Ajouter un plein', fuel_lbl_date: 'Date', fuel_lbl_prevkm: 'Kilométrage précédent', fuel_lbl_currkm: 'Kilométrage actuel', fuel_lbl_price: 'Prix du litre', fuel_lbl_total: 'Montant total', fuel_submit: 'Enregistrer le plein', fuel_list: 'Historique des pleins', fuel_fill: 'Vérifiez les champs (le km actuel doit être supérieur)', fuel_max: '⚠️ Maximum 3 pleins par mois atteint', fuel_empty: '⛽ Aucun plein enregistré ce mois',
+    fuel_ocr_title: '📷 Importer depuis une photo', fuel_ocr_pump: 'Photo de la pompe', fuel_ocr_dash: 'Photo du compteur', fuel_ocr_btn: 'Analyser les photos', fuel_ocr_loading: 'Analyse en cours...', fuel_ocr_ok: '✓ Données extraites, vérifiez avant de valider', fuel_ocr_fail: '❌ Extraction impossible, saisissez manuellement', fuel_ocr_loadfail: '❌ Impossible de charger l’outil d’analyse, vérifiez la connexion',
+    fuel_stat_km: 'Distance', fuel_stat_cost: 'Coût', fuel_stat_conso: 'Conso/100km', fuel_stat_pricekm: 'Prix/km',
     stats_title: 'Analyse des dépenses', stats_subtitle: 'Repérez les fuites, les habitudes coûteuses et les économies possibles.', stats_month: 'Mois analysé', stats_leaks: '🚨 Fuites probables', stats_products: '🧾 Produits les plus coûteux', stats_actions: '💡 Actions recommandées', stats_category: 'Répartition par catégorie', stats_entries: 'opérations', stats_discretionary: 'Loisirs et extras', stats_no_data: 'Aucune donnée pour ce mois', stats_reduce: 'Réduire de 25 % le premier poste non essentiel', stats_repeat: 'Vérifier les achats répétés presque chaque jour', stats_budget: 'Fixer un plafond mensuel par catégorie', form_choose: 'Sélectionnez les achats', form_clear: 'Tout effacer ✕', filter_month: 'Mois :', filter_day: 'Jour :', filter_total: 'Total :', month_total: 'Total du mois', drive_sync: '⚡ Synchronisé avec les revenus', offline: '📡 Vous êtes hors ligne — les données restent enregistrées sur cet appareil', person: 'Bénéficiaire', all_people: 'Toute la famille', family_stats: '👨‍👩‍👦‍👦 Consommation familiale', bud_h: 'Configurer le budget', bud_s: 'Définir un plafond par catégorie', lnd_logo_name: 'Tadbir', lnd_logo_sub: 'Gérez votre budget intelligemment', lnd_nav_btn: '🔑 Connexion Google', lnd_badge: '✦ 100% Gratuit • Synchro Cloud', lnd_h1_1: 'Gérez votre argent', lnd_h1_2: 'en un seul endroit', lnd_sub: 'Application intelligente pour suivre votre budget mensuel — notez vos dépenses, suivez vos économies et remboursez vos dettes', lnd_start_btn: '🚀 Commencer avec Google', lnd_install: "📲 Installer l'app", lnd_no_card: 'Aucune carte bancaire requise • Gratuit à vie', lnd_demo_title: "Aperçu de l'app", lnd_demo_inc: '💵 Revenus', lnd_demo_exp: '🛒 Dépenses', lnd_demo_rem: '✅ Reste', lnd_demo_ch1: 'Répartition', lnd_demo_ch2: 'Prévu / Réalisé', lnd_demo_l1: 'Désignation', lnd_demo_l2: 'Réalisé', lnd_demo_l3: 'Prévu', lnd_demo_food: 'Alimentation', lnd_demo_market: 'Marché', lnd_feat_h2_1: 'Tout ce dont vous avez besoin', lnd_feat_h2_2: 'au même endroit', lnd_feat_p: 'Conçue spécialement pour organiser votre budget facilement et sans complexité', lnd_f1_t: 'Tableau de bord', lnd_f1_d: 'Suivez revenus, factures, dépenses, épargne et dettes sur un tableau clair avec graphiques', lnd_f2_t: 'Synchro automatique', lnd_f2_d: 'Vos données sont dans le cloud et synchronisées en temps réel entre appareils', lnd_f3_t: 'Carnet de notes', lnd_f3_d: 'Notez vos dépenses quotidiennes et elles se cumulent automatiquement sans saisie', lnd_f4_t: 'Comparaison', lnd_f4_d: "Suivez l'évolution sur 12 mois avec un graphique prévu vs réalisé", lnd_f5_t: 'Bilingue', lnd_f5_d: "Arabe • Français — le changement de langue adapte automatiquement l'interface (RTL/LTR)", lnd_f6_t: 'Sécurité', lnd_f6_d: 'Connexion Google + code PIN local pour protéger vos données privées', lnd_f7_t: 'Bot Telegram Automatique', lnd_f7_d: 'Bilans quotidiens automatiques reçus sur Telegram à l’heure et au fuseau horaire de votre choix.', lnd_f8_t: 'WhatsApp Express', lnd_f8_d: 'Collez le texte d’une discussion WhatsApp pour extraire et ajouter automatiquement vos courses.', lnd_stat_1: 'Gratuit', lnd_stat_2: 'Langues', lnd_stat_3: 'Cloud Sécurisé', lnd_stat_4: 'Multi-appareils', lnd_step_h2: 'Comment ça marche ?', lnd_step_p: '3 étapes simples pour organiser votre budget', lnd_s1_t: 'Connectez-vous via Google', lnd_s1_d: "Cliquez sur Commencer et utilisez Google — pas de mot de passe", lnd_s2_t: 'Entrez votre budget', lnd_s2_d: 'Des données démo sont prêtes — remplacez-les par vos montants réels', lnd_s3_t: 'Suivez et contrôlez', lnd_s3_d: "Tout se synchronise automatiquement. Ouvrez depuis n'importe où", lnd_final_h2: 'Prêt à organiser votre argent ? 💚', lnd_final_p: 'Commencez maintenant — 100% gratuit, aucune configuration', lnd_final_note: 'Pas de carte bancaire requise', lnd_footer_c: 'Gérez intelligemment 💚 — Tous droits réservés'
   }
 };
@@ -197,7 +203,8 @@ function defMonth() {
     debts: lbl.debts.map((l, i) => ({ label: l, act: 0, pln: pln.debts[i] || 0 })),
     income: lbl.income.map((l, i) => ({ label: l, act: 0, pln: pln.income[i] || 0 })),
     notes: [],
-    expCatPln: {}
+    expCatPln: {},
+    fuelEntries: []
   };
 }
 
@@ -309,6 +316,24 @@ function setLang(l) {
   set('drv-submit-lbl', _t.drv_submit || 'تسجيل اليوم');
   set('drv-week-chart-title', _t.drv_heatmap || 'أفضل أيام الأسبوع');
   set('drv-list-title', _t.drv_list || 'سجل الرحلات');
+  // Fuel labels
+  set('fuel-title-lbl', _t.fuel_title || '⛽ استهلاك الوقود');
+  set('fuel-add-title', _t.fuel_add_title || 'إضافة تعبئة جديدة');
+  set('fuel-lbl-date', _t.fuel_lbl_date || 'التاريخ');
+  set('fuel-lbl-prevkm', _t.fuel_lbl_prevkm || 'الكيلومتراج السابق');
+  set('fuel-lbl-currkm', _t.fuel_lbl_currkm || 'الكيلومتراج الحالي');
+  set('fuel-lbl-price', _t.fuel_lbl_price || 'ثمن اللتر');
+  set('fuel-lbl-total', _t.fuel_lbl_total || 'المبلغ الإجمالي');
+  set('fuel-submit-lbl', _t.fuel_submit || 'تسجيل التعبئة');
+  set('fuel-list-title', _t.fuel_list || 'سجل التعبئات');
+  set('fuel-ocr-title', _t.fuel_ocr_title || '📷 استيراد من صورة');
+  set('fuel-ocr-pump-lbl', _t.fuel_ocr_pump || 'صورة المضخة');
+  set('fuel-ocr-dash-lbl', _t.fuel_ocr_dash || 'صورة عداد الكيلومترات');
+  set('fuel-ocr-btn', _t.fuel_ocr_btn || 'تحليل الصور');
+  set('fuel-stat-km-lbl', _t.fuel_stat_km || 'المسافة');
+  set('fuel-stat-cost-lbl', _t.fuel_stat_cost || 'التكلفة');
+  set('fuel-stat-conso-lbl', _t.fuel_stat_conso || 'الاستهلاك/100كم');
+  set('fuel-stat-pricekm-lbl', _t.fuel_stat_pricekm || 'الثمن/كم');
   set('nf-lbl-remark', t.nt_remark || '💬 ملاحظة (اختياري)');
   const remEl = document.getElementById('nf-remark'); if (remEl) remEl.placeholder = t.nt_remark_ph || 'مثال: ماركة، محل...';
   const fabEl = document.getElementById('fab-btn'); if (fabEl) fabEl.innerHTML = '＋ <span class="fab-text">' + (t.add_note_fab || 'تسجيل مصروف') + '</span>';
@@ -1899,6 +1924,7 @@ function showTab(name, el) {
     const dateInput = document.getElementById('drive-date');
     if (dateInput && !dateInput.value) dateInput.value = new Date().toISOString().slice(0, 10);
     renderDriveTab();
+    renderFuelTab();
   }
   updateFabVisibility();
 }
@@ -2592,6 +2618,225 @@ function renderDriveList(entries) {
     row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(del);
     list.appendChild(row);
   });
+}
+
+// ══════════════════════════════════════════════
+// FUEL / CARBURANT (dans l'onglet In Drive)
+// ══════════════════════════════════════════════
+function roundDown(value) {
+  return Math.floor(Number(value) || 0);
+}
+
+function getFuelData() {
+  return (allData[ck()] || {}).fuelEntries || [];
+}
+
+// Récupère automatiquement le km du dernier plein (ce mois, sinon mois précédent)
+function getAutoPreviousKm() {
+  const current = getFuelData();
+  if (current.length > 0) return current[current.length - 1].currKm;
+  const parts = ck().split('-').map(Number);
+  let prevYear = parts[0], prevMonth = parts[1] - 1;
+  if (prevMonth === 0) { prevMonth = 12; prevYear -= 1; }
+  const prevKey = prevYear + '-' + String(prevMonth).padStart(2, '0');
+  const prevData = allData[prevKey];
+  if (prevData && prevData.fuelEntries && prevData.fuelEntries.length > 0) {
+    return prevData.fuelEntries[prevData.fuelEntries.length - 1].currKm;
+  }
+  return 0;
+}
+
+function addFuelEntry() {
+  if (!ensureMonthEditable()) return;
+  const mk = ck();
+  if (!allData[mk]) allData[mk] = defMonth();
+  if (!allData[mk].fuelEntries) allData[mk].fuelEntries = [];
+  if (allData[mk].fuelEntries.length >= 3) {
+    showToast(T().fuel_max || '⚠️ Maximum 3 pleins par mois atteint');
+    return;
+  }
+  const date = document.getElementById('fuel-date').value;
+  const prevKm = roundDown(document.getElementById('fuel-prev-km').value);
+  const currKm = roundDown(document.getElementById('fuel-curr-km').value);
+  const pricePerLitre = Number(document.getElementById('fuel-price').value) || 0;
+  const totalAmount = roundDown(document.getElementById('fuel-total').value);
+  if (!date || currKm <= prevKm || totalAmount <= 0 || pricePerLitre <= 0) {
+    showToast('❌ ' + (T().fuel_fill || 'Vérifiez les champs'));
+    return;
+  }
+  allData[mk].fuelEntries.push({ date, prevKm, currKm, pricePerLitre, totalAmount });
+  persistData();
+  document.getElementById('fuel-curr-km').value = '';
+  document.getElementById('fuel-price').value = '';
+  document.getElementById('fuel-total').value = '';
+  const pumpInput = document.getElementById('fuel-ocr-pump-input'); if (pumpInput) pumpInput.value = '';
+  const dashInput = document.getElementById('fuel-ocr-dash-input'); if (dashInput) dashInput.value = '';
+  const statusEl = document.getElementById('fuel-ocr-status'); if (statusEl) statusEl.textContent = '';
+  renderFuelTab();
+  showToast(T().toast_add || '✓');
+}
+
+function deleteFuelEntry(idx) {
+  if (!ensureMonthEditable()) return;
+  const mk = ck();
+  if (!allData[mk] || !allData[mk].fuelEntries) return;
+  allData[mk].fuelEntries.splice(idx, 1);
+  persistData();
+  renderFuelTab();
+}
+
+function renderFuelTab() {
+  const panel = document.getElementById('tab-drive');
+  if (!panel || !panel.classList.contains('active')) return;
+  const t = T();
+  const entries = getFuelData();
+
+  // Auto-remplir le kilométrage précédent
+  const prevKmInput = document.getElementById('fuel-prev-km');
+  if (prevKmInput) prevKmInput.value = getAutoPreviousKm();
+
+  // Date du jour par défaut
+  const dateInput = document.getElementById('fuel-date');
+  if (dateInput && !dateInput.value) dateInput.value = new Date().toISOString().slice(0, 10);
+
+  // Désactiver l'ajout si 3 pleins déjà enregistrés ce mois
+  const addBtn = document.getElementById('fuel-submit-btn');
+  if (addBtn) addBtn.disabled = entries.length >= 3;
+
+  // Statistiques du mois
+  let totalKm = 0, totalCost = 0, totalLitres = 0;
+  entries.forEach(function (e) {
+    const distance = e.currKm - e.prevKm;
+    const litres = e.pricePerLitre > 0 ? e.totalAmount / e.pricePerLitre : 0;
+    totalKm += distance; totalCost += e.totalAmount; totalLitres += litres;
+  });
+  const avgConso = totalKm > 0 ? (totalLitres / totalKm) * 100 : 0;
+  const avgPriceKm = totalKm > 0 ? totalCost / totalKm : 0;
+  var el;
+  el = document.getElementById('fuel-stat-km'); if (el) el.textContent = fmt(totalKm);
+  el = document.getElementById('fuel-stat-cost'); if (el) el.textContent = fmt(totalCost);
+  el = document.getElementById('fuel-stat-conso'); if (el) el.textContent = avgConso.toFixed(1);
+  el = document.getElementById('fuel-stat-pricekm'); if (el) el.textContent = avgPriceKm.toFixed(2);
+
+  // Liste des pleins
+  const list = document.getElementById('fuel-entries-list');
+  if (!list) return;
+  list.innerHTML = '';
+  if (!entries.length) {
+    list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--light);font-size:12px;">' + (t.fuel_empty || '⛽') + '</div>';
+    return;
+  }
+  const sorted = entries.map(function (e, i) { return Object.assign({}, e, { _idx: i }); })
+    .sort(function (a, b) { return b.date.localeCompare(a.date); });
+  sorted.forEach(function (e) {
+    const distance = e.currKm - e.prevKm;
+    const litres = e.pricePerLitre > 0 ? e.totalAmount / e.pricePerLitre : 0;
+    const conso = distance > 0 ? (litres / distance) * 100 : 0;
+    const priceKm = distance > 0 ? e.totalAmount / distance : 0;
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);';
+    const icon = document.createElement('div');
+    icon.style.cssText = 'width:36px;height:36px;border-radius:10px;background:var(--mint-ll);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;';
+    icon.textContent = '⛽';
+    const info = document.createElement('div');
+    info.style.cssText = 'flex:1;';
+    info.innerHTML = '<div style="font-size:14px;font-weight:600;color:var(--dark);">' + e.date + ' • ' + e.prevKm + ' → ' + e.currKm + ' km</div>'
+      + '<div style="font-size:12px;color:var(--light);">' + distance + ' km • ' + conso.toFixed(1) + 'L/100km • ' + priceKm.toFixed(2) + ' ' + currency + '/km</div>';
+    const amt = document.createElement('div');
+    amt.style.cssText = 'font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:var(--mint);flex-shrink:0;';
+    amt.textContent = fmt(e.totalAmount);
+    const del = document.createElement('button');
+    del.style.cssText = 'background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
+    del.textContent = '✕';
+    del.onclick = (function (idx) { return function () { deleteFuelEntry(idx); }; })(e._idx);
+    row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(del);
+    list.appendChild(row);
+  });
+}
+
+// ── OCR (Tesseract.js) — analyse des photos pompe / tableau de bord ──
+let _tesseractLoadPromise = null;
+function loadTesseract() {
+  if (window.Tesseract) return Promise.resolve(window.Tesseract);
+  if (_tesseractLoadPromise) return _tesseractLoadPromise;
+  _tesseractLoadPromise = new Promise(function (resolve, reject) {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js';
+    s.onload = function () { resolve(window.Tesseract); };
+    s.onerror = function () { _tesseractLoadPromise = null; reject(new Error('tesseract-load-failed')); };
+    document.head.appendChild(s);
+  });
+  return _tesseractLoadPromise;
+}
+
+async function ocrImageFile(file) {
+  const Tesseract = await loadTesseract();
+  const result = await Tesseract.recognize(file, 'eng');
+  return (result && result.data && result.data.text) || '';
+}
+
+function extractNumbersFromText(text) {
+  const matches = text.match(/\d{1,6}[.,]\d{1,2}|\d{2,6}/g) || [];
+  return matches.map(function (m) { return parseFloat(m.replace(',', '.')); }).filter(function (n) { return !isNaN(n) && n > 0; });
+}
+
+// Heuristique : prix/litre généralement entre 6 et 30 MAD, le montant total est
+// généralement le plus grand des nombres restants, les litres le plus petit.
+function parsePumpNumbers(text) {
+  const nums = extractNumbersFromText(text);
+  if (!nums.length) return null;
+  let price;
+  const priceIdx = nums.findIndex(function (n) { return n >= 6 && n <= 30; });
+  const rest = nums.slice();
+  if (priceIdx !== -1) { price = rest.splice(priceIdx, 1)[0]; }
+  if (!rest.length) return price !== undefined ? { price: price, total: null } : null;
+  rest.sort(function (a, b) { return b - a; });
+  const total = rest[0];
+  if (price === undefined) price = rest[rest.length - 1];
+  return { price: price, total: total };
+}
+
+// Heuristique : le kilométrage est généralement le plus grand nombre détecté sur le tableau de bord
+function parseDashNumber(text) {
+  const nums = extractNumbersFromText(text);
+  if (!nums.length) return null;
+  nums.sort(function (a, b) { return b - a; });
+  return nums[0];
+}
+
+async function processFuelImagesOCR() {
+  const pumpFile = (document.getElementById('fuel-ocr-pump-input') || {}).files && document.getElementById('fuel-ocr-pump-input').files[0];
+  const dashFile = (document.getElementById('fuel-ocr-dash-input') || {}).files && document.getElementById('fuel-ocr-dash-input').files[0];
+  const statusEl = document.getElementById('fuel-ocr-status');
+  if (!pumpFile && !dashFile) {
+    showToast('❌ ' + (T().fuel_fill || 'Ajoutez au moins une photo'));
+    return;
+  }
+  const btn = document.getElementById('fuel-ocr-btn-el');
+  if (btn) btn.disabled = true;
+  if (statusEl) statusEl.textContent = T().fuel_ocr_loading || 'Analyse en cours...';
+  try {
+    if (pumpFile) {
+      const pumpText = await ocrImageFile(pumpFile);
+      const parsed = parsePumpNumbers(pumpText);
+      if (parsed) {
+        if (parsed.price != null) document.getElementById('fuel-price').value = parsed.price;
+        if (parsed.total != null) document.getElementById('fuel-total').value = roundDown(parsed.total);
+      }
+    }
+    if (dashFile) {
+      const dashText = await ocrImageFile(dashFile);
+      const km = parseDashNumber(dashText);
+      if (km != null) document.getElementById('fuel-curr-km').value = roundDown(km);
+    }
+    if (statusEl) statusEl.textContent = T().fuel_ocr_ok || '✓';
+    showToast(T().fuel_ocr_ok || '✓');
+  } catch (e) {
+    if (statusEl) statusEl.textContent = T().fuel_ocr_loadfail || '❌';
+    showToast('❌ ' + (T().fuel_ocr_loadfail || 'Erreur OCR'));
+  } finally {
+    if (btn) btn.disabled = false;
+  }
 }
 
 // ══════════════════════════════════════════════
