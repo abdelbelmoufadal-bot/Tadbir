@@ -185,7 +185,13 @@ test('fuel OCR validates pump arithmetic', () => {
   assert.equal(secondPump.litres, 47.06);
   assert.equal(secondPump.total, 600.02);
   assert.equal(context.parseDashNumber('139 1139 1139.8'), 1139.8);
-  assert.match(app, /Ne jamais injecter des valeurs douteuses/);
+  const draft = context.parsePumpRows({ price: [14], litres: [34], total: [1] });
+  assert.equal(draft.price, 14);
+  assert.equal(draft.litres, 34);
+  assert.equal(draft.consistent, false);
+  assert.match(app, /Pompe partielle/);
+  assert.match(html, /id="fuel-litres"/);
+  assert.match(app, /function updateFuelDraftCheck/);
 });
 
 test('car costs sync to budget idempotently', () => {

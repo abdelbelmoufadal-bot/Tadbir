@@ -253,7 +253,7 @@ onAuthStateChanged(auth, user=>{
 
   <!-- FOOTER -->
   <div class="lnd-footer">
-    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.4.3</div>
+    <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.4.4</div>
     <div id="t-lnd-footer-c">دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة</div>
   </div>
 
@@ -845,11 +845,13 @@ onAuthStateChanged(auth, user=>{
         </div>
         <div class="drive-form-row" style="grid-template-columns:1fr 1fr;">
           <div><div class="drive-input-lbl" id="fuel-lbl-currkm">الكيلومتراج الحالي</div><input type="number" class="drive-input" id="fuel-curr-km" placeholder="Ex: 47450"></div>
-          <div><div class="drive-input-lbl" id="fuel-lbl-price">ثمن اللتر</div><input type="number" step="0.01" class="drive-input" id="fuel-price" placeholder="Ex: 14.20"></div>
+          <div><div class="drive-input-lbl" id="fuel-lbl-litres">اللترات</div><input type="number" step="0.01" class="drive-input" id="fuel-litres" placeholder="Ex: 44.78" oninput="updateFuelDraftCheck()"></div>
         </div>
-        <div class="drive-form-row" style="grid-template-columns:1fr;">
-          <div><div class="drive-input-lbl" id="fuel-lbl-total">المبلغ الإجمالي</div><input type="number" step="0.01" class="drive-input" id="fuel-total" placeholder="Ex: 450"></div>
+        <div class="drive-form-row" style="grid-template-columns:1fr 1fr;">
+          <div><div class="drive-input-lbl" id="fuel-lbl-price">ثمن اللتر</div><input type="number" step="0.01" class="drive-input" id="fuel-price" placeholder="Ex: 14.20" oninput="updateFuelDraftCheck()"></div>
+          <div><div class="drive-input-lbl" id="fuel-lbl-total">المبلغ الإجمالي</div><input type="number" step="0.01" class="drive-input" id="fuel-total" placeholder="Ex: 450" oninput="updateFuelDraftCheck()"></div>
         </div>
+        <div id="fuel-manual-hint" style="font-size:11px;color:var(--light);text-align:center;margin:6px 0 10px;">✏️ Vous pouvez corriger chaque valeur avant l’enregistrement.</div>
         <button class="drive-submit" id="fuel-submit-btn" onclick="addFuelEntry()">⛽ <span id="fuel-submit-lbl">تسجيل التعبئة</span></button>
       </div>
     </div>
@@ -1230,7 +1232,7 @@ onAuthStateChanged(auth, user=>{
 </div>
 
 <footer class="footer" style="display:none;">
-  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.4.3</div>
+  <div>Créé par <strong>BELMOUFADAL Abderrahim</strong> — Tadbir v4.4.4</div>
   <div id="t-footer"></div>
 </footer>
 <div class="toast" id="toast"></div>

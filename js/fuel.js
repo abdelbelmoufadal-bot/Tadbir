@@ -42,6 +42,28 @@ function relinkFuelEntriesAfterDelete(monthKey, startIndex) {
   }
 }
 
+function updateFuelDraftCheck() {
+  const litresEl = document.getElementById('fuel-litres');
+  const priceEl = document.getElementById('fuel-price');
+  const totalEl = document.getElementById('fuel-total');
+  const hint = document.getElementById('fuel-manual-hint');
+  if (!litresEl || !priceEl || !totalEl || !hint) return;
+  const litres = Number(litresEl.value) || 0;
+  const price = Number(priceEl.value) || 0;
+  const total = Number(totalEl.value) || 0;
+  [litresEl, priceEl, totalEl].forEach(function (el) { el.style.borderColor = ''; });
+  if (!litres || !price || !total) {
+    hint.textContent = '✏️ Corrigez les valeurs détectées ou complétez les champs manquants.';
+    hint.style.color = 'var(--light)';
+    return;
+  }
+  const error = Math.abs(total - litres * price) / Math.max(total, 1);
+  const valid = error <= 0.08;
+  hint.textContent = valid ? '✓ Valeurs cohérentes — vous pouvez enregistrer.' : '⚠️ Vérifiez : litres × prix doit être proche du montant.';
+  hint.style.color = valid ? 'var(--mint)' : '#f2a65a';
+  if (!valid) [litresEl, priceEl, totalEl].forEach(function (el) { el.style.borderColor = '#f2a65a'; });
+}
+
 function addFuelEntry() {
   if (!ensureMonthEditable()) return;
   const mk = ck();
@@ -54,16 +76,21 @@ function addFuelEntry() {
   const date = document.getElementById('fuel-date').value;
   const prevKm = roundDown(document.getElementById('fuel-prev-km').value);
   const currKm = roundDown(document.getElementById('fuel-curr-km').value);
-  const pricePerLitre = Number(document.getElementById('fuel-price').value) || 0;
-  const totalAmount = roundDown(document.getElementById('fuel-total').value);
+  let litres = Number(document.getElementById('fuel-litres').value) || 0;
+  let pricePerLitre = Number(document.getElementById('fuel-price').value) || 0;
+  let totalAmount = Number(document.getElementById('fuel-total').value) || 0;
+  if (!totalAmount && litres > 0 && pricePerLitre > 0) totalAmount = litres * pricePerLitre;
+  if (!pricePerLitre && litres > 0 && totalAmount > 0) pricePerLitre = totalAmount / litres;
+  if (!litres && pricePerLitre > 0 && totalAmount > 0) litres = totalAmount / pricePerLitre;
   if (!date || currKm <= prevKm || totalAmount <= 0 || pricePerLitre <= 0) {
     showToast('❌ ' + (T().fuel_fill || 'Vérifiez les champs'));
     return;
   }
-  allData[mk].fuelEntries.push({ date, prevKm, currKm, pricePerLitre, totalAmount });
+  allData[mk].fuelEntries.push({ date, prevKm, currKm, pricePerLitre, totalAmount: roundDown(totalAmount), litres: Math.round(litres * 100) / 100 });
   syncCarCostsToBudget(mk); persistData();
   document.getElementById('fuel-curr-km').value = '';
   document.getElementById('fuel-price').value = '';
+  document.getElementById('fuel-litres').value = '';
   document.getElementById('fuel-total').value = '';
   const pumpInput = document.getElementById('fuel-ocr-pump-input'); if (pumpInput) pumpInput.value = '';
   const dashInput = document.getElementById('fuel-ocr-dash-input'); if (dashInput) dashInput.value = '';
@@ -109,7 +136,7 @@ function renderFuelTab() {
   let totalKm = 0, totalCost = 0, totalLitres = 0;
   entries.forEach(function (e) {
     const distance = e.currKm - e.prevKm;
-    const litres = e.pricePerLitre > 0 ? e.totalAmount / e.pricePerLitre : 0;
+    const litres = Number(e.litres) > 0 ? Number(e.litres) : (e.pricePerLitre > 0 ? e.totalAmount / e.pricePerLitre : 0);
     totalKm += distance; totalCost += e.totalAmount; totalLitres += litres;
   });
   const avgConso = totalKm > 0 ? (totalLitres / totalKm) * 100 : 0;
@@ -132,7 +159,7 @@ function renderFuelTab() {
     .sort(function (a, b) { return b.date.localeCompare(a.date); });
   sorted.forEach(function (e) {
     const distance = e.currKm - e.prevKm;
-    const litres = e.pricePerLitre > 0 ? e.totalAmount / e.pricePerLitre : 0;
+    const litres = Number(e.litres) > 0 ? Number(e.litres) : (e.pricePerLitre > 0 ? e.totalAmount / e.pricePerLitre : 0);
     const conso = distance > 0 ? (litres / distance) * 100 : 0;
     const priceKm = distance > 0 ? e.totalAmount / distance : 0;
     const row = document.createElement('div');

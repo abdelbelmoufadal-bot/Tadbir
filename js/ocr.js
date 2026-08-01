@@ -130,11 +130,19 @@ function parsePumpRows(rows) {
     (rows.litres || []).forEach(function (litres) {
       (rows.total || []).forEach(function (total) {
         const error = Math.abs(total - price * litres) / Math.max(total, 1);
-        if (error <= 0.08 && (!best || error < best.error)) best = { price, litres, total, error };
+        if (!best || error < best.error) best = { price, litres, total, error };
       });
     });
   });
-  return best ? { price: best.price, litres: best.litres, total: best.total, confidence: 1 - best.error, consistent: true } : null;
+  if (best) return { price: best.price, litres: best.litres, total: best.total, confidence: Math.max(0, 1 - best.error), consistent: best.error <= 0.08 };
+  const draft = {
+    price: (rows.price || [])[0] || null,
+    litres: (rows.litres || [])[0] || null,
+    total: (rows.total || [])[0] || null,
+    confidence: 0,
+    consistent: false
+  };
+  return draft.price || draft.litres || draft.total ? draft : null;
 }
 
 function extractNumbersFromText(text) {
@@ -197,16 +205,17 @@ async function processFuelImagesOCR() {
     const messages = [];
     if (pumpFile) {
       const parsed = parsePumpRows(await ocrPumpRows(pumpFile));
+      if (parsed) {
+        if (parsed.price != null) document.getElementById('fuel-price').value = parsed.price;
+        if (parsed.litres != null) document.getElementById('fuel-litres').value = parsed.litres;
+        if (parsed.total != null) document.getElementById('fuel-total').value = parsed.total;
+      }
       if (parsed && parsed.consistent) {
-        document.getElementById('fuel-price').value = parsed.price;
-        document.getElementById('fuel-total').value = roundDown(parsed.total);
         messages.push('Pompe: ' + parsed.total.toFixed(2) + ' MAD · ' + parsed.litres.toFixed(2) + ' L · ' + parsed.price.toFixed(2) + ' MAD/L');
       } else {
-        // Ne jamais injecter des valeurs douteuses dans le formulaire.
-        document.getElementById('fuel-price').value = '';
-        document.getElementById('fuel-total').value = '';
-        messages.push('⚠️ Pompe non confirmée — saisissez les valeurs manuellement');
+        messages.push('⚠️ Pompe partielle — corrigez les champs surlignés');
       }
+      updateFuelDraftCheck();
     }
     if (dashFile) {
       const dashText = await ocrImageFile(dashFile, 'dash');
