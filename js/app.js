@@ -241,8 +241,9 @@ function setLang(l) {
   set('t-wa-analyze-btn', l === 'fr' ? '🔍 Analyser et extraire les produits' : '🔍 تحليل واستخراج المنتجات');
   set('t-wa-total-lbl', l === 'fr' ? 'Total des courses :' : 'إجمالي المشتريات:');
   set('t-wa-save-btn', l === 'fr' ? '🚀 Tout enregistrer dans le budget' : '🚀 حفظ الكل في الميزانية');
-  set('fab-btn', '＋ ' + (t.add_note_fab || (l === 'fr' ? 'Ajouter' : 'تسجيل مصروف')));
-  set('fab-wa-btn', '💬 WhatsApp');
+  const fabEl1 = $('fab-btn'); if (fabEl1) fabEl1.innerHTML = '＋ <span class="fab-text">' + (t.add_note_fab || (l === 'fr' ? 'Ajouter' : 'تسجيل مصروف')) + '</span>';
+  const fabWaEl1 = $('fab-wa-btn'); if (fabWaEl1) fabWaEl1.innerHTML = '💬 <span class="fab-text">WhatsApp</span>';
+  const fabTgEl1 = $('fab-tg-btn'); if (fabTgEl1) fabTgEl1.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><path d="M9.78 18.65l.28-4.2 7.63-6.88c.34-.31-.07-.48-.52-.18l-9.43 5.95-4.07-1.27c-.89-.28-.91-.88.19-1.31l15.93-6.14c.74-.27 1.39.18 1.15 1.3l-2.71 12.78c-.2.93-.75 1.15-1.53.72l-4.14-3.05-2 1.93c-.22.22-.41.41-.83.41z" fill="#ffffff"/></svg> <span class="fab-text">Telegram</span>';
   set('tl-bills', t.k_bills); set('tl-expenses', t.k_expenses); set('tl-savings', t.k_savings);
   set('tl-debts', t.k_debts); set('tl-income', t.k_income);
   set('tc-b1', t.col_item); set('tc-b2', t.col_act); set('tc-b3', t.col_pln);
@@ -310,7 +311,7 @@ function setLang(l) {
   set('drv-list-title', _t.drv_list || 'سجل الرحلات');
   set('nf-lbl-remark', t.nt_remark || '💬 ملاحظة (اختياري)');
   const remEl = document.getElementById('nf-remark'); if (remEl) remEl.placeholder = t.nt_remark_ph || 'مثال: ماركة، محل...';
-  const fabEl = document.getElementById('fab-btn'); if (fabEl) fabEl.innerHTML = '＋ ' + (t.add_note_fab || 'تسجيل مصروف');
+  const fabEl = document.getElementById('fab-btn'); if (fabEl) fabEl.innerHTML = '＋ <span class="fab-text">' + (t.add_note_fab || 'تسجيل مصروف') + '</span>';
   set('add-note-mobile-lbl', t.add_note || '＋ إضافة');
   set('t-monthly-title', t.monthly_title); set('t-monthly-chart', t.monthly_chart);
   set('t-footer', t.footer);
