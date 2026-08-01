@@ -1264,4 +1264,8 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     font-size: 16px !important;
     box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4) !important;
   }
+  /* Masquer le texte UNIQUEMENT sur Smartphone */
+  .fab-btn span.fab-text {
+    display: none !important;
+  }
 }
