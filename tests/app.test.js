@@ -158,7 +158,7 @@ test('fuel history crosses empty months and deletion relinks following entries',
 });
 
 test('fuel OCR validates pump arithmetic', () => {
-  const start = app.indexOf('function extractNumbersFromText');
+  const start = app.indexOf('function normalizePumpCandidate');
   const end = app.indexOf('async function processFuelImagesOCR', start);
   const context = {};
   vm.createContext(context);
@@ -173,6 +173,14 @@ test('fuel OCR validates pump arithmetic', () => {
   assert.equal(context.parseDashNumber('Autonomie 120 km'), 120);
   assert.match(app, /const OCR_CROPS\s*=\s*\{/);
   assert.match(app, /createOCRCanvas/);
+  assert.equal(context.normalizePumpCandidate(1340, 'price'), 13.4);
+  assert.equal(context.normalizePumpCandidate(4478, 'litres'), 44.78);
+  assert.equal(context.normalizePumpCandidate(60005, 'total'), 600.05);
+  const rows = context.parsePumpRows({ price: [14, 13.4], litres: [34, 44.78], total: [600.05] });
+  assert.equal(rows.price, 13.4);
+  assert.equal(rows.litres, 44.78);
+  assert.equal(rows.total, 600.05);
+  assert.match(app, /Ne jamais injecter des valeurs douteuses/);
 });
 
 test('car costs sync to budget idempotently', () => {

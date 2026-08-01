@@ -16,10 +16,13 @@ function loadTesseract() {
 }
 
 const OCR_CROPS = {
-  pump: [
-    { x: 0.00, y: 0.08, w: 0.78, h: 0.30 },
-    { x: 0.39, y: 0.12, w: 0.36, h: 0.22 }
-  ],
+  // Chaque ligne de l'afficheur droit est lue séparément pour éviter de
+  // confondre montant, litres et prix/litre sur une photo inclinée.
+  pump: {
+    total: { x: 0.43, y: 0.145, w: 0.28, h: 0.065 },
+    litres: { x: 0.43, y: 0.205, w: 0.28, h: 0.060 },
+    price: { x: 0.43, y: 0.258, w: 0.28, h: 0.055 }
+  },
   dash: [
     { x: 0.00, y: 0.30, w: 0.70, h: 0.30 },
     { x: 0.40, y: 0.34, w: 0.28, h: 0.20 }
@@ -62,7 +65,8 @@ function createOCRCanvas(img, crop, threshold) {
 async function recognizeOCRSource(Tesseract, source) {
   const result = await Tesseract.recognize(source, 'eng', {
     tessedit_char_whitelist: '0123456789.,',
-    preserve_interword_spaces: '1'
+    preserve_interword_spaces: '1',
+    tessedit_pageseg_mode: '7'
   });
   return (result && result.data && result.data.text) || '';
 }
@@ -77,6 +81,50 @@ async function ocrImageFile(file, kind) {
     texts.push(await recognizeOCRSource(Tesseract, createOCRCanvas(img, crops[i], i === crops.length - 1 ? 150 : null)));
   }
   return texts.join('\n');
+}
+
+function normalizePumpCandidate(value, role) {
+  let n = Number(value);
+  if (!isFinite(n) || n <= 0) return null;
+  // Les afficheurs à sept segments font parfois disparaître le point décimal.
+  if (role === 'price' && n > 30 && n <= 3000) n /= 100;
+  if (role === 'litres' && n > 200 && n <= 20000) n /= 100;
+  if (role === 'total' && n > 5000 && n <= 500000) n /= 100;
+  const valid = role === 'price' ? n >= 6 && n <= 30
+    : role === 'litres' ? n >= 2 && n <= 200
+      : n >= 50 && n <= 5000;
+  return valid ? Math.round(n * 100) / 100 : null;
+}
+
+async function ocrPumpRows(file) {
+  const Tesseract = await loadTesseract();
+  const img = await loadOCRImage(file);
+  const rows = {};
+  for (const role of ['total', 'litres', 'price']) {
+    const values = [];
+    for (const threshold of [null, 145]) {
+      const text = await recognizeOCRSource(Tesseract, createOCRCanvas(img, OCR_CROPS.pump[role], threshold));
+      extractNumbersFromText(text).forEach(function (value) {
+        const normalized = normalizePumpCandidate(value, role);
+        if (normalized != null && !values.includes(normalized)) values.push(normalized);
+      });
+    }
+    rows[role] = values;
+  }
+  return rows;
+}
+
+function parsePumpRows(rows) {
+  let best = null;
+  (rows.price || []).forEach(function (price) {
+    (rows.litres || []).forEach(function (litres) {
+      (rows.total || []).forEach(function (total) {
+        const error = Math.abs(total - price * litres) / Math.max(total, 1);
+        if (error <= 0.08 && (!best || error < best.error)) best = { price, litres, total, error };
+      });
+    });
+  });
+  return best ? { price: best.price, litres: best.litres, total: best.total, confidence: 1 - best.error, consistent: true } : null;
 }
 
 function extractNumbersFromText(text) {
@@ -138,13 +186,16 @@ async function processFuelImagesOCR() {
   try {
     const messages = [];
     if (pumpFile) {
-      const pumpText = await ocrImageFile(pumpFile, 'pump');
-      const parsed = parsePumpNumbers(pumpText);
-      if (parsed) {
-        if (parsed.price != null) document.getElementById('fuel-price').value = parsed.price;
-        if (parsed.total != null) document.getElementById('fuel-total').value = roundDown(parsed.total);
-        if (parsed.consistent) messages.push('Pompe: ' + parsed.total.toFixed(2) + ' MAD · ' + parsed.litres.toFixed(2) + ' L · ' + parsed.price.toFixed(2) + ' MAD/L');
-        else messages.push('⚠️ Vérifiez le prix et le montant détectés');
+      const parsed = parsePumpRows(await ocrPumpRows(pumpFile));
+      if (parsed && parsed.consistent) {
+        document.getElementById('fuel-price').value = parsed.price;
+        document.getElementById('fuel-total').value = roundDown(parsed.total);
+        messages.push('Pompe: ' + parsed.total.toFixed(2) + ' MAD · ' + parsed.litres.toFixed(2) + ' L · ' + parsed.price.toFixed(2) + ' MAD/L');
+      } else {
+        // Ne jamais injecter des valeurs douteuses dans le formulaire.
+        document.getElementById('fuel-price').value = '';
+        document.getElementById('fuel-total').value = '';
+        messages.push('⚠️ Pompe non confirmée — saisissez les valeurs manuellement');
       }
     }
     if (dashFile) {
