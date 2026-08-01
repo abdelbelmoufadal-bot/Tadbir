@@ -427,6 +427,18 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
   box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
 }
 
+/* Telegram : bouton global visible sur ordinateur uniquement. */
+.fab-tg-btn {
+  background: #ffffff;
+  color: #172033;
+  border: 1px solid rgba(34, 158, 217, 0.28);
+  box-shadow: 0 4px 14px rgba(34, 158, 217, 0.28);
+}
+.fab-tg-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 158, 217, 0.42);
+}
+
 @media(max-width: 480px) {
   .fab-dock {
     bottom: 16px;
@@ -1235,11 +1247,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4) !important;
   }
   .fab-tg-btn {
-    background: linear-gradient(135deg, #0088cc 0%, #006699 100%) !important;
-    color: #fff !important;
-    width: 34px !important;
-    height: 34px !important;
-    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.4) !important;
+    display: none !important;
   }
   .fab-wa-btn {
     background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;

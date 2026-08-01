@@ -18,7 +18,7 @@ function monthHasRealData(mk) {
 function loadData() {
   // ── MIGRATION SÉCURISÉE : ne jamais effacer les données existantes ──
   // On tente d'abord de récupérer les données depuis TOUTES les clés connues
-  const CURRENT_VER = '4.5.1';
+  const CURRENT_VER = '4.5.2';
   const ALL_KNOWN_KEYS = ['sf_v35', 'sf_v33', 'sf_v32', 'sf_v31', 'sf_v30', 'sf_data', 'tadbir_data'];
 
   // Récupère les données depuis n'importe quelle clé existante
@@ -235,7 +235,7 @@ function restoreLocalSnapshot(id) {
 
 function exportJSON() {
   saveData();
-  const d = { allData, currency, curYear, curMonth, lang, exportedAt: new Date().toISOString(), version: '4.5.1', owner: 'BELMOUFADAL Abderrahim' };
+  const d = { allData, currency, curYear, curMonth, lang, exportedAt: new Date().toISOString(), version: '4.5.2', owner: 'BELMOUFADAL Abderrahim' };
   const b = new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(b);
   a.download = `tadbir-${T().months[curMonth]}-${curYear}.json`; a.click();
