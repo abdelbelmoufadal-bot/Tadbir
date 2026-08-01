@@ -84,7 +84,13 @@ onAuthStateChanged(auth, user=>{
       </div>
       <div><div class="lnd-logo-name" id="t-lnd-logo-name">تدبير</div><div class="lnd-logo-sub" id="t-lnd-logo-sub">دبّر ميزانيتك بذكاء</div></div>
     </div>
-    <button class="lnd-cta-nav" onclick="fbSignIn()" id="t-lnd-nav-btn">🔑 تسجيل الدخول بـ Google</button>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="lnd-lang-switch">
+        <button class="lnd-lang-btn" onclick="setLang('ar')">🇲🇦 عربي</button>
+        <button class="lnd-lang-btn" onclick="setLang('fr')">🇫🇷 FR</button>
+      </div>
+      <button class="lnd-cta-nav" onclick="fbSignIn()" id="t-lnd-nav-btn">🔑 تسجيل الدخول بـ Google</button>
+    </div>
   </nav>
 
   <!-- HERO -->
@@ -182,6 +188,16 @@ onAuthStateChanged(auth, user=>{
         <div class="feature-icon">🔐</div>
         <div class="feature-title" id="t-lnd-f6-t">حماية وأمان</div>
         <div class="feature-desc" id="t-lnd-f6-d">تسجيل دخول آمن بـ Google + رمز PIN لحماية التطبيق على جهازك — بياناتك لك وحدك</div>
+      </div>
+      <div class="feature-card c7">
+        <div class="feature-icon">✈️</div>
+        <div class="feature-title" id="t-lnd-f7-t">بوت تليجرام تلقائي</div>
+        <div class="feature-desc" id="t-lnd-f7-d">ملخصات يومية تلقائية تصلك على تليجرام في الوقت والتوقيت الذي تحدده (المغرب، فرنسا...)</div>
+      </div>
+      <div class="feature-card c8">
+        <div class="feature-icon">💬</div>
+        <div class="feature-title" id="t-lnd-f8-t">واتساب إكسبريس</div>
+        <div class="feature-desc" id="t-lnd-f8-d">الصق نص محادثة الواتساب ويستخرج التطبيق المنتجات والأسعار تلقائياً في الميزانية</div>
       </div>
     </div>
   </div>
