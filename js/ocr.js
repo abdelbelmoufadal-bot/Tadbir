@@ -19,12 +19,22 @@ const OCR_CROPS = {
   // Chaque ligne de l'afficheur droit est lue séparément pour éviter de
   // confondre montant, litres et prix/litre sur une photo inclinée.
   pump: {
-    total: { x: 0.43, y: 0.145, w: 0.28, h: 0.065 },
-    litres: { x: 0.43, y: 0.205, w: 0.28, h: 0.060 },
-    price: { x: 0.43, y: 0.258, w: 0.28, h: 0.055 }
+    total: [
+      { x: 0.43, y: 0.145, w: 0.28, h: 0.065 },
+      { x: 0.45, y: 0.220, w: 0.31, h: 0.065 }
+    ],
+    litres: [
+      { x: 0.43, y: 0.205, w: 0.28, h: 0.060 },
+      { x: 0.45, y: 0.282, w: 0.31, h: 0.062 }
+    ],
+    price: [
+      { x: 0.43, y: 0.258, w: 0.28, h: 0.055 },
+      { x: 0.49, y: 0.348, w: 0.27, h: 0.064 }
+    ]
   },
   dash: [
     { x: 0.00, y: 0.30, w: 0.70, h: 0.30 },
+    { x: 0.38, y: 0.30, w: 0.38, h: 0.29 },
     { x: 0.40, y: 0.34, w: 0.28, h: 0.20 }
   ]
 };
@@ -102,8 +112,8 @@ async function ocrPumpRows(file) {
   const rows = {};
   for (const role of ['total', 'litres', 'price']) {
     const values = [];
-    for (const threshold of [null, 145]) {
-      const text = await recognizeOCRSource(Tesseract, createOCRCanvas(img, OCR_CROPS.pump[role], threshold));
+    for (const crop of OCR_CROPS.pump[role]) {
+      const text = await recognizeOCRSource(Tesseract, createOCRCanvas(img, crop, null));
       extractNumbersFromText(text).forEach(function (value) {
         const normalized = normalizePumpCandidate(value, role);
         if (normalized != null && !values.includes(normalized)) values.push(normalized);

@@ -180,6 +180,11 @@ test('fuel OCR validates pump arithmetic', () => {
   assert.equal(rows.price, 13.4);
   assert.equal(rows.litres, 44.78);
   assert.equal(rows.total, 600.05);
+  const secondPump = context.parsePumpRows({ price: [12.75], litres: [47.06], total: [600.02] });
+  assert.equal(secondPump.price, 12.75);
+  assert.equal(secondPump.litres, 47.06);
+  assert.equal(secondPump.total, 600.02);
+  assert.equal(context.parseDashNumber('139 1139 1139.8'), 1139.8);
   assert.match(app, /Ne jamais injecter des valeurs douteuses/);
 });
 
