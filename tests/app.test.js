@@ -4,7 +4,9 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const html = fs.readFileSync('index.html', 'utf8');
-const app = fs.readFileSync('js/app.js', 'utf8');
+const appFiles = ['storage.js', 'fuel.js', 'maintenance.js', 'vehicle.js', 'ocr.js', 'telegram.js', 'app.js'];
+const appSources = Object.fromEntries(appFiles.map(file => [file, fs.readFileSync(`js/${file}`, 'utf8')]));
+const app = appFiles.map(file => appSources[file]).join('\n');
 const css = fs.readFileSync('css/style.css', 'utf8');
 const readme = fs.readFileSync('README.md', 'utf8');
 const rules = fs.readFileSync('firestore.rules', 'utf8');
@@ -13,12 +15,14 @@ const serviceWorker = fs.readFileSync('service-worker.js', 'utf8');
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 test('application JavaScript parses successfully', () => {
-  assert.doesNotThrow(() => new vm.Script(app, { filename: 'js/app.js' }));
+  for (const file of appFiles) assert.doesNotThrow(() => new vm.Script(appSources[file], { filename: `js/${file}` }));
+  assert.doesNotThrow(() => new vm.Script(app, { filename: 'js/browser-bundle.js' }));
 });
 
 test('external assets are linked and non-empty', () => {
   assert.match(html, /href="css\/style\.css"/);
   assert.match(html, /src="js\/app\.js"/);
+  for (const file of appFiles) assert.match(html, new RegExp(`src="js/${file.replace('.', '\\.')}"`));
   assert.ok(css.length > 10000);
   assert.ok(app.length > 10000);
 });
@@ -99,7 +103,7 @@ test('PWA manifest and offline cache are complete', () => {
   assert.ok(manifest.icons.some(icon => icon.purpose.includes('maskable')));
   assert.match(html, /rel="manifest" href="manifest\.json"/);
   assert.match(app, /navigator\.serviceWorker\.register/);
-  for (const asset of ['./index.html', './css/style.css', './js/app.js', './offline.html', './icons/tadbir.svg']) {
+  for (const asset of ['./index.html', './css/style.css', ...appFiles.map(file => `./js/${file}`), './offline.html', './icons/tadbir.svg']) {
     assert.ok(serviceWorker.includes(`'${asset}'`), `service worker does not cache ${asset}`);
   }
 });

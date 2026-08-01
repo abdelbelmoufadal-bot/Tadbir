@@ -5,6 +5,12 @@ const APP_SHELL = [
   './offline.html',
   './manifest.json',
   './css/style.css',
+  './js/storage.js',
+  './js/fuel.js',
+  './js/maintenance.js',
+  './js/vehicle.js',
+  './js/ocr.js',
+  './js/telegram.js',
   './js/app.js',
   './icons/tadbir.svg'
 ];

@@ -148,7 +148,14 @@ Node.js Test Runner + GitHub Actions
 tadbir/
 ├── index.html
 ├── css/style.css
-├── js/app.js
+├── js/
+│   ├── app.js          # cœur UI, budget et statistiques
+│   ├── storage.js      # stockage local, imports et Firebase
+│   ├── fuel.js         # pleins et consommation
+│   ├── maintenance.js  # frais et échéances d’entretien
+│   ├── vehicle.js      # navigation Voiture et rentabilité
+│   ├── ocr.js          # lecture locale des photos carburant
+│   └── telegram.js     # notifications Telegram
 ├── manifest.json
 ├── service-worker.js
 ├── offline.html
