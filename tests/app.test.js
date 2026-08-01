@@ -108,11 +108,12 @@ test('PWA manifest and offline cache are complete', () => {
   }
 });
 
-test('Telegram floating action is desktop-only with blue logo', () => {
+test('Telegram floating action has desktop blue logo and preserves mobile button', () => {
   assert.match(html, /id="fab-tg-btn"/);
   assert.match(html, /fill="#229ED9"/);
   assert.match(css, /\.fab-tg-btn\s*\{[\s\S]*?background:\s*#ffffff/);
-  assert.match(css, /@media\s*\(max-width:\s*600px\)[\s\S]*?\.fab-tg-btn\s*\{\s*display:\s*none\s*!important;/);
+  assert.match(css, /@media\s*\(max-width:\s*600px\)[\s\S]*?\.fab-tg-btn\s*\{[\s\S]*?display:\s*inline-flex\s*!important;[\s\S]*?background:\s*linear-gradient\(135deg,\s*#0088cc/);
+  assert.match(css, /\.fab-tg-btn svg path\s*\{\s*fill:\s*#ffffff\s*!important;/);
 });
 
 test('statistics page supports month filtering and leak analysis', () => {

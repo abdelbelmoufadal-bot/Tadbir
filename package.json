@@ -1,6 +1,6 @@
 {
   "name": "smart-flousi",
-  "version": "4.5.2",
+  "version": "4.5.3",
   "private": true,
   "scripts": {
     "test": "node --test tests/app.test.js"
