@@ -168,6 +168,31 @@ test('fuel initial entry and editing controls are available', () => {
   assert.match(app, /aucune consommation calculée/);
 });
 
+test('fuel entries are filed by their own date and initial refill is excluded from monthly limit', () => {
+  const start = app.indexOf('function getFuelData');
+  const end = app.indexOf('function getLatestFuelBefore', start);
+  const context = {
+    allData: { '2026-08': { fuelEntries: [
+      { date: '2026-05-21', isInitial: true },
+      { date: '2026-06-30', currKm: 474 },
+      { date: '2026-07-31', currKm: 1139 }
+    ] } },
+    ck: () => '2026-08',
+    defMonth: () => ({ fuelEntries: [] }),
+    relinkAllFuelEntries: () => {},
+    syncCarCostsToBudget: () => {},
+    persistData: () => {}
+  };
+  vm.createContext(context);
+  vm.runInContext(app.slice(start, end), context);
+  assert.equal(context.migrateFuelEntriesToDateMonths(), true);
+  assert.equal(context.allData['2026-08'].fuelEntries.length, 0);
+  assert.equal(context.allData['2026-05'].fuelEntries[0].isInitial, true);
+  assert.equal(context.allData['2026-06'].fuelEntries[0].currKm, 474);
+  assert.equal(context.allData['2026-07'].fuelEntries[0].currKm, 1139);
+  assert.match(app, /filter\(function \(entry\) \{ return !entry\.isInitial; \}\)\.length/);
+});
+
 test('fuel OCR validates pump arithmetic', () => {
   const start = app.indexOf('function normalizePumpCandidate');
   const end = app.indexOf('async function processFuelImagesOCR', start);

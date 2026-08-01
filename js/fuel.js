@@ -7,6 +7,7 @@ function roundDown(value) {
 }
 
 let fuelEditingIndex = null;
+let fuelEditingMonthKey = null;
 let fuelInitialMode = false;
 
 function getAllFuelRefs() {
@@ -48,6 +49,7 @@ function fuelTimelineIsValid() {
 function startInitialFuelEntry() {
   if (hasFuelInitialEver()) return;
   fuelEditingIndex = null;
+  fuelEditingMonthKey = null;
   fuelInitialMode = true;
   document.getElementById('fuel-prev-km').value = 0;
   document.getElementById('fuel-curr-km').value = 0;
@@ -64,6 +66,7 @@ function editFuelEntry(index) {
   const entry = getFuelData()[index];
   if (!entry) return;
   fuelEditingIndex = index;
+  fuelEditingMonthKey = ck();
   fuelInitialMode = !!entry.isInitial;
   document.getElementById('fuel-date').value = entry.date || '';
   document.getElementById('fuel-prev-km').value = entry.prevKm;
@@ -83,6 +86,7 @@ function editFuelEntry(index) {
 
 function cancelFuelEdit() {
   fuelEditingIndex = null;
+  fuelEditingMonthKey = null;
   fuelInitialMode = false;
   ['fuel-curr-km', 'fuel-litres', 'fuel-price', 'fuel-total'].forEach(function (id) { const el = document.getElementById(id); if (el) el.value = ''; });
   document.getElementById('fuel-curr-km').readOnly = false;
@@ -94,6 +98,30 @@ function cancelFuelEdit() {
 
 function getFuelData(monthKey = ck()) {
   return (allData[monthKey] || {}).fuelEntries || [];
+}
+
+// Corrige les anciennes saisies enregistrées dans le mois affiché plutôt que
+// dans le mois indiqué par leur date.
+function migrateFuelEntriesToDateMonths() {
+  const touched = new Set();
+  Object.keys(allData).filter(function (key) { return /^\d{4}-\d{2}$/.test(key); }).forEach(function (sourceKey) {
+    const entries = getFuelData(sourceKey);
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const targetKey = String(entries[i].date || '').slice(0, 7);
+      if (!/^\d{4}-\d{2}$/.test(targetKey) || targetKey === sourceKey) continue;
+      if (!allData[targetKey]) allData[targetKey] = defMonth();
+      if (!allData[targetKey].fuelEntries) allData[targetKey].fuelEntries = [];
+      allData[targetKey].fuelEntries.push(entries[i]);
+      entries.splice(i, 1);
+      touched.add(sourceKey); touched.add(targetKey);
+    }
+  });
+  if (touched.size) {
+    relinkAllFuelEntries();
+    touched.forEach(function (monthKey) { syncCarCostsToBudget(monthKey); });
+    persistData();
+  }
+  return touched.size > 0;
 }
 
 function getLatestFuelBefore(monthKey = ck()) {
@@ -152,14 +180,24 @@ function updateFuelDraftCheck() {
 
 function addFuelEntry() {
   if (!ensureMonthEditable()) return;
-  const mk = ck();
+  const date = document.getElementById('fuel-date').value;
+  const mk = String(date || '').slice(0, 7);
+  if (!/^\d{4}-\d{2}$/.test(mk)) {
+    showToast('❌ Date invalide');
+    return;
+  }
+  if (typeof isMonthClosed === 'function' && isMonthClosed(mk)) {
+    showToast('🔒 Le mois correspondant à cette date est clôturé');
+    return;
+  }
   if (!allData[mk]) allData[mk] = defMonth();
   if (!allData[mk].fuelEntries) allData[mk].fuelEntries = [];
-  if (fuelEditingIndex == null && !fuelInitialMode && allData[mk].fuelEntries.length >= 3) {
+  const targetCount = allData[mk].fuelEntries.filter(function (entry) { return !entry.isInitial; }).length;
+  const editingSameMonth = fuelEditingIndex != null && fuelEditingMonthKey === mk;
+  if (!fuelInitialMode && targetCount - (editingSameMonth ? 1 : 0) >= 3) {
     showToast(T().fuel_max || '⚠️ Maximum 3 pleins par mois atteint');
     return;
   }
-  const date = document.getElementById('fuel-date').value;
   const prevKm = fuelInitialMode ? 0 : roundDown(document.getElementById('fuel-prev-km').value);
   const currKm = fuelInitialMode ? 0 : roundDown(document.getElementById('fuel-curr-km').value);
   let litres = Number(document.getElementById('fuel-litres').value) || 0;
@@ -174,8 +212,14 @@ function addFuelEntry() {
   }
   const entry = { date, prevKm, currKm, pricePerLitre, totalAmount: roundDown(totalAmount), litres: Math.round(litres * 100) / 100, isInitial: fuelInitialMode };
   const backup = JSON.parse(JSON.stringify(allData));
-  if (fuelEditingIndex != null) allData[mk].fuelEntries[fuelEditingIndex] = entry;
-  else allData[mk].fuelEntries.push(entry);
+  const sourceMk = fuelEditingMonthKey;
+  if (fuelEditingIndex != null && sourceMk && allData[sourceMk] && allData[sourceMk].fuelEntries) {
+    if (sourceMk === mk) allData[mk].fuelEntries[fuelEditingIndex] = entry;
+    else {
+      allData[sourceMk].fuelEntries.splice(fuelEditingIndex, 1);
+      allData[mk].fuelEntries.push(entry);
+    }
+  } else allData[mk].fuelEntries.push(entry);
   if (fuelInitialMode) allData[mk]._fuelInitialEver = true;
   relinkAllFuelEntries();
   if (!fuelTimelineIsValid()) {
@@ -183,6 +227,7 @@ function addFuelEntry() {
     showToast('❌ Kilométrage incompatible avec le plein suivant');
     return;
   }
+  if (sourceMk && sourceMk !== mk) syncCarCostsToBudget(sourceMk);
   syncCarCostsToBudget(mk); persistData();
   document.getElementById('fuel-curr-km').value = '';
   document.getElementById('fuel-price').value = '';
@@ -192,7 +237,7 @@ function addFuelEntry() {
   const dashInput = document.getElementById('fuel-ocr-dash-input'); if (dashInput) dashInput.value = '';
   const statusEl = document.getElementById('fuel-ocr-status'); if (statusEl) statusEl.textContent = '';
   const wasEditing = fuelEditingIndex != null;
-  fuelEditingIndex = null; fuelInitialMode = false;
+  fuelEditingIndex = null; fuelEditingMonthKey = null; fuelInitialMode = false;
   document.getElementById('fuel-curr-km').readOnly = false;
   document.getElementById('fuel-add-title').textContent = T().fuel_add_title || 'Ajouter un plein';
   document.getElementById('fuel-submit-lbl').textContent = T().fuel_submit || 'Enregistrer le plein';
@@ -215,6 +260,7 @@ function renderFuelTab() {
   const panel = document.getElementById('tab-drive');
   if (!panel || !panel.classList.contains('active')) return;
   const t = T();
+  migrateFuelEntriesToDateMonths();
   const entries = getFuelData();
 
   const initialBtn = document.getElementById('fuel-initial-btn');
@@ -235,7 +281,7 @@ function renderFuelTab() {
 
   // Désactiver l'ajout si 3 pleins déjà enregistrés ce mois
   const addBtn = document.getElementById('fuel-submit-btn');
-  if (addBtn) addBtn.disabled = entries.length >= 3;
+  if (addBtn) addBtn.disabled = false;
 
   // Statistiques du mois
   let totalKm = 0, totalCost = 0, totalLitres = 0;
