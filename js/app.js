@@ -3235,13 +3235,14 @@ function saveEditNote() {
   if (!newDate || newAmt <= 0) { showToast('❌ تحقق من القيم'); return; }
   // If date changed → move to new month key
   const newMk = newDate.slice(0, 7);
+  const existingChips = (n.chips && n.chips.length) ? n.chips : [newSub];
   if (newMk !== _editNoteMk) {
     allData[_editNoteMk].notes.splice(_editNoteIdx, 1);
     if (!allData[newMk]) allData[newMk] = defMonth();
     if (!allData[newMk].notes) allData[newMk].notes = [];
-    allData[newMk].notes.push({ date: newDate, mainCat: newCat, subCat: newSub, note: newSub, cat: newSub, amount: newAmt, remark: newRem, person: newPerson });
+    allData[newMk].notes.push({ date: newDate, mainCat: newCat, subCat: newSub, note: newSub, cat: newSub, chips: existingChips, amount: newAmt, remark: newRem, person: newPerson });
   } else {
-    n.date = newDate; n.amount = newAmt; n.mainCat = newCat; n.subCat = newSub; n.note = newSub; n.cat = newSub; n.remark = newRem; n.person = newPerson; n.chips = n.chips || [];
+    n.date = newDate; n.amount = newAmt; n.mainCat = newCat; n.subCat = newSub; n.note = newSub; n.cat = newSub; n.remark = newRem; n.person = newPerson; n.chips = existingChips;
   }
   closeEditNoteModal();
   persistData(); renderNotesTab(); renderExpensesCats(); recalc();
@@ -4438,33 +4439,47 @@ function saveWaItemsToBudget() {
     return;
   }
 
-  const mk = ck();
+  const selectedMonthKey = ck();
+  const now = new Date();
+  const nowYM = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+  let dateStr = now.toISOString().slice(0, 10);
+  if (selectedMonthKey !== nowYM) {
+    dateStr = `${selectedMonthKey}-01`;
+  }
+  const mk = dateStr.slice(0, 7);
+
   if (!allData[mk]) allData[mk] = defMonth();
   if (!allData[mk].notes) allData[mk].notes = [];
 
-  const todayStr = new Date().toISOString().slice(0, 10);
   let addedCount = 0;
   let addedSum = 0;
 
   validItems.forEach(item => {
     const amount = Number(item.price || 0);
+    const chipText = `${item.icon} ${item.name}`;
     allData[mk].notes.push({
-      date: todayStr,
-      note: `${item.icon} ${item.name}`,
-      subCat: item.name,
+      date: dateStr,
       mainCat: item.catId,
+      subCat: item.name,
+      note: item.name,
+      cat: item.name,
+      chips: [chipText],
       amount: amount,
-      currency: currency,
-      person: 'family'
+      person: 'family',
+      remark: 'WhatsApp Express'
     });
     addedCount++;
     addedSum += amount;
   });
 
   persistData();
+  renderNotesTab();
+  renderExpensesCats();
   recalc();
-  renderNotes();
+  if (typeof populateDayFilter === 'function') setTimeout(populateDayFilter, 100);
+  if (typeof renderWeeklyTab === 'function') renderWeeklyTab();
   closeModal('waExpressModal');
+  resetWaStep();
   showToast(`✅ ${addedCount} ${lang === 'fr' ? 'dépenses enregistrées' : 'مصاريف تضافات'} (+${fmt(addedSum)} ${currency})`);
 }
 
