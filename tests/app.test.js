@@ -256,3 +256,33 @@ test('car costs sync to budget idempotently', () => {
   assert.equal(auto.length, 2);
   assert.equal(auto.reduce((sum, note) => sum + note.amount, 0), 1050);
 });
+
+test('WhatsApp Express parses besla, felfla, bayt, 3atriya, choklat and populates extracted items', () => {
+  const start = app.indexOf('const DARIJA_DICTIONARY');
+  const end = app.indexOf('function renderWaItemsList', start);
+  const dummyEl = { value: '', style: {}, textContent: '', innerHTML: '', appendChild: () => {} };
+  const context = {
+    lang: 'ar',
+    showToast: () => {},
+    renderWaItemsList: () => {},
+    $: id => dummyEl
+  };
+  vm.createContext(context);
+  vm.runInContext(app.slice(start, end), context);
+  
+  context.$ = id => id === 'wa-raw-input' ? { value: 'besla 20\nfelfla 5\nbayt 10\n3atriya 25\nchoklat 15' } : dummyEl;
+  context.processWaInput();
+  
+  const extracted = vm.runInContext('_waExtractedItems', context);
+  assert.equal(extracted.length, 5);
+  assert.equal(extracted[0].name, 'بصل');
+  assert.equal(extracted[0].price, '20');
+  assert.equal(extracted[1].name, 'فلفلة');
+  assert.equal(extracted[1].price, '5');
+  assert.equal(extracted[2].name, 'بيض');
+  assert.equal(extracted[2].price, '10');
+  assert.equal(extracted[3].name, 'عطرية / توابل');
+  assert.equal(extracted[3].price, '25');
+  assert.equal(extracted[4].name, 'شكلاط');
+  assert.equal(extracted[4].price, '15');
+});

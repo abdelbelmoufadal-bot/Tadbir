@@ -125,7 +125,7 @@ const set = (id, v) => { const e = $(id); if (e) e.textContent = v; };
 const MAIN_CATS = {
   ar: [
     { id: 'fixed', icon: '🏠', label: 'الضروريات الثابتة', subs: ['إيجار', 'كهرباء/ماء', 'غاز/بوطة', 'انترنت', 'تأمين', 'مسحوق غسيل', 'جافيل/مبيض', 'سائل الأواني', 'منظف أرضيات', 'معطر جو', 'ورق حمام', 'ورق مطبخ', 'أكياس زبل', 'ألومينيوم'] },
-    { id: 'daily', icon: '🛒', label: 'المعيشة اليومية', subs: ['مواد غذائية', 'السوق', 'خضر وفواكه', 'لحوم وأسماك', 'خبز وفطور', 'حليب وألبان', 'بقالة/إبيسري', 'مطعم', 'عصير طري', 'بيض', 'زيت وتوابل', 'أرز وكسكس', 'معكرونة', 'طون/مصبرات', 'قطاني', 'مطيشة', 'دنجال', 'ثوم'] },
+    { id: 'daily', icon: '🛒', label: 'المعيشة اليومية', subs: ['مواد غذائية', 'السوق', 'خضر وفواكه', 'لحوم وأسماك', 'خبز وفطور', 'حليب وألبان', 'بقالة/إبيسري', 'مطعم', 'عصير طري', 'بيض', 'زيت وتوابل', 'أرز وكسكس', 'معكرونة', 'طون/مصبرات', 'قطاني', 'مطيشة', 'دنجال', 'ثوم', 'بصل', 'فلفلة', 'عطرية', 'شكلاط'] },
     { id: 'cafe_smoke', icon: '☕', label: 'الترفيه/الكمالية', subs: ['قهوة كحلة', 'كابوتشينو', 'نسكافي', 'أتاي', 'كرواصة', 'مسمن', 'بغرير', 'فطور كومبلي', 'عصير طري', 'سيجارة', 'علبة تبغ', 'ولاعة', 'شيشة', 'تفكيكة', 'سندويش', 'زعزع', 'دانون', 'شيبس / رقائق بطاطس'] },
     { id: 'transport', icon: '🚗', label: 'التنقل', subs: ['Gasoil', 'نقل عام', 'صيانة سيارة', 'غسل السيارة'] },
     { id: 'health', icon: '🏥', label: 'الصحة', subs: ['دواء', 'طبيب/عيادة', 'صيدلية', 'دوليبران/مسكن', 'فيتامينات', 'سيروم/قطن', 'ضمادات/بلاصط', 'حفاضات/كوش', 'حليب رضع', 'لانجيت', 'سيريلاك', 'شامبو', 'صابون', 'معجون أسنان', 'مضاد عرق', 'جيل حلاقة', 'شفرات', 'كوتون تيج'] },
@@ -136,7 +136,7 @@ const MAIN_CATS = {
   ],
   fr: [
     { id: 'fixed', icon: '🏠', label: 'Charges fixes', subs: ['Loyer', 'Électricité/Eau', 'Gaz/Bonbonne', 'Internet', 'Assurance', 'Lessive/Tide', 'Javel', 'Liquide vaisselle', 'Désinfectant', 'Désodorisant', 'Papier toilette', 'Essuie-tout', 'Sacs poubelle', 'Aluminium'] },
-    { id: 'daily', icon: '🛒', label: 'Vie quotidienne', subs: ['Alimentation', 'Marché', 'Légumes/Fruits', 'Viandes/Poissons', 'Pain/Viennoiseries', 'Lait/Produits laitiers', 'Oeufs', 'Riz/Couscous', 'Pâtes', 'Thon/Conserves', 'Légumineuses', 'Restaurant', 'Jus frais', 'Huile/Épices', 'Tomates', 'Aubergine', 'Ail'] },
+    { id: 'daily', icon: '🛒', label: 'Vie quotidienne', subs: ['Alimentation', 'Marché', 'Légumes/Fruits', 'Viandes/Poissons', 'Pain/Viennoiseries', 'Lait/Produits laitiers', 'Oeufs', 'Riz/Couscous', 'Pâtes', 'Thon/Conserves', 'Légumineuses', 'Restaurant', 'Jus frais', 'Huile/Épices', 'Tomates', 'Aubergine', 'Ail', 'Oignons', 'Poivrons', 'Épices', 'Chocolat'] },
     { id: 'cafe_smoke', icon: '☕', label: 'Loisirs/Extras', subs: ['Café noir', 'Cappuccino', 'Nescafé', 'Thé', 'Croissant', 'Msemen', 'Beghrir', 'Petit-déj complet', 'Jus frais', 'Cigarettes', 'Paquet tabac', 'Briquet', 'Chicha', 'Tabac à pipe', 'Sandwich', 'Zaazoua', 'Danone', 'Chips'] },
     { id: 'transport', icon: '🚗', label: 'Transport', subs: ['Gasoil', 'Transport public', 'Entretien voiture', 'Lavage voiture'] },
     { id: 'health', icon: '🏥', label: 'Santé', subs: ['Médicaments', 'Médecin', 'Pharmacie', 'Doliprane', 'Vitamines', 'Sérum/Coton', 'Pansements', 'Couches', 'Lait bébé', 'Lingettes', 'Céréales bébé', 'Shampoing', 'Savon', 'Dentifrice', 'Déodorant', 'Gel rasage', 'Lames rasoir', 'Coton-tige'] },
@@ -3558,11 +3558,11 @@ const DARIJA_DICTIONARY = [
   { keywords: ['lkhyar', 'khyar', 'خيار', 'concombre'], nameAr: 'خيار', nameFr: 'Concombre', icon: '🥒', catId: 'daily' },
   { keywords: ['batata', 'btata', 'btat', 'بطاطس', 'بطاطا', 'pomme de terre'], nameAr: 'بطاطس', nameFr: 'Pommes de terre', icon: '🥔', catId: 'daily' },
   { keywords: ['btata hlwa', 'بطاطا حلوة', 'patate douce'], nameAr: 'بطاطا حلوة', nameFr: 'Patate douce', icon: '🍠', catId: 'daily' },
-  { keywords: ['bssl', 'bssla', 'بصل', 'بصلة', 'oignon'], nameAr: 'بصل', nameFr: 'Oignons', icon: '🧅', catId: 'daily' },
+  { keywords: ['bssl', 'bssla', 'besla', 'basla', 'bisla', 'بصل', 'بصلة', 'oignon', 'oignons'], nameAr: 'بصل', nameFr: 'Oignons', icon: '🧅', catId: 'daily' },
   { keywords: ['khizou', 'khizo', 'ja3da', 'جاعدة', 'خيزو', 'جزر', 'carotte', 'carottes'], nameAr: 'جزر / جاعدة', nameFr: 'Carottes', icon: '🥕', catId: 'daily' },
   { keywords: ['kar3a', 'kar3a khdra', 'قرعة خضرة', 'courgette'], nameAr: 'قرعة خضراء', nameFr: 'Courgettes', icon: '🥒', catId: 'daily' },
   { keywords: ['dngal', 'danjan', 'دنجال', 'باذنجان', 'aubergine'], nameAr: 'دنجال', nameFr: 'Aubergine', icon: '🍆', catId: 'daily' },
-  { keywords: ['flfla', 'flla', 'فلفلة', 'فلفل', 'poivron'], nameAr: 'فلفلة', nameFr: 'Poivrons', icon: '🫑', catId: 'daily' },
+  { keywords: ['flfla', 'flla', 'felfla', 'filfla', 'felfel', 'filfil', 'فلفلة', 'فلفل', 'poivron', 'poivrons'], nameAr: 'فلفلة', nameFr: 'Poivrons', icon: '🫑', catId: 'daily' },
   { keywords: ['thoum', 'thouma', 'ثومة', 'ثوم', 'ail'], nameAr: 'ثوم', nameFr: 'Ail', icon: '🧄', catId: 'daily' },
   { keywords: ['rbia', 'rbi3', 'ربيع', 'قصبر', 'معدنوس', 'persil'], nameAr: 'ربيع', nameFr: 'Persil / Coriandre', icon: '🌿', catId: 'daily' },
   { keywords: ['lkhass', 'خس', 'laitue'], nameAr: 'خس', nameFr: 'Laitue', icon: '🥬', catId: 'daily' },
@@ -3583,7 +3583,7 @@ const DARIJA_DICTIONARY = [
 
   // 🛒 المعيشة اليومية / المواد الغذائية والبقالة
   { keywords: ['hlib', 'lhlib', 'حليب', 'lait'], nameAr: 'حليب', nameFr: 'Lait', icon: '🥛', catId: 'daily' },
-  { keywords: ['bytat', 'byd', 'biad', 'بيض', 'oeufs'], nameAr: 'بيض', nameFr: 'Œufs', icon: '🥚', catId: 'daily' },
+  { keywords: ['bytat', 'byd', 'biad', 'bayt', 'bayd', 'baid', 'baidat', 'baydat', 'بيض', 'oeufs', 'œufs'], nameAr: 'بيض', nameFr: 'Œufs', icon: '🥚', catId: 'daily' },
   { keywords: ['khobz', 'lkhobz', 'خبز', 'pain'], nameAr: 'خبز', nameFr: 'Pain', icon: '🍞', catId: 'daily' },
   { keywords: ['tost', 'lkhobz tost', 'توست', 'pain de mie'], nameAr: 'خبز التوست', nameFr: 'Pain de mie', icon: '🍞', catId: 'daily' },
   { keywords: ['madelin', 'madlin', 'مادلين', 'madelaine'], nameAr: 'مادلين', nameFr: 'Madeleines', icon: '🧁', catId: 'daily' },
@@ -3602,7 +3602,8 @@ const DARIJA_DICTIONARY = [
   { keywords: ['4des', '3des', 'عدس', 'lentilles'], nameAr: 'عدس', nameFr: 'Lentilles', icon: '🍲', catId: 'daily' },
   { keywords: ['lobiya', 'لوبيا', 'haricots'], nameAr: 'لوبيا', nameFr: 'Haricots blancs', icon: '🍲', catId: 'daily' },
   { keywords: ['flan', 'فلان'], nameAr: 'فلان', nameFr: 'Flan', icon: '🍮', catId: 'daily' },
-  { keywords: ['xklat dyl lkhobz', 'شوكلاتة', 'nutella'], nameAr: 'شكلاط الدهن', nameFr: 'Chocolat à tartiner', icon: '🍫', catId: 'daily' },
+  { keywords: ['choklat', 'chocolat', 'xoklat', 'shoklat', 'choklate', 'choclate', 'xklat', 'xklat dyl lkhobz', 'شوكلاتة', 'شكلاط', 'nutella'], nameAr: 'شكلاط', nameFr: 'Chocolat', icon: '🍫', catId: 'daily' },
+  { keywords: ['3atriya', '3atria', 'atria', 'عطرية', 'توابل', 'epices', 'épices'], nameAr: 'عطرية / توابل', nameFr: 'Épices', icon: '🧂', catId: 'daily' },
   { keywords: ['ibzar', 'ابزار', 'إبزار', 'poivre'], nameAr: 'إبزار / فلفل أسود', nameFr: 'Poivre noir', icon: '🧂', catId: 'daily' },
   { keywords: ['khrkom', 'خرقوم', 'curcuma'], nameAr: 'خرقوم', nameFr: 'Curcuma', icon: '🧂', catId: 'daily' },
   { keywords: ['sknjbir', 'سكنجبير', 'gingembre'], nameAr: 'سكنجبير', nameFr: 'Gingembre', icon: '🧂', catId: 'daily' },
