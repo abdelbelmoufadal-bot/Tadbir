@@ -81,7 +81,10 @@ function getCurrentTimeInTimezone(tzOption) {
   if (!tzOption || tzOption === 'auto') {
     const hours = String(now.getHours()).padStart(2, '0');
     const mins = String(now.getMinutes()).padStart(2, '0');
-    return { timeStr: `${hours}:${mins}`, dateStr: now.toISOString().slice(0, 10) };
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    return { timeStr: `${hours}:${mins}`, dateStr: `${y}-${m}-${d}` };
   }
 
   const match = tzOption.match(/UTC([+-]\d+)/i);
@@ -90,12 +93,10 @@ function getCurrentTimeInTimezone(tzOption) {
     targetOffsetHours = parseInt(match[1], 10);
   }
 
-  const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
-  const targetDate = new Date(utcMs + (3600000 * targetOffsetHours));
-
-  const hours = String(targetDate.getHours()).padStart(2, '0');
-  const mins = String(targetDate.getMinutes()).padStart(2, '0');
-  const dateStr = targetDate.toISOString().slice(0, 10);
+  const shiftedDate = new Date(now.getTime() + (3600000 * targetOffsetHours));
+  const hours = String(shiftedDate.getUTCHours()).padStart(2, '0');
+  const mins = String(shiftedDate.getUTCMinutes()).padStart(2, '0');
+  const dateStr = shiftedDate.toISOString().slice(0, 10);
 
   return { timeStr: `${hours}:${mins}`, dateStr: dateStr };
 }
@@ -276,5 +277,12 @@ function checkTelegramAutoSend() {
   }
 }
 
-// Vérifie l'envoi automatique chaque minute
+// Vérifie l'envoi automatique chaque minute et lors de l'ouverture/reprise de l'application
 setInterval(checkTelegramAutoSend, 60000);
+setTimeout(checkTelegramAutoSend, 2000);
+if (typeof window !== 'undefined') {
+  window.addEventListener('focus', checkTelegramAutoSend);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') checkTelegramAutoSend();
+  });
+}
