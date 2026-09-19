@@ -228,17 +228,22 @@ function addFuelEntry() {
   if (fuelInitialMode) allData[mk]._fuelInitialEver = true;
   relinkAllFuelEntries();
   if (!fuelTimelineIsValid()) {
-    allData = backup;
-    // Trouver l'entrée conflictuelle pour afficher un message précis
+    // Identifier le plein en conflit pour informer l'utilisateur
     const conflict = getAllFuelRefs().find(function (ref) {
       return !ref.entry.isInitial && roundDown(ref.entry.currKm) <= roundDown(ref.entry.prevKm);
     });
-    if (conflict) {
-      showToast('❌ Conflit km : le plein du ' + (conflict.entry.date || '?') + ' a ' + roundDown(conflict.entry.currKm) + ' km ≤ ' + roundDown(conflict.entry.prevKm) + ' km (précédent)');
-    } else {
-      showToast('❌ Kilométrage incompatible avec un plein existant');
+    const conflictMsg = conflict
+      ? ('Le plein du ' + (conflict.entry.date || '?') + ' a ' + roundDown(conflict.entry.currKm) + ' km alors que le précédent est à ' + roundDown(conflict.entry.prevKm) + ' km.')
+      : 'Un plein existant a un kilométrage incohérent avec celui-ci.';
+    console.warn('[Tadbir] Conflit timeline carburant :', conflictMsg, getAllFuelRefs().map(function(r){ return r.entry.date + ' prevKm=' + r.entry.prevKm + ' currKm=' + r.entry.currKm; }));
+    const confirmed = window.confirm(
+      '⚠️ Conflit de kilométrage détecté\n\n' + conflictMsg + '\n\nVoulez-vous enregistrer quand même ?'
+    );
+    if (!confirmed) {
+      allData = backup;
+      return;
     }
-    return;
+    // L'utilisateur confirme : on garde les données modifiées (relinkAllFuelEntries déjà appliqué)
   }
   if (sourceMk && sourceMk !== mk) syncCarCostsToBudget(sourceMk);
   syncCarCostsToBudget(mk); persistData();
