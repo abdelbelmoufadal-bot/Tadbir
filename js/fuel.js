@@ -235,7 +235,7 @@ function addFuelEntry() {
     const conflictMsg = conflict
       ? ('Le plein du ' + (conflict.entry.date || '?') + ' a ' + roundDown(conflict.entry.currKm) + ' km alors que le précédent est à ' + roundDown(conflict.entry.prevKm) + ' km.')
       : 'Un plein existant a un kilométrage incohérent avec celui-ci.';
-    console.warn('[Tadbir] Conflit timeline carburant :', conflictMsg, getAllFuelRefs().map(function(r){ return r.entry.date + ' prevKm=' + r.entry.prevKm + ' currKm=' + r.entry.currKm; }));
+    console.warn('[Tadbir] Conflit timeline carburant :', conflictMsg, getAllFuelRefs().map(function (r) { return r.entry.date + ' prevKm=' + r.entry.prevKm + ' currKm=' + r.entry.currKm; }));
     const confirmed = window.confirm(
       '⚠️ Conflit de kilométrage détecté\n\n' + conflictMsg + '\n\nVoulez-vous enregistrer quand même ?'
     );

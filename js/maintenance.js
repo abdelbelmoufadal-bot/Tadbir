@@ -136,7 +136,7 @@ function renderCarMaintenanceTab() {
     list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--light);font-size:12px;">🛠️ Aucun frais enregistré ce mois</div>';
     return;
   }
-  const typeIcons = { vidange: '🛢️', pneu: '🛞', reparation: '🛠️', assurance: '📄', vignette: '🏷️', lavage: '🧼', autre: '📦' };
+  const typeIcons = { vidange: '🛢️', adblue: '🟦', pneu: '🛞', reparation: '🛠️', assurance: '📄', vignette: '🏷️', lavage: '🧼', autre: '📦' };
   expenses.slice().reverse().forEach(function (e, i) {
     const origIdx = expenses.length - 1 - i;
     const row = document.createElement('div');
