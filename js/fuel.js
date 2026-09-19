@@ -17,7 +17,12 @@ function getAllFuelRefs() {
   });
   return refs.sort(function (a, b) {
     if (!!a.entry.isInitial !== !!b.entry.isInitial) return a.entry.isInitial ? -1 : 1;
-    return String(a.entry.date || '').localeCompare(String(b.entry.date || '')) || a.monthKey.localeCompare(b.monthKey) || a.index - b.index;
+    const dateCmp = String(a.entry.date || '').localeCompare(String(b.entry.date || ''));
+    if (dateCmp !== 0) return dateCmp;
+    // Tri stable : même date → on utilise currKm croissant, puis monthKey, puis index
+    const kmCmp = (roundDown(a.entry.currKm) || 0) - (roundDown(b.entry.currKm) || 0);
+    if (kmCmp !== 0) return kmCmp;
+    return a.monthKey.localeCompare(b.monthKey) || a.index - b.index;
   });
 }
 
@@ -224,7 +229,15 @@ function addFuelEntry() {
   relinkAllFuelEntries();
   if (!fuelTimelineIsValid()) {
     allData = backup;
-    showToast('❌ Kilométrage incompatible avec le plein suivant');
+    // Trouver l'entrée conflictuelle pour afficher un message précis
+    const conflict = getAllFuelRefs().find(function (ref) {
+      return !ref.entry.isInitial && roundDown(ref.entry.currKm) <= roundDown(ref.entry.prevKm);
+    });
+    if (conflict) {
+      showToast('❌ Conflit km : le plein du ' + (conflict.entry.date || '?') + ' a ' + roundDown(conflict.entry.currKm) + ' km ≤ ' + roundDown(conflict.entry.prevKm) + ' km (précédent)');
+    } else {
+      showToast('❌ Kilométrage incompatible avec un plein existant');
+    }
     return;
   }
   if (sourceMk && sourceMk !== mk) syncCarCostsToBudget(sourceMk);
