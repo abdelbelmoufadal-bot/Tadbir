@@ -1,83 +1,6 @@
 // ══════════════════════════════════════════════
-// TRANSLATIONS
+// TRANSLATIONS (Moved to js/lang.js)
 // ══════════════════════════════════════════════
-const LANGS = {
-  ar: {
-    dir: 'rtl',
-    months: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
-    cats: ['مواد غذائية', 'السوق', 'قهوة', 'النقل', 'أخرى'],
-    expLabel: ['مواد غذائية', 'السوق', 'قهوة', 'Gasoil', 'أخرى'],
-    pin_enter: 'أدخل رمز PIN', pin_create: 'إنشاء رمز PIN (4 أرقام)', pin_confirm: 'أكد رمز PIN',
-    pin_wrong: '❌ رمز PIN غلط', pin_mismatch: '❌ الأرقام ما تطابقوش', pin_note: 'هاد الرمز يحمي تطبيقك', pin_forgot: 'نسيت PIN؟', pin_locked: 'محاولات كثيرة. انتظر 30 ثانية.', pin_forgot_confirm: 'حذف رمز PIN فقط؟ بياناتك لن تُحذف.',
-    saved: 'محفوظ تلقائياً', new_btn: '✦ شهر جديد', tab1: 'لوحة الميزانية', tab2: 'دفتر الملاحظات', tab3: 'مقارنة شهرية',
-    pick: 'اختار الشهر', nm: 'شهر جديد', nm_sub: 'كيفاش تبغي تبدا؟',
-    nm1: 'كوبياو المخطط فقط', nm1s: 'تبقى أرقام مخطط له وتبدا من صفر',
-    nm2: 'شهر فارغ', nm2s: 'صفحة بيضاء', nm3: 'كوبياو كل شي', nm3s: 'نفس الشهر الماضي', nm_btn: 'إنشاء ✓',
-    bk: 'الحفظ والحماية', exp_h: '📤 تصدير', exp_btn: 'تحميل ملف الحفظ', exp_s: 'كل بياناتك في ملف JSON',
-    imp_h: '📥 استيراد', imp_btn: 'تحميل ملف حفظ سابق', imp_s: 'ملف JSON لاسترجاع البيانات',
-    drv_h: '☁️ Google Drive', s1: 'كليك على تحميل ملف الحفظ', s2: 'فتح Google Drive في تليفونك',
-    s3: '＋ ← رفع ← اختار الملف', s4: 'خلاص! بياناتك في السحاب ☁️',
-    pin_h: '🔐 إعدادات PIN', pin_lbl: 'قفل بـ PIN', pin_s: 'حماية التطبيق عند الفتح',
-    pin_ch: 'تغيير رمز PIN', pin_chs: 'إنشاء رمز جديد', last_save: 'آخر حفظ', lang_title: 'اختار اللغة',
-    k_income: 'الدخل ديالي', k_bills: 'الفواتير', k_expenses: 'المصاريف', k_savings: 'التوفير', k_debts: 'الديون', k_remaining: 'الفلوس لي بقاو', k_emergency: 'صندوق الطوارئ', emergency_target_prompt: 'أدخل قيمة هدف صندوق الطوارئ الجديد:',
-    hero_lbl: 'الفلوس لي بقاو دابا', hero_ok: '💚 الوضع كاين', hero_zero: '🟡 بالضبط', hero_neg: '🔴 تجاوزت الميزانية',
-    ch1: 'فين كتمشي الفلوس', ch2: 'لي مخطط له / لي تصرف',
-    col_item: 'البيان', col_act: 'تصرفت', col_pln: 'مخطط', col_goal: 'الهدف', col_src: 'المصدر', col_ent: 'الجهة',
-    add_bills: '＋ إضافة فاتورة', add_exp: '＋ إضافة مصروف', add_sav: '＋ إضافة هدف', add_dbt: '＋ إضافة دين', add_inc: '＋ إضافة مصدر دخل',
-    notes_title: 'دفتر الملاحظات', notes_info: 'كل ما تضيفه هنا يتجمع تلقائياً مع المصاريف في لوحة الميزانية',
-    notes_sub: 'سجل المصاريف', notes_edit: 'قابل للتعديل', notes_chart: 'توزيع المصاريف', notes_sum: 'ملخص',
-    nt_date: 'التاريخ', nt_note: 'الملاحظات', nt_subcat: 'الخيارات', nt_cat: 'الفئة', nt_amount: 'المبلغ', nt_cur: 'العملة', add_note: '＋ إضافة ملاحظة', nt_remark: '💬 ملاحظة (اختياري)', nt_remark_ph: 'مثال: ماركة، محل، سبب...', tab_weekly: '📊 إحصائيات', week_chart: 'مصاريف الأسبوع الحالي', add_note_fab: 'تسجيل مصروف', pdf_btn: 'تصدير PDF', excel_btn: 'تصدير Excel',
-    monthly_title: 'مقارنة شهرية', monthly_chart: 'تطور الدخل والمصاريف', monthly_total: 'المجموع', monthly_remain: 'الباقي',
-    footer: 'دبّر فلوسك بذكاء — تدبير 💚',
-    import_confirm: 'هاد العملية غادي تبدل البيانات الحالية. واش متأكد؟',
-    toast_add: 'تمت الإضافة ✓', toast_save: '✅ تم تحميل ملف الحفظ', toast_import: '✅ تم استيراد البيانات',
-    toast_pin_on: '🔐 PIN مفعّل', toast_pin_off: '🔓 PIN مؤقف', toast_pin_created: 'تم إنشاء رمز PIN ✓', from_of: 'من أصل',
-    sync_off: 'غير متصل', sync_ok: 'متزامن ☁️', sync_ing: 'جاري...', sync_now: 'مزامنة الآن', history_h: '<ctrl42> النسخ المحلية', history_btn: 'إنشاء نسخة الآن', history_sub: 'الاحتفاظ بآخر 5 نسخ على هذا الجهاز', history_empty: 'لا توجد نسخة بعد', history_restore: 'استرجاع', history_confirm: 'استرجاع هذه النسخة؟ سيتم حفظ الوضع الحالي أولاً.', history_saved: 'تم إنشاء نسخة محلية ✓', month_closed: 'هذا الشهر مغلق', month_close: 'إغلاق الشهر', month_reopen: 'إعادة فتح الشهر', carry_balance: 'ترحيل رصيد الشهر', month_exists: 'الشهر التالي يحتوي على بيانات. هل تريد استبدالها؟', vs_previous: 'مقارنة بالشهر السابق', expense_search: 'بحث...', sort_newest: 'الأحدث أولاً', sort_oldest: 'الأقدم أولاً', sort_highest: 'المبلغ: الأكبر', sort_lowest: 'المبلغ: الأصغر', duplicate_expense: 'تكرار المصروف', details: 'التفاصيل', deadline: 'تاريخ الهدف', interest_rate: 'نسبة الفائدة (%)', monthly_payment: 'القسط الشهر', remaining_amount: 'المتبقي', progress: 'التقدم', cancel: 'إلغاء', save: 'حفظ', avg_daily: 'معدل المصروف اليومي', daily_budget: 'الميزانية اليومية المتبقية', month_projection: 'توقع نهاية الشهر', savings_rate: 'نسبة التوفير', top_category: 'أكبر فئة', days_elapsed: 'أيام محسوبة', days_remaining: 'أيام متبقية', display_currency: 'وحدة عرض فقط — لا يتم تحويل المبالغ', toast_signout: '👋 تم تسجيل الخروج', toast_loaded: 'تم تحميل بياناتك من السحاب', signin: 'تسجيل الدخول', signout: 'خروج', custom_cat: '✏️ فئة جديدة...', reset_h: '🔄 إعادة تعيين', reset_btn: 'إضافة البيانات الافتراضية الناقصة', reset_sub: 'يضيف فقط ما ينقص — لا يمسح بياناتك', toast_reset: '✅ تمت إضافة البيانات الافتراضية', cal_total: 'الإجمالي:', cal_leg1: 'عادي', cal_leg2: 'متوسط', cal_leg3: 'مرتفع', cal_source: '📋 المصدر: سجل المصاريف', exp_auto_note: 'المبالغ من دفتر الملاحظات — المخطط قابل للتعديل', drv_today: 'اليوم', drv_week: 'الأسبوع', drv_month: 'الشهر', drv_avg: 'معدل/رحلة', drv_trips: 'رحلة', drv_add_title: 'تسجيل يوم جديد', drv_lbl_date: 'التاريخ', drv_lbl_trips: 'عدد الرحلات', drv_lbl_total: 'المجموع', drv_submit: 'تسجيل اليوم', drv_heatmap: 'أفضل أيام الأسبوع', drv_list: 'سجل الرحلات', drive_fill: 'أكمل كل الحقول',
-    fuel_title: '⛽ استهلاك الوقود', fuel_add_title: 'إضافة تعبئة جديدة', fuel_lbl_date: 'التاريخ', fuel_lbl_prevkm: 'الكيلومتراج السابق', fuel_lbl_currkm: 'الكيلومتراج الحالي', fuel_lbl_litres: 'عدد اللترات', fuel_lbl_price: 'ثمن اللتر', fuel_lbl_total: 'المبلغ الإجمالي', fuel_submit: 'تسجيل التعبئة', fuel_list: 'سجل التعبئات', fuel_fill: 'تحقق من الحقول (الكيلومتراج الحالي يجب أن يكون أكبر)', fuel_max: '⚠️ الحد الأقصى 3 تعبئات في الشهر', fuel_empty: '⛽ لا توجد تعبئة مسجلة هذا الشهر',
-    fuel_ocr_title: '📷 استيراد من صورة', fuel_ocr_pump: 'صورة المضخة', fuel_ocr_dash: 'صورة عداد الكيلومترات', fuel_ocr_btn: 'تحليل الصور', fuel_ocr_loading: 'جاري التحليل...', fuel_ocr_ok: '✓ تم استخراج البيانات، تحقق منها قبل التسجيل', fuel_ocr_fail: '❌ تعذر استخراج البيانات، أدخلها يدوياً', fuel_ocr_loadfail: '❌ تعذر تحميل أداة التحليل، تحقق من الاتصال',
-    fuel_stat_km: 'المسافة', fuel_stat_cost: 'التكلفة', fuel_stat_conso: 'الاستهلاك/100كم', fuel_stat_pricekm: 'الثمن/كم', stats_title: 'تحليل المصاريف', stats_subtitle: 'اكتشف التسربات والعادات المكلفة وفرص التوفير.', stats_month: 'الشهر المحلل', stats_leaks: '🚨 تسربات محتملة', stats_products: '🧾 المنتجات الأكثر كلفة', stats_actions: '💡 إجراءات مقترحة', stats_category: 'توزيع المصاريف حسب الفئة', stats_entries: 'عملية', stats_discretionary: 'الكماليات', stats_no_data: 'لا توجد بيانات لهذا الشهر', stats_reduce: 'قلّص أكبر مصروف كمالي بنسبة 25٪', stats_repeat: 'راجع المشتريات المتكررة يومياً', stats_budget: 'حدد سقفاً شهرياً لكل فئة', form_choose: 'اختر المشتريات', form_clear: 'مسح الكل ✕', filter_month: 'الشهر:', filter_day: 'اليوم:', filter_total: 'الإجمالي:', month_total: 'إجمالي الشهر', drive_sync: '⚡ يتزامن مع الدخل', offline: '📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً', person: 'المستفيد', all_people: 'كل العائلة', family_stats: '👨‍👩‍👦‍👦 استهلاك العائلة', bud_h: 'إعداد ميزانية الفئات', bud_s: 'تحديد حد أقصى لكل قسم', lnd_logo_name: 'Tadbir Pro', lnd_logo_sub: 'دبّر ميزانيتك بذكاء', lnd_nav_btn: '🔑 تسجيل الدخول بـ Google', lnd_badge: '✦ مجاني 100% • مزامنة سحابية', lnd_h1_1: 'دبّر فلوسك بذكاء', lnd_h1_2: 'وفبلاصة وحدة', lnd_sub: 'تطبيق ذكي لتتبع ميزانيتك الشهرية — سجّل مصاريفك، تابع توفيرك، وخلّص من ديونك بشكل منظم', lnd_start_btn: '🚀 ابدأ مجاناً مع Google', lnd_install: '📲 تثبيت التطبيق', lnd_no_card: 'لا حاجة لبطاقة بنكية • مجاني للأبد', lnd_demo_title: 'معاينة التطبيق', lnd_demo_inc: '💵 الدخل', lnd_demo_exp: '🛒 المصاريف', lnd_demo_rem: '✅ الباقي', lnd_demo_ch1: 'فين كتمشي الفلوس', lnd_demo_ch2: 'المخطط / الفعلي', lnd_demo_l1: 'البيان', lnd_demo_l2: 'تصرفت', lnd_demo_l3: 'مخطط', lnd_demo_food: 'مواد غذائية', lnd_demo_market: 'السوق', lnd_feat_h2_1: 'كل شيء تحتاجه', lnd_feat_h2_2: 'في مكان واحد', lnd_feat_p: 'تطبيق مصمم خصيصاً لتنظيم ميزانيتك بسهولة وبدون تعقيد', lnd_f1_t: 'لوحة الميزانية', lnd_f1_d: 'تتبع الدخل والفواتير والمصاريف والتوفير والديون في لوحة واحدة واضحة مع رسوم بيانية ذكية', lnd_f2_t: 'مزامنة تلقائية', lnd_f2_d: 'بياناتك محفوظة في السحاب وتتزامن بين الهاتف والكمبيوتر في الوقت الفعلي — لا تفقد أي شيء', lnd_f3_t: 'دفتر الملاحظات', lnd_f3_d: 'سجّل أي مصروف يومي بفئته ويتجمع تلقائياً مع المصاريف الشهرية بدون إدخال يدوي مكرر', lnd_f4_t: 'مقارنة شهرية', lnd_f4_d: 'تابع تطور ميزانيتك عبر 12 شهر مع رسم بياني يبين الفرق بين المخطط والفعلي', lnd_f5_t: 'لغتان مكتملتان', lnd_f5_d: 'العربية • Français — تغيير اللغة يغيّر اتجاه الصفحة والمكونات تلقائياً', lnd_f6_t: 'حماية وأمان', lnd_f6_d: 'تسجيل دخول آمن بـ Google + رمز PIN لحماية التطبيق على جهازك — بياناتك لك وحدك', lnd_f7_t: 'بوت تليجرام تلقائي', lnd_f7_d: 'ملخصات يومية تلقائية تصلك على تليجرام في الوقت والتوقيت الذي تحدده (المغرب، فرنسا...)', lnd_f8_t: 'واتساب إكسبريس', lnd_f8_d: 'الصق نص محادثة الواتساب ويستخرج التطبيق المنتجات والأسعار تلقائياً في الميزانية', lnd_stat_1: 'مجاني', lnd_stat_2: 'لغتان', lnd_stat_3: 'سحاب آمن', lnd_stat_4: 'كل الأجهزة', lnd_step_h2: 'كيف يشتغل؟', lnd_step_p: '3 خطوات بسيطة تنظم فيها ميزانيتك', lnd_s1_t: 'سجّل دخولك بـ Google', lnd_s1_d: 'اضغط على "ابدأ مجاناً" وسجّل بحساب Google ديالك — لا تسجيل، لا كلمة مرور', lnd_s2_t: 'أدخل ميزانيتك', lnd_s2_d: 'عندك بيانات افتراضية جاهزة — فقط أدخل الأرقام الحقيقية ديالك في الخانات المناسبة', lnd_s3_t: 'تابع وتحكم في فلوسك', lnd_s3_d: 'البيانات تتزامن تلقائياً — افتح التطبيق من الهاتف أو الكمبيوتر وتلقى كل شيء في مكانه', lnd_final_h2: 'جاهز تنظم فلوسك؟ 💚', lnd_final_p: 'ابدأ دابا — مجاني 100% ولا تحتاج لأي إعداد معقد', lnd_final_note: 'لا حاجة لبطاقة بنكية', lnd_footer_c: 'دبّر فلوسك بذكاء 💚 — جميع الحقوق محفوظة'
-  },
-  fr: {
-    dir: 'ltr',
-    months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-    cats: ['Alimentation', 'Marché', 'Loisirs', 'Transport', 'Autre'],
-    expLabel: ['Alimentation', 'Marché', 'Loisirs', 'Gasoil', 'Autre'],
-    pin_enter: 'Entrez votre code PIN', pin_create: 'Créer un code PIN (4 chiffres)', pin_confirm: 'Confirmez le PIN',
-    pin_wrong: '❌ Code PIN incorrect', pin_mismatch: '❌ Les codes ne correspondent pas', pin_note: 'Ce code protège votre application', pin_forgot: 'PIN oublié ?', pin_locked: 'Trop de tentatives. Attendez 30 secondes.', pin_forgot_confirm: 'Supprimer uniquement le PIN ? Vos données seront conservées.',
-    saved: 'Sauvegardé automatiquement', new_btn: '✦ Nouveau mois', tab1: 'Tableau de bord', tab2: 'Carnet de notes', tab3: 'Comparaison mensuelle',
-    pick: 'Choisir le mois', nm: 'Nouveau mois', nm_sub: 'Comment démarrer ?',
-    nm1: 'Copier le budget prévu', nm1s: 'Garder les montants prévus, repartir de zéro',
-    nm2: 'Mois vide', nm2s: 'Page blanche', nm3: 'Tout copier', nm3s: 'Identique au mois précédent', nm_btn: 'Créer ✓',
-    bk: 'Sauvegarde et sécurité', exp_h: '📤 Exporter', exp_btn: 'Télécharger la sauvegarde', exp_s: 'Toutes vos données en JSON',
-    imp_h: '📥 Importer', imp_btn: 'Charger une sauvegarde', imp_s: 'Fichier JSON pour restaurer vos données',
-    drv_h: '☁️ Google Drive', s1: 'Cliquez sur Télécharger la sauvegarde', s2: 'Ouvrez Google Drive sur votre téléphone',
-    s3: '＋ → Importer → Sélectionner le fichier', s4: 'Terminé ! Vos données sont dans le cloud ☁️',
-    pin_h: '🔐 Paramètres PIN', pin_lbl: 'Verrouillage PIN', pin_s: "Protection à l'ouverture",
-    pin_ch: 'Changer le code PIN', pin_chs: 'Créer un nouveau code', last_save: 'Dernière sauvegarde', lang_title: 'Choisir la langue',
-    k_income: 'Revenus', k_bills: 'Factures', k_expenses: 'Dépenses', k_savings: 'Épargne', k_debts: 'Dettes', k_remaining: 'Solde restant', k_emergency: "Fonds d'urgence", emergency_target_prompt: "Saisissez le montant cible du fonds d'urgence:",
-    hero_lbl: 'Solde disponible', hero_ok: '💚 Bonne situation', hero_zero: '🟡 Équilibré', hero_neg: '🔴 Budget dépassé',
-    ch1: 'Répartition des dépenses', ch2: 'Prévu vs Réalisé',
-    col_item: 'Désignation', col_act: 'Réalisé', col_pln: 'Prévu', col_goal: 'Objectif', col_src: 'Source', col_ent: 'Créancier',
-    add_bills: '＋ Ajouter une facture', add_exp: '＋ Ajouter une dépense', add_sav: '＋ Ajouter un objectif', add_dbt: '＋ Ajouter une dette', add_inc: '＋ Ajouter un revenu',
-    notes_title: 'Carnet de notes', notes_info: 'Tout ce que vous ajoutez ici est automatiquement comptabilisé dans vos dépenses',
-    notes_sub: 'Journal des dépenses', notes_edit: 'Modifiable', notes_chart: 'Répartition', notes_sum: 'Résumé',
-    nt_date: 'Date', nt_note: 'Note', nt_subcat: 'Options', nt_cat: 'Catégorie', nt_amount: 'Montant', nt_cur: 'Devise', add_note: '＋ Ajouter une note', nt_remark: '💬 Remarque (optionnel)', nt_remark_ph: 'Ex: marque, magasin, raison...', tab_weekly: '📊 Statistiques', week_chart: 'Dépenses semaine', add_note_fab: 'Ajouter', pdf_btn: 'Exporter PDF', excel_btn: 'Exporter Excel',
-    monthly_title: 'Comparaison mensuelle', monthly_chart: 'Évolution revenus/dépenses', monthly_total: 'Total', monthly_remain: 'Solde',
-    footer: 'Gérez votre budget intelligemment — Tadbir 💚',
-    import_confirm: 'Cette opération remplacera vos données. Confirmer ?',
-    toast_add: 'Ajouté ✓', toast_save: '✅ Fichier téléchargé', toast_import: '✅ Données importées',
-    toast_pin_on: '🔐 PIN activé', toast_pin_off: '🔓 PIN désactivé', toast_pin_created: 'Code PIN créé ✓', from_of: 'sur',
-    sync_off: 'Hors ligne', sync_ok: 'Synchronisé ☁️', sync_ing: 'Synchro...', sync_now: 'Synchroniser maintenant', history_h: '🕘 Sauvegardes locales', history_btn: 'Créer une sauvegarde', history_sub: 'Conserve les 5 dernières versions sur cet appareil', history_empty: 'Aucune sauvegarde locale', history_restore: 'Restaurer', history_confirm: "Restaurer cette version ? L'état actuel sera sauvegardé d'abord.", history_saved: 'Sauvegarde locale créée ✓', month_closed: 'Ce mois est clôturé', month_close: 'Clôturer le mois', month_reopen: 'Rouvrir le mois', carry_balance: 'Reporter le solde du mois', month_exists: 'Le mois suivant contient déjà des données. Les remplacer ?', vs_previous: 'Par rapport au mois précédent', expense_search: 'Rechercher...', sort_newest: 'Plus récentes', sort_oldest: 'Plus anciennes', sort_highest: 'Montant décroissant', sort_lowest: 'Montant croissant', duplicate_expense: 'Dupliquer la dépense', details: 'Détails', deadline: 'Échéance', interest_rate: "Taux d'intérêt (%)", monthly_payment: 'Mensualité', remaining_amount: 'Montant restant', progress: 'Progression', cancel: 'Annuler', save: 'Enregistrer', avg_daily: 'Dépense moyenne quotidienne', daily_budget: 'Budget journalier restant', month_projection: 'Projection de fin de mois', savings_rate: "Taux d'épargne", top_category: 'Catégorie principale', days_elapsed: 'jours pris en compte', days_remaining: 'jours restants', display_currency: 'Unité d’affichage uniquement — aucun montant ne sera converti', toast_signout: '👋 Déconnecté', toast_loaded: 'Données chargées depuis le cloud', signin: 'Connexion', signout: 'Déconnexion',
-    custom_cat: '✏️ Nouvelle catégorie...',
-    reset_h: '🔄 Réinitialisation', reset_btn: 'Ajouter les données par défaut manquantes', reset_sub: 'Ajoute seulement ce qui manque — ne supprime rien', toast_reset: '✅ Données par défaut ajoutées',
-    cal_total: 'Total :', cal_leg1: 'Normal', cal_leg2: 'Modéré', cal_leg3: 'Élevé', cal_source: '📋 Source : Carnet de notes', exp_auto_note: 'Montants issus du carnet — le prévu est modifiable',
-    drv_today: "Aujourd'hui", drv_week: 'Semaine', drv_month: 'Mois', drv_avg: 'Moy./trajet', drv_trips: 'trajet', drv_add_title: 'Ajouter une journée', drv_lbl_date: 'Date', drv_lbl_trips: 'Nombre de trajets', drv_lbl_total: 'Montant total', drv_submit: 'Enregistrer la journée', drv_heatmap: 'Dépenses par jour de la semaine', drv_list: 'Historique des trajets', drive_fill: 'Veuillez remplir tous les champs',
-    fuel_title: '⛽ Consommation carburant', fuel_add_title: 'Ajouter un plein', fuel_lbl_date: 'Date', fuel_lbl_prevkm: 'Kilométrage précédent', fuel_lbl_currkm: 'Kilométrage actuel', fuel_lbl_litres: 'Litres', fuel_lbl_price: 'Prix du litre', fuel_lbl_total: 'Montant total', fuel_submit: 'Enregistrer le plein', fuel_list: 'Historique des pleins', fuel_fill: 'Vérifiez les champs (le km actuel doit être supérieur)', fuel_max: '⚠️ Maximum 3 pleins par mois atteint', fuel_empty: '⛽ Aucun plein enregistré ce mois',
-    fuel_ocr_title: '📷 Importer depuis une photo', fuel_ocr_pump: 'Photo de la pompe', fuel_ocr_dash: 'Photo du compteur', fuel_ocr_btn: 'Analyser les photos', fuel_ocr_loading: 'Analyse en cours...', fuel_ocr_ok: '✓ Données extraites, vérifiez avant de valider', fuel_ocr_fail: '❌ Extraction impossible, saisissez manuellement', fuel_ocr_loadfail: '❌ Impossible de charger l’outil d’analyse, vérifiez la connexion',
-    fuel_stat_km: 'Distance', fuel_stat_cost: 'Coût', fuel_stat_conso: 'Conso/100km', fuel_stat_pricekm: 'Prix/km',
-    stats_title: 'Analyse des dépenses', stats_subtitle: 'Repérez les fuites, les habitudes coûteuses et les économies possibles.', stats_month: 'Mois analysé', stats_leaks: '🚨 Fuites probables', stats_products: '🧾 Produits les plus coûteux', stats_actions: '💡 Actions recommandées', stats_category: 'Répartition par catégorie', stats_entries: 'opérations', stats_discretionary: 'Loisirs et extras', stats_no_data: 'Aucune donnée pour ce mois', stats_reduce: 'Réduire de 25 % le premier poste non essentiel', stats_repeat: 'Vérifier les achats répétés presque chaque jour', stats_budget: 'Fixer un plafond mensuel par catégorie', form_choose: 'Sélectionnez les achats', form_clear: 'Tout effacer ✕', filter_month: 'Mois :', filter_day: 'Jour :', filter_total: 'Total :', month_total: 'Total du mois', drive_sync: '⚡ Synchronisé avec les revenus', offline: '📡 Vous êtes hors ligne — les données restent enregistrées sur cet appareil', person: 'Bénéficiaire', all_people: 'Toute la famille', family_stats: '👨‍👩‍👦‍👦 Consommation familiale', bud_h: 'Configurer le budget', bud_s: 'Définir un plafond par catégorie', lnd_logo_name: 'Tadbir', lnd_logo_sub: 'Gérez votre budget intelligemment', lnd_nav_btn: '🔑 Connexion Google', lnd_badge: '✦ 100% Gratuit • Synchro Cloud', lnd_h1_1: 'Gérez votre argent', lnd_h1_2: 'en un seul endroit', lnd_sub: 'Application intelligente pour suivre votre budget mensuel — notez vos dépenses, suivez vos économies et remboursez vos dettes', lnd_start_btn: '🚀 Commencer avec Google', lnd_install: "📲 Installer l'app", lnd_no_card: 'Aucune carte bancaire requise • Gratuit à vie', lnd_demo_title: "Aperçu de l'app", lnd_demo_inc: '💵 Revenus', lnd_demo_exp: '🛒 Dépenses', lnd_demo_rem: '✅ Reste', lnd_demo_ch1: 'Répartition', lnd_demo_ch2: 'Prévu / Réalisé', lnd_demo_l1: 'Désignation', lnd_demo_l2: 'Réalisé', lnd_demo_l3: 'Prévu', lnd_demo_food: 'Alimentation', lnd_demo_market: 'Marché', lnd_feat_h2_1: 'Tout ce dont vous avez besoin', lnd_feat_h2_2: 'au même endroit', lnd_feat_p: 'Conçue spécialement pour organiser votre budget facilement et sans complexité', lnd_f1_t: 'Tableau de bord', lnd_f1_d: 'Suivez revenus, factures, dépenses, épargne et dettes sur un tableau clair avec graphiques', lnd_f2_t: 'Synchro automatique', lnd_f2_d: 'Vos données sont dans le cloud et synchronisées en temps réel entre appareils', lnd_f3_t: 'Carnet de notes', lnd_f3_d: 'Notez vos dépenses quotidiennes et elles se cumulent automatiquement sans saisie', lnd_f4_t: 'Comparaison', lnd_f4_d: "Suivez l'évolution sur 12 mois avec un graphique prévu vs réalisé", lnd_f5_t: 'Bilingue', lnd_f5_d: "Arabe • Français — le changement de langue adapte automatiquement l'interface (RTL/LTR)", lnd_f6_t: 'Sécurité', lnd_f6_d: 'Connexion Google + code PIN local pour protéger vos données privées', lnd_f7_t: 'Bot Telegram Automatique', lnd_f7_d: 'Bilans quotidiens automatiques reçus sur Telegram à l’heure et au fuseau horaire de votre choix.', lnd_f8_t: 'WhatsApp Express', lnd_f8_d: 'Collez le texte d’une discussion WhatsApp pour extraire et ajouter automatiquement vos courses.', lnd_stat_1: 'Gratuit', lnd_stat_2: 'Langues', lnd_stat_3: 'Cloud Sécurisé', lnd_stat_4: 'Multi-appareils', lnd_step_h2: 'Comment ça marche ?', lnd_step_p: '3 étapes simples pour organiser votre budget', lnd_s1_t: 'Connectez-vous via Google', lnd_s1_d: "Cliquez sur Commencer et utilisez Google — pas de mot de passe", lnd_s2_t: 'Entrez votre budget', lnd_s2_d: 'Des données démo sont prêtes — remplacez-les par vos montants réels', lnd_s3_t: 'Suivez et contrôlez', lnd_s3_d: "Tout se synchronise automatiquement. Ouvrez depuis n'importe où", lnd_final_h2: 'Prêt à organiser votre argent ? 💚', lnd_final_p: 'Commencez maintenant — 100% gratuit, aucune configuration', lnd_final_note: 'Pas de carte bancaire requise', lnd_footer_c: 'Gérez intelligemment 💚 — Tous droits réservés'
-  }
-};
 
 // ══════════════════════════════════════════════
 // STATE
@@ -808,31 +731,16 @@ function saveRowDetails() {
 // ══════════════════════════════════════════════
 // RECALC
 // ══════════════════════════════════════════════
-function sumFromData(sec) {
-  const data = (allData[ck()] || {})[sec] || [];
-  return data.reduce((s, r) => ({ act: s.act + Number(r.act || 0), pln: s.pln + Number(r.pln || 0) }), { act: 0, pln: 0 });
-}
-
-// Sum expenses — act from notes by category, pln from expCatPln
-function sumExpensesWithNotes() {
-  const mk = ck();
-  const notes = getCurrentMonthNotes();
-  let act = 0;
-  notes.forEach(function (n) { act += Number(n.amount || 0); });
-  const plnMap = (allData[mk] || {}).expCatPln || {};
-  let pln = 0;
-  Object.values(plnMap).forEach(function (v) { pln += Number(v || 0); });
-  return { act, pln };
-}
+function sumFromData(sec) { return calcSumFromData(allData[ck()] || {}, sec); }
+function sumExpensesWithNotes() { return calcExpensesWithNotes(allData[ck()] || {}, getCurrentMonthNotes()); }
 
 function recalc() {
   const t = T();
-  const inc = sumFromData('income');
-  const bill = sumFromData('bills');
-  const exp = sumExpensesWithNotes();
-  const sav = sumFromData('savings');
-  const dbt = sumFromData('debts');
-  const rem = inc.act - bill.act - exp.act - sav.act - dbt.act;
+  const mk = ck();
+  const monthData = allData[mk] || {};
+  const monthNotes = getCurrentMonthNotes();
+  
+  const { inc, bill, exp, sav, dbt, rem } = calculateBudget(monthData, monthNotes);
   const base = inc.act || 1;
   const pct = v => Math.max(0, Math.min(100, Math.round(Math.abs(v) / base * 100)));
 
@@ -873,7 +781,9 @@ function recalc() {
   if (hsub) {
     hsub.innerHTML = `${t.from_of || 'من أصل'} <strong>${fmt(inc.act)} ${currency}</strong> ${t.inc_sub || 'مدخول'}`;
   }
+  
   updateAdvancedMetrics({ inc, bill, exp, sav, dbt, rem });
+  
   if (chartDonut) {
     chartDonut.data.datasets[0].data = [bill.act, exp.act, sav.act, dbt.act];
     chartDonut.update('none');
@@ -914,23 +824,15 @@ function recalc() {
 // MONTH NAV
 // ══════════════════════════════════════════════
 function isMonthClosed(mk = ck()) {
-  return !!(allData[mk] && allData[mk]._closed);
+  return checkIsMonthClosed(allData, mk);
 }
 
 function updateAdvancedMetrics(values) {
-  const t = T(), today = new Date();
-  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
-  const shownIndex = curYear * 12 + curMonth, currentIndex = today.getFullYear() * 12 + today.getMonth();
-  const elapsed = shownIndex < currentIndex ? daysInMonth : shownIndex > currentIndex ? 1 : Math.max(1, today.getDate());
-  const remainingDays = shownIndex < currentIndex ? 0 : shownIndex > currentIndex ? daysInMonth : Math.max(1, daysInMonth - today.getDate() + 1);
-  const outflow = values.bill.act + values.exp.act + values.dbt.act;
-  const dailyAverage = outflow / elapsed;
-  const dailyBudget = remainingDays > 0 ? Math.max(0, values.rem) / remainingDays : 0;
-  const projection = shownIndex === currentIndex ? dailyAverage * daysInMonth : outflow;
-  const savingsRate = values.inc.act > 0 ? Math.round(values.sav.act / values.inc.act * 100) : 0;
+  const t = T();
+  const m = calcAdvancedMetrics(values, curYear, curMonth);
 
   const heroDaily = $('hero-daily-val');
-  if (heroDaily) heroDaily.textContent = `${fmt(Math.round(dailyAverage))} ${currency}/${t.per_day || 'يوم'}`;
+  if (heroDaily) heroDaily.textContent = `${fmt(Math.round(m.dailyAverage))} ${currency}/${t.per_day || 'يوم'}`;
 
   const heroTip = $('hero-tip-txt');
   if (heroTip) {
@@ -941,14 +843,15 @@ function updateAdvancedMetrics(values) {
     }
   }
 
-  set('am-daily', fmt(Math.round(dailyAverage)) + ' ' + currency);
-  set('am-daily-sub', elapsed + ' ' + (t.days_elapsed || 'jours pris en compte'));
-  set('am-budget', fmt(Math.round(dailyBudget)) + ' ' + currency);
-  set('am-budget-sub', remainingDays + ' ' + (t.days_remaining || 'jours restants'));
-  set('am-projection', fmt(Math.round(projection)) + ' ' + currency);
-  set('am-projection-sub', projection > values.inc.act && values.inc.act > 0 ? '⚠️ ' + (t.hero_neg || 'Budget dépassé') : '✓');
-  set('am-savings', savingsRate + '%');
+  set('am-daily', fmt(Math.round(m.dailyAverage)) + ' ' + currency);
+  set('am-daily-sub', m.elapsed + ' ' + (t.days_elapsed || 'jours pris en compte'));
+  set('am-budget', fmt(Math.round(m.dailyBudget)) + ' ' + currency);
+  set('am-budget-sub', m.remainingDays + ' ' + (t.days_remaining || 'jours restants'));
+  set('am-projection', fmt(Math.round(m.projection)) + ' ' + currency);
+  set('am-projection-sub', m.projection > values.inc.act && values.inc.act > 0 ? '⚠️ ' + (t.hero_neg || 'Budget dépassé') : '✓');
+  set('am-savings', m.savingsRate + '%');
   set('am-savings-sub', fmt(values.sav.act) + ' ' + currency);
+  
   const totals = {};
   getCurrentMonthNotes().forEach(note => { totals[note.mainCat || 'daily'] = (totals[note.mainCat || 'daily'] || 0) + Number(note.amount || 0); });
   const topId = Object.keys(totals).sort((a, b) => totals[b] - totals[a])[0];
@@ -964,15 +867,7 @@ function ensureMonthEditable(mk = ck()) {
 }
 
 function getMonthBalanceByKey(mk) {
-  const d = allData[mk]; if (!d) return 0;
-  const sum = section => (d[section] || []).reduce((total, row) => total + Number(row.act || 0), 0);
-  let notes = 0;
-  Object.keys(allData).forEach(key => {
-    ((allData[key] || {}).notes || []).forEach(note => {
-      if (note.date && note.date.startsWith(mk)) notes += Number(note.amount || 0);
-    });
-  });
-  return sum('income') - sum('bills') - notes - sum('savings') - sum('debts');
+  return calcMonthBalanceByKey(allData, mk);
 }
 
 function previousMonthKey() {
