@@ -16,11 +16,11 @@
 
 ---
 
-## 🌍 5 لغات مدعومة
+## 🌍 2 لغات مدعومة
 
-| 🇲🇦 عربية | 🇲🇦 دارجة | 🇫🇷 Français | 🇬🇧 English | 🇪🇸 Español |
-|:---:|:---:|:---:|:---:|:---:|
-| ✅ | ✅ | ✅ | ✅ | ✅ |
+| 🇲🇦 عربية | 🇫🇷 Français |
+|:---:|:---:|
+| ✅ | ✅ |
 
 تغيير اللغة يغير اتجاه الصفحة تلقائياً (RTL ↔ LTR) ويترجم كل العناصر
 
@@ -88,6 +88,10 @@
 - التحقق من بنية وحجم وسلامة ملف JSON قبل الاستيراد
 - **زر "إضافة البيانات الافتراضية"** — يضيف ما ينقص بدون مسح
 
+### 💬 واتساب إكسبريس و Telegram
+- **واتساب إكسبريس** — الصق نص محادثة الواتساب ويستخرج التطبيق المنتجات والأسعار تلقائياً.
+- **تليجرام بوت** — ملخصات يومية وإشعارات تلقائية لحالتك المالية.
+
 ---
 
 ## 🚀 كيف يشتغل
@@ -144,12 +148,14 @@ Node.js Test Runner + GitHub Actions
 
 ## 📁 هيكل المشروع
 
-```
+```text
 tadbir/
 ├── index.html
 ├── css/style.css
 ├── js/
-│   ├── app.js          # cœur UI, budget et statistiques
+│   ├── lang.js         # dictionnaire des traductions (Arabe / Français)
+│   ├── logic.js        # moteur de calcul pur (budget, métriques)
+│   ├── app.js          # cœur UI, gestion du DOM et affichage
 │   ├── storage.js      # stockage local, imports et Firebase
 │   ├── fuel.js         # pleins et consommation
 │   ├── maintenance.js  # frais et échéances d’entretien
