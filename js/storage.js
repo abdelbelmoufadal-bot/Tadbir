@@ -70,7 +70,10 @@ function loadData() {
   }
   if (!allData[mk].notes) allData[mk].notes = [];
 
-  // --- AUTO CLEANUP MIGRATION (Move entries to correct months) ---
+  runAutoCleanupMigration();
+}
+
+function runAutoCleanupMigration() {
   let needsSync = false;
   Object.keys(allData).forEach(function(m) {
     if (!allData[m]) return;
@@ -110,7 +113,6 @@ function loadData() {
     }
   });
 
-  // Recalculate income sync if things were moved
   if (needsSync) {
     Object.keys(allData).forEach(function(m) {
       let monthTotal = (allData[m].driveEntries || []).reduce(function(s,e){return s+Number(e.total||0)},0);
@@ -120,8 +122,8 @@ function loadData() {
       });
     });
     try { localStorage.setItem(SK, JSON.stringify({ allData, currency, curYear, curMonth, lang })); } catch (e) {}
+    try { if (typeof fbScheduleSave === 'function') fbScheduleSave(); } catch(e){}
   }
-  // -------------------------------------------------------------
 }
 
 function resetDefaults() {
@@ -506,6 +508,9 @@ async function fbLoadFromCloud(uid) {
       const mk = ck();
       if (!monthHasRealData(mk)) allData[mk] = defMonth();
       if (!allData[mk].notes) allData[mk].notes = [];
+      
+      runAutoCleanupMigration();
+      
       // Save to localStorage immediately after cloud load — double cle pour securite
       try {
         const payload = JSON.stringify({ allData, currency, curYear, curMonth, lang });
