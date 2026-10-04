@@ -45,11 +45,15 @@ function addCarExpense() {
     return;
   }
 
-  const mk = ck();
-  if (!allData[mk]) allData[mk] = defMonth();
-  if (!allData[mk].carExpenses) allData[mk].carExpenses = [];
+  const targetMk = date.substring(0, 7);
+  if (!allData[targetMk]) allData[targetMk] = defMonth();
+  if (!allData[targetMk].carExpenses) allData[targetMk].carExpenses = [];
+  
+  if (allData[targetMk]._closed) {
+    showToast('❌ ' + (lang === 'fr' ? 'Mois fermé' : 'شهر مغلق')); return;
+  }
 
-  allData[mk].carExpenses.push({
+  allData[targetMk].carExpenses.push({
     id: Date.now(),
     date: date,
     type: type,
@@ -67,7 +71,7 @@ function addCarExpense() {
   document.getElementById('car-exp-next-km').value = '';
   document.getElementById('car-exp-next-date').value = '';
 
-  syncCarCostsToBudget(mk); persistData();
+  syncCarCostsToBudget(targetMk); persistData();
   renderExpensesCats(); recalc();
   renderCarTab();
   showToast(T().toast_add || '✓ Frais enregistré');

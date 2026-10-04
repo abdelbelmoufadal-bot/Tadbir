@@ -69,6 +69,59 @@ function loadData() {
     allData[mk] = defMonth();
   }
   if (!allData[mk].notes) allData[mk].notes = [];
+
+  // --- AUTO CLEANUP MIGRATION (Move entries to correct months) ---
+  let needsSync = false;
+  Object.keys(allData).forEach(function(m) {
+    if (!allData[m]) return;
+    
+    // Clean driveEntries
+    if (allData[m].driveEntries) {
+      let keepDrive = [];
+      allData[m].driveEntries.forEach(function(entry) {
+        let correctMk = (entry.date || '').substring(0, 7);
+        if (correctMk && correctMk !== m && /^\\d{4}-\\d{2}$/.test(correctMk)) {
+          if (!allData[correctMk]) allData[correctMk] = defMonth();
+          if (!allData[correctMk].driveEntries) allData[correctMk].driveEntries = [];
+          allData[correctMk].driveEntries.push(entry);
+          needsSync = true;
+        } else {
+          keepDrive.push(entry);
+        }
+      });
+      allData[m].driveEntries = keepDrive;
+    }
+
+    // Clean carExpenses
+    if (allData[m].carExpenses) {
+      let keepExp = [];
+      allData[m].carExpenses.forEach(function(entry) {
+        let correctMk = (entry.date || '').substring(0, 7);
+        if (correctMk && correctMk !== m && /^\\d{4}-\\d{2}$/.test(correctMk)) {
+          if (!allData[correctMk]) allData[correctMk] = defMonth();
+          if (!allData[correctMk].carExpenses) allData[correctMk].carExpenses = [];
+          allData[correctMk].carExpenses.push(entry);
+          needsSync = true;
+        } else {
+          keepExp.push(entry);
+        }
+      });
+      allData[m].carExpenses = keepExp;
+    }
+  });
+
+  // Recalculate income sync if things were moved
+  if (needsSync) {
+    Object.keys(allData).forEach(function(m) {
+      let monthTotal = (allData[m].driveEntries || []).reduce(function(s,e){return s+Number(e.total||0)},0);
+      let inc = allData[m].income || [];
+      inc.forEach(function(r){
+        if (r.label==='عمل ثاني' || r.label==='2ème emploi' || r.label==='2nd job' || r.label==='2º trabajo' || r.label==='خدمة ثانية') r.act = monthTotal;
+      });
+    });
+    try { localStorage.setItem(SK, JSON.stringify({ allData, currency, curYear, curMonth, lang })); } catch (e) {}
+  }
+  // -------------------------------------------------------------
 }
 
 function resetDefaults() {
