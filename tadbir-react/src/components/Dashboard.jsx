@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppContext } from '../context/AppContext';
 import KpiCard from './KpiCard';
+import CarDashboard from './CarDashboard';
 import { calculateBudget } from '../utils/logic';
 
 export default function Dashboard() {
@@ -50,6 +51,9 @@ export default function Dashboard() {
           color="var(--mint)" percentage={(budget.rem / totalInc) * 100} 
         />
       </div>
+      
+      {/* SECTION VOITURE & INDRIVE AVEC FILTRES */}
+      <CarDashboard />
       
       {/* Petit message pour indiquer que l'on écoute Firestore */}
       <div style={{ marginTop: '30px', textAlign: 'center', color: 'var(--light)', fontSize: '12px' }}>

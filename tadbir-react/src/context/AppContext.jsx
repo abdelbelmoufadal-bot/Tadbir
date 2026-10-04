@@ -14,6 +14,8 @@ export const AppProvider = ({ children }) => {
   const [monthData, setMonthData] = useState({
     income: [], bills: [], expenses: [], savings: [], debts: [], notes: []
   });
+  // Toutes les données (pour les statistiques globales et filtres)
+  const [allData, setAllData] = useState({});
 
   // Écoute de l'utilisateur
   useEffect(() => {
@@ -39,8 +41,11 @@ export const AppProvider = ({ children }) => {
           // Pour l'instant, on prend la structure de base.
           const currentMonthKey = new Date().toISOString().substring(0, 7); // ex: "2026-10"
           
-          if (data.allData && data.allData[currentMonthKey]) {
-            setMonthData(data.allData[currentMonthKey]);
+          if (data.allData) {
+            setAllData(data.allData);
+            if (data.allData[currentMonthKey]) {
+              setMonthData(data.allData[currentMonthKey]);
+            }
           }
         } else {
           // Si c'est un nouvel utilisateur, on lui crée un profil vide dans Firestore
@@ -82,6 +87,7 @@ export const AppProvider = ({ children }) => {
     user,
     language,
     monthData,
+    allData,
     login,
     logout
   };
