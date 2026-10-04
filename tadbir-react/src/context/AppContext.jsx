@@ -1,25 +1,66 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
-import { auth, googleProvider } from '../config/firebase';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { auth, googleProvider, db } from '../config/firebase';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loadingAuth, setLoadingAuth] = useState(true); // Permet d'attendre la vérification Firebase
+  const [loadingAuth, setLoadingAuth] = useState(true);
   const [language, setLanguage] = useState('ar');
-  const [budgetData, setBudgetData] = useState([]);
+  
+  // Données du mois courant
+  const [monthData, setMonthData] = useState({
+    income: [], bills: [], expenses: [], savings: [], debts: [], notes: []
+  });
 
-  // Écouteur d'état Firebase (se lance au démarrage de l'app)
+  // Écoute de l'utilisateur
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser); // Sera null si non connecté, ou contiendra les infos Google si connecté
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
       setLoadingAuth(false);
     });
-    
-    // Nettoyage de l'écouteur
-    return () => unsubscribe();
+    return () => unsubscribeAuth();
   }, []);
+
+  // Écoute des données Firestore quand l'utilisateur est connecté
+  useEffect(() => {
+    let unsubscribeData;
+    
+    if (user) {
+      // On écoute le document de cet utilisateur spécifique en temps réel
+      const userRef = doc(db, 'users', user.uid);
+      
+      unsubscribeData = onSnapshot(userRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          // On suppose que l'architecture Firestore stockera le mois courant dans allData['2026-10']
+          // Pour l'instant, on prend la structure de base.
+          const currentMonthKey = new Date().toISOString().substring(0, 7); // ex: "2026-10"
+          
+          if (data.allData && data.allData[currentMonthKey]) {
+            setMonthData(data.allData[currentMonthKey]);
+          }
+        } else {
+          // Si c'est un nouvel utilisateur, on lui crée un profil vide dans Firestore
+          setDoc(userRef, {
+            allData: {
+              [new Date().toISOString().substring(0, 7)]: {
+                income: [], bills: [], expenses: [], savings: [], debts: [], notes: []
+              }
+            }
+          });
+        }
+      });
+    } else {
+      setMonthData({ income: [], bills: [], expenses: [], savings: [], debts: [], notes: [] });
+    }
+
+    return () => {
+      if (unsubscribeData) unsubscribeData();
+    };
+  }, [user]);
 
   const login = async () => {
     try {
@@ -37,20 +78,14 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const toggleLanguage = () => {
-    setLanguage(prevLang => prevLang === 'ar' ? 'fr' : 'ar');
-  };
-
   const value = {
     user,
     language,
-    budgetData,
+    monthData,
     login,
-    logout,
-    toggleLanguage
+    logout
   };
 
-  // On n'affiche pas l'application tant que Firebase n'a pas fini de vérifier l'état de connexion
   return (
     <AppContext.Provider value={value}>
       {!loadingAuth && children}
@@ -58,6 +93,4 @@ export const AppProvider = ({ children }) => {
   );
 };
 
-export const useAppContext = () => {
-  return useContext(AppContext);
-};
+export const useAppContext = () => useContext(AppContext);
