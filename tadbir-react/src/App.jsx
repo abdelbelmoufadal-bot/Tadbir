@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import LandingPage from './components/LandingPage';
+import { useAppContext } from './context/AppContext';
 import './App.css';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // On récupère les données globales depuis notre contexte !
+  const { user, login, logout, language } = useAppContext();
 
-  const handleLogin = () => {
-    // Plus tard, nous brancherons Firebase Auth ici
-    console.log("Tentative de connexion...");
-    setIsLoggedIn(true);
-  };
+  // Le sens du texte change automatiquement selon la langue
+  const textDirection = language === 'ar' ? 'rtl' : 'ltr';
 
   return (
-    <div className="app-container" dir="rtl">
-      {/* Si l'utilisateur n'est pas connecté, on affiche la Landing Page */}
-      {!isLoggedIn ? (
-        <LandingPage onLogin={handleLogin} />
+    <div className="app-container" dir={textDirection}>
+      {/* Si l'utilisateur n'est pas connecté */}
+      {!user ? (
+        <LandingPage onLogin={login} />
       ) : (
-        /* S'il est connecté, on affichera le Dashboard (à créer plus tard) */
+        /* Si l'utilisateur est connecté */
         <div style={{ padding: '50px', textAlign: 'center' }}>
           <h1>Bienvenue sur le Dashboard !</h1>
-          <p>Le contenu du tableau de bord sera ici.</p>
-          <button onClick={() => setIsLoggedIn(false)}>Se déconnecter</button>
+          <p>Utilisateur : {user.name}</p>
+          <p>Langue active : {language}</p>
+          <br />
+          <button onClick={logout} style={{ padding: '10px 20px', cursor: 'pointer' }}>
+            Se déconnecter
+          </button>
         </div>
       )}
     </div>
