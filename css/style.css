@@ -44,6 +44,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 .icon-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:4px 7px;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;line-height:1;}
 .hdr-select{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:3px 6px;font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
 .hdr-select option{color:var(--dark);background:var(--card);}
+select option{color:var(--dark) !important;background-color:var(--card) !important;}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;align-items:center;justify-content:center;padding:16px;}
 .modal-overlay.open{display:flex;}
 .modal-box{background:var(--card);border-radius:18px;padding:18px;width:100%;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow-y:auto;}
@@ -590,38 +591,71 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--dark);min
 
 
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.charts-row{grid-template-columns:1fr 1fr;}.tables-grid{grid-template-columns:1fr 1fr;}}
-/* ══ IN DRIVE ══ */
-.drive-hero{background:linear-gradient(135deg,#1a2535,#1e3040);border-radius:18px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
-.drive-hero::before{content:'🚗';position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.08;}
+/* ══ IN DRIVE & VEHICLE SYSTEM ══ */
+.drive-hero{background:linear-gradient(135deg,#162235,#1d2e42);border-radius:18px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);box-shadow:0 4px 20px rgba(0,0,0,.25);}
+.drive-hero::before{content:'🚗';position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.08;pointer-events:none;}
 .drive-stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;}
-.drive-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:11px 8px;text-align:center;}
+.drive-stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:11px 8px;text-align:center;}
 .drive-stat-val{font-size:19px;font-weight:800;font-family:'DM Mono',monospace;color:#7EC8B0;line-height:1;}
-.drive-stat-lbl{font-size:8px;color:rgba(255,255,255,.35);margin-top:3px;font-weight:500;}
-.drive-form{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:14px;}
-.drive-form-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:12px;}
-.drive-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
-.drive-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 11px;font-family:'Tajawal',sans-serif;font-size:12px;color:#fff;outline:none;width:100%;transition:border-color .2s;}
-.drive-input:focus{border-color:#7EC8B0;}
-.drive-input::placeholder{color:rgba(255,255,255,.25);}
-.drive-input-lbl{font-size:9px;color:rgba(255,255,255,.35);margin-bottom:4px;font-weight:600;}
+.drive-stat-lbl{font-size:10px;color:rgba(255,255,255,.85);margin-top:4px;font-weight:700;letter-spacing:.2px;}
+.drive-form{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:16px;}
+.drive-form-title{font-size:13px;font-weight:800;color:#ffffff;margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.drive-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
+.drive-input{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;padding:9px 12px;font-family:'Tajawal',sans-serif;font-size:13px;color:#ffffff;outline:none;width:100%;transition:border-color .2s, background-color .2s;color-scheme:dark;}
+.drive-input:focus{border-color:#7EC8B0;background:rgba(255,255,255,.15);}
+.drive-input::placeholder{color:rgba(255,255,255,.6);font-size:12px;}
+.drive-input-lbl{font-size:11px;color:rgba(255,255,255,.9);margin-bottom:5px;font-weight:700;}
 .drive-submit{width:100%;padding:11px;background:linear-gradient(135deg,#7EC8B0,#6bbda3);border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;color:#1a2535;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(126,200,176,.25);}
 .drive-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(126,200,176,.35);}
 .drive-week-wrap{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;}
 .drive-week-bars{display:flex;align-items:flex-end;gap:6px;height:160px;margin-top:12px;}
 .drive-entries{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;}
 .drive-entries-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.drive-sync-badge{background:var(--mint-ll);color:var(--mint);font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;border:1px solid var(--mint-l);}
+.drive-sync-badge{background:rgba(126,200,176,.15);color:#7EC8B0;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid rgba(126,200,176,.3);}
 @media(max-width:700px){.drive-stats-grid{grid-template-columns:repeat(3,1fr);}.drive-form-row{grid-template-columns:1fr 1fr;}}
-.drive-form input[type="file"].drive-input{padding:7px 8px;font-size:10px;color:rgba(255,255,255,.6);cursor:pointer;}
-.drive-form input[type="file"].drive-input::-webkit-file-upload-button{background:rgba(126,200,176,.18);border:none;border-radius:8px;padding:6px 10px;color:#7EC8B0;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;margin-inline-end:8px;cursor:pointer;}
+.drive-form input[type="file"].drive-input{padding:7px 8px;font-size:11px;color:rgba(255,255,255,.8);cursor:pointer;}
+.drive-form input[type="file"].drive-input::-webkit-file-upload-button{background:rgba(126,200,176,.25);border:none;border-radius:8px;padding:6px 10px;color:#7EC8B0;font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;margin-inline-end:8px;cursor:pointer;}
 .drive-submit:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
 
+/* ══ CAR MONTH FILTER DROPDOWN & SELECT OPTIONS ══ */
+.car-month-filter, #car-global-month-filter {
+  background: rgba(255,255,255,.16) !important;
+  color: #ffffff !important;
+  border: 1.5px solid rgba(255,255,255,.3) !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  font-family: 'Tajawal', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  outline: none !important;
+  cursor: pointer !important;
+  transition: all .2s ease !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2) !important;
+}
+.car-month-filter:hover, #car-global-month-filter:hover {
+  background: rgba(255,255,255,.24) !important;
+  border-color: rgba(255,255,255,.45) !important;
+}
+.car-month-filter:focus, #car-global-month-filter:focus {
+  border-color: #7EC8B0 !important;
+  box-shadow: 0 0 0 3px rgba(126,200,176,.35) !important;
+}
+.car-month-filter option,
+#car-global-month-filter option,
+select.drive-input option {
+  background-color: var(--card) !important;
+  color: var(--dark) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 8px 12px !important;
+}
+
 /* ══ CAR SUB-NAVIGATION ══ */
-.car-subnav{display:flex;gap:6px;background:rgba(0,0,0,.25);padding:5px;border-radius:12px;overflow-x:auto;margin-top:10px;scrollbar-width:none;}
+.car-subnav{display:flex;gap:6px;background:rgba(0,0,0,.35);padding:5px;border-radius:12px;overflow-x:auto;margin-top:10px;scrollbar-width:none;}
 .car-subnav::-webkit-scrollbar{display:none;}
-.car-subtab-btn{flex:1;min-width:85px;padding:8px 10px;border:none;background:transparent;color:rgba(255,255,255,.65);font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .2s;}
-.car-subtab-btn:hover{color:#fff;background:rgba(255,255,255,.1);}
-.car-subtab-btn.active{background:rgba(255,255,255,.22);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.car-subtab-btn{flex:1;min-width:85px;padding:9px 12px;border:none;background:transparent;color:rgba(255,255,255,.8);font-family:'Tajawal',sans-serif;font-size:12px;font-weight:700;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.car-subtab-btn:hover{color:#fff;background:rgba(255,255,255,.15);}
+.car-subtab-btn.active{background:var(--mint);color:#0b0f19;font-weight:800;box-shadow:0 3px 12px rgba(126,200,176,.35);}
 
 @media(max-width:700px){.main{padding:10px;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-row,.tables-grid{grid-template-columns:1fr;}.rh-donut{display:none;}.brand-sub{display:none;}.new-month-btn{display:none;}.month-label{min-width:76px;}.hdr-icon-desktop{display:none!important;}}
 /* AUTH */

@@ -344,8 +344,9 @@ function renderFuelTab() {
     amt.style.cssText = 'font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:var(--mint);flex-shrink:0;';
     amt.textContent = fmt(e.totalAmount);
     const del = document.createElement('button');
-    del.style.cssText = 'background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
+    del.style.cssText = 'background:none;border:none;color:var(--peach);cursor:pointer;font-size:15px;font-weight:700;flex-shrink:0;padding:2px 6px;';
     del.textContent = '✕';
+    del.title = 'Supprimer';
     del.onclick = (function (idx) { return function () { deleteFuelEntry(idx); }; })(e._idx);
     const edit = document.createElement('button');
     edit.style.cssText = 'background:none;border:none;color:var(--blue);cursor:pointer;font-size:16px;flex-shrink:0;';

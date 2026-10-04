@@ -1910,8 +1910,9 @@ function renderDriveList(entries) {
     amt.style.cssText = 'font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:var(--mint);flex-shrink:0;';
     amt.textContent = fmt(e.total);
     const del = document.createElement('button');
-    del.style.cssText = 'background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
+    del.style.cssText = 'background:none;border:none;color:var(--peach);cursor:pointer;font-size:15px;font-weight:700;flex-shrink:0;padding:2px 6px;';
     del.textContent = '✕';
+    del.title = T().delete || 'Supprimer';
     del.onclick = (function (idx) { return function () { deleteDriveEntry(idx); }; })(realIdx);
     row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(del);
     list.appendChild(row);

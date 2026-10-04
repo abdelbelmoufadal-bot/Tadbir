@@ -44,11 +44,15 @@ function populateCarMonthFilter() {
   optCurr.value = 'current';
   const currLabel = (lang === 'fr' ? 'Mois actuel' : (lang === 'en' ? 'Current month' : 'الشهر الحالي')) + ' (' + (T().months[curMonth] || '') + ')';
   optCurr.textContent = currLabel;
+  optCurr.style.backgroundColor = 'var(--card)';
+  optCurr.style.color = 'var(--dark)';
   sel.appendChild(optCurr);
 
   const optGlob = document.createElement('option');
   optGlob.value = 'global';
   optGlob.textContent = (lang === 'fr' ? '🌍 Global (Tous les mois)' : '🌍 جميع الأشهر (إجمالي)');
+  optGlob.style.backgroundColor = 'var(--card)';
+  optGlob.style.color = 'var(--dark)';
   sel.appendChild(optGlob);
 
   let carMonths = [];
@@ -67,6 +71,8 @@ function populateCarMonthFilter() {
     const opt = document.createElement('option');
     opt.value = k;
     opt.textContent = lbl;
+    opt.style.backgroundColor = 'var(--card)';
+    opt.style.color = 'var(--dark)';
     sel.appendChild(opt);
   });
   

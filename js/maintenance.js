@@ -169,8 +169,9 @@ function renderCarMaintenanceTab() {
     amt.style.cssText = 'font-family:"DM Mono",monospace;font-size:15px;font-weight:800;color:#FCA5A5;flex-shrink:0;';
     amt.textContent = fmt(e.amount);
     const del = document.createElement('button');
-    del.style.cssText = 'background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;flex-shrink:0;';
+    del.style.cssText = 'background:none;border:none;color:var(--peach);cursor:pointer;font-size:15px;font-weight:700;flex-shrink:0;padding:2px 6px;';
     del.textContent = '✕';
+    del.title = 'Supprimer';
     del.onclick = function () { deleteCarExpense(origIdx); };
     row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(del);
     list.appendChild(row);
