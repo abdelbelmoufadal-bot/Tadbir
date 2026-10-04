@@ -568,6 +568,11 @@ onAuthStateChanged(auth, user=>{
 
 <div id="tab-dashboard" class="tab-panel active" style="display:none;"><div class="main">
   <div class="alerts-banner" id="budget-alerts-banner"></div>
+  <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
+    <button onclick="fabQuickAdd()" style="background:var(--mint); color:#0b0f19; border:none; border-radius:10px; padding:10px 20px; font-weight:800; font-family:'Tajawal', sans-serif; font-size:14px; cursor:pointer; display:flex; align-items:center; gap:8px; box-shadow:0 4px 12px rgba(126,200,176,0.3);">
+      ＋ <span id="db-btn-add">تسجيل مصروف جديد</span>
+    </button>
+  </div>
   <div class="kpi-grid">
     <div class="kpi-card income"><div class="kpi-icon">💵</div><div class="kpi-label" id="kl-income"></div><div class="kpi-value"><span class="kpi-cur" id="c1">درهم</span><span id="v-income">0</span></div><div class="kpi-progress"><div class="kpi-bar" style="width:100%"></div></div><div class="kpi-pct" id="p-income">100%</div></div>
     <div class="kpi-card bills"><div class="kpi-icon">🧾</div><div class="kpi-label" id="kl-bills"></div><div class="kpi-value"><span class="kpi-cur" id="c2">درهم</span><span id="v-bills">0</span></div><div class="kpi-progress"><div class="kpi-bar" id="bar-bills" style="width:0%"></div></div><div class="kpi-pct" id="p-bills">0%</div></div>
@@ -1017,15 +1022,7 @@ onAuthStateChanged(auth, user=>{
 <!-- ── OFFLINE BANNER ── -->
 <div class="offline-banner" id="offline-banner">📡 أنت غير متصل بالإنترنت — البيانات محفوظة محلياً</div>
 
-<!-- ── FAB FLOATING DOCK (Floating Action Bar) ── -->
-<div class="fab-dock" id="fab-dock">
-  <button class="fab-btn fab-add-btn" id="fab-btn" onclick="fabQuickAdd()" title="Ajouter une dépense">＋ <span class="fab-text">تسجيل مصروف</span></button>
-  <button class="fab-btn fab-tg-btn" id="fab-tg-btn" onclick="sendDailyTelegramSummary()" title="Envoyer le résumé sur Telegram">
-    <span class="fab-tg-logo" aria-hidden="true">&#9992;&#65038;</span>
-    <span class="fab-text">Telegram</span>
-  </button>
-  <button class="fab-btn fab-wa-btn" id="fab-wa-btn" onclick="openWaExpressModal()" title="WhatsApp Express">💬 <span class="fab-text">WhatsApp</span></button>
-</div>
+<!-- ── FAB FLOATING DOCK REMOVED ── -->
 
 <!-- ── EDIT NOTE MODAL ── -->
 <!-- ── EDIT NOTE MODAL ── -->
