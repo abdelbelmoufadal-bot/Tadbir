@@ -1754,30 +1754,38 @@ function getDriveData() {
 }
 
 function addDriveEntry() {
-  if (!ensureMonthEditable()) return;
   const date = document.getElementById('drive-date').value;
   const trips = Number(document.getElementById('drive-trips').value) || 0;
   const total = Number(document.getElementById('drive-total').value) || 0;
   if (!date || trips <= 0 || total <= 0) { showToast('❌ ' + (T().drive_fill || 'أكمل كل الحقول')); return; }
-  const mk = ck();
-  if (!allData[mk]) allData[mk] = defMonth();
-  if (!allData[mk].driveEntries) allData[mk].driveEntries = [];
-  allData[mk].driveEntries.push({ date, trips, total, avg: Math.round(total / trips) });
-  // Sync to income "عمل ثاني"
-  syncDriveToIncome();
+  
+  const targetMk = date.substring(0, 7);
+  if (!allData[targetMk]) allData[targetMk] = defMonth();
+  if (!allData[targetMk].driveEntries) allData[targetMk].driveEntries = [];
+  
+  if (allData[targetMk]._closed) {
+    showToast('❌ ' + (lang === 'fr' ? 'Mois fermé' : 'شهر مغلق')); return;
+  }
+  
+  allData[targetMk].driveEntries.push({ date, trips, total, avg: Math.round(total / trips) });
+  
+  syncDriveToIncome(targetMk);
   persistData();
+  
   document.getElementById('drive-trips').value = '';
   document.getElementById('drive-total').value = '';
   renderDriveTab();
   showToast(T().toast_add || '✓');
 }
 
-function syncDriveToIncome() {
-  const mk = ck();
-  const entries = getDriveData();
+function syncDriveToIncome(targetMk) {
+  if (!targetMk) targetMk = ck();
+  if (!allData[targetMk]) return;
+  
+  const entries = allData[targetMk].driveEntries || [];
   const monthTotal = entries.reduce(function (s, e) { return s + Number(e.total || 0); }, 0);
-  // Find "عمل ثاني" or second income row
-  const income = allData[mk].income || [];
+  
+  const income = allData[targetMk].income || [];
   let found = false;
   income.forEach(function (row) {
     if (row.label === 'عمل ثاني' || row.label === '2ème emploi' || row.label === '2nd job' || row.label === '2º trabajo' || row.label === 'خدمة ثانية') {
@@ -1785,8 +1793,11 @@ function syncDriveToIncome() {
     }
   });
   if (!found && income.length > 1) { income[1].act = monthTotal; }
-  renderSection('income');
-  recalc();
+  
+  if (targetMk === ck()) {
+    renderSection('income');
+    recalc();
+  }
 }
 
 function deleteDriveEntry(idx) {

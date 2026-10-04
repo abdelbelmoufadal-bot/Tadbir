@@ -945,8 +945,12 @@ onAuthStateChanged(auth, user=>{
   <!-- SUB-TAB 4: FINANCIAL SUMMARY & NET PROFIT -->
   <div id="car-sec-summary" class="car-sec-panel" style="display:none;">
     <div class="drive-hero">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
         <div><div style="font-size:18px;font-weight:800;color:#fff;" id="car-summary-title">📊 Bilan & Rentabilité du Véhicule</div></div>
+        <select id="car-summary-filter" onchange="renderCarSummaryTab()" style="background:var(--bg);color:var(--dark);border:1px solid var(--border);border-radius:8px;padding:6px;font-family:'Tajawal';font-weight:700;outline:none;">
+          <option value="current">Mois en cours</option>
+          <option value="all">🌍 Tous les mois (Global)</option>
+        </select>
       </div>
       
       <!-- NET PROFIT CARDS -->

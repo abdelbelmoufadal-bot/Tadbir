@@ -15,9 +15,26 @@ function switchCarSubTab(subTabId, btnEl) {
 }
 
 function renderCarSummaryTab() {
-  const driveEntries = getDriveData();
-  const fuelEntries = getFuelData();
-  const carExpenses = getCarExpensesData();
+  const filterEl = document.getElementById('car-summary-filter');
+  const filterVal = filterEl ? filterEl.value : 'current';
+
+  let driveEntries = [];
+  let fuelEntries = [];
+  let carExpenses = [];
+
+  if (filterVal === 'all') {
+    Object.keys(allData).forEach(function(mk) {
+      if (allData[mk]) {
+        driveEntries = driveEntries.concat(allData[mk].driveEntries || []);
+        fuelEntries = fuelEntries.concat(allData[mk].fuelEntries || []);
+        carExpenses = carExpenses.concat(allData[mk].carExpenses || []);
+      }
+    });
+  } else {
+    driveEntries = getDriveData();
+    fuelEntries = getFuelData();
+    carExpenses = getCarExpensesData();
+  }
 
   const totalDriveRev = driveEntries.reduce(function (s, e) { return s + Number(e.total || 0); }, 0);
   const totalFuelCost = fuelEntries.reduce(function (s, e) { return s + Number(e.totalAmount || 0); }, 0);
@@ -42,6 +59,16 @@ function renderCarSummaryTab() {
   if (netEl) {
     netEl.textContent = fmt(netProfit) + ' ' + currency;
     netEl.style.color = netProfit >= 0 ? '#7EC8B0' : '#FCA5A5';
+  }
+
+  const lblNet = document.getElementById('lbl-car-net-profit');
+  if (lblNet) {
+    const isAr = lang === 'ar' || lang === 'dar';
+    if (filterVal === 'all') {
+      lblNet.textContent = isAr ? 'صافي الربح (الإجمالي)' : 'Bénéfice Net Voiture (Global)';
+    } else {
+      lblNet.textContent = isAr ? 'صافي الربح (هذا الشهر)' : 'Bénéfice Net Voiture (Ce mois)';
+    }
   }
 
   const marginEl = document.getElementById('car-val-margin-pct');
