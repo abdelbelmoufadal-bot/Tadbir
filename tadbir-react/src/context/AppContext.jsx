@@ -1,31 +1,46 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
+import { auth, googleProvider } from '../config/firebase';
 
-// 1. Création du contexte
 const AppContext = createContext();
 
-// 2. Le "Provider" est un composant qui englobe l'application
-// et fournit les données à tous ses enfants.
 export const AppProvider = ({ children }) => {
-  // L'état global de notre application
-  const [user, setUser] = useState(null); // null = non connecté
-  const [language, setLanguage] = useState('ar'); // 'ar' par défaut
-  const [budgetData, setBudgetData] = useState([]); // pour les futures dépenses
+  const [user, setUser] = useState(null);
+  const [loadingAuth, setLoadingAuth] = useState(true); // Permet d'attendre la vérification Firebase
+  const [language, setLanguage] = useState('ar');
+  const [budgetData, setBudgetData] = useState([]);
 
-  // Fonctions pour modifier l'état
-  const login = () => {
-    // Plus tard, nous mettrons le code Firebase Auth ici
-    setUser({ name: "Utilisateur Démo", email: "demo@example.com" });
+  // Écouteur d'état Firebase (se lance au démarrage de l'app)
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser); // Sera null si non connecté, ou contiendra les infos Google si connecté
+      setLoadingAuth(false);
+    });
+    
+    // Nettoyage de l'écouteur
+    return () => unsubscribe();
+  }, []);
+
+  const login = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error("Erreur de connexion Google:", error);
+    }
   };
 
-  const logout = () => {
-    setUser(null);
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Erreur de déconnexion:", error);
+    }
   };
 
   const toggleLanguage = () => {
     setLanguage(prevLang => prevLang === 'ar' ? 'fr' : 'ar');
   };
 
-  // Les données et fonctions qu'on rend disponibles partout
   const value = {
     user,
     language,
@@ -35,14 +50,14 @@ export const AppProvider = ({ children }) => {
     toggleLanguage
   };
 
+  // On n'affiche pas l'application tant que Firebase n'a pas fini de vérifier l'état de connexion
   return (
     <AppContext.Provider value={value}>
-      {children}
+      {!loadingAuth && children}
     </AppContext.Provider>
   );
 };
 
-// 3. Un "Hook" personnalisé pour utiliser facilement notre contexte
 export const useAppContext = () => {
   return useContext(AppContext);
 };
