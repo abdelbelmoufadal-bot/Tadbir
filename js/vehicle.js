@@ -14,27 +14,73 @@ function switchCarSubTab(subTabId, btnEl) {
   renderCarTab();
 }
 
-function renderCarSummaryTab() {
-  const filterEl = document.getElementById('car-summary-filter');
-  const filterVal = filterEl ? filterEl.value : 'current';
+function getCarFilterTargetKeys() {
+  const sel = document.getElementById('car-global-month-filter');
+  const val = sel ? sel.value : 'current';
+  if (val === 'current') return [ck()];
+  if (val === 'global') return Object.keys(allData);
+  return [val];
+}
 
-  let driveEntries = [];
-  let fuelEntries = [];
-  let carExpenses = [];
+function getCarFilteredData(dataKey) {
+  const keys = getCarFilterTargetKeys();
+  let results = [];
+  keys.forEach(k => {
+    if (allData[k] && allData[k][dataKey]) {
+      results = results.concat(allData[k][dataKey]);
+    }
+  });
+  return results;
+}
 
-  if (filterVal === 'all') {
-    Object.keys(allData).forEach(function(mk) {
-      if (allData[mk]) {
-        driveEntries = driveEntries.concat(allData[mk].driveEntries || []);
-        fuelEntries = fuelEntries.concat(allData[mk].fuelEntries || []);
-        carExpenses = carExpenses.concat(allData[mk].carExpenses || []);
-      }
-    });
-  } else {
-    driveEntries = getDriveData();
-    fuelEntries = getFuelData();
-    carExpenses = getCarExpensesData();
+function populateCarMonthFilter() {
+  const sel = document.getElementById('car-global-month-filter');
+  if (!sel) return;
+  const currentVal = sel.value;
+  
+  sel.innerHTML = '';
+  
+  const optCurr = document.createElement('option');
+  optCurr.value = 'current';
+  const currLabel = (lang === 'fr' ? 'Mois actuel' : (lang === 'en' ? 'Current month' : 'الشهر الحالي')) + ' (' + (T().months[curMonth] || '') + ')';
+  optCurr.textContent = currLabel;
+  sel.appendChild(optCurr);
+
+  const optGlob = document.createElement('option');
+  optGlob.value = 'global';
+  optGlob.textContent = (lang === 'fr' ? '🌍 Global (Tous les mois)' : '🌍 جميع الأشهر (إجمالي)');
+  sel.appendChild(optGlob);
+
+  let carMonths = [];
+  Object.keys(allData).forEach(k => {
+    const d = allData[k];
+    if ((d.driveEntries && d.driveEntries.length) || (d.carExpenses && d.carExpenses.length) || (d.fuelEntries && d.fuelEntries.length)) {
+      if (k !== ck()) carMonths.push(k);
+    }
+  });
+  carMonths.sort().reverse();
+  
+  carMonths.forEach(k => {
+    const p = k.split('-');
+    const m = parseInt(p[1]) - 1;
+    const lbl = (T().months[m] || '') + ' ' + p[0];
+    const opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = lbl;
+    sel.appendChild(opt);
+  });
+  
+  if (currentVal && Array.from(sel.options).some(o => o.value === currentVal)) {
+    sel.value = currentVal;
   }
+}
+
+function renderCarSummaryTab() {
+  const filterVal = document.getElementById('car-global-month-filter') ? document.getElementById('car-global-month-filter').value : 'current';
+
+  const driveEntries = getCarFilteredData('driveEntries');
+  const fuelEntries = getCarFilteredData('fuelEntries');
+  const carExpenses = getCarFilteredData('carExpenses');
 
   const totalDriveRev = driveEntries.reduce(function (s, e) { return s + Number(e.total || 0); }, 0);
   const totalFuelCost = fuelEntries.reduce(function (s, e) { return s + Number(e.totalAmount || 0); }, 0);
@@ -89,6 +135,7 @@ function renderCarSummaryTab() {
 function renderCarTab() {
   const panel = document.getElementById('tab-drive');
   if (!panel || !panel.classList.contains('active')) return;
+  populateCarMonthFilter();
   syncCarCostsToBudget();
   renderDriveTab();
   renderFuelTab();

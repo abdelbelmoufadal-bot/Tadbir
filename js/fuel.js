@@ -279,7 +279,7 @@ function renderFuelTab() {
   if (!panel || !panel.classList.contains('active')) return;
   const t = T();
   migrateFuelEntriesToDateMonths();
-  const entries = getFuelData();
+  const entries = typeof getCarFilteredData === 'function' ? getCarFilteredData('fuelEntries') : getFuelData();
 
   const initialBtn = document.getElementById('fuel-initial-btn');
   if (initialBtn) initialBtn.style.display = hasFuelInitialEver() ? 'none' : 'block';

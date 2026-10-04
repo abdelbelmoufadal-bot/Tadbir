@@ -88,7 +88,7 @@ function deleteCarExpense(idx) {
 }
 
 function renderCarMaintenanceTab() {
-  const expenses = getCarExpensesData();
+  const expenses = typeof getCarFilteredData === 'function' ? getCarFilteredData('carExpenses') : getCarExpensesData();
   const allExpenses = getAllCarExpenses();
   let totalMaint = 0, fixedCount = 0, varCount = 0, fixedTotal = 0, varTotal = 0;
   expenses.forEach(function (e) {

@@ -756,8 +756,13 @@ onAuthStateChanged(auth, user=>{
   <div class="drive-hero" style="margin-bottom:14px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
       <div>
-        <div style="font-size:20px;font-weight:800;color:#fff;" id="car-main-title">🚗 Gestion Voiture & InDrive</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px;" id="drv-month-lbl">---</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div style="font-size:20px;font-weight:800;color:#fff;" id="car-main-title">🚗 Gestion Voiture & InDrive</div>
+          <select id="car-global-month-filter" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:4px 8px;font-size:13px;outline:none;cursor:pointer;" onchange="renderCarTab()">
+             <option value="current" id="car-filter-opt-current">Mois en cours</option>
+             <option value="global" id="car-filter-opt-global">🌍 Global (Tous)</option>
+          </select>
+        </div>
       </div>
       <div class="drive-sync-badge" id="drv-sync-badge">⚡ Synchronisé avec le revenu</div>
     </div>
@@ -947,10 +952,6 @@ onAuthStateChanged(auth, user=>{
     <div class="drive-hero">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
         <div><div style="font-size:18px;font-weight:800;color:#fff;" id="car-summary-title">📊 Bilan & Rentabilité du Véhicule</div></div>
-        <select id="car-summary-filter" onchange="renderCarSummaryTab()" style="background:var(--bg);color:var(--dark);border:1px solid var(--border);border-radius:8px;padding:6px;font-family:'Tajawal';font-weight:700;outline:none;">
-          <option value="current">Mois en cours</option>
-          <option value="all">🌍 Tous les mois (Global)</option>
-        </select>
       </div>
       
       <!-- NET PROFIT CARDS -->

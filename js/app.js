@@ -1814,7 +1814,7 @@ function renderDriveTab() {
   const panel = document.getElementById('tab-drive');
   if (!panel || !panel.classList.contains('active')) return;
   const t = T();
-  const entries = getDriveData();
+  const entries = typeof getCarFilteredData === 'function' ? getCarFilteredData('driveEntries') : getDriveData();
 
   // Today
   const todayKey = new Date().toISOString().slice(0, 10);

@@ -1,0 +1,11 @@
+﻿{
+  "mcpServers": {
+    "grasp": {
+      "command": "npx",
+      "args": ["-y", "grasp-mcp-server"],
+      "env": {
+        "GRASP_ROOT": "h:\\\\Mon Drive\\\\ERP\\\\Tadbir"
+      }
+    }
+  }
+}
