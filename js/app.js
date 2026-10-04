@@ -1752,6 +1752,7 @@ function getDriveData() {
 }
 
 function addDriveEntry() {
+  if (!ensureMonthEditable()) return;
   const date = document.getElementById('drive-date').value;
   const trips = Number(document.getElementById('drive-trips').value) || 0;
   const total = Number(document.getElementById('drive-total').value) || 0;
@@ -1760,10 +1761,6 @@ function addDriveEntry() {
   const targetMk = date.substring(0, 7);
   if (!allData[targetMk]) allData[targetMk] = defMonth();
   if (!allData[targetMk].driveEntries) allData[targetMk].driveEntries = [];
-  
-  if (allData[targetMk]._closed) {
-    showToast('❌ ' + (lang === 'fr' ? 'Mois fermé' : 'شهر مغلق')); return;
-  }
   
   allData[targetMk].driveEntries.push({ date, trips, total, avg: Math.round(total / trips) });
   

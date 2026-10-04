@@ -1,2 +1,3 @@
 # Local recovery snapshots must stay on this PC.
 backups/
+grasp_tool/

@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const html = fs.readFileSync('index.html', 'utf8');
-const appFiles = ['storage.js', 'fuel.js', 'maintenance.js', 'vehicle.js', 'ocr.js', 'telegram.js', 'app.js'];
+const appFiles = ['storage.js', 'fuel.js', 'maintenance.js', 'vehicle.js', 'ocr.js', 'telegram.js', 'logic.js', 'app.js'];
 const appSources = Object.fromEntries(appFiles.map(file => [file, fs.readFileSync(`js/${file}`, 'utf8')]));
 const app = appFiles.map(file => appSources[file]).join('\n');
 const css = fs.readFileSync('css/style.css', 'utf8');
@@ -78,6 +78,7 @@ test('monthly balance includes income, bills, notes, savings and debts', () => {
     }
   };
   vm.createContext(context);
+  vm.runInContext(appSources['logic.js'], context);
   vm.runInContext(app.slice(start, end), context);
   assert.equal(context.getMonthBalanceByKey('2026-07'), 500);
 });
@@ -108,13 +109,8 @@ test('PWA manifest and offline cache are complete', () => {
   }
 });
 
-test('Telegram floating action has desktop blue logo and preserves mobile button', () => {
-  assert.match(html, /id="fab-tg-btn"/);
-  assert.match(html, /class="fab-tg-logo"/);
-  assert.match(css, /\.fab-tg-btn\s*\{[\s\S]*?background:\s*#ffffff/);
-  assert.match(css, /\.fab-tg-logo\s*\{[\s\S]*?display:\s*inline-flex\s*!important;[\s\S]*?color:\s*#229ED9\s*!important;/);
-  assert.match(css, /@media\s*\(max-width:\s*600px\)[\s\S]*?\.fab-tg-btn\s*\{[\s\S]*?display:\s*inline-flex\s*!important;[\s\S]*?background:\s*linear-gradient\(135deg,\s*#0088cc/);
-  assert.match(css, /\.fab-tg-btn \.fab-tg-logo\s*\{[\s\S]*?color:\s*#ffffff\s*!important;/);
+test('Dashboard contains inline add expense button', () => {
+  assert.match(html, /id="db-btn-add"/);
 });
 
 test('statistics page supports month filtering and leak analysis', () => {

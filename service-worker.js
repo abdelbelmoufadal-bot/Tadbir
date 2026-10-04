@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tadbir-v4.5.9';
+const CACHE_NAME = 'tadbir-v4.5.4';
 const APP_SHELL = [
   './',
   './index.html',
@@ -11,6 +11,7 @@ const APP_SHELL = [
   './js/vehicle.js',
   './js/ocr.js',
   './js/telegram.js',
+  './js/logic.js',
   './js/app.js',
   './icons/tadbir.svg'
 ];
