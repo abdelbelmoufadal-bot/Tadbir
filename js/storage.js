@@ -83,7 +83,7 @@ function runAutoCleanupMigration() {
       let keepDrive = [];
       allData[m].driveEntries.forEach(function(entry) {
         let correctMk = (entry.date || '').substring(0, 7);
-        if (correctMk && correctMk !== m && /^\\d{4}-\\d{2}$/.test(correctMk)) {
+        if (correctMk && correctMk !== m && /^\d{4}-\d{2}$/.test(correctMk)) {
           if (!allData[correctMk]) allData[correctMk] = defMonth();
           if (!allData[correctMk].driveEntries) allData[correctMk].driveEntries = [];
           allData[correctMk].driveEntries.push(entry);
@@ -100,7 +100,7 @@ function runAutoCleanupMigration() {
       let keepExp = [];
       allData[m].carExpenses.forEach(function(entry) {
         let correctMk = (entry.date || '').substring(0, 7);
-        if (correctMk && correctMk !== m && /^\\d{4}-\\d{2}$/.test(correctMk)) {
+        if (correctMk && correctMk !== m && /^\d{4}-\d{2}$/.test(correctMk)) {
           if (!allData[correctMk]) allData[correctMk] = defMonth();
           if (!allData[correctMk].carExpenses) allData[correctMk].carExpenses = [];
           allData[correctMk].carExpenses.push(entry);

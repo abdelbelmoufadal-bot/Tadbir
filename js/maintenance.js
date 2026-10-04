@@ -77,17 +77,56 @@ function addCarExpense() {
   showToast(T().toast_add || '✓ Frais enregistré');
 }
 
-function deleteCarExpense(idx) {
+function deleteCarExpense(idxOrId) {
   if (!ensureMonthEditable()) return;
-  const mk = ck();
-  if (!allData[mk] || !allData[mk].carExpenses) return;
-  allData[mk].carExpenses.splice(idx, 1);
-  syncCarCostsToBudget(mk); persistData();
+  let deleted = false;
+  if (idxOrId !== undefined && idxOrId !== null) {
+    Object.keys(allData).filter(k => /^\d{4}-\d{2}$/.test(k)).forEach(mk => {
+      if (allData[mk] && allData[mk].carExpenses) {
+        const found = allData[mk].carExpenses.findIndex(e => e.id === idxOrId || String(e.id) === String(idxOrId));
+        if (found !== -1) {
+          allData[mk].carExpenses.splice(found, 1);
+          syncCarCostsToBudget(mk);
+          deleted = true;
+        }
+      }
+    });
+  }
+  if (!deleted) {
+    const mk = ck();
+    if (allData[mk] && allData[mk].carExpenses && allData[mk].carExpenses[idxOrId] !== undefined) {
+      allData[mk].carExpenses.splice(idxOrId, 1);
+      syncCarCostsToBudget(mk);
+    }
+  }
+  persistData();
   renderExpensesCats(); recalc();
   renderCarTab();
 }
 
+function migrateCarExpensesToDateMonths() {
+  const touched = new Set();
+  Object.keys(allData).filter(function (key) { return /^\d{4}-\d{2}$/.test(key); }).forEach(function (sourceKey) {
+    const entries = (allData[sourceKey] || {}).carExpenses || [];
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const targetKey = String(entries[i].date || '').slice(0, 7);
+      if (!/^\d{4}-\d{2}$/.test(targetKey) || targetKey === sourceKey) continue;
+      if (!allData[targetKey]) allData[targetKey] = defMonth();
+      if (!allData[targetKey].carExpenses) allData[targetKey].carExpenses = [];
+      allData[targetKey].carExpenses.push(entries[i]);
+      entries.splice(i, 1);
+      touched.add(sourceKey); touched.add(targetKey);
+    }
+  });
+  if (touched.size) {
+    touched.forEach(function (monthKey) { syncCarCostsToBudget(monthKey); });
+    persistData();
+  }
+  return touched.size > 0;
+}
+
 function renderCarMaintenanceTab() {
+  migrateCarExpensesToDateMonths();
   const expenses = typeof getCarFilteredData === 'function' ? getCarFilteredData('carExpenses') : getCarExpensesData();
   const allExpenses = getAllCarExpenses();
   let totalMaint = 0, fixedCount = 0, varCount = 0, fixedTotal = 0, varTotal = 0;
@@ -172,7 +211,7 @@ function renderCarMaintenanceTab() {
     del.style.cssText = 'background:none;border:none;color:var(--peach);cursor:pointer;font-size:15px;font-weight:700;flex-shrink:0;padding:2px 6px;';
     del.textContent = '✕';
     del.title = 'Supprimer';
-    del.onclick = function () { deleteCarExpense(origIdx); };
+    del.onclick = function () { deleteCarExpense(e.id || origIdx); };
     row.appendChild(icon); row.appendChild(info); row.appendChild(amt); row.appendChild(del);
     list.appendChild(row);
   });

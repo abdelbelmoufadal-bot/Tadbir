@@ -18,18 +18,40 @@ function getCarFilterTargetKeys() {
   const sel = document.getElementById('car-global-month-filter');
   const val = sel ? sel.value : 'current';
   if (val === 'current') return [ck()];
-  if (val === 'global') return Object.keys(allData);
+  if (val === 'global') return Object.keys(allData).filter(k => /^\d{4}-\d{2}$/.test(k));
   return [val];
 }
 
 function getCarFilteredData(dataKey) {
-  const keys = getCarFilterTargetKeys();
+  const sel = document.getElementById('car-global-month-filter');
+  const val = sel ? sel.value : 'current';
+  const targetKey = val === 'current' ? ck() : val;
+
   let results = [];
-  keys.forEach(k => {
-    if (allData[k] && allData[k][dataKey]) {
-      results = results.concat(allData[k][dataKey]);
-    }
-  });
+  if (targetKey === 'global') {
+    Object.keys(allData).filter(k => /^\d{4}-\d{2}$/.test(k)).sort().forEach(k => {
+      if (allData[k] && allData[k][dataKey]) {
+        results = results.concat(allData[k][dataKey]);
+      }
+    });
+  } else {
+    const seen = new Set();
+    Object.keys(allData).filter(k => /^\d{4}-\d{2}$/.test(k)).forEach(k => {
+      if (allData[k] && allData[k][dataKey]) {
+        allData[k][dataKey].forEach(e => {
+          const entryDate = String(e.date || '').slice(0, 7);
+          const belongs = (entryDate === targetKey) || (!entryDate && k === targetKey);
+          if (belongs) {
+            const uid = e.id ? String(e.id) : (e.date + '_' + (e.currKm || e.amount || e.total || '') + '_' + (e.label || ''));
+            if (!seen.has(uid)) {
+              seen.add(uid);
+              results.push(e);
+            }
+          }
+        });
+      }
+    });
+  }
   return results;
 }
 
